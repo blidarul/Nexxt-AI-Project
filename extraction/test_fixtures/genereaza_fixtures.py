@@ -566,7 +566,10 @@ def fx_ambiguu() -> None:
     )
     _scrie_expected(folder, {
         "categorie_ambigua": True,
-        "categorie_candidati": ["energy_efficiency", "renewable_energy"],
+        # Scopul fixture-ului e detectarea ambiguității, nu o pereche exactă de categorii
+        "categorie_candidati_minim": 2,
+        "categorie_incredere_maxima_sub": 0.7,
+        "categorie_candidati_contine_unul_din": ["energy_efficiency", "renewable_energy"],
         "campuri": {"cui": "9900000166", "suma_eur": 1200000},
         "liste": {},
     })

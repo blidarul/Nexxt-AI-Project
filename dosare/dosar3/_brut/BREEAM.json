@@ -1,0 +1,15 @@
+{
+  "fisier": "BREEAM.pdf",
+  "dosar": "dosar3",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T23:30:15",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "BREEAM OFFICIAL ASSESSMENT REGISTRATION\n1. DATE GENERALĂ CLĂDIRE & DEZVOLTATOR\n- Denumire Clădire: Green Retail Mall Cluj\n- Client / Dezvoltator: Green Retail Tower SRL\n- Oraș / Cod Poștal: Cluj-Napoca, 400001, România\n2. DETALII CERTIFICARE VERDE\n- Schema BREEAM: International V6 Commercial: Retail\n- Etapa Evaluării: Final Certificate\n- Nivel Certificare (Rating): OUTSTANDING\n- Punctaj Obținut: 87.1%\n- Nr. Certificat: BREEAM-EXEMPLU-0003\n- Auditat de: Eco Rating SRL\n- Data Emiterii: 20.01.2026",
+      "necesita_ocr": false,
+      "tabele": []
+    }
+  ],
+  "tip_din_nume": "certificat_sustenabilitate"
+}

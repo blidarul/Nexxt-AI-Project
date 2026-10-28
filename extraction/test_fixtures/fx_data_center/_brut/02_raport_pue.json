@@ -1,7 +1,6 @@
 {
   "fisier": "02_raport_pue.pdf",
   "dosar": "fx_data_center",
-  "tip_document": "necunoscut",
   "nr_pagini": 1,
   "extras_la": "2026-10-28T21:42:58",
   "pagini": [
@@ -33,5 +32,6 @@
         }
       ]
     }
-  ]
+  ],
+  "tip_din_nume": null
 }

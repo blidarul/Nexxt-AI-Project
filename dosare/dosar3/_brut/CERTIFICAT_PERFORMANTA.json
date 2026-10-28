@@ -1,0 +1,15 @@
+{
+  "fisier": "CERTIFICAT_PERFORMANTA.pdf",
+  "dosar": "dosar3",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T23:30:15",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "CERTIFICAT DE PERFORMANȚĂ ENERGETICĂ (CPE)\nCod Unic Certificat: CPE-EXEMPLU-0003 | Emis: 10.01.2026 | Valabil\npână la: 10.01.2036\n1. DATE OBIECT DE EVALUARE\n- Adresă: Cluj-Napoca, Str. Republicii nr. 102, Jud. Cluj\n- Categorie clădire: Centru Comercial / Birouri\n- Anul construcției: 2025 | Suprafață utilă (Au): 18.500 m²\n2. INDICATORI DE PERFORMANȚĂ ENERGETICĂ\n--------------------------------------------------------------------------------\nPARAMETRU | VALOARE ÎNREGISTRATĂ\n--------------------------------------------------------------------------------\nClasa Energetică | A+\nConsum Anual Specific de Energie Primară | 72.0 kWh/m²/an\nConsum Anual Specific de Energie Finală | 58.0 kWh/m²/an\nIndice de Emisii CO2 Echivalent | 12.8 kgCO2/m²/an\nPondere Surse Regenerabile (SER) | 40% (Pompă de căldură +\nsolar)\n--------------------------------------------------------------------------------\nAuditor Energetic: Ing. Mureșan Dan (Atestat EX-003)",
+      "necesita_ocr": false,
+      "tabele": []
+    }
+  ],
+  "tip_din_nume": "certificat_energetic"
+}

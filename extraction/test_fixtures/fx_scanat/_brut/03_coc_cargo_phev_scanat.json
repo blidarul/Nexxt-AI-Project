@@ -1,7 +1,6 @@
 {
   "fisier": "03_coc_cargo_phev_scanat.pdf",
   "dosar": "fx_scanat",
-  "tip_document": "certificat_energetic",
   "nr_pagini": 1,
   "extras_la": "2026-10-28T21:54:05",
   "pagini": [
@@ -12,5 +11,6 @@
       "tabele": [],
       "ocr": true
     }
-  ]
+  ],
+  "tip_din_nume": "certificat_energetic"
 }

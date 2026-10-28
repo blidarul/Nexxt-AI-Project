@@ -1,7 +1,6 @@
 {
   "fisier": "04_contract_inchiriere_extras.pdf",
   "dosar": "dosar_04_constructie_certificat_interim",
-  "tip_document": "contract_inchiriere",
   "nr_pagini": 1,
   "extras_la": "2026-10-28T16:16:53",
   "pagini": [
@@ -25,5 +24,6 @@
         }
       ]
     }
-  ]
+  ],
+  "tip_din_nume": "contract_inchiriere"
 }

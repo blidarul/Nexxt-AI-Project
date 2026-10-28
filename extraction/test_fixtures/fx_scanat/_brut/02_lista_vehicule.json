@@ -1,7 +1,6 @@
 {
   "fisier": "02_lista_vehicule.pdf",
   "dosar": "fx_scanat",
-  "tip_document": "necunoscut",
   "nr_pagini": 1,
   "extras_la": "2026-10-28T21:54:05",
   "pagini": [
@@ -41,5 +40,6 @@
         }
       ]
     }
-  ]
+  ],
+  "tip_din_nume": null
 }

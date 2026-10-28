@@ -2,8 +2,8 @@
   "dosar_id": "dosar2",
   "cui": {
     "valoare": "9900000020",
-    "sursa": "RASPUNS_ANAF.pdf, p.1",
-    "incredere": 0.99
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.98
   },
   "suma_eur": {
     "valoare": 25000000,
@@ -13,12 +13,12 @@
   "cota_banca": {
     "valoare": 0.6,
     "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.98
+    "incredere": 0.95
   },
   "data_aprobare": {
-    "valoare": "2026-02-12",
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.98
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
   },
   "tara": {
     "valoare": "România",
@@ -28,7 +28,7 @@
   "adresa_cladire": {
     "valoare": "Com. Ștefăneștii de Jos, Str. Tineretului nr. 45, Jud. Ilfov",
     "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.98
+    "incredere": 0.95
   },
   "suprafata_m2": {
     "valoare": 35000,
@@ -43,41 +43,89 @@
   "nr_certificat_declarat": {
     "valoare": "BREEAM-EXEMPLU-0002",
     "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.98
+    "incredere": 0.95
   },
   "epc_clasa": {
     "valoare": "A",
     "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
-    "incredere": 0.98
+    "incredere": 0.99
   },
   "epc_energie_finala": {
-    "valoare": 72.0,
+    "valoare": 72,
     "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.98
   },
   "epc_suprafata_m2": {
     "valoare": 35000,
     "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.97
   },
   "chiriasi": [
     {
       "nume": "DHL Logistics SRL",
-      "cui": "9900000101",
       "caen": "5210",
-      "m2": 20000.0,
-      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
-      "incredere": 0.95
+      "m2": 20000.0
     },
     {
       "nume": "Kuehne+Nagel SRL",
-      "cui": "9900000102",
       "caen": "5224",
-      "m2": 11500.0,
-      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
-      "incredere": 0.95
+      "m2": 11500.0
     }
   ],
-  "afirmatii_client": [],
-  "indicatori": {}
+  "afirmatii_client": [
+    "Certificare declarată: BREEAM Excellent (Certificat nr. BREEAM-EXEMPLU-0002)",
+    "Performanță energetică declarată: Clasa A (Consum specific 85 kWh/m²/an)"
+  ],
+  "categorie": {
+    "valoare": "green_buildings",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.65
+  },
+  "subcategorie": {
+    "valoare": "cladire_noua_sau_existenta",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.65
+  },
+  "indicatori": {
+    "descriere_proiect": {
+      "valoare": "Credit de investiții - construire parc logistic cu panouri solare",
+      "sursa": "CERERE_FINANTARE.pdf, p.1",
+      "incredere": 0.95
+    },
+    "certificare_sistem": {
+      "valoare": "BREEAM",
+      "sursa": "BREEAM.pdf, p.1",
+      "incredere": 0.98
+    },
+    "certificare_nivel": {
+      "valoare": "EXCELLENT",
+      "sursa": "BREEAM.pdf, p.1",
+      "incredere": 0.97
+    },
+    "certificare_stadiu": {
+      "valoare": "Final Certificate",
+      "sursa": "BREEAM.pdf, p.1",
+      "incredere": 0.96
+    },
+    "ped_kwh_m2": {
+      "valoare": 85,
+      "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+      "incredere": 0.98
+    },
+    "energie_finala_kwh_m2": {
+      "valoare": 72,
+      "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+      "incredere": 0.98
+    },
+    "capacitate_mw": {
+      "valoare": 2.5,
+      "sursa": "BREVIAR_CALCUL_TEHNIC.pdf, p.1",
+      "incredere": 0.99
+    },
+    "productie_anuala_mwh": {
+      "valoare": 2950.0,
+      "sursa": "BREVIAR_CALCUL_TEHNIC.pdf, p.1",
+      "incredere": 0.98
+    }
+  }
 }

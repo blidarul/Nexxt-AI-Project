@@ -25,7 +25,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     except Exception:
         pass
 
-from contracts import Camp, DosarExtras
+from contracts import Camp, Chirias, DosarExtras
 from extraction.cautare import (
     gaseste_pagini_treapta_1,
     gaseste_pagini_treapta_2,
@@ -43,7 +43,7 @@ from extraction.cerinte import (
     incarca_tipuri_documente,
 )
 from extraction.clasificare import clasifica_document
-from extraction.extrage_brut import proceseaza_dosar as ruleaza_etapa_1
+from extraction.extrage_brut import determina_tip_din_nume, proceseaza_dosar as ruleaza_etapa_1
 from extraction.extragere_campuri import (
     extrage_afirmatii_determinist,
     extrage_campuri_document_llm,
@@ -91,6 +91,9 @@ FACTOR_CITAT_RECONSTITUIT = 0.8
 
 # campuri.yaml: metoda pentru câmpurile extrase determinist, fără LLM
 METODA_AFIRMATII = "determinist_afirmatii"
+
+# raport_extractie.campuri_lipsa: chiriaș găsit, dar fără cod CAEN în document
+MOTIV_CAEN_LIPSA_CHIRIAS = "caen_lipsa_chirias"
 
 
 def incarca_documente_brute(folder_dosar: Path) -> list[dict[str, Any]]:
@@ -165,13 +168,22 @@ def reconstituie_citat(valoare_bruta: Any, cuvinte_cheie: list[str], doc: dict[s
     return potriviri[0] if len(set(potriviri)) == 1 else None
 
 
+def citat_contine_cuvant_cheie(citat: str, cuvinte_cheie: list[str]) -> bool:
+    """Pentru câmpurile cu sens precis (citat_cu_cuvant_cheie în campuri.yaml): citatul trebuie
+    să conțină una din expresiile câmpului (fără diacritice, fără diferențe de majuscule)."""
+    citat_norm = normalizeaza_text_cautare(citat)
+    return any(k and normalizeaza_text_cautare(k) in citat_norm for k in cuvinte_cheie)
+
+
 def aliniaza_valoare_cu_citatul(camp: str, valoare_bruta: Any, citat: str) -> Any:
     """Dacă numărul dat de LLM nu apare în citat (LLM-ul a convertit singur, ex. „4,8” din „4.800 kW”),
     caută în citat un număr cu unitate care, normalizat, dă aceeași valoare și îl folosește ca valoare brută.
     Așa conversia se face (și se raportează) în cod. Dacă nu există o astfel de potrivire, nu schimbă nimic.
     """
     text = str(valoare_bruta).strip()
-    if not citat or re.sub(r"\s+", "", text) in re.sub(r"\s+", "", citat):
+    # numărul trebuie să apară întreg în citat: „4.8” nu e în „4.800 kW”
+    tipar = r"(?<![\d.,])" + re.escape(re.sub(r"\s+", "", text)) + r"(?![\d]|[.,]\d)"
+    if not citat or re.search(tipar, re.sub(r"\s+", "", citat)):
         return valoare_bruta
     tinta, _ = detecteaza_si_normalizeaza_unitate(camp, text)
     if not isinstance(tinta, (int, float)) or isinstance(tinta, bool):
@@ -332,9 +344,14 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
         doc_clasif["incredere_clasificare"] = clasif["incredere"]
         documente_clasificate.append(doc_clasif)
 
+        # Numele fișierului e doar indiciu (raportat); tipul folosit e cel din conținut
+        tip_din_nume = determina_tip_din_nume(doc.get("fisier") or "")
         raport_documente.append({
             "fisier": doc.get("fisier"),
             "tip_detectat": clasif["tip_document"],
+            "tip_din_continut": clasif["tip_document"],
+            "tip_din_nume": tip_din_nume,
+            "nume_contrazice_continut": tip_din_nume is not None and tip_din_nume != clasif["tip_document"],
             "rol": clasif.get("rol"),
             "incredere": clasif["incredere"],
             "motiv": clasif["motiv"],
@@ -457,6 +474,16 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
                     "citat": citat,
                     "fisier": cand["fisier"],
                     "motiv": "citat_negasit",
+                })
+                continue
+
+            if info_c.get("citat_cu_cuvant_cheie") and not citat_contine_cuvant_cheie(citat, info_c.get("cuvinte_cheie") or []):
+                valori_respinse.append({
+                    "camp": camp,
+                    "valoare_bruta": cand["valoare_bruta"],
+                    "citat": citat,
+                    "fisier": cand["fisier"],
+                    "motiv": "citat_fara_cuvant_cheie",
                 })
                 continue
 
@@ -585,6 +612,20 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
             **({"citat": campuri_ambigue[camp]["citat"], "sursa": campuri_ambigue[camp]["sursa"]} if camp in campuri_ambigue else {}),
         })
 
+    # Chiriașii fără cod CAEN în document: regula pe chiriași nu îi poate verifica
+    chiriasi_fara_caen = [c for c in chiriasi_extrasi if not c["caen"]]
+    camp_chiriasi = next((c for c in campuri_lista if catalog_campuri.get(c, {}).get("tip") == "lista_chiriasi"), None)
+    for chirias in chiriasi_fara_caen:
+        campuri_lipsa.append({
+            "camp": f"{camp_chiriasi}.caen",
+            "motiv": MOTIV_CAEN_LIPSA_CHIRIAS,
+            "chirias": chirias["nume"],
+            "sursa": sursa_chiriasi,
+            "documente_asteptate": selectate[camp_chiriasi].get("document") or [],
+            "pentru": selectate[camp_chiriasi].get("pentru") or [],
+            "obligatoriu": este_camp_obligatoriu(camp_chiriasi),
+        })
+
     # --- Construirea modelului Pydantic DosarExtras ---
     def creeaza_obiect_camp(camp_ales: Optional[dict[str, Any]]) -> Optional[Camp]:
         if not camp_ales:
@@ -606,7 +647,13 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
 
     are_epc = any(d.get("tip_document") == "certificat_energetic" for d in documente_clasificate)
     val_epc_energie = valori_selectate.get("epc_energie_finala") or valori_selectate.get("energie_finala_kwh_m2")
-    val_epc_sup = valori_selectate.get("epc_suprafata_m2") or (valori_selectate.get("suprafata_m2") if are_epc else None)
+    # Suprafața din EPC vine din candidatul găsit în EPC, nu din valoarea aleasă pentru suprafata_m2 (de obicei cererea)
+    candidati_sup_epc = [c for c in campuri_finale_valide.get("suprafata_m2", []) if c["tip_document"] == "certificat_energetic"]
+    val_epc_sup = (
+        valori_selectate.get("epc_suprafata_m2")
+        or max(candidati_sup_epc, key=lambda c: c["incredere"], default=None)
+        or (valori_selectate.get("suprafata_m2") if are_epc else None)
+    )
 
     # Indicatori: câmpurile din cerinte_dosar.yaml, cu cheia exact ca acolo
     indicatori_dict: dict[str, Camp] = {}
@@ -619,6 +666,9 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
             sursa=rez["sursa"],
             incredere=0.95 if rez["metoda"] == "determinist_tabele" else 0.8,
         )
+    # Chirias.caen e text obligatoriu în contract: lista completă (cu caen null) stă în indicatori
+    if chiriasi_fara_caen:
+        indicatori_dict[camp_chiriasi] = Camp(valoare=chiriasi_extrasi, sursa=sursa_chiriasi or "", incredere=1.0)
 
     categorie_camp = subcategorie_camp = None
     if candidati_categorie:
@@ -648,7 +698,7 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
         epc_clasa=creeaza_obiect_camp(valori_selectate.get("epc_clasa")),
         epc_energie_finala=creeaza_obiect_camp(val_epc_energie),
         epc_suprafata_m2=creeaza_obiect_camp(val_epc_sup),
-        chiriasi=chiriasi_extrasi,
+        chiriasi=[Chirias(**c) for c in chiriasi_extrasi if c["caen"]],
         afirmatii_client=afirmatii_lista,
         categorie=categorie_camp,
         subcategorie=subcategorie_camp,
@@ -686,7 +736,9 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
 
     if chiriasi_extrasi:
         campuri_raport["chiriasi"] = {
+            "valoare": chiriasi_extrasi,
             "numar_chiriasi": len(chiriasi_extrasi),
+            "fara_caen": [c["nume"] for c in chiriasi_fara_caen],
             "sursa": sursa_chiriasi,
             "citat": citat_chiriasi,
             "citat_verificat": True,

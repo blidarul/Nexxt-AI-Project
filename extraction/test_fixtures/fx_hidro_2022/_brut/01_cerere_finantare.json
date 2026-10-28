@@ -1,7 +1,6 @@
 {
   "fisier": "01_cerere_finantare.pdf",
   "dosar": "fx_hidro_2022",
-  "tip_document": "cerere_finantare",
   "nr_pagini": 1,
   "extras_la": "2026-10-28T21:42:58",
   "pagini": [
@@ -37,5 +36,6 @@
         }
       ]
     }
-  ]
+  ],
+  "tip_din_nume": "cerere_finantare"
 }

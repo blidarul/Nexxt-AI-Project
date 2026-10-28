@@ -1,7 +1,6 @@
 {
   "fisier": "03_certificat_energetic.pdf",
   "dosar": "dosar_01_complet_eligibil",
-  "tip_document": "certificat_energetic",
   "nr_pagini": 1,
   "extras_la": "2026-10-28T16:16:53",
   "pagini": [
@@ -58,5 +57,6 @@
         }
       ]
     }
-  ]
+  ],
+  "tip_din_nume": "certificat_energetic"
 }

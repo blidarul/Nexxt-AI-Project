@@ -3,19 +3,19 @@
   "documente": [
     {
       "fisier": "01_cerere_finantare.pdf",
-      "tip_document": "cerere_finantare",
       "json": "_brut/01_cerere_finantare.json",
       "pagini": 1,
       "tabele": 3,
-      "eroare": null
+      "eroare": null,
+      "tip_din_nume": "cerere_finantare"
     },
     {
       "fisier": "04_contract_inchiriere_extras.pdf",
-      "tip_document": "contract_inchiriere",
       "json": "_brut/04_contract_inchiriere_extras.json",
       "pagini": 1,
       "tabele": 1,
-      "eroare": null
+      "eroare": null,
+      "tip_din_nume": "contract_inchiriere"
     }
   ]
 }

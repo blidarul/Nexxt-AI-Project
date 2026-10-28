@@ -1,0 +1,15 @@
+{
+  "fisier": "CONTRACTE_CHIRIASI.pdf",
+  "dosar": "dosar3",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T23:30:15",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "EXTRAS CONTRACTE CHIRIAȘI ȘI VERIFICARE FISCALĂ ANAF\n(PROIECT 03 - GREEN RETAIL TOWER SRL)\nImobil: Green Retail Mall (Cluj-Napoca, Str. Republicii nr. 102)\n* Chiriaș 1: Eco Supermarket SRL | CUI 9900000201 | CAEN 4711 |\nSuprafață: 8.000 m² (43.2%) | Contract: 2025-2035\n* Chiriaș 2: Fashion Green Retail SRL | CUI 9900000202 | CAEN 4771\n| Suprafață: 9.000 m² (48.6%) | Contract: 2025-2032\n* Grad ocupare: 92% (17.000 m²) | Spațiu liber: 1.500 m² (8%)",
+      "necesita_ocr": false,
+      "tabele": []
+    }
+  ],
+  "tip_din_nume": "contract_inchiriere"
+}

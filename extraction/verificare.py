@@ -16,7 +16,8 @@ def curata_text_pentru_verificare(text: str) -> str:
     fara_separatori = fara_diacritice.replace("|", " ")
     # Comprimă spațiile albe (newline, tab etc.) la un singur spațiu
     curatat = re.sub(r"\s+", " ", fara_separatori).strip().lower()
-    return curatat
+    # Cuvânt despărțit cu cratimă la capăt de rând în PDF ("BREEAM-\nEXEMPLU-0003")
+    return re.sub(r"-\s+", "-", curatat)
 
 
 def verifica_citat_in_pagina(citat: str, text_pagina: str) -> bool:

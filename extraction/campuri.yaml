@@ -74,18 +74,24 @@ cota_banca:
 data_aprobare:
   descriere: "Data APROBĂRII creditului de către bancă (YYYY-MM-DD). NU data cererii, a semnării sau a altui document"
   tip: "data"
-  documente_probabile: ["cerere_finantare"]
+  # D-02 (decizia) vine din cerinte_dosar.yaml; aici se adaugă D-05 (contractul de credit) și cererea
+  documente_probabile: ["cerere_finantare", "decizie_aprobare", "contract_credit"]
+  # Doar expresii precise. Fără „data” generic: „Data cererii: …” sau o declarație datată nu e data aprobării.
   cuvinte_cheie:
   - "data aprobarii"
   - "data aprobării"
-  - "aprobarea creditului"
   - "aprobat la"
+  - "aprobată la"
+  - "aprobata la"
+  - "data deciziei"
   - "approval date"
   - "approved on"
   obligatoriu: true
   # O dată cu sens precis: se caută DOAR în documentele declarate (cerinte_dosar + documente_probabile).
   # Fără treapta 2 (alte documente): o „Data:” oarecare din alt document nu e data aprobării.
   cautare_extinsa: false
+  # Citatul dat de LLM trebuie să conțină unul din cuvintele cheie de mai sus, altfel valoarea se respinge.
+  citat_cu_cuvant_cheie: true
 
   extras_din_document: true
   sursa_valoare: document
@@ -321,7 +327,10 @@ afirmatii_client:
   # + orice frază încheiată (cu punct) sau bullet din cerere care conține un cuvânt de sustenabilitate.
   metoda: determinist_afirmatii
   titluri_sectiune: ["declarații ale solicitantului", "declaratii ale solicitantului", "afirmații", "afirmatii",
-    "declarații privind sustenabilitatea", "declaratii privind sustenabilitatea", "sustainability statements", "client statements"]
+    "declarații privind sustenabilitatea", "declaratii privind sustenabilitatea", "declarație privind sustenabilitatea",
+    "declaratie privind sustenabilitatea", "sustainability statements", "sustainability statement", "client statements"]
+  # rândurile care încheie secțiunea de declarații (semnătura)
+  sfarsit_sectiune: ["semnătură", "semnatura", "semnătura", "signature"]
   cuvinte_afirmatii: ["verde", "verzi", "green", "emisii zero", "zero emisii", "zero emissions", "net zero", "net-zero",
     "sustenabil", "sustainable", "economie de energie", "economii de energie", "energy savings", "neutru", "neutră",
     "neutra", "neutral", "climate neutral", "carbon neutral", "100%", "ecologic", "eco-friendly", "regenerabil",

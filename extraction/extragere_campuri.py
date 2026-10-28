@@ -5,7 +5,6 @@ import re
 from typing import Any, Optional
 import unicodedata
 
-from contracts import Chirias
 from extraction.llm_client import LLMClient, get_llm_client
 from extraction.normalizare import normalizeaza_caen, normalizeaza_numar
 
@@ -57,10 +56,12 @@ def formateaza_pagini_pentru_prompt(pagini: list[dict[str, Any]]) -> str:
 
 def extrage_chiriasi_determinist(
     documente_clasificate: list[dict[str, Any]]
-) -> tuple[list[Chirias], Optional[str], Optional[str]]:
+) -> tuple[list[dict[str, Any]], Optional[str], Optional[str]]:
     """Încearcă extragerea chiriașilor în mod determinist direct din tabelele din documente.
 
-    Întoarce (lista_chiriasi, sursa, citat).
+    Întoarce (lista_chiriasi, sursa, citat). Fiecare chiriaș e {"nume", "caen", "m2"};
+    un chiriaș fără cod CAEN în document rămâne în listă cu "caen": None (nu se inventează).
+    Fallback-ul pe text se aplică doar documentelor clasificate din conținut ca contract_inchiriere.
     """
     sinonime_chirias = ["chiriaș", "chirias", "locatar", "tenant", "client", "denumire chiriaș"]
     sinonime_caen = ["caen", "cod caen", "nace", "cod caen principal"]
@@ -108,14 +109,8 @@ def extrage_chiriasi_determinist(
                         caen_norm = normalizeaza_caen(val_caen_raw)
                         sup_norm = normalizeaza_numar(val_sup_raw)
 
-                        if caen_norm and sup_norm:
-                            chiriasi_gasiti.append(
-                                Chirias(
-                                    nume=val_nume,
-                                    caen=caen_norm,
-                                    m2=float(sup_norm),
-                                )
-                            )
+                        if sup_norm:
+                            chiriasi_gasiti.append({"nume": val_nume, "caen": caen_norm, "m2": float(sup_norm)})
                             citate_colectate.append(f"{val_nume} | {val_caen_raw} | {val_sup_raw}")
 
                     if chiriasi_gasiti:
@@ -126,9 +121,7 @@ def extrage_chiriasi_determinist(
     # 2. Dacă nu s-au găsit chiriași în tabele, căutăm în format text cu marcaje / pipe (|)
     for doc in documente_clasificate:
         fisier = doc.get("fisier", "")
-        tip_doc = doc.get("tip_document", "")
-        nume_lower = fisier.lower()
-        if tip_doc != "contract_inchiriere" and "chirias" not in nume_lower and "contract" not in nume_lower:
+        if doc.get("tip_document") != "contract_inchiriere":
             continue
 
         for pag in doc.get("pagini", []):
@@ -149,7 +142,7 @@ def extrage_chiriasi_determinist(
                 parts = [p.strip() for p in b_clean.split("|")]
                 first = parts[0]
                 nume = re.sub(r"^(?:Chiria[șs]\s*\d+\s*:\s*|Pre-contracte[^:]*:\s*)", "", first).strip()
-                caen = ""
+                caen: Optional[str] = None
                 m2 = 0.0
 
                 for p in parts[1:]:
@@ -165,13 +158,7 @@ def extrage_chiriasi_determinist(
                                 m2 = float(val)
 
                 if nume and m2 > 0:
-                    chiriasi_gasiti.append(
-                        Chirias(
-                            nume=nume,
-                            caen=caen,
-                            m2=m2,
-                        )
-                    )
+                    chiriasi_gasiti.append({"nume": nume, "caen": caen, "m2": m2})
                     citate_colectate.append(b_clean[:120])
 
             if chiriasi_gasiti:
@@ -184,6 +171,12 @@ def extrage_chiriasi_determinist(
 
 _BULLET = re.compile(r"^\s*[•\-\*–·▪]\s+")
 _TITLU_NUMEROTAT = re.compile(r"^\s*\d+[\.\)]\s+\S")
+# „Eticheta: valoare” (rând de formular), cu eticheta scurtă și fără punct
+_ETICHETA_FORMULAR = re.compile(r"^\s*[^\s:.][^:.]{1,50}:\s+\S")
+
+
+def curent_inchis(curent: Optional[str]) -> bool:
+    return curent is None or curent.rstrip().endswith(".")
 
 
 def _norm(text: str) -> str:
@@ -204,27 +197,31 @@ def extrage_afirmatii_determinist(
     Bullet-urile continuate pe rândul următor se unesc. Întoarce (afirmatii, sursa, citate).
     """
     titluri = [_norm(t) for t in info_camp.get("titluri_sectiune") or []]
+    sfarsit = [_norm(t) for t in info_camp.get("sfarsit_sectiune") or []]
     cuvinte = [_norm(c) for c in info_camp.get("cuvinte_afirmatii") or []]
     afirmatii: list[str] = []
     surse: list[str] = []
 
     def adauga(text: str, fisier: str, pagina: int, in_sectiune: bool) -> None:
         text = re.sub(r"\s+", " ", text).strip()
+        text = re.sub(r"-\s+(?=[A-Z0-9])", "-", text)  # cod despărțit la capăt de rând („BREEAM- EXEMPLU”)
         if len(text) < 8 or text in afirmatii:
             return
+        if not in_sectiune and _ETICHETA_FORMULAR.match(text):
+            return  # câmp de formular („Obiectiv: …”), nu o afirmație
         if in_sectiune or any(c in _norm(text) for c in cuvinte):
             afirmatii.append(text)
             surse.append(f"{fisier}, p.{pagina}")
 
     for doc in documente:
         fisier = doc.get("fisier", "")
+        in_sectiune = False  # secțiunea de declarații poate continua pe pagina următoare
         for pag in doc.get("pagini", []):
             nr = pag.get("pagina", 1)
             randuri_tabel = {
                 _norm(" ".join(str(c) for c in r)).strip()
                 for t in pag.get("tabele", []) for r in t.get("randuri", [])
             }
-            in_sectiune = False
             curent: Optional[str] = None
 
             def inchide_bullet() -> None:
@@ -243,18 +240,25 @@ def extrage_afirmatii_determinist(
                     inchide_bullet()
                     in_sectiune = este_titlu
                     continue
+                if in_sectiune and any(s in linie_norm for s in sfarsit):
+                    inchide_bullet()  # ex. „Semnătură autorizată: …” încheie declarațiile
+                    in_sectiune = False
+                    continue
                 if _BULLET.match(linie):
                     inchide_bullet()
                     curent = _BULLET.sub("", linie)
                     continue
-                if curent is not None and not curent.rstrip().endswith("."):
-                    curent += " " + linie.strip()  # bullet continuat pe rândul următor
+                # în secțiune, rândul continuă până la o nouă etichetă („Performanță declarată: …”),
+                # chiar dacă se termină cu o abreviere („Certificat nr.”); în afara ei, până la punct
+                continua = (not _ETICHETA_FORMULAR.match(linie)) if in_sectiune else not curent_inchis(curent)
+                if curent is not None and continua:
+                    curent += " " + linie.strip()  # rând continuat pe rândul următor
                     continue
                 inchide_bullet()
                 if linie_norm in randuri_tabel:
                     continue  # rând de formular (cheie | valoare), nu o afirmație
                 if in_sectiune:
-                    adauga(linie, fisier, nr, True)
+                    curent = linie.strip()  # în secțiune, fiecare rând e o afirmație care poate continua
                 elif linie.strip().endswith(".") and ":" not in linie and len(linie) <= 300:
                     # în afara secțiunii: doar rânduri care sunt fraze complete, nu câmpuri de formular
                     adauga(linie, fisier, nr, False)

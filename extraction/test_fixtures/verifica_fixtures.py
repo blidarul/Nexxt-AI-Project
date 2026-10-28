@@ -66,6 +66,22 @@ def verifica_fixture(folder: Path) -> list[dict[str, Any]]:
         increderi = [c["incredere"] for c in candidati]
         rezultate.append({"camp": "(raport) încredere candidați < 0.7", "asteptat": True, "extras": increderi,
                           "ok": bool(increderi) and all(i < 0.7 for i in increderi)})
+    # Ambiguitate pe criterii (nu pe o pereche exactă de categorii)
+    candidati = raport.get("categorie_candidati") or []
+    if "categorie_candidati_minim" in asteptat:
+        minim = asteptat["categorie_candidati_minim"]
+        rezultate.append({"camp": f"(raport) cel puțin {minim} candidați", "asteptat": f">= {minim}",
+                          "extras": len(candidati), "ok": len(candidati) >= minim})
+    if "categorie_incredere_maxima_sub" in asteptat:
+        prag = asteptat["categorie_incredere_maxima_sub"]
+        maxim = max((c["incredere"] for c in candidati), default=None)
+        rezultate.append({"camp": f"(raport) încredere maximă < {prag}", "asteptat": f"< {prag}", "extras": maxim,
+                          "ok": maxim is not None and maxim < prag})
+    if "categorie_candidati_contine_unul_din" in asteptat:
+        cautate = asteptat["categorie_candidati_contine_unul_din"]
+        gasite = sorted(c["categorie"] for c in candidati)
+        rezultate.append({"camp": "(raport) candidații conțin una din", "asteptat": cautate, "extras": gasite,
+                          "ok": any(c in gasite for c in cautate)})
     if "documente_lipsa_contine" in asteptat:
         ids = {d["id"] for d in raport.get("documente_lipsa") or []}
         for i in asteptat["documente_lipsa_contine"]:

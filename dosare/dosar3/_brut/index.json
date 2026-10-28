@@ -1,0 +1,68 @@
+{
+  "dosar": "dosar3",
+  "documente": [
+    {
+      "fisier": "BREEAM.pdf",
+      "json": "_brut/BREEAM.json",
+      "pagini": 1,
+      "tabele": 0,
+      "pagini_ocr": 0,
+      "eroare": null,
+      "tip_din_nume": "certificat_sustenabilitate"
+    },
+    {
+      "fisier": "BREVIAR_TEHNIC.pdf",
+      "json": "_brut/BREVIAR_TEHNIC.json",
+      "pagini": 1,
+      "tabele": 0,
+      "pagini_ocr": 0,
+      "eroare": null,
+      "tip_din_nume": "nota_tehnica"
+    },
+    {
+      "fisier": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf",
+      "json": "_brut/CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.json",
+      "pagini": 2,
+      "tabele": 0,
+      "pagini_ocr": 0,
+      "eroare": null,
+      "tip_din_nume": "cerere_finantare"
+    },
+    {
+      "fisier": "CERTIFICAT_PERFORMANTA.pdf",
+      "json": "_brut/CERTIFICAT_PERFORMANTA.json",
+      "pagini": 1,
+      "tabele": 0,
+      "pagini_ocr": 0,
+      "eroare": null,
+      "tip_din_nume": "certificat_energetic"
+    },
+    {
+      "fisier": "CONTRACTE_CHIRIASI.pdf",
+      "json": "_brut/CONTRACTE_CHIRIASI.json",
+      "pagini": 1,
+      "tabele": 0,
+      "pagini_ocr": 0,
+      "eroare": null,
+      "tip_din_nume": "contract_inchiriere"
+    },
+    {
+      "fisier": "RAPORT_LCA.pdf",
+      "json": "_brut/RAPORT_LCA.json",
+      "pagini": 2,
+      "tabele": 0,
+      "pagini_ocr": 0,
+      "eroare": null,
+      "tip_din_nume": "analiza_ciclu_viata"
+    },
+    {
+      "fisier": "RASPUNS_ANAF.pdf",
+      "json": "_brut/RASPUNS_ANAF.json",
+      "pagini": 1,
+      "tabele": 0,
+      "pagini_ocr": 0,
+      "eroare": null,
+      "tip_din_nume": "raspuns_anaf"
+    }
+  ]
+}

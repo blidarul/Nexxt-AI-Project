@@ -1,0 +1,15 @@
+{
+  "fisier": "BREEAM.pdf",
+  "dosar": "dosar5",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T23:30:16",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "BREEAM OFFICIAL ASSESSMENT REGISTRATION\n1. DATE GENERALĂ CLĂDIRE & DEZVOLTATOR\n- Denumire Clădire: Bio Industrial Hall B3\n- Client / Dezvoltator: Bio Industrial Park Timisoara SRL\n- Oraș / Cod Poștal: Timișoara, 300001, România\n2. DETALII CERTIFICARE VERDE\n- Schema BREEAM: International V6 Industrial\n- Etapa Evaluării: Final Certificate\n- Nivel Certificare (Rating): EXCELLENT\n- Punctaj Obținut: 79.4%\n- Nr. Certificat: BREEAM-EXEMPLU-0005\n- Auditat de: West Green Cert SRL\n- Data Emiterii: 05.02.2026",
+      "necesita_ocr": false,
+      "tabele": []
+    }
+  ],
+  "tip_din_nume": "certificat_sustenabilitate"
+}

@@ -1,7 +1,6 @@
 {
   "fisier": "04_deviz_lucrari.pdf",
   "dosar": "fx_renovare",
-  "tip_document": "contract_inchiriere",
   "nr_pagini": 1,
   "extras_la": "2026-10-28T21:42:58",
   "pagini": [
@@ -37,5 +36,6 @@
         }
       ]
     }
-  ]
+  ],
+  "tip_din_nume": "contract_inchiriere"
 }

@@ -1,7 +1,6 @@
 {
   "fisier": "02_declaratie_furnizor.pdf",
   "dosar": "fx_aluminiu",
-  "tip_document": "necunoscut",
   "nr_pagini": 1,
   "extras_la": "2026-10-28T21:42:57",
   "pagini": [
@@ -29,5 +28,6 @@
         }
       ]
     }
-  ]
+  ],
+  "tip_din_nume": null
 }

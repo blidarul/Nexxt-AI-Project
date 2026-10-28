@@ -41,9 +41,12 @@
     {
       "fisier": "01_cerere_finantare.pdf",
       "tip_detectat": "cerere_finantare",
+      "tip_din_continut": "cerere_finantare",
+      "tip_din_nume": "cerere_finantare",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o cerere de finanțare depusă la bancă de către solicitant, cu datele firmei, suma solicitată și descrierea proiectului.",
+      "motiv": "Documentul conține o cerere de credit / finanțare depusă la bancă de solicitant (date firmă, suma solicitată, descrierea proiectului)",
       "id_cerinte": [
         "D-01"
       ]
@@ -51,6 +54,9 @@
     {
       "fisier": "02_lista_vehicule.pdf",
       "tip_detectat": "lista_vehicule",
+      "tip_din_continut": "lista_vehicule",
+      "tip_din_nume": null,
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
       "motiv": "Documentul conține o listă a vehiculelor finanțate, cu informații despre marcă, model, combustibil, număr de bucăți, emisii CO2 WLTP și kilometraj anual, ceea ce corespunde definiției tipului 'lista_vehicule'.",
@@ -61,9 +67,12 @@
     {
       "fisier": "03_coc_cargo_phev_scanat.pdf",
       "tip_detectat": "certificat_conformitate_vehicul",
+      "tip_din_continut": "certificat_conformitate_vehicul",
+      "tip_din_nume": "certificat_energetic",
+      "nume_contrazice_continut": true,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține informații despre un certificat de conformitate al unui vehicul, inclusiv marca, modelul, categoria și emisiile CO2 WLTP.",
+      "motiv": "Documentul conține informații despre un certificat de conformitate al unui vehicul, inclusiv marca, tipul, categoria și emisiile CO2 WLTP.",
       "id_cerinte": [
         "CT-D2"
       ]
@@ -71,9 +80,12 @@
     {
       "fisier": "04_coc_city_ev_foto.png",
       "tip_detectat": "certificat_conformitate_vehicul",
+      "tip_din_continut": "certificat_conformitate_vehicul",
+      "tip_din_nume": "contract_inchiriere",
+      "nume_contrazice_continut": true,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține informații despre un vehicul electric (City-EV) cu emisii CO2 WLTP și consum de energie electrică, fiind un certificat de conformitate.",
+      "motiv": "Documentul conține informații despre emisiile CO2 WLTP și consumul de energie electrică WLTP pentru un vehicul, ceea ce este caracteristic unui certificat de conformitate al unui vehicul.",
       "id_cerinte": [
         "CT-D2"
       ]
@@ -172,7 +184,7 @@
       "citat": "Țara România",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.97
     },
     "aprobat_proces_standard": {
       "valoare": null,
@@ -209,12 +221,12 @@
     },
     "cota_banca": {
       "valoare": 1.0,
-      "valoare_bruta": "100%",
+      "valoare_bruta": "1.0",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Structura finanțării Banca 100% (300.000 EUR)",
+      "citat": "Banca 100% (300.000 EUR)",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.96
     },
     "descriere_proiect": {
       "valoare": "Achiziția a 8 autoutilitare ușoare (categoria N1): 5 electrice și 3 hibride plug-in, pentru livrări urbane.",
@@ -223,7 +235,7 @@
       "citat": "Achiziția a 8 autoutilitare ușoare (categoria N1): 5 electrice și 3 hibride plug-in, pentru livrări urbane.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.99
     },
     "afirmatii_client": {
       "valoare": null,

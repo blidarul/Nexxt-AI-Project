@@ -1,7 +1,6 @@
 {
   "fisier": "02_lista_vehicule.pdf",
   "dosar": "fx_transport_flota",
-  "tip_document": "necunoscut",
   "nr_pagini": 2,
   "extras_la": "2026-10-28T21:43:08",
   "pagini": [
@@ -79,5 +78,6 @@
         }
       ]
     }
-  ]
+  ],
+  "tip_din_nume": null
 }

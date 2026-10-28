@@ -1,0 +1,21 @@
+{
+  "fisier": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf",
+  "dosar": "dosar3",
+  "nr_pagini": 2,
+  "extras_la": "2026-10-28T23:30:15",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT\nSTANDARD)\nNr. înregistrare bancă: CF-2026-0003 | Data: 15.02.2026\nDATE SOLICITANT\nDenumire: S.C. GREEN RETAIL TOWER S.R.L.\nCUI: RO 9900000030 | Nr. Reg. Com.: J12/850/2022\nCod CAEN: 6820 - Închirierea și subînchirierea bunurilor imobiliare\nproprii sau închiriate\nSediu Social: Cluj-Napoca, Jud. Cluj, Str. Republicii nr. 102\nReprezentant Legal: Radu Popa (Director General)\nFINANȚARE SOLICITATĂ\nTip finanțare: Credit de investiții - achiziție centru comercial eco\nValoare totală proiect: 38.000.000 EUR\nSuma solicitată de la bancă: 22.000.000 EUR\nStructură finanțare: Credit de investiții (58%), Capital propriu (42%)\nDurată: 144 luni (12 ani)\nObiectiv: Refinanțare și optimizare energetică Green Retail Mall Cluj\nDATE ACTIV FINANȚAT\nDenumire imobil: Green Retail Mall\nAdresă: Cluj-Napoca, Str. Republicii nr. 102\nSuprafață utilă închiriabilă (GLA): 18.500 m²\nStadiu: Finalizată, în exploatare (Grad de ocupare: 92%)\nDECLARAȚIE PRIVIND SUSTENABILITATEA\nCertificare declarată: BREEAM Outstanding (Certificat nr. BREEAM-\nEXEMPLU-0003)",
+      "necesita_ocr": false,
+      "tabele": []
+    },
+    {
+      "pagina": 2,
+      "text": "Performanță energetică declarată: Clasa A+ (Consum specific 72\nkWh/m²/an)\nSemnătură autorizată: [Radu Popa]",
+      "necesita_ocr": false,
+      "tabele": []
+    }
+  ],
+  "tip_din_nume": "cerere_finantare"
+}

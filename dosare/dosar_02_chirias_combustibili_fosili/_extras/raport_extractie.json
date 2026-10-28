@@ -34,9 +34,12 @@
     {
       "fisier": "01_cerere_finantare.pdf",
       "tip_detectat": "cerere_finantare",
+      "tip_din_continut": "cerere_finantare",
+      "tip_din_nume": "cerere_finantare",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o cerere de credit de investiții pentru achiziția unei clădiri de birouri, cu date despre solicitant, suma solicitată, structura finanțării și declarații privind sustenabilitatea clădirii.",
+      "motiv": "Documentul conține o cerere de credit de investiții pentru achiziția unei clădiri de birouri, cu date despre solicitant, suma solicitată, structura finanțării, activul finanțat și declarații privind sustenabilitatea.",
       "id_cerinte": [
         "D-01"
       ]
@@ -44,9 +47,12 @@
     {
       "fisier": "03_certificat_energetic.pdf",
       "tip_detectat": "certificat_energetic",
+      "tip_din_continut": "certificat_energetic",
+      "tip_din_nume": "certificat_energetic",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține informații despre clasa energetică, consumul anual specific de energie primară și finală, indicele de emisii CO2 echivalent, precum și ponderea sursei regenerabile, toate fiind caracteristici esențiale ale unui certificat de performanță energetică (EPC).",
+      "motiv": "Documentul conține informații despre clădire, consum energetic, emisii CO2 și pondere surse regenerabile, fiind un certificat de performanță energetică (EPC) cu date sintetice.",
       "id_cerinte": [
         "GB-D2"
       ]
@@ -54,9 +60,12 @@
     {
       "fisier": "04_contract_inchiriere_extras.pdf",
       "tip_detectat": "contract_inchiriere",
+      "tip_din_continut": "contract_inchiriere",
+      "tip_din_nume": "contract_inchiriere",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o listă cu chiriașii unui imobil, inclusiv datele lor (CUI, CAEN, suprafața închiriată) și durata contractelor de închiriere, ceea ce corespunde definiției tipului 'contract_inchiriere'.",
+      "motiv": "Documentul conține o listă cu chiriașii unei clădiri, informații despre contractele de închiriere (durată, suprafață închiriată, pondere) și coduri CAEN ale activităților acestora, fiind un extras de contracte de închiriere în vigoare.",
       "id_cerinte": [
         "GB-D3"
       ]
@@ -151,7 +160,7 @@
       "valoare": "România",
       "valoare_bruta": "România",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "S Țara | România",
+      "citat": "Țara România",
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 0.95
@@ -226,7 +235,7 @@
       "valoare": "BREEAM",
       "valoare_bruta": "BREEAM",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Certificare de sustenabilitate (declarată) BREEAM Excellent (certificare finală)",
+      "citat": "Certificare de sustenabilitate BREEAM Excellent.",
       "citat_verificat": true,
       "treapta_cautare": 2,
       "incredere": 0.78
@@ -235,7 +244,7 @@
       "valoare": "Excellent",
       "valoare_bruta": "Excellent",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Certificare de sustenabilitate (declarată) BREEAM Excellent (certificare finală)",
+      "citat": "Certificare de sustenabilitate BREEAM Excellent.",
       "citat_verificat": true,
       "treapta_cautare": 2,
       "incredere": 0.78
@@ -244,7 +253,7 @@
       "valoare": "finală",
       "valoare_bruta": "finală",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Certificare de sustenabilitate (declarată) BREEAM Excellent (certificare finală)",
+      "citat": "BREEAM Excellent (certificare finală)",
       "citat_verificat": true,
       "treapta_cautare": 2,
       "incredere": 0.78
@@ -292,28 +301,46 @@
       "citat": "Suprafață utilă (declarată) 20.000 m²",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.95
     },
     "adresa_cladire": {
       "valoare": "București, Sector 2, Str. Exemplului nr. 10",
       "valoare_bruta": "București, Sector 2, Str. Exemplului nr. 10",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "I Adresă | București, Sector 2, Str. Exemplului nr. 10",
+      "citat": "Adresă București, Sector 2, Str. Exemplului nr. 10",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.97
+      "incredere": 0.95
     },
     "stadiu_cladire": {
       "valoare": "Finalizată, în exploatare",
       "valoare_bruta": "Finalizată, în exploatare",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Stadiu | Finalizată, în exploatare",
+      "citat": "Stadiu Finalizată, în exploatare",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.95
     },
     "chiriasi": {
+      "valoare": [
+        {
+          "nume": "Carpați Petrol Upstream SA",
+          "caen": "0610",
+          "m2": 7000.0
+        },
+        {
+          "nume": "Alfa Software SRL",
+          "caen": "6201",
+          "m2": 8000.0
+        },
+        {
+          "nume": "Beta Consulting SRL",
+          "caen": "7022",
+          "m2": 3000.0
+        }
+      ],
       "numar_chiriasi": 3,
+      "fara_caen": [],
       "sursa": "04_contract_inchiriere_extras.pdf, p.1",
       "citat": "Carpați Petrol Upstream SA | 0610 – Extracția petrolului brut | 7.000 m²; Alfa Software SRL | 6201 – Activități de realizare a soft-ului la comandă | 8.000 m²; Beta Consulting SRL | 7022 – Activități de consultanță pentru afaceri și management | 3.000 m²",
       "citat_verificat": true,

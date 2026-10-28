@@ -5,15 +5,26 @@
       "categorie": "green_buildings",
       "subcategorie": "cladire_noua_sau_existenta",
       "tip_nivel_3": null,
-      "incredere": 0.9,
+      "incredere": 0.65,
       "citat": "Construcția clădirii Lacul Office – Turnul 1",
       "citat_verificat": true,
       "sursa": "01_cerere_finantare.pdf, p.1",
       "camp_subcategorie": null,
       "camp_nivel_3": null
+    },
+    {
+      "categorie": "energy_efficiency",
+      "subcategorie": "stocare_energie",
+      "tip_nivel_3": null,
+      "incredere": 0.6,
+      "citat": "Clădirea va avea certificare BREEAM Excellent.",
+      "citat_verificat": true,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "camp_subcategorie": "tip_proiect",
+      "camp_nivel_3": null
     }
   ],
-  "categorie_ambigua": false,
+  "categorie_ambigua": true,
   "indicii_categorie": [
     {
       "categorie": "green_buildings",
@@ -27,9 +38,12 @@
     {
       "fisier": "01_cerere_finantare.pdf",
       "tip_detectat": "cerere_finantare",
+      "tip_din_continut": "cerere_finantare",
+      "tip_din_nume": "cerere_finantare",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o cerere de credit de investiții pentru construcția unei clădiri de birouri, cu date despre solicitant, suma solicitată, structura finanțării, durata și scopul proiectului, toate fiind caracteristici esențiale pentru o cerere de finanțare.",
+      "motiv": "Documentul conține o cerere de credit de investiții pentru construcția unei clădiri de birouri, cu date despre solicitant, suma solicitată, structura finanțării, durata și scopul declarat al creditului.",
       "id_cerinte": [
         "D-01"
       ]
@@ -37,9 +51,12 @@
     {
       "fisier": "04_contract_inchiriere_extras.pdf",
       "tip_detectat": "contract_inchiriere",
+      "tip_din_continut": "contract_inchiriere",
+      "tip_din_nume": "contract_inchiriere",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o listă cu chiriașii și detaliază contractele de închiriere, inclusiv informații despre suprafața închiriată, codul CAEN și durata contractului.",
+      "motiv": "Documentul conține o listă cu chiriașii și contractele de închiriere în vigoare, inclusiv informații despre CUI, CAEN, suprafața închiriată și durata contractului.",
       "id_cerinte": [
         "GB-D3"
       ]
@@ -95,6 +112,113 @@
     }
   ],
   "documente_recomandate_lipsa": [],
+  "documente_per_candidat": [
+    {
+      "categorie": "green_buildings",
+      "subcategorie": "cladire_noua_sau_existenta",
+      "documente_gasite": [
+        {
+          "id": "D-01",
+          "nume": "Cerere de finantare",
+          "fisiere": [
+            "01_cerere_finantare.pdf"
+          ]
+        },
+        {
+          "id": "GB-D3",
+          "nume": "Contracte de inchiriere / lista chiriasilor",
+          "fisiere": [
+            "04_contract_inchiriere_extras.pdf"
+          ]
+        }
+      ],
+      "documente_lipsa": [
+        {
+          "id": "D-02",
+          "nume": "Decizia de aprobare a creditului (proces standard)",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-03",
+          "nume": "Certificat constatator ONRC (sau echivalent)",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-04",
+          "nume": "Declaratia privind beneficiarul real",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-05",
+          "nume": "Contractul de credit / term sheet (structura finantarii)",
+          "obligatoriu": true
+        },
+        {
+          "id": "GB-D1 sau GB-D2",
+          "nume": "Certificat de sustenabilitate (BREEAM/LEED/DGNB/OGNI/EDGE)",
+          "obligatoriu": "una_din: [GB-D1, GB-D2]",
+          "motiv": "niciunul din grup"
+        },
+        {
+          "id": "GB-D4",
+          "nume": "Extras de carte funciara",
+          "obligatoriu": true
+        }
+      ],
+      "documente_recomandate_lipsa": []
+    },
+    {
+      "categorie": "energy_efficiency",
+      "subcategorie": "stocare_energie",
+      "documente_gasite": [
+        {
+          "id": "D-01",
+          "nume": "Cerere de finantare",
+          "fisiere": [
+            "01_cerere_finantare.pdf"
+          ]
+        }
+      ],
+      "documente_lipsa": [
+        {
+          "id": "D-02",
+          "nume": "Decizia de aprobare a creditului (proces standard)",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-03",
+          "nume": "Certificat constatator ONRC (sau echivalent)",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-04",
+          "nume": "Declaratia privind beneficiarul real",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-05",
+          "nume": "Contractul de credit / term sheet (structura finantarii)",
+          "obligatoriu": true
+        },
+        {
+          "id": "EE-D1",
+          "nume": "Audit energetic inainte de investitie",
+          "obligatoriu": true
+        },
+        {
+          "id": "EE-D2",
+          "nume": "Proiectie / masuratori dupa investitie",
+          "obligatoriu": true
+        },
+        {
+          "id": "EE-D3",
+          "nume": "Fisa tehnica a echipamentului (BAT, PUE masurat etc.)",
+          "obligatoriu": true
+        }
+      ],
+      "documente_recomandate_lipsa": []
+    }
+  ],
   "campuri_selectate": [
     "cui",
     "tara",
@@ -117,7 +241,13 @@
     "suprafata_m2",
     "adresa_cladire",
     "stadiu_cladire",
-    "chiriasi"
+    "chiriasi",
+    "tip_proiect",
+    "consum_inainte_mwh",
+    "consum_dupa_mwh",
+    "tehnologie_bat",
+    "industrie_beneficiar",
+    "echipament_combustibil_fosil"
   ],
   "campuri_extrase": {
     "cui": {
@@ -221,8 +351,8 @@
       "incredere": 0.78
     },
     "certificare_stadiu": {
-      "valoare": "de proiect",
-      "valoare_bruta": "de proiect",
+      "valoare": "certificare de proiect",
+      "valoare_bruta": "certificare de proiect",
       "sursa": "01_cerere_finantare.pdf, p.1",
       "citat": "Certificare de sustenabilitate BREEAM Excellent (certificare de proiect)",
       "citat_verificat": true,
@@ -288,6 +418,47 @@
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 0.94
+    },
+    "consum_inainte_mwh": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "consum_dupa_mwh": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "tehnologie_bat": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "industrie_beneficiar": {
+      "valoare": "Închirierea și subînchirierea bunurilor imobiliare proprii sau închiriate",
+      "valoare_bruta": "Închirierea și subînchirierea bunurilor imobiliare proprii sau închiriate",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Cod CAEN activitate principală 6820 – Închirierea și subînchirierea bunurilor imobiliare proprii sau închiriate",
+      "citat_verificat": true,
+      "treapta_cautare": 2,
+      "incredere": 0.76
+    },
+    "echipament_combustibil_fosil": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
     }
   },
   "campuri_lipsa": [
@@ -348,6 +519,41 @@
         "GB-X1"
       ],
       "obligatoriu": true
+    },
+    {
+      "camp": "consum_inainte_mwh",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "EE-D1"
+      ],
+      "pentru": [
+        "EE-01",
+        "impact"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "consum_dupa_mwh",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "EE-D2"
+      ],
+      "pentru": [
+        "EE-01",
+        "impact"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "echipament_combustibil_fosil",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "EE-D3"
+      ],
+      "pentru": [
+        "EE-X1"
+      ],
+      "obligatoriu": true
     }
   ],
   "conflicte": [],
@@ -355,9 +561,9 @@
   "valori_respinse": [],
   "statistici_llm": {
     "apeluri_reale": 0,
-    "apeluri_cache": 5,
+    "apeluri_cache": 6,
     "apeluri_offline": 0,
-    "total_apeluri": 5
+    "total_apeluri": 6
   },
   "apeluri_llm_reale": []
 }

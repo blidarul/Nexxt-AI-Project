@@ -13,7 +13,7 @@
   "cota_banca": {
     "valoare": 0.75,
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.96
   },
   "data_aprobare": {
     "valoare": null,
@@ -23,7 +23,7 @@
   "tara": {
     "valoare": "România",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.97
   },
   "adresa_cladire": {
     "valoare": null,
@@ -64,7 +64,7 @@
     "descriere_proiect": {
       "valoare": "Refinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro), pusă în funcțiune în 2022, cu lac de acumulare propriu.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "incredere": 0.98
+      "incredere": 0.99
     },
     "capacitate_mw": {
       "valoare": 4.8,
@@ -85,11 +85,6 @@
       "valoare": false,
       "sursa": "02_studiu_fezabilitate.pdf, p.1",
       "incredere": 0.98
-    },
-    "densitate_putere_w_m2": {
-      "valoare": 800,
-      "sursa": "02_studiu_fezabilitate.pdf, p.1",
-      "incredere": 0.85
     },
     "eia_risc_semnificativ": {
       "valoare": false,

@@ -46,19 +46,15 @@
       "forta": "slab",
       "fisier": "CONTRACTE_CHIRIASI.pdf",
       "tip_document": "contract_inchiriere"
-    },
-    {
-      "categorie": "renewable_energy",
-      "subcategorie": null,
-      "forta": "slab",
-      "fisier": "TAXONOMIE_UE.pdf",
-      "tip_document": "studiu_impact_mediu"
     }
   ],
   "documente_clasificate": [
     {
       "fisier": "BREEAM.pdf",
       "tip_detectat": "certificat_sustenabilitate",
+      "tip_din_continut": "certificat_sustenabilitate",
+      "tip_din_nume": "certificat_sustenabilitate",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
       "motiv": "Documentul conține informații despre un certificat BREEAM pentru o clădire, cu mențiuni despre schema de evaluare, nivelul de certificare și alte detalii specifice.",
@@ -68,10 +64,13 @@
     },
     {
       "fisier": "BREVIAR_CALCUL_TEHNIC.pdf",
-      "tip_detectat": "studiu_fezabilitate",
+      "tip_detectat": "nota_tehnica",
+      "tip_din_continut": "nota_tehnica",
+      "tip_din_nume": "nota_tehnica",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul prezintă o analiză tehnică și economică a unui proiect fotovoltaic industrial, cu estimări de producție, autoconsum, impact asupra emisiilor de CO2 și detalii tehnice ale echipamentelor, caracteristici ale unui studiu de fezabilitate.",
+      "motiv": "Documentul conține o descriere tehnică detaliată a unui sistem fotovoltaic, cu configurație echipamente, estimare producție, calcul de autoconsum și impact asupra emisiilor de CO2, caracteristică unei note tehnice.",
       "id_cerinte": [
         "RE-D1"
       ]
@@ -79,6 +78,9 @@
     {
       "fisier": "CERERE_FINANTARE.pdf",
       "tip_detectat": "cerere_finantare",
+      "tip_din_continut": "cerere_finantare",
+      "tip_din_nume": "cerere_finantare",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
       "motiv": "Documentul conține o cerere de credit de investiții pentru construirea unui parc logistic cu panouri solare, cu date despre solicitant, suma solicitată, structura finanțării și obiectivul proiectului.",
@@ -89,9 +91,12 @@
     {
       "fisier": "CERTIFICAT_PERFORMANTA.pdf",
       "tip_detectat": "certificat_energetic",
+      "tip_din_continut": "certificat_energetic",
+      "tip_din_nume": "certificat_energetic",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține un certificat de performanță energetică (CPE) cu date privind clasa energetică, consumul de energie și emisiile CO2 ale unei clădiri, emis de un auditor energetic.",
+      "motiv": "Documentul conține un certificat de performanță energetică (CPE) cu date privind clasa energetică, consumul specific de energie și indicele de emisii CO2, care sunt caracteristice unui certificat de performanță energetică.",
       "id_cerinte": [
         "GB-D2"
       ]
@@ -99,32 +104,37 @@
     {
       "fisier": "CONTRACTE_CHIRIASI.pdf",
       "tip_detectat": "contract_inchiriere",
+      "tip_din_continut": "contract_inchiriere",
+      "tip_din_nume": "contract_inchiriere",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o listă de chiriași cu CUI, CAEN, suprafețe închiriate și perioade de contract, fiind un extras de contracte de închiriere.",
+      "motiv": "Documentul prezintă o listă cu chiriașii unui imobil, cu datele lor (CUI, CAEN, suprafață închiriată) și perioadele contractuale, ceea ce corespunde definiției tipului 'contract_inchiriere'.",
       "id_cerinte": [
         "GB-D3"
       ]
     },
     {
       "fisier": "RASPUNS_ANAF.pdf",
-      "tip_detectat": "certificat_constatator",
+      "tip_detectat": "raspuns_anaf",
+      "tip_din_continut": "raspuns_anaf",
+      "tip_din_nume": "raspuns_anaf",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține date de identificare ale firmei (CUI, denumire, Registrul Comerțului, sediu, CAEN) și informații despre stare fiscală, ceea ce corespunde cu un certificat constatator ONRC / extras de registrul comerțului.",
-      "id_cerinte": [
-        "D-03"
-      ]
+      "motiv": "Documentul conține informații privind starea fiscală a firmei, conform cu fișa ANAF, cu date precum CUI, denumire contribuabil, stare înregistrare fiscală, status inactivitate, stare plătitor TVA și cazier fiscal.",
+      "id_cerinte": []
     },
     {
       "fisier": "TAXONOMIE_UE.pdf",
-      "tip_detectat": "studiu_impact_mediu",
+      "tip_detectat": "raport_taxonomie_ue",
+      "tip_din_continut": "raport_taxonomie_ue",
+      "tip_din_nume": "raport_taxonomie_ue",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o evaluare tehnică aliniată la Taxonomia UE, verifică principiile DNSH pentru mai multe obiective de sustenabilitate, inclusiv adaptarea la schimbările climatice, utilizarea durabilă a resurselor, tranziția către economie circulară, prevenirea poluării și protecția biodiversității, ceea ce este caracteristic unui studiu de impact asupra mediului.",
-      "id_cerinte": [
-        "RE-D4"
-      ]
+      "motiv": "Documentul conține un raport de evaluare tehnică DNSH (Do No Significant Harm) în conformitate cu Regulamentul Taxonomiei UE 2020/852, care este specific menționat în listă. Conține verificări ale principiilor DNSH pentru mai multe obiective, inclusiv atenuarea schimbărilor climatice, adaptarea la schimbările climatice, utilizarea durabilă a resurselor de apă, tranziția către o economie circulară, prevenirea poluării și protecția biodiversității. Concluzia auditului confirmă respectarea cerințelor Taxonomiei UE pentru construcția de clădiri noi.",
+      "id_cerinte": []
     }
   ],
   "documente_gasite": [
@@ -133,13 +143,6 @@
       "nume": "Cerere de finantare",
       "fisiere": [
         "CERERE_FINANTARE.pdf"
-      ]
-    },
-    {
-      "id": "D-03",
-      "nume": "Certificat constatator ONRC (sau echivalent)",
-      "fisiere": [
-        "RASPUNS_ANAF.pdf"
       ]
     },
     {
@@ -168,6 +171,11 @@
     {
       "id": "D-02",
       "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
       "obligatoriu": true
     },
     {
@@ -200,13 +208,6 @@
           ]
         },
         {
-          "id": "D-03",
-          "nume": "Certificat constatator ONRC (sau echivalent)",
-          "fisiere": [
-            "RASPUNS_ANAF.pdf"
-          ]
-        },
-        {
           "id": "GB-D1",
           "nume": "Certificat de sustenabilitate (BREEAM/LEED/DGNB/OGNI/EDGE)",
           "fisiere": [
@@ -232,6 +233,11 @@
         {
           "id": "D-02",
           "nume": "Decizia de aprobare a creditului (proces standard)",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-03",
+          "nume": "Certificat constatator ONRC (sau echivalent)",
           "obligatoriu": true
         },
         {
@@ -264,24 +270,10 @@
           ]
         },
         {
-          "id": "D-03",
-          "nume": "Certificat constatator ONRC (sau echivalent)",
-          "fisiere": [
-            "RASPUNS_ANAF.pdf"
-          ]
-        },
-        {
           "id": "RE-D1",
           "nume": "Studiu de fezabilitate / fisa tehnica a centralei",
           "fisiere": [
             "BREVIAR_CALCUL_TEHNIC.pdf"
-          ]
-        },
-        {
-          "id": "RE-D4",
-          "nume": "Studiu de impact asupra mediului (EIA)",
-          "fisiere": [
-            "TAXONOMIE_UE.pdf"
           ]
         }
       ],
@@ -289,6 +281,11 @@
         {
           "id": "D-02",
           "nume": "Decizia de aprobare a creditului (proces standard)",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-03",
+          "nume": "Certificat constatator ONRC (sau echivalent)",
           "obligatoriu": true
         },
         {
@@ -313,6 +310,12 @@
         }
       ],
       "documente_recomandate_lipsa": [
+        {
+          "id": "RE-D4",
+          "nume": "Studiu de impact asupra mediului (EIA)",
+          "obligatoriu": "doar hidro nou",
+          "conditie": "doar hidro nou"
+        },
         {
           "id": "RE-D5",
           "nume": "Analiza de ciclu de viata (LCA) a emisiilor",
@@ -358,12 +361,12 @@
   "campuri_extrase": {
     "cui": {
       "valoare": "9900000020",
-      "valoare_bruta": "9900000020",
-      "sursa": "RASPUNS_ANAF.pdf, p.1",
-      "citat": "Cod Unic de Înregistrare (CUI): 9900000020",
+      "valoare_bruta": "RO 9900000020",
+      "sursa": "CERERE_FINANTARE.pdf, p.1",
+      "citat": "• CUI: RO 9900000020 | Nr. Reg. Com.: J23/1100/2023",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.99
+      "incredere": 0.98
     },
     "tara": {
       "valoare": "România",
@@ -414,7 +417,7 @@
       "citat": "• Structură finanțare: Credit bancar 60% (25.000.000 EUR), Surse proprii 40% (17.000.000 EUR)",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.95
     },
     "descriere_proiect": {
       "valoare": "Credit de investiții - construire parc logistic cu panouri solare",
@@ -427,11 +430,12 @@
     },
     "afirmatii_client": {
       "valoare": [
-        "Obiectiv: Dezvoltarea depozitului logistic verde \"Solar Logistics Center\""
+        "Certificare declarată: BREEAM Excellent (Certificat nr. BREEAM-EXEMPLU-0002)",
+        "Performanță energetică declarată: Clasa A (Consum specific 85 kWh/m²/an)"
       ],
       "valoare_bruta": null,
       "sursa": "CERERE_FINANTARE.pdf, p.1",
-      "citat": "Obiectiv: Dezvoltarea depozitului logistic verde \"Solar Logistics Center\"",
+      "citat": "Certificare declarată: BREEAM Excellent (Certificat nr. BREEAM-EXEMPLU-0002); Performanță energetică declarată: Clasa A (Consum specific 85 kWh/m²/an)",
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 1.0,
@@ -444,7 +448,7 @@
       "citat": "Schema BREEAM: International V6 New Construction: Industrial",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.99
+      "incredere": 0.98
     },
     "certificare_nivel": {
       "valoare": "EXCELLENT",
@@ -453,7 +457,7 @@
       "citat": "Nivel Certificare (Rating): EXCELLENT",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.97
     },
     "certificare_stadiu": {
       "valoare": "Final Certificate",
@@ -462,7 +466,7 @@
       "citat": "Etapa Evaluării: Final Certificate",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.97
+      "incredere": 0.96
     },
     "nr_certificat_declarat": {
       "valoare": "BREEAM-EXEMPLU-0002",
@@ -471,7 +475,7 @@
       "citat": "• Certificare declarată: BREEAM Excellent (Certificat nr. BREEAM-EXEMPLU-0002)",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.95
     },
     "epc_clasa": {
       "valoare": "A",
@@ -516,7 +520,7 @@
       "citat": "• Adresă: Com. Ștefăneștii de Jos, Str. Tineretului nr. 45, Jud. Ilfov",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.95
     },
     "stadiu_cladire": {
       "valoare": "În curs de finalizare",
@@ -531,22 +535,35 @@
       "valoare": 2.5,
       "valoare_bruta": "2.5 MWp",
       "sursa": "BREVIAR_CALCUL_TEHNIC.pdf, p.1",
-      "citat": "BREVIAR DE CALCUL - SISTEM FOTOVOLTAIC INDUSTRIAL\n2.5 MWp",
+      "citat": "2.5 MWp",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.99
     },
     "productie_anuala_mwh": {
       "valoare": 2950.0,
       "valoare_bruta": "2.950 MWh/an",
       "sursa": "BREVIAR_CALCUL_TEHNIC.pdf, p.1",
-      "citat": "- Producție Totală Estimată Anuală: 2.950 MWh/an",
+      "citat": "Producție Totală Estimată Anuală: 2.950 MWh/an",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.98
     },
     "chiriasi": {
+      "valoare": [
+        {
+          "nume": "DHL Logistics SRL",
+          "caen": "5210",
+          "m2": 20000.0
+        },
+        {
+          "nume": "Kuehne+Nagel SRL",
+          "caen": "5224",
+          "m2": 11500.0
+        }
+      ],
       "numar_chiriasi": 2,
+      "fara_caen": [],
       "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
       "citat": "Chiriaș 1: DHL Logistics SRL | CUI 9900000101 | CAEN 5210 | Suprafață: 20.000 m² (57%) | Contract: 2025-2035; Chiriaș 2: Kuehne+Nagel SRL | CUI 9900000102 | CAEN 5224 | Suprafață: 11.500 m² (33%) | Contract: 2025-2033",
       "citat_verificat": true,
@@ -580,111 +597,12 @@
   ],
   "conflicte": [],
   "conversii_unitati": [],
-  "valori_respinse": [
-    {
-      "camp": "cui",
-      "valoare_bruta": "RO 9900000020",
-      "citat": "• CUI: RO 9900000020 | Nr. Reg. Com.: J23/1100/2023",
-      "fisier": "CERERE_FINANTARE.pdf",
-      "motiv": "normalizare_sau_validare_esuata: Valoarea 'RO 9900000020' nu corespunde tiparului cerut (^[0-9]{2,10}$)"
-    }
-  ],
+  "valori_respinse": [],
   "statistici_llm": {
-    "apeluri_reale": 15,
-    "apeluri_cache": 0,
+    "apeluri_reale": 0,
+    "apeluri_cache": 12,
     "apeluri_offline": 0,
-    "total_apeluri": 15
+    "total_apeluri": 12
   },
-  "apeluri_llm_reale": [
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "25df21e7f2df51401ae044ebc7b202a28ad756b9fb1b4792c9797ef32431a86f"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "2b4cbc6c208ef38df21dec974eef2eaaef9adfedda609a8fbd06db385fe21383"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "4b6fca038cd8197a0c0d49db4d3bb26f80f2e1e7e952a6c7a09e744c9ae89d49"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "9bde5419f8a61496050d4888a26b482c950e96c738d2da9b7b98446352915aa0"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "28c98b4a32ec87ef14b674b543eeee6691f20a38198c09ef02880d2ecdcac8cd"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "0b050a89d17ff6fc5c581749526238877ec938294e8ccde841f9225eb529344b"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "72b98d48bc5e8f8e5a4bf105cab0365be9dc06ca5890de702a975de9a7d7fd5c"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "bd284ee56b138485af3740ef582b629fc2450c68f890fd438631daafde8234e9"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "1b67524005fe6542a16b2d1c4d811a02016ab4a6999505e4bfaae9f8d733b7ac"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "33772b62538190573f111d924395603a4c89c5b94999b0273f75c75cc843b066"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "bfc9fb50011c0b9e30a290e60df965a96764de2497dd33f9803d542795971237"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "1bed278ef9f376f516ed6c4e3c42a6f92bb575018193f4fdc482b3b1d9d11d5d"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": false,
-      "cheie_cache": "b589ee85d615fd8169a19523da338a5852b853894ce8df43a50732e2b6e58bf4"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "9ad91858a0968b1a1b72caa226e0eed2a05dbd4e04fb531f5efe27c0be8b6cad"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "21a26c9765a5c70766658073058a8244100ec0fba015d7275f7e854ecda0d447"
-    }
-  ]
+  "apeluri_llm_reale": []
 }

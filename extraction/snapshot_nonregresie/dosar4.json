@@ -2,74 +2,120 @@
   "dosar_id": "dosar4",
   "cui": {
     "valoare": "9900000040",
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.99
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+    "incredere": 0.98
   },
   "suma_eur": {
     "valoare": 18000000,
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
     "incredere": 0.95
   },
   "cota_banca": {
     "valoare": 0.64,
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.98
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+    "incredere": 0.95
   },
   "data_aprobare": {
-    "valoare": "2026-02-18",
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.98
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
   },
   "tara": {
     "valoare": "România",
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
     "incredere": 0.95
   },
   "adresa_cladire": {
     "valoare": "Mogoșoaia, Sos. București-Târgoviște nr. 88",
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.98
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+    "incredere": 0.95
   },
   "suprafata_m2": {
     "valoare": 15000,
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
     "incredere": 0.95
   },
   "stadiu_cladire": {
-    "valoare": "În construcție (Progres fizic: 40%)",
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "valoare": "În construcție",
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
     "incredere": 0.95
   },
   "nr_certificat_declarat": {
     "valoare": "BREEAM-EXEMPLU-0004",
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.98
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+    "incredere": 0.95
   },
   "epc_clasa": {
     "valoare": "A",
     "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
-    "incredere": 0.98
+    "incredere": 0.99
   },
   "epc_energie_finala": {
-    "valoare": 81.0,
+    "valoare": 81,
     "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.98
   },
   "epc_suprafata_m2": {
     "valoare": 15000,
     "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.97
   },
-  "chiriasi": [
-    {
-      "nume": "Eco Market SRL",
-      "cui": "9900000301",
-      "caen": "4711",
-      "m2": 1200.0,
-      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
-      "incredere": 0.95
-    }
+  "chiriasi": [],
+  "afirmatii_client": [
+    "Certificare declarată: BREEAM Very Good (Certificat nr. BREEAM-EXEMPLU-0004)",
+    "Performanță energetică declarată: Clasa A (Consum specific 98 kWh/m²/an)"
   ],
-  "afirmatii_client": [],
-  "indicatori": {}
+  "categorie": {
+    "valoare": "green_buildings",
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+    "incredere": 0.9
+  },
+  "subcategorie": {
+    "valoare": "cladire_noua_sau_existenta",
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+    "incredere": 0.9
+  },
+  "indicatori": {
+    "descriere_proiect": {
+      "valoare": "Construcție ansamblu rezidențial verde \"Eco Village Mogoșoaia\"",
+      "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+      "incredere": 0.95
+    },
+    "certificare_sistem": {
+      "valoare": "BREEAM",
+      "sursa": "BREEAM.pdf, p.1",
+      "incredere": 0.98
+    },
+    "certificare_nivel": {
+      "valoare": "VERY GOOD",
+      "sursa": "BREEAM.pdf, p.1",
+      "incredere": 0.98
+    },
+    "certificare_stadiu": {
+      "valoare": "Design Stage Certificate",
+      "sursa": "BREEAM.pdf, p.1",
+      "incredere": 0.98
+    },
+    "ped_kwh_m2": {
+      "valoare": 98,
+      "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+      "incredere": 0.98
+    },
+    "energie_finala_kwh_m2": {
+      "valoare": 81,
+      "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+      "incredere": 0.98
+    },
+    "chiriasi": {
+      "valoare": [
+        {
+          "nume": "Eco Market SRL",
+          "caen": null,
+          "m2": 1200.0
+        }
+      ],
+      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
+      "incredere": 1.0
+    }
+  }
 }
