@@ -4,7 +4,7 @@ requests>=2.31
 pytest>=8
 reportlab>=4
 python-dotenv>=1.0
-# streamlit       # D: interfata de demo
+streamlit>=1.30       # D: interfata de demo
 pdfplumber>=0.11
 openai>=1.0
 pypdfium2>=4.0

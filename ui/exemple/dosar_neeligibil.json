@@ -1,0 +1,136 @@
+{
+  "dosar_id": "demo_neeligibil_renovare_insuficienta",
+  "verdict": "NEELIGIBIL",
+  "cale_eligibilitate": null,
+  "reguli": [
+    {
+      "regula_id": "G-01",
+      "rezultat": "OK",
+      "dovada": "Tara: Romania (Anexa B)",
+      "sursa_framework": "Anexa B, p. 26"
+    },
+    {
+      "regula_id": "G-02",
+      "rezultat": "OK",
+      "dovada": "CAEN imprumutat 6820 - imobiliare, nu e sector exclus",
+      "sursa_framework": "Anexa A, p. 25"
+    },
+    {
+      "regula_id": "G-04",
+      "rezultat": "OK",
+      "dovada": "Aprobat 2026-01-10, in fereastra de 24 luni",
+      "sursa_framework": "p. 6"
+    },
+    {
+      "regula_id": "GB-01",
+      "rezultat": "NU",
+      "dovada": "Lipsa certificat verde eligibil BREEAM/LEED/DGNB in registrele oficiale",
+      "sursa_framework": "Framework p.7"
+    },
+    {
+      "regula_id": "GB-03",
+      "rezultat": "NU",
+      "dovada": "EPC clasa C (185.4 kWh/m2/an), depaseste pragul clasei A",
+      "sursa_framework": "Framework p.7, Calea EPC"
+    },
+    {
+      "regula_id": "GB-R1",
+      "rezultat": "NU",
+      "dovada": "Renovare majora: reducere consum energie primara estimata la 18.5%, sub pragul minim cerut de 30%",
+      "sursa_framework": "Framework p.8, Renovari"
+    }
+  ],
+  "impact_tco2_an": null,
+  "impact_detalii": {
+    "status": "Neeligibil - emisiile nu pot fi incluse in portofoliul Green Bond",
+    "motiv": "Proiectul nu atinge pragul minim de economisire energie (30%) cerut de Cadrul Green Bond RBI."
+  },
+  "actiuni": [
+    "Refuz includere in portofoliul Green Bond: nicio cale de eligibilitate indeplinita (GB-01, GB-03, GB-R1 picate)",
+    "Informare ofiter de credit si client: proiectul necesita audit energetic revizuit cu masuri suplimentare de eficienta pentru a atinge reducerea de 30%"
+  ],
+  "trace": [
+    {
+      "pas": 1,
+      "tip": "tool",
+      "actiune": "verifica_firma",
+      "argumente": {
+        "cui": "9900000088"
+      },
+      "motiv": "Verificare date identificare firmă și cod CAEN pentru CUI 9900000088 în registrul ANAF",
+      "timestamp": "2026-10-29T01:44:00",
+      "rezultat": {
+        "tool": "verifica_firma",
+        "gasit": true,
+        "eroare": null
+      }
+    },
+    {
+      "pas": 2,
+      "tip": "tool",
+      "actiune": "evalueaza_conditii_generale",
+      "argumente": {},
+      "motiv": "Evaluare condiții generale G-01 (țară), G-02 (sector exclus), G-04 (fereastră 24 luni)",
+      "timestamp": "2026-10-29T01:44:00",
+      "rezultat": {
+        "tool": "evalueaza_conditii_generale",
+        "gasit": true,
+        "eroare": null
+      }
+    },
+    {
+      "pas": 3,
+      "tip": "tool",
+      "actiune": "cauta_certificat",
+      "argumente": {
+        "nr_certificat": "NECERTIFICAT"
+      },
+      "motiv": "Căutare certificat verde declarat în registre oficiale",
+      "timestamp": "2026-10-29T01:44:00",
+      "rezultat": {
+        "tool": "cauta_certificat",
+        "gasit": false,
+        "eroare": "Certificatul nu a fost gasit in registrul BREEAM/LEED"
+      }
+    },
+    {
+      "pas": 4,
+      "tip": "tool",
+      "actiune": "evalueaza_cale",
+      "argumente": {
+        "cale_id": "GB-01"
+      },
+      "motiv": "Evaluare cale principală GB-01 – eșuată (lipsă certificat)",
+      "timestamp": "2026-10-29T01:44:00",
+      "rezultat": {
+        "tool": "evalueaza_cale",
+        "gasit": false,
+        "eroare": null
+      }
+    },
+    {
+      "pas": 5,
+      "tip": "tool",
+      "actiune": "evalueaza_cale",
+      "argumente": {
+        "cale_id": "GB-03"
+      },
+      "motiv": "Evaluare cale alternativă GB-03 (EPC clasa A) – eșuată (EPC clasa C)",
+      "timestamp": "2026-10-29T01:44:00",
+      "rezultat": {
+        "tool": "evalueaza_cale",
+        "gasit": false,
+        "eroare": null
+      }
+    },
+    {
+      "pas": 6,
+      "tip": "final",
+      "actiune": null,
+      "argumente": {},
+      "motiv": "Nicio cale de eligibilitate îndeplinită – dosar declarat NEELIGIBIL",
+      "timestamp": "2026-10-29T01:44:00",
+      "rezultat": "final"
+    }
+  ]
+}
