@@ -37,12 +37,14 @@ from extraction.cerinte import (
     campuri_cerute,
     documente_cerute,
     este_obligatoriu,
+    evalueaza_documente,
     id_pentru_document,
     incarca_tipuri_documente,
 )
 from extraction.clasificare import clasifica_document
 from extraction.extrage_brut import proceseaza_dosar as ruleaza_etapa_1
 from extraction.extragere_campuri import (
+    extrage_afirmatii_determinist,
     extrage_campuri_document_llm,
     extrage_chiriasi_determinist,
 )
@@ -81,6 +83,12 @@ ALIASURI_ETAPA2 = {
 }
 
 TIPURI_LISTA = {"lista", "lista_chiriasi"}
+
+# Valoarea cu citat reconstituit determinist (LLM-ul nu a dat citat) are încrederea redusă
+FACTOR_CITAT_RECONSTITUIT = 0.8
+
+# campuri.yaml: metoda pentru câmpurile extrase determinist, fără LLM
+METODA_AFIRMATII = "determinist_afirmatii"
 
 
 def incarca_documente_brute(folder_dosar: Path) -> list[dict[str, Any]]:
@@ -284,6 +292,8 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
     dosar_id = folder_dosar.name
     llm_client = get_llm_client()
     catalog_campuri = incarca_catalog_campuri()
+    statistici_start = llm_client.get_statistici()
+    index_apeluri_start = len(llm_client.apeluri_reale_detalii)
 
     # 1. Încarcă documentele din Etapa 1
     documente_brute = incarca_documente_brute(folder_dosar)
@@ -328,6 +338,9 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
     ]
     campuri_lista = [c for c in campuri_de_extras if catalog_campuri.get(c, {}).get("tip") in TIPURI_LISTA]
     campuri_scalare = [c for c in campuri_de_extras if c not in campuri_lista]
+    # Câmpurile cu extragere deterministă dedicată nu trec prin LLM
+    campuri_deterministe = [c for c in campuri_scalare if catalog_campuri.get(c, {}).get("metoda") == METODA_AFIRMATII]
+    campuri_llm = [c for c in campuri_scalare if c not in campuri_deterministe]
 
     def este_camp_obligatoriu(camp: str) -> bool:
         return este_obligatoriu(selectate[camp]) or bool(catalog_campuri.get(camp, {}).get("obligatoriu", False))
@@ -339,7 +352,7 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
 
     # --- TREAPTA 1 (Țintită: documentele cerute pentru câmp) ---
     alocari_t1 = {}
-    for camp in campuri_scalare:
+    for camp in campuri_llm:
         info_c = catalog_campuri.get(camp, {})
         tinta = documente_tinta(selectate[camp], info_c, documente_clasificate)
         documente_incercate[camp] = {d.get("fisier") for d in tinta}
@@ -359,7 +372,12 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
         _adauga_candidati_llm(extrase_llm, date_grup, 1, candidati_per_camp, treapta_gasire)
 
     # --- TREAPTA 2 (Extinsă: câmpuri obligatorii lipsă, în restul documentelor) ---
-    campuri_lipsa_t1 = [c for c in campuri_scalare if este_camp_obligatoriu(c) and not candidati_per_camp[c]]
+    # Câmpurile cu cautare_extinsa: false (ex. date cu sens precis) rămân doar în documentele lor.
+    campuri_lipsa_t1 = [
+        c for c in campuri_llm
+        if este_camp_obligatoriu(c) and not candidati_per_camp[c]
+        and catalog_campuri.get(c, {}).get("cautare_extinsa", True) is not False
+    ]
     if campuri_lipsa_t1:
         alocari_t2 = {}
         for camp in campuri_lipsa_t1:
@@ -439,13 +457,16 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
                 cand["tip_document"] in doc_probabile
                 or bool(doc_probabile.intersection(doc_c.get("id_cerinte") or []))
             )
+            pagina_citat = next((p for p in doc_c.get("pagini", []) if p.get("pagina") == pag_reala), {})
             incredere_calc = calculeaza_incredere_finala(
                 incredere_llm=cand["incredere_llm"],
                 citat_verificat=True,
                 normalizare_reusita=True,
                 este_document_probabil=este_doc_probabil,
-                provine_din_ocr=False,
+                provine_din_ocr=bool(pagina_citat.get("ocr")),
             )
+            if citat_reconstituit:
+                incredere_calc = round(incredere_calc * FACTOR_CITAT_RECONSTITUIT, 2)
             sursa = sursa_calc or f"{cand['fisier']}, p.{pag_reala}"
 
             campuri_finale_valide[camp].append({
@@ -481,6 +502,20 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
                     "valoare": ales["valoare_normalizata"],
                     "sursa": ales["sursa"],
                 })
+
+    # --- Câmpuri deterministe (afirmațiile clientului) ---
+    for camp in campuri_deterministe:
+        tinta = documente_tinta(selectate[camp], catalog_campuri.get(camp, {}), documente_clasificate)
+        afirmatii, sursa_af, citate_af = extrage_afirmatii_determinist(tinta, catalog_campuri.get(camp, {}))
+        valori_selectate[camp] = {
+            "valoare_normalizata": afirmatii,
+            "sursa": sursa_af or "",
+            "incredere": 1.0,
+            "citat": "; ".join(citate_af),
+            "citat_verificat": True,
+            "treapta": 1,
+            "metoda": METODA_AFIRMATII,
+        } if afirmatii else None
 
     # --- Liste: chiriași (determinist, Etapa 2) și liste din tabele (ex. vehicule) ---
     chiriasi_extrasi, sursa_chiriasi, citat_chiriasi = [], None, None
@@ -612,6 +647,9 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
             }
             if ales.get("citat_reconstituit"):
                 campuri_raport[camp]["citat_reconstituit"] = True
+                campuri_raport[camp]["factor_incredere_citat_reconstituit"] = FACTOR_CITAT_RECONSTITUIT
+            if ales.get("metoda"):
+                campuri_raport[camp]["metoda"] = ales["metoda"]
         else:
             campuri_raport[camp] = {
                 "valoare": None,
@@ -641,19 +679,38 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
             "nr_randuri_brute": rez["nr_randuri_brute"],
         }
 
+    # --- Documente găsite / lipsă (pe ID-urile din cerinte_dosar.yaml) ---
+    evaluari_documente = [
+        {
+            "categorie": c["categorie"],
+            "subcategorie": c.get("subcategorie"),
+            **evalueaza_documente(c["categorie"], c.get("subcategorie"), c.get("tip_nivel_3"), documente_clasificate),
+        }
+        for c in candidati_categorie
+    ] or [{"categorie": None, "subcategorie": None, **evalueaza_documente(None, None, None, documente_clasificate)}]
+    principal_doc = evaluari_documente[0]
+
     raport_extractie = {
         "dosar_id": dosar_id,
         "categorie_candidati": candidati_categorie,
         "categorie_ambigua": rezultat_categorie["ambiguu"],
         "indicii_categorie": rezultat_categorie["indicii"],
         "documente_clasificate": raport_documente,
+        "documente_gasite": principal_doc["documente_gasite"],
+        "documente_lipsa": principal_doc["documente_lipsa"],
+        "documente_recomandate_lipsa": principal_doc["documente_recomandate_lipsa"],
+        **({"documente_per_candidat": evaluari_documente} if len(evaluari_documente) > 1 else {}),
         "campuri_selectate": list(selectate),
         "campuri_extrase": campuri_raport,
         "campuri_lipsa": campuri_lipsa,
         "conflicte": conflicte_totale,
         "conversii_unitati": conversii_unitati,
         "valori_respinse": valori_respinse,
-        "statistici_llm": llm_client.get_statistici(),
+        "statistici_llm": {
+            k: v - statistici_start.get(k, 0) for k, v in llm_client.get_statistici().items()
+        },
+        # Un rând per apel real făcut pentru acest dosar: modelul cerut și cel raportat de API
+        "apeluri_llm_reale": llm_client.apeluri_reale_detalii[index_apeluri_start:],
     }
 
     # Salvare în folderul _extras

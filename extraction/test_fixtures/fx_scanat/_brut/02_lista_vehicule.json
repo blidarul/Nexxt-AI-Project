@@ -1,0 +1,45 @@
+{
+  "fisier": "02_lista_vehicule.pdf",
+  "dosar": "fx_scanat",
+  "tip_document": "necunoscut",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:58",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nANEXA FLOTĂ – Lista vehiculelor finanțate\nMarca Model Combustibil Nr. buc. CO2 WLTP Km/an\n(g/km)\nExemplu City-EV electric 5 0 15.000\nExemplu Cargo-PHEV hibrid plug-in 3 52 15.000",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Marca",
+              "Model",
+              "Combustibil",
+              "Nr. buc.",
+              "CO2 WLTP (g/km)",
+              "Km/an"
+            ],
+            [
+              "Exemplu",
+              "City-EV",
+              "electric",
+              "5",
+              "0",
+              "15.000"
+            ],
+            [
+              "Exemplu",
+              "Cargo-PHEV",
+              "hibrid plug-in",
+              "3",
+              "52",
+              "15.000"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

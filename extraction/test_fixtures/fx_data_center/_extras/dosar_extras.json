@@ -13,7 +13,7 @@
   "cota_banca": {
     "valoare": 0.8,
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.96
+    "incredere": 0.95
   },
   "data_aprobare": {
     "valoare": null,
@@ -23,7 +23,7 @@
   "tara": {
     "valoare": "România",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.97
+    "incredere": 0.95
   },
   "adresa_cladire": {
     "valoare": null,
@@ -64,7 +64,7 @@
     "descriere_proiect": {
       "valoare": "Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "incredere": 0.94
+      "incredere": 0.95
     },
     "pue_anualizat": {
       "valoare": 1.38,

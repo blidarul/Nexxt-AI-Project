@@ -18,32 +18,32 @@
   "data_aprobare": {
     "valoare": "2026-03-15",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.97
+    "incredere": 0.99
   },
   "tara": {
     "valoare": "România",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.9
   },
   "adresa_cladire": {
     "valoare": "București, Sector 2, Str. Exemplului nr. 10",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.98
   },
   "suprafata_m2": {
     "valoare": 20000,
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.97
   },
   "stadiu_cladire": {
     "valoare": "Finalizată, în exploatare",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.98
   },
   "nr_certificat_declarat": {
     "valoare": "BREEAM-EXEMPLU-0001",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.96
+    "incredere": 0.99
   },
   "epc_clasa": {
     "valoare": "A",
@@ -58,7 +58,7 @@
   "epc_suprafata_m2": {
     "valoare": 20000,
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.97
   },
   "chiriasi": [
     {
@@ -77,7 +77,11 @@
       "m2": 1000.0
     }
   ],
-  "afirmatii_client": [],
+  "afirmatii_client": [
+    "Clădirea deține certificare BREEAM Excellent.",
+    "Clădirea are certificat energetic clasa A.",
+    "Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România."
+  ],
   "categorie": {
     "valoare": "green_buildings",
     "sursa": "01_cerere_finantare.pdf, p.1",

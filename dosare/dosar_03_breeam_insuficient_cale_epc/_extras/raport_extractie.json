@@ -62,6 +62,57 @@
       ]
     }
   ],
+  "documente_gasite": [
+    {
+      "id": "D-01",
+      "nume": "Cerere de finantare",
+      "fisiere": [
+        "01_cerere_finantare.pdf"
+      ]
+    },
+    {
+      "id": "GB-D2",
+      "nume": "Certificat de performanta energetica (EPC)",
+      "fisiere": [
+        "03_certificat_energetic.pdf"
+      ]
+    },
+    {
+      "id": "GB-D3",
+      "nume": "Contracte de inchiriere / lista chiriasilor",
+      "fisiere": [
+        "04_contract_inchiriere_extras.pdf"
+      ]
+    }
+  ],
+  "documente_lipsa": [
+    {
+      "id": "D-02",
+      "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-04",
+      "nume": "Declaratia privind beneficiarul real",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-05",
+      "nume": "Contractul de credit / term sheet (structura finantarii)",
+      "obligatoriu": true
+    },
+    {
+      "id": "GB-D4",
+      "nume": "Extras de carte funciara",
+      "obligatoriu": true
+    }
+  ],
+  "documente_recomandate_lipsa": [],
   "campuri_selectate": [
     "cui",
     "tara",
@@ -103,8 +154,7 @@
       "citat": "Țara România",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95,
-      "citat_reconstituit": true
+      "incredere": 0.95
     },
     "aprobat_proces_standard": {
       "valoare": null,
@@ -159,13 +209,17 @@
       "incredere": 0.95
     },
     "afirmatii_client": {
-      "valoare": "Clădirea deține certificare BREEAM. Clădirea are certificat energetic clasa A.",
-      "valoare_bruta": "Clădirea deține certificare BREEAM. Clădirea are certificat energetic clasa A.",
+      "valoare": [
+        "Clădirea deține certificare BREEAM.",
+        "Clădirea are certificat energetic clasa A."
+      ],
+      "valoare_bruta": null,
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Clădirea deține certificare BREEAM. Clădirea are certificat energetic clasa A.",
+      "citat": "Clădirea deține certificare BREEAM.; Clădirea are certificat energetic clasa A.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 1.0,
+      "metoda": "determinist_afirmatii"
     },
     "certificare_sistem": {
       "valoare": "BREEAM",
@@ -233,7 +287,7 @@
       "valoare": 12000,
       "valoare_bruta": "12.000 m²",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Suprafața utilă (declarată) 12.000 m²",
+      "citat": "Suprafață utilă (declarată) 12.000 m²",
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 0.95
@@ -293,9 +347,17 @@
   "conversii_unitati": [],
   "valori_respinse": [],
   "statistici_llm": {
-    "apeluri_reale": 0,
-    "apeluri_cache": 28,
+    "apeluri_reale": 1,
+    "apeluri_cache": 8,
     "apeluri_offline": 0,
-    "total_apeluri": 28
-  }
+    "total_apeluri": 9
+  },
+  "apeluri_llm_reale": [
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "e521db5a656872bf6cf92c1a0d09ebe545f5babbcc6035884e19199e926fa36e"
+    }
+  ]
 }

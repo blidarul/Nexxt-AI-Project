@@ -1,7 +1,9 @@
 """Modul pentru extragerea valorilor câmpurilor folosind tabele markdown și apeluri LLM."""
 
 import json
+import re
 from typing import Any, Optional
+import unicodedata
 
 from contracts import Chirias
 from extraction.llm_client import LLMClient, get_llm_client
@@ -122,6 +124,88 @@ def extrage_chiriasi_determinist(
                         return chiriasi_gasiti, sursa, citat
 
     return [], None, None
+
+
+_BULLET = re.compile(r"^\s*[•\-\*–·▪]\s+")
+_TITLU_NUMEROTAT = re.compile(r"^\s*\d+[\.\)]\s+\S")
+
+
+def _norm(text: str) -> str:
+    nfkd = unicodedata.normalize("NFKD", text or "")
+    return "".join(c for c in nfkd if not unicodedata.combining(c)).lower()
+
+
+def extrage_afirmatii_determinist(
+    documente: list[dict[str, Any]],
+    info_camp: dict[str, Any],
+) -> tuple[list[str], Optional[str], list[str]]:
+    """Afirmațiile de sustenabilitate ale clientului, extrase determinist din text.
+
+    Se păstrează:
+    - toate bullet-urile/frazele din secțiunea de declarații (titluri_sectiune din campuri.yaml);
+    - în restul documentului, bullet-urile și frazele încheiate cu punct care conțin un cuvânt
+      din cuvinte_afirmatii (rândurile de formular din tabele se ignoră).
+    Bullet-urile continuate pe rândul următor se unesc. Întoarce (afirmatii, sursa, citate).
+    """
+    titluri = [_norm(t) for t in info_camp.get("titluri_sectiune") or []]
+    cuvinte = [_norm(c) for c in info_camp.get("cuvinte_afirmatii") or []]
+    afirmatii: list[str] = []
+    surse: list[str] = []
+
+    def adauga(text: str, fisier: str, pagina: int, in_sectiune: bool) -> None:
+        text = re.sub(r"\s+", " ", text).strip()
+        if len(text) < 8 or text in afirmatii:
+            return
+        if in_sectiune or any(c in _norm(text) for c in cuvinte):
+            afirmatii.append(text)
+            surse.append(f"{fisier}, p.{pagina}")
+
+    for doc in documente:
+        fisier = doc.get("fisier", "")
+        for pag in doc.get("pagini", []):
+            nr = pag.get("pagina", 1)
+            randuri_tabel = {
+                _norm(" ".join(str(c) for c in r)).strip()
+                for t in pag.get("tabele", []) for r in t.get("randuri", [])
+            }
+            in_sectiune = False
+            curent: Optional[str] = None
+
+            def inchide_bullet() -> None:
+                nonlocal curent
+                if curent is not None:
+                    adauga(curent, fisier, nr, in_sectiune)
+                    curent = None
+
+            for linie in (pag.get("text") or "").splitlines():
+                linie_norm = _norm(linie).strip()
+                if not linie_norm:
+                    inchide_bullet()
+                    continue
+                este_titlu = any(t in linie_norm for t in titluri)
+                if este_titlu or _TITLU_NUMEROTAT.match(linie):
+                    inchide_bullet()
+                    in_sectiune = este_titlu
+                    continue
+                if _BULLET.match(linie):
+                    inchide_bullet()
+                    curent = _BULLET.sub("", linie)
+                    continue
+                if curent is not None and not curent.rstrip().endswith("."):
+                    curent += " " + linie.strip()  # bullet continuat pe rândul următor
+                    continue
+                inchide_bullet()
+                if linie_norm in randuri_tabel:
+                    continue  # rând de formular (cheie | valoare), nu o afirmație
+                if in_sectiune:
+                    adauga(linie, fisier, nr, True)
+                elif linie.strip().endswith(".") and ":" not in linie and len(linie) <= 300:
+                    # în afara secțiunii: doar rânduri care sunt fraze complete, nu câmpuri de formular
+                    adauga(linie, fisier, nr, False)
+            inchide_bullet()
+
+    sursa = "; ".join(dict.fromkeys(surse)) or None
+    return afirmatii, sursa, afirmatii[:3]
 
 
 def extrage_campuri_document_llm(

@@ -72,22 +72,20 @@ cota_banca:
   extras_din_document: true
   sursa_valoare: document
 data_aprobare:
-  descriere: "Data aprobării creditului sau data cererii de finanțare (YYYY-MM-DD)"
+  descriere: "Data APROBĂRII creditului de către bancă (YYYY-MM-DD). NU data cererii, a semnării sau a altui document"
   tip: "data"
   documente_probabile: ["cerere_finantare"]
   cuvinte_cheie:
-  - "data cererii"
   - "data aprobarii"
   - "data aprobării"
-  - "data solicitarii"
-  - "data solicitării"
-  - "data finantarii"
-  - "data"
+  - "aprobarea creditului"
+  - "aprobat la"
   - "approval date"
-  - "application date"
-  - "request date"
-  - "date"
+  - "approved on"
   obligatoriu: true
+  # O dată cu sens precis: se caută DOAR în documentele declarate (cerinte_dosar + documente_probabile).
+  # Fără treapta 2 (alte documente): o „Data:” oarecare din alt document nu e data aprobării.
+  cautare_extinsa: false
 
   extras_din_document: true
   sursa_valoare: document
@@ -319,6 +317,15 @@ afirmatii_client:
   - "statements"
   - "client claims"
   obligatoriu: false
+  # Extragere deterministă din cerere (fără LLM): toate frazele din secțiunea de declarații
+  # + orice frază încheiată (cu punct) sau bullet din cerere care conține un cuvânt de sustenabilitate.
+  metoda: determinist_afirmatii
+  titluri_sectiune: ["declarații ale solicitantului", "declaratii ale solicitantului", "afirmații", "afirmatii",
+    "declarații privind sustenabilitatea", "declaratii privind sustenabilitatea", "sustainability statements", "client statements"]
+  cuvinte_afirmatii: ["verde", "verzi", "green", "emisii zero", "zero emisii", "zero emissions", "net zero", "net-zero",
+    "sustenabil", "sustainable", "economie de energie", "economii de energie", "energy savings", "neutru", "neutră",
+    "neutra", "neutral", "climate neutral", "carbon neutral", "100%", "ecologic", "eco-friendly", "regenerabil",
+    "renewable", "mai puțină energie", "mai putina energie", "fără emisii", "fara emisii", "decarbon"]
 
 # ============================================================ CÂMPURI COMUNE (noi)
 
@@ -349,6 +356,7 @@ data_marcare_verde:
   - "green marking date"
   - "marking date"
   obligatoriu: false
+  cautare_extinsa: false
 
   extras_din_document: true
   sursa_valoare: document

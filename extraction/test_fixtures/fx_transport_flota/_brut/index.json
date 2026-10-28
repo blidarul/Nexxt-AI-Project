@@ -7,6 +7,7 @@
       "json": "_brut/01_cerere_finantare.json",
       "pagini": 1,
       "tabele": 1,
+      "pagini_ocr": 0,
       "eroare": null
     },
     {
@@ -15,6 +16,7 @@
       "json": "_brut/02_lista_vehicule.json",
       "pagini": 2,
       "tabele": 2,
+      "pagini_ocr": 0,
       "eroare": null
     },
     {
@@ -23,6 +25,7 @@
       "json": "_brut/03_coc_ev_van.json",
       "pagini": 1,
       "tabele": 1,
+      "pagini_ocr": 0,
       "eroare": null
     },
     {
@@ -31,6 +34,7 @@
       "json": "_brut/04_coc_phev_van.json",
       "pagini": 1,
       "tabele": 1,
+      "pagini_ocr": 0,
       "eroare": null
     },
     {
@@ -39,6 +43,7 @@
       "json": "_brut/05_declaratie_utilizare.json",
       "pagini": 1,
       "tabele": 0,
+      "pagini_ocr": 0,
       "eroare": null
     }
   ]

@@ -6,6 +6,7 @@ extraction/categorii.yaml. Nicio listă de categorii, câmpuri sau documente nu 
 
 from functools import lru_cache
 from pathlib import Path
+import re
 from typing import Any, Optional
 
 import yaml
@@ -203,6 +204,74 @@ def id_pentru_document(
             fara_rol = [i for i in ids if i not in ids_cu_rol]
             ids = fara_rol or ids
     return ids
+
+
+def interpreteaza_obligativitate(
+    valoare: Any,
+    subcategorie: Optional[str],
+    tip_nivel_3: Optional[str],
+) -> dict[str, Any]:
+    """Interpretează câmpul `obligatoriu` al unui document din cerinte_dosar.yaml.
+
+    Forme: true / false / "una_din: [A, B]" / "doar <valori>" / alt text (ex. "pentru impact").
+    Ieșire: {"fel": "obligatoriu" | "una_din" | "conditionat" | "recomandat" | "optional",
+             "grup": [...] (una_din), "conditie": text, "se_aplica": bool}
+    "doar <valori>" se aplică dacă vreun cuvânt din condiție apare în subcategorie sau tipul de nivel 3.
+    """
+    if valoare is True or valoare is None:
+        return {"fel": "obligatoriu", "se_aplica": True}
+    if valoare is False:
+        return {"fel": "optional", "se_aplica": False}
+    text = str(valoare).strip()
+    m = re.match(r"una_din:\s*\[(.*)\]", text)
+    if m:
+        grup = [x.strip() for x in m.group(1).split(",") if x.strip()]
+        return {"fel": "una_din", "grup": grup, "conditie": text, "se_aplica": True}
+    if text.lower().startswith("doar "):
+        cuvinte = [c for c in re.split(r"[,\s]+", text[5:].lower()) if len(c) >= 3]
+        tinte = " ".join(v for v in (subcategorie, tip_nivel_3) if v).lower()
+        return {"fel": "conditionat", "conditie": text, "se_aplica": any(c in tinte for c in cuvinte)}
+    return {"fel": "recomandat", "conditie": text, "se_aplica": False}
+
+
+def evalueaza_documente(
+    categorie: Optional[str],
+    subcategorie: Optional[str],
+    tip_nivel_3: Optional[str],
+    documente_clasificate: list[dict[str, Any]],
+) -> dict[str, list[dict[str, Any]]]:
+    """Documentele găsite (pe ID) și cele lipsă pentru categoria dată.
+
+    Folosește `id_cerinte` stabilit pe fiecare document clasificat.
+    """
+    fisiere_pe_id: dict[str, list[str]] = {}
+    for doc in documente_clasificate:
+        for i in doc.get("id_cerinte") or []:
+            fisiere_pe_id.setdefault(i, []).append(doc.get("fisier"))
+
+    cerute = documente_cerute(categorie, subcategorie)
+    gasite, lipsa, recomandate_lipsa = [], [], []
+    grupuri_verificate: set[tuple[str, ...]] = set()
+    for d in cerute:
+        if d["id"] in fisiere_pe_id:
+            gasite.append({"id": d["id"], "nume": d.get("nume"), "fisiere": fisiere_pe_id[d["id"]]})
+            continue
+        regula = interpreteaza_obligativitate(d.get("obligatoriu"), subcategorie, tip_nivel_3)
+        intrare = {"id": d["id"], "nume": d.get("nume"), "obligatoriu": d.get("obligatoriu", True)}
+        if regula["fel"] == "obligatoriu":
+            lipsa.append(intrare)
+        elif regula["fel"] == "una_din":
+            cheie = tuple(regula["grup"])
+            if cheie in grupuri_verificate:
+                continue
+            grupuri_verificate.add(cheie)
+            if not any(i in fisiere_pe_id for i in regula["grup"]):
+                lipsa.append({**intrare, "id": " sau ".join(regula["grup"]), "motiv": "niciunul din grup"})
+        elif regula["fel"] == "conditionat" and regula["se_aplica"]:
+            lipsa.append({**intrare, "conditie": regula["conditie"]})
+        elif regula["fel"] in ("recomandat", "conditionat"):
+            recomandate_lipsa.append({**intrare, "conditie": regula.get("conditie")})
+    return {"documente_gasite": gasite, "documente_lipsa": lipsa, "documente_recomandate_lipsa": recomandate_lipsa}
 
 
 def toate_id_documentele() -> set[str]:

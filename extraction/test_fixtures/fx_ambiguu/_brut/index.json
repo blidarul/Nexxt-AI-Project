@@ -1,0 +1,14 @@
+{
+  "dosar": "fx_ambiguu",
+  "documente": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_document": "cerere_finantare",
+      "json": "_brut/01_cerere_finantare.json",
+      "pagini": 1,
+      "tabele": 1,
+      "pagini_ocr": 0,
+      "eroare": null
+    }
+  ]
+}

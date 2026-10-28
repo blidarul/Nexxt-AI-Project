@@ -1,0 +1,37 @@
+{
+  "fisier": "02_studiu_fezabilitate.pdf",
+  "dosar": "fx_hidro_2022",
+  "tip_document": "necunoscut",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:58",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nSTUDIU DE FEZABILITATE – CHE Exemplu-Râu\nSoluția tehnică: centrală hidroelectrică cu acumulare, două hidroagregate Francis.\nParametru Valoare\nPutere instalată 4.800 kW\nSuprafața lacului de acumulare 60 ha\nProducția medie anuală estimată 18,5 GWh\nCentrala nu funcționează pe firul apei; dispune de un lac de acumulare de 60 ha.",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Parametru",
+              "Valoare"
+            ],
+            [
+              "Putere instalată",
+              "4.800 kW"
+            ],
+            [
+              "Suprafața lacului de acumulare",
+              "60 ha"
+            ],
+            [
+              "Producția medie anuală estimată",
+              "18,5 GWh"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

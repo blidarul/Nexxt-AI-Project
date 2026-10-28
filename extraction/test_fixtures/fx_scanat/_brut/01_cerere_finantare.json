@@ -1,0 +1,41 @@
+{
+  "fisier": "01_cerere_finantare.pdf",
+  "dosar": "fx_scanat",
+  "tip_document": "cerere_finantare",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:58",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nCERERE DE FINANȚARE – PERSOANE JURIDICE\nSolicitant Exemplu Logistică SRL\nCUI 9900000144\nȚara România\nSuma solicitată de la bancă 300.000 EUR\nStructura finanțării Banca 100% (300.000 EUR)\nDescrierea proiectului\nAchiziția a 8 autoutilitare ușoare (categoria N1): 5 electrice și 3 hibride plug-in, pentru livrări urbane.",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Solicitant",
+              "Exemplu Logistică SRL"
+            ],
+            [
+              "CUI",
+              "9900000144"
+            ],
+            [
+              "Țara",
+              "România"
+            ],
+            [
+              "Suma solicitată de la bancă",
+              "300.000 EUR"
+            ],
+            [
+              "Structura finanțării",
+              "Banca 100% (300.000 EUR)"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

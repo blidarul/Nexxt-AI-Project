@@ -27,6 +27,10 @@ def _valoare(date: dict[str, Any], cale: str) -> Any:
 def _egal(asteptat: Any, extras: Any) -> bool:
     if isinstance(asteptat, bool) or isinstance(extras, bool):
         return asteptat is extras
+    if isinstance(asteptat, list) or isinstance(extras, list):
+        if not isinstance(asteptat, list) or not isinstance(extras, list) or len(asteptat) != len(extras):
+            return False
+        return all(_egal(a, e) for a, e in zip(asteptat, extras))
     return sunt_egale_valori(asteptat, extras)
 
 
@@ -39,10 +43,46 @@ def verifica_fixture(folder: Path) -> list[dict[str, Any]]:
     with open(cale_extras, encoding="utf-8") as f:
         extras = json.load(f)
 
+    raport: dict[str, Any] = {}
+    if (folder / "_extras" / "raport_extractie.json").exists():
+        with open(folder / "_extras" / "raport_extractie.json", encoding="utf-8") as f:
+            raport = json.load(f)
+
     rezultate = []
     for camp in ("categorie", "subcategorie"):
+        if camp not in asteptat:
+            continue
         val = _valoare(extras, camp)
         rezultate.append({"camp": camp, "asteptat": asteptat[camp], "extras": val, "ok": _egal(asteptat[camp], val)})
+    if "categorie_ambigua" in asteptat:
+        val = raport.get("categorie_ambigua")
+        rezultate.append({"camp": "(raport) categorie_ambigua", "asteptat": asteptat["categorie_ambigua"], "extras": val,
+                          "ok": val is asteptat["categorie_ambigua"]})
+    if "categorie_candidati" in asteptat:
+        candidati = raport.get("categorie_candidati") or []
+        val = sorted(c["categorie"] for c in candidati)
+        rezultate.append({"camp": "(raport) categorie_candidati", "asteptat": sorted(asteptat["categorie_candidati"]),
+                          "extras": val, "ok": val == sorted(asteptat["categorie_candidati"])})
+        increderi = [c["incredere"] for c in candidati]
+        rezultate.append({"camp": "(raport) încredere candidați < 0.7", "asteptat": True, "extras": increderi,
+                          "ok": bool(increderi) and all(i < 0.7 for i in increderi)})
+    if "documente_lipsa_contine" in asteptat:
+        ids = {d["id"] for d in raport.get("documente_lipsa") or []}
+        for i in asteptat["documente_lipsa_contine"]:
+            rezultate.append({"camp": f"(raport) documente_lipsa ∋ {i}", "asteptat": True, "extras": i in ids, "ok": i in ids})
+    if "conversii_contin" in asteptat:
+        unitati = {c.get("unitate_originala") for c in raport.get("conversii_unitati") or []}
+        for u in asteptat["conversii_contin"]:
+            rezultate.append({"camp": f"(raport) conversie din {u}", "asteptat": True, "extras": u in unitati, "ok": u in unitati})
+    if "pagini_ocr_minim" in asteptat:
+        nr_ocr = 0
+        for cale in (folder / "_brut").glob("*.json"):
+            if cale.name == "index.json":
+                continue
+            with open(cale, encoding="utf-8") as f:
+                nr_ocr += sum(1 for p in json.load(f).get("pagini", []) if p.get("ocr") and p.get("text"))
+        rezultate.append({"camp": "(brut) pagini transcrise prin OCR", "asteptat": f">= {asteptat['pagini_ocr_minim']}",
+                          "extras": nr_ocr, "ok": nr_ocr >= asteptat["pagini_ocr_minim"]})
     for camp, val_asteptata in asteptat.get("campuri", {}).items():
         val = _valoare(extras, camp)
         rezultate.append({"camp": camp, "asteptat": val_asteptata, "extras": val, "ok": _egal(val_asteptata, val)})

@@ -77,7 +77,10 @@
       "m2": 1000.0
     }
   ],
-  "afirmatii_client": [],
+  "afirmatii_client": [
+    "Clădirea deține certificare BREEAM.",
+    "Clădirea are certificat energetic clasa A."
+  ],
   "categorie": {
     "valoare": "green_buildings",
     "sursa": "01_cerere_finantare.pdf, p.1",

@@ -7,7 +7,11 @@
     "suma_eur": 450000,
     "cota_banca": 1.0,
     "indicatori.tip": "autoturism_sau_utilitara",
-    "indicatori.transporta_combustibili_fosili": false
+    "indicatori.transporta_combustibili_fosili": false,
+    "afirmatii_client": [
+      "Flota noastră este 100% cu emisii zero."
+    ],
+    "data_aprobare": null
   },
   "liste": {
     "indicatori.vehicule": {

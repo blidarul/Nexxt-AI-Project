@@ -45,6 +45,56 @@
       ]
     }
   ],
+  "documente_gasite": [
+    {
+      "id": "D-01",
+      "nume": "Cerere de finantare",
+      "fisiere": [
+        "01_cerere_finantare.pdf"
+      ]
+    },
+    {
+      "id": "GB-D3",
+      "nume": "Contracte de inchiriere / lista chiriasilor",
+      "fisiere": [
+        "04_contract_inchiriere_extras.pdf"
+      ]
+    }
+  ],
+  "documente_lipsa": [
+    {
+      "id": "D-02",
+      "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-04",
+      "nume": "Declaratia privind beneficiarul real",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-05",
+      "nume": "Contractul de credit / term sheet (structura finantarii)",
+      "obligatoriu": true
+    },
+    {
+      "id": "GB-D1 sau GB-D2",
+      "nume": "Certificat de sustenabilitate (BREEAM/LEED/DGNB/OGNI/EDGE)",
+      "obligatoriu": "una_din: [GB-D1, GB-D2]",
+      "motiv": "niciunul din grup"
+    },
+    {
+      "id": "GB-D4",
+      "nume": "Extras de carte funciara",
+      "obligatoriu": true
+    }
+  ],
+  "documente_recomandate_lipsa": [],
   "campuri_selectate": [
     "cui",
     "tara",
@@ -126,16 +176,16 @@
       "valoare": 1.0,
       "valoare_bruta": "1.0",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Banca 100% (40.000.000 EUR)",
+      "citat": "Structura finanțării Banca 100% (40.000.000 EUR)",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.92
+      "incredere": 0.96
     },
     "descriere_proiect": {
       "valoare": "Credit de investiții – construcție clădire nouă de birouri",
       "valoare_bruta": "Credit de investiții – construcție clădire nouă de birouri",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Credit de investiții – construcție clădire nouă de birouri",
+      "citat": "Tip finanțare Credit de investiții – construcție clădire nouă de birouri",
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 0.94
@@ -149,7 +199,8 @@
       "citat": "Clădirea va avea certificare BREEAM Excellent.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 1.0
+      "incredere": 1.0,
+      "metoda": "determinist_afirmatii"
     },
     "certificare_sistem": {
       "valoare": "BREEAM",
@@ -218,16 +269,16 @@
       "citat": "Suprafață utilă (declarată) 25.000 m²",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.96
+      "incredere": 0.95
     },
     "adresa_cladire": {
       "valoare": "București, Sector 1, Str. Exemplului nr. 20",
       "valoare_bruta": "București, Sector 1, Str. Exemplului nr. 20",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Adresă București, Sector 1, Str. Exemplului nr. 20",
+      "citat": "Adresă IBucurești, Sector 1, Str. Exemplului nr. 20",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.93
     },
     "stadiu_cladire": {
       "valoare": "În construcție",
@@ -236,7 +287,7 @@
       "citat": "Stadiu În construcție, finalizare estimată 2027",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.93
+      "incredere": 0.94
     }
   },
   "campuri_lipsa": [
@@ -303,9 +354,17 @@
   "conversii_unitati": [],
   "valori_respinse": [],
   "statistici_llm": {
-    "apeluri_reale": 0,
-    "apeluri_cache": 33,
+    "apeluri_reale": 1,
+    "apeluri_cache": 4,
     "apeluri_offline": 0,
-    "total_apeluri": 33
-  }
+    "total_apeluri": 5
+  },
+  "apeluri_llm_reale": [
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "abfe160e851b2de43ba7584d02990dda973e04b33170f4d36f7e5596d6d057ef"
+    }
+  ]
 }

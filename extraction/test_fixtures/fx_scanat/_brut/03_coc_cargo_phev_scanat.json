@@ -1,0 +1,16 @@
+{
+  "fisier": "03_coc_cargo_phev_scanat.pdf",
+  "dosar": "fx_scanat",
+  "tip_document": "certificat_energetic",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:43:04",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\n\nCERTIFICAT DE CONFORMITATE CE / EC CERTIFICATE OF CONFORMITY\n\n0.1 Marca (Make): Exemplu\n\n0.2 Tip / Model: Cargo-PHEV\n\n0.4 Categoria vehiculului: N1\n\n47. Emisii CO2 WLTP, combinat: 48 g/km\n\n49. Consum de energie electrică WLTP: 180 Wh/km",
+      "necesita_ocr": false,
+      "tabele": [],
+      "ocr": true
+    }
+  ]
+}

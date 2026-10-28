@@ -45,6 +45,55 @@
       ]
     }
   ],
+  "documente_gasite": [
+    {
+      "id": "D-01",
+      "nume": "Cerere de finantare",
+      "fisiere": [
+        "01_cerere_finantare.pdf"
+      ]
+    },
+    {
+      "id": "EE-D3",
+      "nume": "Fisa tehnica a echipamentului (BAT, PUE masurat etc.)",
+      "fisiere": [
+        "02_raport_pue.pdf"
+      ]
+    }
+  ],
+  "documente_lipsa": [
+    {
+      "id": "D-02",
+      "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-04",
+      "nume": "Declaratia privind beneficiarul real",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-05",
+      "nume": "Contractul de credit / term sheet (structura finantarii)",
+      "obligatoriu": true
+    },
+    {
+      "id": "EE-D1",
+      "nume": "Audit energetic inainte de investitie",
+      "obligatoriu": true
+    },
+    {
+      "id": "EE-D2",
+      "nume": "Proiectie / masuratori dupa investitie",
+      "obligatoriu": true
+    }
+  ],
+  "documente_recomandate_lipsa": [],
   "campuri_selectate": [
     "cui",
     "tara",
@@ -82,7 +131,7 @@
       "citat": "Țara România",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.97
+      "incredere": 0.95
     },
     "aprobat_proces_standard": {
       "valoare": null,
@@ -121,19 +170,19 @@
       "valoare": 0.8,
       "valoare_bruta": "0.8",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Banca 80% (8.000.000 EUR), aport propriu 20%",
+      "citat": "Structura finanțării Banca 80% (8.000.000 EUR), aport propriu 20%",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.96
+      "incredere": 0.95
     },
     "descriere_proiect": {
       "valoare": "Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
       "valoare_bruta": "Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Descrierea proiectului Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
+      "citat": "Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.94
+      "incredere": 0.95
     },
     "afirmatii_client": {
       "valoare": null,
@@ -267,9 +316,17 @@
   "conversii_unitati": [],
   "valori_respinse": [],
   "statistici_llm": {
-    "apeluri_reale": 0,
-    "apeluri_cache": 53,
+    "apeluri_reale": 1,
+    "apeluri_cache": 4,
     "apeluri_offline": 0,
-    "total_apeluri": 53
-  }
+    "total_apeluri": 5
+  },
+  "apeluri_llm_reale": [
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "9ca73ca390f5850ca452c15e988170daece109d038f9d61b5b13433879b60f57"
+    }
+  ]
 }

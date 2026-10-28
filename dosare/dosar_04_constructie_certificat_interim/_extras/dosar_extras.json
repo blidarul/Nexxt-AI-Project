@@ -13,7 +13,7 @@
   "cota_banca": {
     "valoare": 1.0,
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.92
+    "incredere": 0.96
   },
   "data_aprobare": {
     "valoare": "2026-03-15",
@@ -28,17 +28,17 @@
   "adresa_cladire": {
     "valoare": "București, Sector 1, Str. Exemplului nr. 20",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.93
   },
   "suprafata_m2": {
     "valoare": 25000,
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.96
+    "incredere": 0.95
   },
   "stadiu_cladire": {
     "valoare": "În construcție",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.93
+    "incredere": 0.94
   },
   "nr_certificat_declarat": {
     "valoare": "BREEAM-EXEMPLU-0003",

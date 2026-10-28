@@ -1,0 +1,41 @@
+{
+  "fisier": "01_cerere_finantare.pdf",
+  "dosar": "fx_hidro_2022",
+  "tip_document": "cerere_finantare",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:58",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nCERERE DE FINANȚARE – PERSOANE JURIDICE\nSolicitant Exemplu Hidro Energie SRL\nCUI 9900000111\nȚara România\nSuma solicitată de la bancă 6.000.000 EUR\nStructura finanțării Banca 75% (6.000.000 EUR), aport propriu 25%\nDescrierea proiectului\nRefinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro),\npusă în funcțiune în 2022, cu lac de acumulare propriu.",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Solicitant",
+              "Exemplu Hidro Energie SRL"
+            ],
+            [
+              "CUI",
+              "9900000111"
+            ],
+            [
+              "Țara",
+              "România"
+            ],
+            [
+              "Suma solicitată de la bancă",
+              "6.000.000 EUR"
+            ],
+            [
+              "Structura finanțării",
+              "Banca 75% (6.000.000 EUR), aport propriu 25%"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

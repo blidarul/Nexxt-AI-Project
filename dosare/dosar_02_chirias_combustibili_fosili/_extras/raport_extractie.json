@@ -62,6 +62,57 @@
       ]
     }
   ],
+  "documente_gasite": [
+    {
+      "id": "D-01",
+      "nume": "Cerere de finantare",
+      "fisiere": [
+        "01_cerere_finantare.pdf"
+      ]
+    },
+    {
+      "id": "GB-D2",
+      "nume": "Certificat de performanta energetica (EPC)",
+      "fisiere": [
+        "03_certificat_energetic.pdf"
+      ]
+    },
+    {
+      "id": "GB-D3",
+      "nume": "Contracte de inchiriere / lista chiriasilor",
+      "fisiere": [
+        "04_contract_inchiriere_extras.pdf"
+      ]
+    }
+  ],
+  "documente_lipsa": [
+    {
+      "id": "D-02",
+      "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-04",
+      "nume": "Declaratia privind beneficiarul real",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-05",
+      "nume": "Contractul de credit / term sheet (structura finantarii)",
+      "obligatoriu": true
+    },
+    {
+      "id": "GB-D4",
+      "nume": "Extras de carte funciara",
+      "obligatoriu": true
+    }
+  ],
+  "documente_recomandate_lipsa": [],
   "campuri_selectate": [
     "cui",
     "tara",
@@ -100,7 +151,7 @@
       "valoare": "România",
       "valoare_bruta": "România",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "România",
+      "citat": "S Țara | România",
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 0.95
@@ -120,7 +171,7 @@
       "citat": "Data aprobării creditului (procesul standard de credit): 2026-03-15",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.97
+      "incredere": 0.99
     },
     "data_marcare_verde": {
       "valoare": null,
@@ -143,10 +194,10 @@
       "valoare": 0.6,
       "valoare_bruta": "0.6",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "banca 60% (30.000.000 EUR), alte bănci 40% (20.000.000 EUR)",
+      "citat": "Structura finanțării Credit sindicalizat: banca 60% (30.000.000 EUR), alte bănci 40% (20.000.000 EUR)",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.96
+      "incredere": 0.97
     },
     "descriere_proiect": {
       "valoare": "Achiziția clădirii de birouri Verde Business Park – Clădirea B",
@@ -155,16 +206,21 @@
       "citat": "I T Achiziția clădirii de birouri Verde Business Park – Clădirea B",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.94
+      "incredere": 0.96
     },
     "afirmatii_client": {
-      "valoare": "Clădirea deține certificare BREEAM Excellent. Clădirea are certificat energetic clasa A. Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România.",
-      "valoare_bruta": "Clădirea deține certificare BREEAM Excellent. Clădirea are certificat energetic clasa A. Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România.",
+      "valoare": [
+        "Clădirea deține certificare BREEAM Excellent.",
+        "Clădirea are certificat energetic clasa A.",
+        "Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România."
+      ],
+      "valoare_bruta": null,
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "• Clădirea deține certificare BREEAM Excellent.\n• Clădirea are certificat energetic clasa A.\n• Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România.",
+      "citat": "Clădirea deține certificare BREEAM Excellent.; Clădirea are certificat energetic clasa A.; Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.93
+      "incredere": 1.0,
+      "metoda": "determinist_afirmatii"
     },
     "certificare_sistem": {
       "valoare": "BREEAM",
@@ -200,7 +256,7 @@
       "citat": "Număr certificat de sustenabilitate comunicat: BREEAM-EXEMPLU-0001",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.99
     },
     "epc_clasa": {
       "valoare": "A",
@@ -236,25 +292,25 @@
       "citat": "Suprafață utilă (declarată) 20.000 m²",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.96
+      "incredere": 0.98
     },
     "adresa_cladire": {
       "valoare": "București, Sector 2, Str. Exemplului nr. 10",
       "valoare_bruta": "București, Sector 2, Str. Exemplului nr. 10",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "București, Sector 2, Str. Exemplului nr. 10",
+      "citat": "I Adresă | București, Sector 2, Str. Exemplului nr. 10",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.97
     },
     "stadiu_cladire": {
       "valoare": "Finalizată, în exploatare",
       "valoare_bruta": "Finalizată, în exploatare",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Stadiu Finalizată, în exploatare",
+      "citat": "Stadiu | Finalizată, în exploatare",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.94
+      "incredere": 0.98
     },
     "chiriasi": {
       "numar_chiriasi": 3,
@@ -278,26 +334,21 @@
       "obligatoriu": true
     }
   ],
-  "conflicte": [
-    {
-      "camp": "afirmatii_client",
-      "valoare_aleasa": "Clădirea deține certificare BREEAM Excellent. Clădirea are certificat energetic clasa A. Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România.",
-      "document_ales": "01_cerere_finantare.pdf",
-      "valoare_alternativa": [
-        "Clădirea deține certificare BREEAM Excellent.",
-        "Clădirea are certificat energetic clasa A.",
-        "Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România."
-      ],
-      "document_alternativ": "01_cerere_finantare.pdf",
-      "citat_alternativ": "Declarații ale solicitantului privind sustenabilitatea • Clădirea deține certificare BREEAM Excellent. • Clădirea are certificat energetic clasa A. • Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România."
-    }
-  ],
+  "conflicte": [],
   "conversii_unitati": [],
   "valori_respinse": [],
   "statistici_llm": {
-    "apeluri_reale": 0,
-    "apeluri_cache": 19,
+    "apeluri_reale": 1,
+    "apeluri_cache": 8,
     "apeluri_offline": 0,
-    "total_apeluri": 19
-  }
+    "total_apeluri": 9
+  },
+  "apeluri_llm_reale": [
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "6fa8ede500039dd2dc6ecb95e3ae3eb0cf24c6ad5b1e7cd5fbfff50b66f8d75b"
+    }
+  ]
 }

@@ -1,0 +1,35 @@
+{
+  "fisier": "02_lista_vehicule.pdf",
+  "dosar": "fx_incomplet",
+  "tip_document": "necunoscut",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:58",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nANEXA FLOTĂ – Lista vehiculelor finanțate\nMarca Model Combustibil Nr. buc. Km/an\nExemplu Urban-EV electric 6 20.000",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Marca",
+              "Model",
+              "Combustibil",
+              "Nr. buc.",
+              "Km/an"
+            ],
+            [
+              "Exemplu",
+              "Urban-EV",
+              "electric",
+              "6",
+              "20.000"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
