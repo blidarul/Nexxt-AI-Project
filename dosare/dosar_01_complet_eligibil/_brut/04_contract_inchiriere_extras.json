@@ -1,0 +1,53 @@
+{
+  "fisier": "04_contract_inchiriere_extras.pdf",
+  "dosar": "dosar_01_complet_eligibil",
+  "tip_document": "contract_inchiriere",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T16:16:53",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC – DATE DE TEST – NU ESTE UN DOCUMENT REAL\nEXTRAS – CONTRACTE DE ÎNCHIRIERE ÎN VIGOARE\nVerde Business Park – Clădirea B · București, Sector 2, Str. Exemplului nr. 10\nSituația chiriașilor la data cererii de finanțare\nChiriaș CUI Cod CAEN principal Suprafață Pondere Durată\nînchiriată contract\nAlfa Software 9900000029 6201 – Activități de 10.000 m² 50% 2025–2032\nSRL realizare a soft-ului la\ncomandă\nBeta Consulting 9900000037 7022 – Activități de 6.000 m² 30% 2025–2030\nSRL consultanță pentru\nafaceri și management\nGamma Café SRL 9900000045 5630 – Baruri și alte 1.000 m² 5% 2025–2028\nactivități de servire a\nbăuturilor\nClauză-tip prezentă în toate contractele: „Chiriașul va utiliza spațiul conform destinației stabilite în\ncontract și obiectului său de activitate.”\nC\nI\nT\nE\nT\nN\nI\nS\nDOCUMENT SINTETIC – DATE DE TEST – NU ESTE UN DOCUMENT REAL",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Chiriaș",
+              "CUI",
+              "Cod CAEN principal",
+              "Suprafață închiriată",
+              "Pondere",
+              "Durată contract"
+            ],
+            [
+              "Alfa Software SRL",
+              "9900000029",
+              "6201 – Activități de realizare a soft-ului la comandă",
+              "10.000 m²",
+              "50%",
+              "2025–2032"
+            ],
+            [
+              "Beta Consulting SRL",
+              "9900000037",
+              "7022 – Activități de consultanță pentru afaceri și management",
+              "6.000 m²",
+              "30%",
+              "2025–2030"
+            ],
+            [
+              "Gamma Café SRL",
+              "9900000045",
+              "5630 – Baruri și alte activități de servire a băuturilor",
+              "1.000 m²",
+              "5%",
+              "2025–2028"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

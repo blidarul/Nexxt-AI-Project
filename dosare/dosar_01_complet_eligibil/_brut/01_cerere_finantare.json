@@ -1,0 +1,107 @@
+{
+  "fisier": "01_cerere_finantare.pdf",
+  "dosar": "dosar_01_complet_eligibil",
+  "tip_document": "cerere_finantare",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T16:16:53",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC – DATE DE TEST – NU ESTE UN DOCUMENT REAL\nCERERE DE FINANȚARE – PERSOANĂ JURIDICĂ\nNr. înregistrare: CF-2026-0001 · Data: 2026-02-10\n1. Date despre solicitant\nDenumire VERDE BUSINESS PARK B SRL\nCUI 9900000010\nNr. Registrul Comerțului J40/0000/2023\nSediu social București, Sector 2, Str. Exemplului nr. 10\nCod CAEN activitate principală 6820 – Închirierea și subînchirierea bunurilor imobiliare proprii\nsau închiriate\nReprezentant legal Ion Exemplu\n2. Finanțarea solicitată\nTip finanțare Credit de investiții – achiziție clădire de birouri finalizată\nValoare totală proiect 50.000.000 EUR\nSuma solicitată de la bancă 30.000.000 EUR\nStructura finanțării Credit sindicalizat: banca 60% (30.000.000 EUR), alte bănci\nC\n40% (20.000.000 EUR)\nI\nDurata 10 ani T\nScopul declarat AchizițiaE clădirii de birouri Verde Business Park – Clădirea B\nT\n3. Activul finanțat\nN\nDenumire clădire Verde Business Park – Clădirea B\nI\nS\nAdresă București, Sector 2, Str. Exemplului nr. 10\nȚara România\nTip utilizare Clădire de birouri\nStadiu Finalizată, în exploatare\nSuprafață utilă (declarată) 20.000 m²\nCertificare de sustenabilitate BREEAM Excellent (certificare finală)\n(declarată)\n4. Declarații ale solicitantului privind sustenabilitatea\n• Clădirea deține certificare BREEAM Excellent.\n• Clădirea are certificat energetic clasa A.\n• Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din\nRomânia.\n5. Documente anexate\nAnexa 1 – Certificat de performanță energetică · Anexa 2 – Extras contracte de închiriere (lista\nchiriașilor) · Anexa 3 – Certificat de sustenabilitate (număr de certificat comunicat mai jos)\nNumăr certificat de sustenabilitate comunicat: BREEAM-EXEMPLU-0001\nData aprobării creditului (procesul standard de credit): 2026-03-15\nSemnătura reprezentantului legal: ____________________\nDOCUMENT SINTETIC – DATE DE TEST – NU ESTE UN DOCUMENT REAL",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Denumire",
+              "VERDE BUSINESS PARK B SRL"
+            ],
+            [
+              "CUI",
+              "9900000010"
+            ],
+            [
+              "Nr. Registrul Comerțului",
+              "J40/0000/2023"
+            ],
+            [
+              "Sediu social",
+              "București, Sector 2, Str. Exemplului nr. 10"
+            ],
+            [
+              "Cod CAEN activitate principală",
+              "6820 – Închirierea și subînchirierea bunurilor imobiliare proprii sau închiriate"
+            ],
+            [
+              "Reprezentant legal",
+              "Ion Exemplu"
+            ]
+          ]
+        },
+        {
+          "index": 1,
+          "randuri": [
+            [
+              "Tip finanțare",
+              "Credit de investiții – achiziție clădire de birouri finalizată"
+            ],
+            [
+              "Valoare totală proiect",
+              "50.000.000 EUR"
+            ],
+            [
+              "Suma solicitată de la bancă",
+              "30.000.000 EUR"
+            ],
+            [
+              "Structura finanțării",
+              "Credit sindicalizat: banca 60% (30.000.000 EUR), alte bănci 40% (20.000.000 EUR)"
+            ],
+            [
+              "Durata",
+              "C 10 ani"
+            ],
+            [
+              "Scopul declarat",
+              "I T Achiziția clădirii de birouri Verde Business Park – Clădirea B"
+            ]
+          ]
+        },
+        {
+          "index": 2,
+          "randuri": [
+            [
+              "Denumire clădire",
+              "N Verde Business Park – Clădirea B"
+            ],
+            [
+              "I Adresă",
+              "București, Sector 2, Str. Exemplului nr. 10"
+            ],
+            [
+              "S Țara",
+              "România"
+            ],
+            [
+              "Tip utilizare",
+              "Clădire de birouri"
+            ],
+            [
+              "Stadiu",
+              "Finalizată, în exploatare"
+            ],
+            [
+              "Suprafață utilă (declarată)",
+              "20.000 m²"
+            ],
+            [
+              "Certificare de sustenabilitate (declarată)",
+              "BREEAM Excellent (certificare finală)"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

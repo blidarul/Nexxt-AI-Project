@@ -1,0 +1,107 @@
+{
+  "fisier": "01_cerere_finantare.pdf",
+  "dosar": "dosar_03_breeam_insuficient_cale_epc",
+  "tip_document": "cerere_finantare",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T16:16:53",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC – DATE DE TEST – NU ESTE UN DOCUMENT REAL\nCERERE DE FINANȚARE – PERSOANĂ JURIDICĂ\nNr. înregistrare: CF-2026-0003 · Data: 2026-02-10\n1. Date despre solicitant\nDenumire NORD OFFICE INVEST SRL\nCUI 9900000061\nNr. Registrul Comerțului J12/0000/2022\nSediu social Cluj-Napoca, Str. Exemplului nr. 5\nCod CAEN activitate principală 6820 – Închirierea și subînchirierea bunurilor imobiliare proprii\nsau închiriate\nReprezentant legal Ion Exemplu\n2. Finanțarea solicitată\nTip finanțare Credit de investiții – achiziție clădire de birouri finalizată\nValoare totală proiect 30.000.000 EUR\nSuma solicitată de la bancă 15.000.000 EUR\nStructura finanțării Banca 50% (15.000.000 EUR), aport propriu 50%\nC\nDurata 10 ani\nI\nT\nScopul declarat Achiziția clădirii Nord Office – Clădirea 1\nE\n3. Activul finanțat T\nN\nDenumire clădire Nord Office – Clădirea 1\nAdresă ICluj-Napoca, Str. Exemplului nr. 5\nS\nȚara România\nTip utilizare Clădire de birouri\nStadiu Finalizată, în exploatare\nSuprafață utilă (declarată) 12.000 m²\nCertificare de sustenabilitate BREEAM (certificare finală)\n(declarată)\n4. Declarații ale solicitantului privind sustenabilitatea\n• Clădirea deține certificare BREEAM.\n• Clădirea are certificat energetic clasa A.\n5. Documente anexate\nAnexa 1 – Certificat de performanță energetică · Anexa 2 – Extras contracte de închiriere (lista\nchiriașilor) · Anexa 3 – Certificat de sustenabilitate (număr de certificat comunicat mai jos)\nNumăr certificat de sustenabilitate comunicat: BREEAM-EXEMPLU-0002\nData aprobării creditului (procesul standard de credit): 2026-03-15\nSemnătura reprezentantului legal: ____________________\nDOCUMENT SINTETIC – DATE DE TEST – NU ESTE UN DOCUMENT REAL",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Denumire",
+              "NORD OFFICE INVEST SRL"
+            ],
+            [
+              "CUI",
+              "9900000061"
+            ],
+            [
+              "Nr. Registrul Comerțului",
+              "J12/0000/2022"
+            ],
+            [
+              "Sediu social",
+              "Cluj-Napoca, Str. Exemplului nr. 5"
+            ],
+            [
+              "Cod CAEN activitate principală",
+              "6820 – Închirierea și subînchirierea bunurilor imobiliare proprii sau închiriate"
+            ],
+            [
+              "Reprezentant legal",
+              "Ion Exemplu"
+            ]
+          ]
+        },
+        {
+          "index": 1,
+          "randuri": [
+            [
+              "Tip finanțare",
+              "Credit de investiții – achiziție clădire de birouri finalizată"
+            ],
+            [
+              "Valoare totală proiect",
+              "30.000.000 EUR"
+            ],
+            [
+              "Suma solicitată de la bancă",
+              "15.000.000 EUR"
+            ],
+            [
+              "Structura finanțării",
+              "Banca 50% (15.000.000 EUR), aport propriu 50%"
+            ],
+            [
+              "Durata",
+              "C 10 ani"
+            ],
+            [
+              "Scopul declarat",
+              "I Achiziția clădirii Nord Office – Clădirea 1"
+            ]
+          ]
+        },
+        {
+          "index": 2,
+          "randuri": [
+            [
+              "Denumire clădire",
+              "T Nord Office – Clădirea 1"
+            ],
+            [
+              "Adresă",
+              "N Cluj-Napoca, Str. Exemplului nr. 5"
+            ],
+            [
+              "I S Țara",
+              "România"
+            ],
+            [
+              "Tip utilizare",
+              "Clădire de birouri"
+            ],
+            [
+              "Stadiu",
+              "Finalizată, în exploatare"
+            ],
+            [
+              "Suprafață utilă (declarată)",
+              "12.000 m²"
+            ],
+            [
+              "Certificare de sustenabilitate (declarată)",
+              "BREEAM (certificare finală)"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

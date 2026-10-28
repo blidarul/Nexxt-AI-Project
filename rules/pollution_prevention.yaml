@@ -1,0 +1,74 @@
+categorie: pollution_prevention
+sursa: "RBI Sustainability Bond Framework, Aug-2025, p. 13-14"
+taxonomie_ue: ["5.9", "5.10", "2.3", "2.7"]
+
+tipuri: [reciclare, colectare_deseuri, captare_gaz_depozit]
+
+reguli:
+  - id: PP-01
+    nume: "Reciclarea chimica a plasticului NU se finanteaza"
+    sursa: "p. 13 (i)"
+    aplica_daca: {tip: reciclare}
+    tip: excludere
+    camp: reciclare_chimica_plastic
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+  - id: PP-02
+    nume: "Reciclarea deseurilor electronice: plan robust de gestionare a deseurilor"
+    sursa: "p. 13 (ii)"
+    aplica_daca: {tip: reciclare, include_deseuri_electronice: true}
+    tip: da_nu
+    camp: plan_gestionare_deseuri
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+  - id: PP-03
+    nume: "Segregarea la sursa inainte de colectare"
+    sursa: "p. 13 (iii)"
+    aplica_daca: {tip: [reciclare, colectare_deseuri]}
+    tip: da_nu
+    camp: segregare_la_sursa
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+  - id: PP-04
+    nume: "Vehicule de colectare: doar emisii directe zero sau hibride"
+    sursa: "p. 13 (iv), p. 14"
+    aplica_daca: {tip: [reciclare, colectare_deseuri], include_vehicule: true}
+    tip: lista
+    camp: propulsie_vehicule_colectare
+    in_lista: [electric, hidrogen, hibrid]
+    daca_lipseste: NEEVALUABIL
+
+  - id: PP-05
+    nume: "Colectare separata a deseurilor nepericuloase, pentru reutilizare sau reciclare"
+    sursa: "p. 14"
+    aplica_daca: {tip: colectare_deseuri}
+    tip: toate
+    conditii:
+      - {camp: deseuri_nepericuloase, operator: "==", valoare: true}
+      - {camp: scop_reutilizare_sau_reciclare, operator: "==", valoare: true}
+    daca_lipseste: NEEVALUABIL
+
+  - id: PP-06
+    nume: "Captarea biogazului din depozite inchise: eficienta de captare >= 75%, fara ardere la flacara"
+    sursa: "p. 14"
+    aplica_daca: {tip: captare_gaz_depozit}
+    tip: toate
+    conditii:
+      - {camp: eficienta_captare_pct, operator: ">=", valoare: 0.75}
+      - {camp: depozit_inchis_sau_dezafectat, operator: "==", valoare: true}
+      - {camp: utilizare, operator: "!=", valoare: ardere_flacara}
+    daca_lipseste: NEEVALUABIL
+
+excluderi:
+  - id: PP-X1
+    nume: "Proiecte destinate operatiunilor cu combustibili fosili"
+    sursa: "p. 13, nota 27"
+    tip: excludere
+    camp: destinat_operatiuni_fosile
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+indicatori_impact: [tip_si_tone_deseuri_reciclate_an, energie_generata_mwh_an]

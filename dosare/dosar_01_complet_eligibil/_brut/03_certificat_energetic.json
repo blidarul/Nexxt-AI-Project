@@ -1,0 +1,62 @@
+{
+  "fisier": "03_certificat_energetic.pdf",
+  "dosar": "dosar_01_complet_eligibil",
+  "tip_document": "certificat_energetic",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T16:16:53",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC – DATE DE TEST – NU ESTE UN DOCUMENT REAL\nCERTIFICAT DE PERFORMANȚĂ ENERGETICĂ\nCod unic: CPE-EXEMPLU-0001 · Emis la: 2025-11-20 · Valabil până la: 2035-11-20\nDate despre clădire\nAdresa clădirii București, Sector 2, Str. Exemplului nr. 10\nCategoria clădirii Clădire de birouri\nAnul construcției 2024\nAria utilă (Au) 20.000 m²\nPerformanța energetică\nClasa energetică A\nConsum anual specific de energie 110 kWh/m²·an\nprimară\nConsum anual specific de energie 95 kWh/m²·an\nfinală\nIndice de emisii CO2 echivalent 21.5 kgCO2/m²·an\nPondere surse regenerabile 18% (panouri fotovoltaice pe acoperiș)\nC\nAuditor energetic\nI\nT\nAuditor Energetic Exemplu, atestat nr. EX-000 (auditor fictiv, document de test)\nE\nT\nN\nI\nS\nDOCUMENT SINTETIC – DATE DE TEST – NU ESTE UN DOCUMENT REAL",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Adresa clădirii",
+              "București, Sector 2, Str. Exemplului nr. 10"
+            ],
+            [
+              "Categoria clădirii",
+              "Clădire de birouri"
+            ],
+            [
+              "Anul construcției",
+              "2024"
+            ],
+            [
+              "Aria utilă (Au)",
+              "20.000 m²"
+            ]
+          ]
+        },
+        {
+          "index": 1,
+          "randuri": [
+            [
+              "Clasa energetică",
+              "A"
+            ],
+            [
+              "Consum anual specific de energie primară",
+              "110 kWh/m²·an"
+            ],
+            [
+              "Consum anual specific de energie finală",
+              "95 kWh/m²·an"
+            ],
+            [
+              "Indice de emisii CO2 echivalent",
+              "21.5 kgCO2/m²·an"
+            ],
+            [
+              "Pondere surse regenerabile",
+              "18% (panouri fotovoltaice pe acoperiș)"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

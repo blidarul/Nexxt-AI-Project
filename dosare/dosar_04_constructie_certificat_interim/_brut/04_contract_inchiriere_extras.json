@@ -1,0 +1,29 @@
+{
+  "fisier": "04_contract_inchiriere_extras.pdf",
+  "dosar": "dosar_04_constructie_certificat_interim",
+  "tip_document": "contract_inchiriere",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T16:16:53",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC – DATE DE TEST – NU ESTE UN DOCUMENT REAL\nEXTRAS – CONTRACTE DE ÎNCHIRIERE ÎN VIGOARE\nLacul Office – Turnul 1 · București, Sector 1, Str. Exemplului nr. 20\nSituația chiriașilor la data cererii de finanțare\nChiriaș CUI Cod CAEN principal Suprafață Pondere Durată\nînchiriată contract\nClauză-tip prezentă în toate contractele: „Chiriașul va utiliza spațiul conform destinației stabilite în\ncontract și obiectului său de activitate.”\nClădirea este în construcție. Nu există încă contracte de închiriere semnate.\nC\nI\nT\nE\nT\nN\nI\nS\nDOCUMENT SINTETIC – DATE DE TEST – NU ESTE UN DOCUMENT REAL",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Chiriaș",
+              "CUI",
+              "Cod CAEN principal",
+              "Suprafață închiriată",
+              "Pondere",
+              "Durată contract"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
