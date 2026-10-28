@@ -189,34 +189,20 @@ def test_fisierul_offline_marcheaza_valorile_sintetice():
 def test_eea_agregare_pe_marca_model_combustibil(tmp_path):
     cale = tmp_path / "eea.csv"
     cale.write_text(
-        "ID,Mk,Cn,Ft,Fm,Ewltp (g/km),year,Electric range (km),z (Wh/km)
-"
-        "1,DACIA,SPRING,electric,E,0,2024,225,140
-"
-        "2,DACIA,SPRING,electric,E,0,2025,225,140
-"
-        "3,DACIA,SANDERO,petrol,M,120,2025,,
-"
-        "4,DACIA,SANDERO,petrol,M,130,2025,,
-"
-        "5,DACIA,SANDERO,lpg,B,110,2025,,
-"
-        "6,DACIA,SANDERO,petrol,M,,2025,,
-"
-        "7,TOYOTA,TOYOTA COROLLA,petrol/electric,P,102,2025,,
-"
-        "8,VOLVO,XC60,petrol/electric,P,177,2025,,
-"
-        "9,VOLVO,XC60,petrol/electric,P,23,2025,80,180
-"
-        "10,MERCEDES - BENZ,GLC,diesel,M,150,2025,,
-"
-        "11,MERCEDES-BENZ,GLC,diesel,M,160,2025,,
-"
-        "12,MERCEDES-BENZ,GLA,diesel,M,140,2025,,
-"
-        '13,"VOLKSWAGEN, VW",VW GOLF,petrol,M,125,2025,,
-', encoding="utf-8")
+        "ID,Mk,Cn,Ft,Fm,Ewltp (g/km),year,Electric range (km),z (Wh/km)\n"
+        "1,DACIA,SPRING,electric,E,0,2024,225,140\n"
+        "2,DACIA,SPRING,electric,E,0,2025,225,140\n"
+        "3,DACIA,SANDERO,petrol,M,120,2025,,\n"
+        "4,DACIA,SANDERO,petrol,M,130,2025,,\n"
+        "5,DACIA,SANDERO,lpg,B,110,2025,,\n"
+        "6,DACIA,SANDERO,petrol,M,,2025,,\n"
+        "7,TOYOTA,TOYOTA COROLLA,petrol/electric,P,102,2025,,\n"
+        "8,VOLVO,XC60,petrol/electric,P,177,2025,,\n"
+        "9,VOLVO,XC60,petrol/electric,P,23,2025,80,180\n"
+        "10,MERCEDES - BENZ,GLC,diesel,M,150,2025,,\n"
+        "11,MERCEDES-BENZ,GLC,diesel,M,160,2025,,\n"
+        "12,MERCEDES-BENZ,GLA,diesel,M,140,2025,,\n"
+        '13,"VOLKSWAGEN, VW",VW GOLF,petrol,M,125,2025,,\n', encoding="utf-8")
     randuri = descarca_eea.agrega(descarca_eea.citeste_fisier(cale), top=50, sursa="EEA test")
     grup = {(r["marca"], r["model"], r["combustibil"]): r for r in randuri}
     # combustibilii diferiți ai aceluiași model rămân separați
@@ -235,12 +221,9 @@ def test_eea_agregare_pe_marca_model_combustibil(tmp_path):
 
 def test_emisii_alias_marca_si_marca_repetata_in_model(tmp_path, monkeypatch):
     cale = tmp_path / "emisii.csv"
-    cale.write_text("marca,model,combustibil,emisii_wltp_gco2_km,an_date,nr_inmatriculari,sursa,alias_marca
-"
-                    "VOLKSWAGEN,GOLF,petrol,125,2025,10,EEA test,VW
-"
-                    "TOYOTA,COROLLA,petrol/electric,102,2025,10,EEA test,
-", encoding="utf-8")
+    cale.write_text("marca,model,combustibil,emisii_wltp_gco2_km,an_date,nr_inmatriculari,sursa,alias_marca\n"
+                    "VOLKSWAGEN,GOLF,petrol,125,2025,10,EEA test,VW\n"
+                    "TOYOTA,COROLLA,petrol/electric,102,2025,10,EEA test,\n", encoding="utf-8")
     monkeypatch.setattr(emisii_vehicul, "CALE_CSV", cale)
     assert cauta_emisii_vehicul({"marca": "VW", "model": "Golf"}, None).date["emisii_wltp_gco2_km"] == 125
     assert cauta_emisii_vehicul({"marca": "Toyota", "model": "Toyota Corolla"}, None).date["emisii_wltp_gco2_km"] == 102
