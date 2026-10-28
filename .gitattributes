@@ -1,0 +1,11 @@
+# Fisierele text se salveaza in repo cu LF, oricine le-ar edita (Windows/Mac/Linux).
+# Opreste diferentele "false" la merge cauzate de CRLF vs LF.
+* text=auto eol=lf
+
+# Fisiere binare: nu se ating
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.ttf  binary
+*.zip  binary
