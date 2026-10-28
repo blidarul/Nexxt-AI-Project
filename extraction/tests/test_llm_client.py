@@ -62,3 +62,47 @@ def test_cache_llm():
         stats = client.get_statistici()
         assert stats["apeluri_cache"] == 1
         assert stats["apeluri_reale"] == 0
+
+
+def test_fara_cheie_si_fara_offline_da_eroare_clara(monkeypatch):
+    monkeypatch.delenv("LLM_OFFLINE", raising=False)
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        client = LLMClient(cache_dir=Path(tmp_dir))
+        client.api_key = ""
+        with pytest.raises(RuntimeError, match="LLM_API_KEY"):
+            client.apeleaza([{"role": "user", "content": "ping"}])
+
+
+def test_simulator_offline_doar_explicit_si_nu_scrie_in_cache(monkeypatch):
+    monkeypatch.setenv("LLM_OFFLINE", "1")
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        client = LLMClient(cache_dir=Path(tmp_dir))
+        mesaje = [{"role": "user", "content": "Conținutul paginilor selectate:\nStructura finanțării Banca 50% (15.000.000 EUR)"}]
+        raspuns = client.apeleaza(mesaje)
+        assert '"cota_banca"' in raspuns  # regex-ul e case-insensitive
+        assert list(Path(tmp_dir).glob("*.json")) == []
+        stats = client.get_statistici()
+        assert stats["apeluri_offline"] == 1 and stats["apeluri_reale"] == 0
+
+
+def test_simulator_offline_nu_citeste_cache(monkeypatch):
+    monkeypatch.setenv("LLM_OFFLINE", "1")
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        client = LLMClient(cache_dir=Path(tmp_dir))
+        mesaje = [{"role": "user", "content": "ping"}]
+        cheie = client._calculeaza_cheie_cache(client.model_text, mesaje, 0.0)
+        client._salveaza_in_cache(cheie, '{"real": true}', client.model_text, mesaje)
+        assert client.apeleaza(mesaje) != '{"real": true}'
+
+
+def test_raspuns_fara_cheile_asteptate_declanseaza_reincercare():
+    class Client(LLMClient):
+        def __init__(self):
+            super().__init__(cache_dir=Path(tempfile.mkdtemp()))
+            self.raspunsuri = ['{"model": "x", "response": "{"}', '{"pue_anualizat": {"valoare_text": "1,38"}}']
+
+        def apeleaza(self, mesaje, model=None, temperature=0.0, cere_json=True):
+            return self.raspunsuri.pop(0)
+
+    date, eroare = Client().apeleaza_cu_json([{"role": "user", "content": "x"}], chei_asteptate=["pue_anualizat"])
+    assert eroare is None and "pue_anualizat" in date

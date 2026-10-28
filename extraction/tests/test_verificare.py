@@ -110,3 +110,10 @@ def test_rezolva_conflicte_camp():
     assert len(conflicte) == 1
     assert conflicte[0]["valoare_aleasa"] == 20000
     assert conflicte[0]["valoare_alternativa"] == 25000
+
+
+def test_citat_din_tabel_markdown_cu_separator():
+    from extraction.verificare import verifica_citat
+    doc = {"fisier": "x.pdf", "pagini": [{"pagina": 1, "text": "Țara România", "tabele": [{"randuri": [["S Țara", "România"]]}]}]}
+    gasit, pag, _ = verifica_citat("S Țara | România", 1, doc)
+    assert gasit and pag == 1
