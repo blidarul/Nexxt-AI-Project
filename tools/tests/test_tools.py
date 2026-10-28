@@ -186,21 +186,64 @@ def test_fisierul_offline_marcheaza_valorile_sintetice():
     assert all(r["sursa"].startswith("SINTETIC") or r["sursa"].startswith("EEA") for r in randuri)
 
 
-def test_eea_agregare_cu_mediana_ponderata(tmp_path):
+def test_eea_agregare_pe_marca_model_combustibil(tmp_path):
     cale = tmp_path / "eea.csv"
     cale.write_text(
-        "ID\tMk\tCn\tFt\tEwltp (g/km)\tyear\n"
-        "1\tDACIA\tSPRING\telectric\t0\t2024\n"
-        "2\tDACIA\tSPRING\telectric\t0\t2025\n"
-        "3\tDACIA\tSANDERO\tpetrol\t120\t2025\n"
-        "4\tDACIA\tSANDERO\tpetrol\t130\t2025\n"
-        "5\tDACIA\tSANDERO\tlpg\t110\t2025\n"
-        "6\tDACIA\tSANDERO\tpetrol\t\t2025\n", encoding="utf-8")
-    randuri = descarca_eea.agrega(descarca_eea.citeste_fisier(cale), top=10, sursa="EEA test")
-    pe_model = {r["model"]: r for r in randuri}
-    assert pe_model["SANDERO"]["emisii_wltp_gco2_km"] == 120 and pe_model["SANDERO"]["combustibil"] == "petrol"
-    assert pe_model["SANDERO"]["nr_inmatriculari"] == 3 and pe_model["SPRING"]["an_date"] == 2025
+        "ID,Mk,Cn,Ft,Fm,Ewltp (g/km),year,Electric range (km),z (Wh/km)
+"
+        "1,DACIA,SPRING,electric,E,0,2024,225,140
+"
+        "2,DACIA,SPRING,electric,E,0,2025,225,140
+"
+        "3,DACIA,SANDERO,petrol,M,120,2025,,
+"
+        "4,DACIA,SANDERO,petrol,M,130,2025,,
+"
+        "5,DACIA,SANDERO,lpg,B,110,2025,,
+"
+        "6,DACIA,SANDERO,petrol,M,,2025,,
+"
+        "7,TOYOTA,TOYOTA COROLLA,petrol/electric,P,102,2025,,
+"
+        "8,VOLVO,XC60,petrol/electric,P,177,2025,,
+"
+        "9,VOLVO,XC60,petrol/electric,P,23,2025,80,180
+"
+        "10,MERCEDES - BENZ,GLC,diesel,M,150,2025,,
+"
+        "11,MERCEDES-BENZ,GLC,diesel,M,160,2025,,
+"
+        "12,MERCEDES-BENZ,GLA,diesel,M,140,2025,,
+"
+        '13,"VOLKSWAGEN, VW",VW GOLF,petrol,M,125,2025,,
+', encoding="utf-8")
+    randuri = descarca_eea.agrega(descarca_eea.citeste_fisier(cale), top=50, sursa="EEA test")
+    grup = {(r["marca"], r["model"], r["combustibil"]): r for r in randuri}
+    # combustibilii diferiți ai aceluiași model rămân separați
+    assert grup[("DACIA", "SANDERO", "petrol")]["emisii_wltp_gco2_km"] == 125
+    assert grup[("DACIA", "SANDERO", "lpg")]["emisii_wltp_gco2_km"] == 110
+    assert grup[("DACIA", "SPRING", "electric")]["an_date"] == 2025
+    # hibrid simplu vs plug-in: după autonomia electrică, nu după Fm
+    assert grup[("VOLVO", "XC60", "petrol/electric")]["emisii_wltp_gco2_km"] == 177
+    assert grup[("VOLVO", "XC60", "petrol/electric (plug-in)")]["emisii_wltp_gco2_km"] == 23
+    # marca scoasă din model, grafii unificate, alias din sursă
+    assert ("TOYOTA", "COROLLA", "petrol/electric") in grup
+    assert grup[("MERCEDES-BENZ", "GLC", "diesel")]["nr_inmatriculari"] == 2
+    assert grup[("VOLKSWAGEN", "GOLF", "petrol")]["alias_marca"] == "VW"
     assert descarca_eea._mediana_ponderata([(10, 1), (20, 1)]) == 15
+
+
+def test_emisii_alias_marca_si_marca_repetata_in_model(tmp_path, monkeypatch):
+    cale = tmp_path / "emisii.csv"
+    cale.write_text("marca,model,combustibil,emisii_wltp_gco2_km,an_date,nr_inmatriculari,sursa,alias_marca
+"
+                    "VOLKSWAGEN,GOLF,petrol,125,2025,10,EEA test,VW
+"
+                    "TOYOTA,COROLLA,petrol/electric,102,2025,10,EEA test,
+", encoding="utf-8")
+    monkeypatch.setattr(emisii_vehicul, "CALE_CSV", cale)
+    assert cauta_emisii_vehicul({"marca": "VW", "model": "Golf"}, None).date["emisii_wltp_gco2_km"] == 125
+    assert cauta_emisii_vehicul({"marca": "Toyota", "model": "Toyota Corolla"}, None).date["emisii_wltp_gco2_km"] == 102
 
 
 def test_eea_fara_retea_eroare_clara(fara_retea, capsys):

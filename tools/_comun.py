@@ -36,6 +36,16 @@ def normalizeaza_cheie(text: Any) -> str:
     return re.sub(r"[\s\-_.]+", "", fara)
 
 
+def fara_marca(model: str, marca: str) -> str:
+    """„TOYOTA COROLLA” (marca TOYOTA) -> „COROLLA”. Dacă după marcă nu mai rămâne nimic, modelul rămâne neschimbat."""
+    cuvinte = str(model or "").split()
+    cheie_marca = normalizeaza_cheie(marca)
+    for i in range(1, len(cuvinte)):
+        if normalizeaza_cheie(" ".join(cuvinte[:i])) == cheie_marca:
+            return " ".join(cuvinte[i:])
+    return str(model or "").strip()
+
+
 def citeste_cache(nume: str) -> Optional[Any]:
     cale = FOLDER_CACHE / nume
     if not cale.exists():

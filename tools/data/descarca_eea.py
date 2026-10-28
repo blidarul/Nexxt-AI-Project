@@ -1,7 +1,7 @@
 """Descarcă datele EEA „CO2 emissions from new passenger cars” și scrie tools/data/emisii_vehicule.csv.
 
 Păstrează marca (Mk), denumirea comercială (Cn), combustibilul (Ft) și emisiile WLTP (Ewltp (g/km)),
-agregă pe (marcă, model) cu mediana emisiilor (ponderată cu numărul de înmatriculări) și păstrează
+agregă pe (marcă, model, combustibil) cu mediana emisiilor (ponderată cu numărul de înmatriculări) și păstrează
 cele mai înmatriculate modele (--top). Rândurile SINTETICE existente (fixture-urile) rămân în fișier.
 
 Surse:
@@ -31,10 +31,12 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Iterable, Iterator, Optional
 
+from tools._comun import fara_marca, normalizeaza_cheie
+
 URL_DISCODATA = "https://discodata.eea.europa.eu/sql"
 TABEL_IMPLICIT = "[CO2Emission].[latest].[co2cars_2025Pv31]"
 CALE_IESIRE = Path(__file__).resolve().parent / "emisii_vehicule.csv"
-COLOANE = ["marca", "model", "combustibil", "emisii_wltp_gco2_km", "an_date", "nr_inmatriculari", "sursa"]
+COLOANE = ["marca", "model", "combustibil", "emisii_wltp_gco2_km", "an_date", "nr_inmatriculari", "sursa", "alias_marca"]
 PREFIX_SINTETIC = "SINTETIC"
 PAGINA = 10000
 
@@ -45,14 +47,22 @@ ALIAS_COLOANE = {
     "combustibil": ["ft"],
     "emisii": ["ewltp (g/km)", "ewltp"],
     "an": ["year"],
+    # EEA pune hibridele simple și plug-in la același Ft („petrol/electric”) și la același Fm (P);
+    # plug-in-ul se recunoaște după autonomia electrică / consumul electric completate
+    "autonomie_electrica": ["electric range (km)"],
+    "consum_electric": ["z (wh/km)"],
 }
+COLOANE_OPTIONALE = {"an", "autonomie_electrica", "consum_electric"}
+
+
+EXPR_PLUG_IN = "CASE WHEN [Electric range (km)] IS NOT NULL OR [z (Wh/km)] IS NOT NULL THEN 1 ELSE 0 END"
 
 
 def _interogare_agregata(tabel: str) -> str:
     return (
-        "SELECT Mk, Cn, Ft, [Ewltp (g/km)] AS Ewltp, MAX(Year) AS Year, COUNT(*) AS Nr "
+        f"SELECT Mk, Cn, Ft, {EXPR_PLUG_IN} AS PlugIn, [Ewltp (g/km)] AS Ewltp, MAX(Year) AS Year, COUNT(*) AS Nr "
         f"FROM {tabel} WHERE [Ewltp (g/km)] IS NOT NULL AND Cn IS NOT NULL AND Mk IS NOT NULL "
-        "GROUP BY Mk, Cn, Ft, [Ewltp (g/km)]"
+        f"GROUP BY Mk, Cn, Ft, {EXPR_PLUG_IN}, [Ewltp (g/km)]"
     )
 
 
@@ -78,7 +88,8 @@ def citeste_discodata(tabel: str, timeout: int = 120) -> Iterator[dict]:
             raise SystemExit(f"EROARE: EEA Discodata nu a întors JSON valid ({exc}). {CALE_IESIRE.name} nu a fost modificat.")
         for rand in rezultate:
             yield {"marca": rand.get("Mk"), "model": rand.get("Cn"), "combustibil": rand.get("Ft"),
-                   "emisii": rand.get("Ewltp"), "an": rand.get("Year"), "nr": rand.get("Nr") or 1}
+                   "plug_in": bool(rand.get("PlugIn")), "emisii": rand.get("Ewltp"), "an": rand.get("Year"),
+                   "nr": rand.get("Nr") or 1}
         if len(rezultate) < PAGINA:
             return
         pagina += 1
@@ -119,12 +130,12 @@ def citeste_fisier(cale: Path, tara: Optional[str] = None, max_randuri: Optional
         pozitii = {c.strip().lower(): i for i, c in enumerate(antet)}
         coloane = {cheie: next((pozitii[a] for a in aliasuri if a in pozitii), None)
                    for cheie, aliasuri in ALIAS_COLOANE.items()}
-        lipsa = [k for k, v in coloane.items() if v is None and k != "an"]
+        lipsa = [k for k, v in coloane.items() if v is None and k not in COLOANE_OPTIONALE]
         if lipsa:
             raise SystemExit(f"EROARE: în {cale.name} lipsesc coloanele EEA pentru {lipsa} (antet: {antet}).")
-        col_tara = pozitii.get("ms")
+        col_tara = pozitii.get("ms", pozitii.get("country"))  # Discodata: Ms; CSV-ul de pe Datahub: Country
         if tara and col_tara is None:
-            raise SystemExit(f"EROARE: filtrul --tara cere coloana Ms, care lipsește din {cale.name}.")
+            raise SystemExit(f"EROARE: filtrul --tara cere coloana Ms sau Country, care lipsește din {cale.name}.")
         tara = tara.strip().upper() if tara else None
         maxim = max(coloane[k] for k in coloane if coloane[k] is not None)
 
@@ -151,24 +162,56 @@ def _mediana_ponderata(valori: Iterable[tuple[float, int]]) -> float:
     return valori[-1][0]
 
 
-def agrega(randuri: Iterable[dict], top: int, sursa: str) -> list[dict]:
-    """Agregă pe (marcă, model): mediana emisiilor WLTP, combustibilul cel mai frecvent, ultimul an.
+def este_plug_in(rand: dict) -> bool:
+    """Hibrid cu autonomie electrică sau consum electric declarat = plug-in (OVC-HEV)."""
+    if "plug_in" in rand:
+        return bool(rand["plug_in"])
+    hibrid = "/electric" in str(rand.get("combustibil") or "").lower()
+    return hibrid and bool(str(rand.get("autonomie_electrica") or "").strip() or str(rand.get("consum_electric") or "").strip())
 
-    Memorie constantă: pentru fiecare model se numără valorile distincte de emisii, nu fiecare mașină.
+
+def eticheta_combustibil(ft: object, plug_in: bool = False) -> str:
+    """„petrol/electric” plug-in -> „petrol/electric (plug-in)”; altfel combustibilul EEA, cu litere mici."""
+    eticheta = " ".join(str(ft or "").split()).lower()
+    if plug_in and "/electric" in eticheta:
+        eticheta = f"{eticheta} (plug-in)"
+    return eticheta
+
+
+def agrega(randuri: Iterable[dict], top: int, sursa: str) -> list[dict]:
+    """Agregă pe (marcă, model, combustibil): mediana emisiilor WLTP și ultimul an.
+
+    - mărcile scrise diferit („MERCEDES-BENZ” / „MERCEDES - BENZ”) intră în același grup;
+    - marca se scoate din numele modelului („TOYOTA COROLLA” -> „COROLLA”), iar o marcă dată ca listă
+      („VOLKSWAGEN, VW”) devine prima denumire;
+    - versiunile cu combustibili diferiți rămân separate: mediana unui model care are și plug-in
+      (≈25 g/km) și diesel (≈170 g/km) nu ar descrie niciuna dintre versiuni.
+    Memorie constantă: pentru fiecare grup se numără valorile distincte de emisii, nu fiecare mașină.
     """
-    grupuri: dict[tuple[str, str], dict] = defaultdict(lambda: {"emisii": Counter(), "comb": Counter(), "an": None, "nr": 0})
+    grupuri: dict[tuple[str, str, str], dict] = defaultdict(
+        lambda: {"emisii": Counter(), "model": Counter(), "an": None, "nr": 0})
+    grafii_marca: dict[str, Counter] = defaultdict(Counter)  # aceeași grafie a mărcii pentru toate modelele ei
+    alias_marca: dict[str, set[str]] = defaultdict(set)      # celelalte denumiri din sursă („VW” pentru VOLKSWAGEN)
     for rand in randuri:
-        marca, model = (str(rand.get("marca") or "").strip(), str(rand.get("model") or "").strip())
+        # unele mărci vin ca listă de denumiri („VOLKSWAGEN, VW”): prima e marca, toate se scot din model
+        denumiri = [" ".join(x.split()).upper() for x in str(rand.get("marca") or "").split(",") if x.strip()]
+        marca = denumiri[0] if denumiri else ""
+        model = " ".join(str(rand.get("model") or "").split()).upper()
+        for denumire in denumiri:
+            model = fara_marca(model, denumire)
         try:
             emisii = float(str(rand.get("emisii")).replace(",", "."))
         except (TypeError, ValueError):
             continue
         if not marca or not model:
             continue
+        combustibil = eticheta_combustibil(rand.get("combustibil"), este_plug_in(rand))
         nr = int(rand.get("nr") or 1)
-        g = grupuri[(marca.upper(), model.upper())]
+        g = grupuri[(normalizeaza_cheie(marca), normalizeaza_cheie(model), combustibil)]
         g["emisii"][emisii] += nr
-        g["comb"][str(rand.get("combustibil") or "").strip().lower()] += nr
+        grafii_marca[normalizeaza_cheie(marca)][marca] += nr
+        alias_marca[normalizeaza_cheie(marca)].update(denumiri[1:])
+        g["model"][model] += nr
         g["nr"] += nr
         try:
             an = int(float(rand["an"])) if rand.get("an") not in (None, "") else None
@@ -178,13 +221,14 @@ def agrega(randuri: Iterable[dict], top: int, sursa: str) -> list[dict]:
             g["an"] = an
 
     rezultat = []
-    for (marca, model), g in sorted(grupuri.items(), key=lambda x: -x[1]["nr"])[:top]:
+    for (cheie_marca, _, combustibil), g in sorted(grupuri.items(), key=lambda x: -x[1]["nr"])[:top]:
         rezultat.append({
-            "marca": marca, "model": model, "combustibil": g["comb"].most_common(1)[0][0],
+            "marca": grafii_marca[cheie_marca].most_common(1)[0][0], "model": g["model"].most_common(1)[0][0],
+            "combustibil": combustibil,
             "emisii_wltp_gco2_km": round(_mediana_ponderata(g["emisii"].items()), 1), "an_date": g["an"],
-            "nr_inmatriculari": g["nr"], "sursa": sursa,
+            "nr_inmatriculari": g["nr"], "sursa": sursa, "alias_marca": ";".join(sorted(alias_marca[cheie_marca])),
         })
-    return sorted(rezultat, key=lambda r: (r["marca"], r["model"]))
+    return sorted(rezultat, key=lambda r: (r["marca"], r["model"], r["combustibil"]))
 
 
 def randuri_sintetice() -> list[dict]:

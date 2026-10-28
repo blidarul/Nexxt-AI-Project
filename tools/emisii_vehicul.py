@@ -2,7 +2,8 @@
 
 Offline: tools/data/emisii_vehicule.csv (modele sintetice din fixture-uri + eșantion EEA scris de descarca_eea.py).
 Online: API-ul SQL Discodata al EEA (cu cache în tools/cache/), cu rezervă pe fișierul offline.
-Potrivirea numelui e tolerantă (majuscule, spații, cratime); mai multe potriviri -> date["candidati"].
+Potrivirea numelui e tolerantă (majuscule, spații, cratime, marca repetată în model); mai multe potriviri
+(alte modele sau același model cu alt combustibil) -> date["candidati"].
 """
 
 from __future__ import annotations
@@ -21,6 +22,7 @@ from tools._comun import (
     citeste_cache,
     eroare,
     mereu_toolresult,
+    fara_marca,
     mod_online,
     normalizeaza_cheie,
     nume_fisier_sigur,
@@ -49,19 +51,19 @@ def _citeste_online(marca: str, model: str) -> list[dict[str, Any]]:
     """Rândurile EEA ale mărcii (agregate cu aceeași logică ca descarca_eea.py)."""
     import requests
 
-    from tools.data.descarca_eea import TABEL_IMPLICIT, URL_DISCODATA, agrega
+    from tools.data.descarca_eea import EXPR_PLUG_IN, TABEL_IMPLICIT, URL_DISCODATA, agrega
 
     marca_sql = marca.replace("'", "''")
     interogare = (
-        "SELECT Mk, Cn, Ft, [Ewltp (g/km)] AS Ewltp, MAX(Year) AS Year, COUNT(*) AS Nr "
+        f"SELECT Mk, Cn, Ft, {EXPR_PLUG_IN} AS PlugIn, [Ewltp (g/km)] AS Ewltp, MAX(Year) AS Year, COUNT(*) AS Nr "
         f"FROM {TABEL_IMPLICIT} WHERE UPPER(Mk) = UPPER('{marca_sql}') AND [Ewltp (g/km)] IS NOT NULL "
-        "GROUP BY Mk, Cn, Ft, [Ewltp (g/km)]"
+        f"GROUP BY Mk, Cn, Ft, {EXPR_PLUG_IN}, [Ewltp (g/km)]"
     )
     raspuns = requests.get(URL_DISCODATA, params={"query": interogare, "p": 1, "nrOfHits": 10000},
                            timeout=TIMEOUT_RETEA_S)
     raspuns.raise_for_status()
-    randuri = [{"marca": r.get("Mk"), "model": r.get("Cn"), "combustibil": r.get("Ft"), "emisii": r.get("Ewltp"),
-                "an": r.get("Year"), "nr": r.get("Nr")} for r in raspuns.json().get("results") or []]
+    randuri = [{"marca": r.get("Mk"), "model": r.get("Cn"), "combustibil": r.get("Ft"), "plug_in": bool(r.get("PlugIn")),
+                "emisii": r.get("Ewltp"), "an": r.get("Year"), "nr": r.get("Nr")} for r in raspuns.json().get("results") or []]
     return agrega(randuri, top=10_000, sursa=f"EEA CO2 passenger cars (Discodata {TABEL_IMPLICIT})")
 
 
@@ -95,8 +97,12 @@ def _format(rand: dict[str, Any]) -> dict[str, Any]:
 
 def potriveste(randuri: list[dict[str, Any]], marca: str, model: str) -> tuple[list[dict[str, Any]], int]:
     """(potriviri, câte modele are marca). Întâi potrivirea exactă (tolerantă), apoi cea parțială."""
-    cheie_marca, cheie_model = normalizeaza_cheie(marca), normalizeaza_cheie(model)
-    ale_marcii = [r for r in randuri if normalizeaza_cheie(r.get("marca")) == cheie_marca]
+    cheie_marca, cheie_model = normalizeaza_cheie(marca), normalizeaza_cheie(fara_marca(model, marca))
+    def denumiri_marca(r: dict[str, Any]) -> set[str]:
+        alias = [a for a in str(r.get("alias_marca") or "").split(";") if a.strip()]
+        return {normalizeaza_cheie(x) for x in [r.get("marca"), *alias]}
+
+    ale_marcii = [r for r in randuri if cheie_marca in denumiri_marca(r)]
     exacte = [r for r in ale_marcii if normalizeaza_cheie(r.get("model")) == cheie_model]
     if exacte:
         return exacte, len(ale_marcii)
