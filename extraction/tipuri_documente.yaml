@@ -1,0 +1,188 @@
+# Tipurile de documente pe care le recunoaște clasificarea (din CONȚINUT, nu din numele fișierului).
+#
+# Pentru fiecare tip:
+#   descriere          : ce îi spunem LLM-ului despre tip
+#   id_cerinte         : ID-urile din rules/cerinte_dosar.yaml acoperite de tip
+#                        (ID-ul efectiv se alege după categoria dosarului)
+#   roluri             : (opțional) când același tip acoperă documente „înainte” și „după”,
+#                        rolul detectat din conținut alege ID-ul
+#   indiciu_categorie  : (opțional) ce spune prezența documentului despre categoria proiectului
+#                        forta: puternic = aproape sigur; slab = doar înclină balanța
+#   cuvinte_cheie      : RO (cu și fără diacritice) + EN; folosite la pre-scorul determinist
+#
+# Testul extraction/tests/test_tipuri_documente.py verifică faptul că fiecare ID din
+# cerinte_dosar.yaml e acoperit de cel puțin un tip.
+
+tipuri:
+  # ------------------------------------------------------------------ COMUN
+  cerere_finantare:
+    descriere: "Cerere de credit / finanțare depusă la bancă de solicitant (date firmă, suma solicitată, descrierea proiectului)"
+    id_cerinte: [D-01]
+    cuvinte_cheie: ["cerere de finanțare", "cerere de finantare", "cerere de credit", "solicitant", "suma solicitată", "suma solicitata", "descrierea proiectului", "loan application", "financing request", "applicant"]
+
+  decizie_aprobare:
+    descriere: "Decizia/aprobarea internă a băncii pentru credit (comitet de credit, data aprobării)"
+    id_cerinte: [D-02]
+    cuvinte_cheie: ["decizia de aprobare", "decizie de aprobare", "comitetul de credit", "aprobarea creditului", "aprobării creditului", "aprobarii creditului", "proces standard", "credit approval", "credit committee", "approval decision"]
+
+  certificat_constatator:
+    descriere: "Certificat constatator ONRC / extras de registrul comerțului (date de identificare firmă, CAEN)"
+    id_cerinte: [D-03]
+    cuvinte_cheie: ["certificat constatator", "registrul comerțului", "registrul comertului", "onrc", "obiect principal de activitate", "cod caen", "trade register", "certificate of incorporation"]
+
+  beneficiar_real:
+    descriere: "Declarație privind beneficiarul real al firmei"
+    id_cerinte: [D-04]
+    cuvinte_cheie: ["beneficiar real", "beneficiarul real", "beneficiari reali", "ultimate beneficial owner", "beneficial owner", "ubo"]
+
+  contract_credit:
+    descriere: "Contract de credit / term sheet: structura finanțării, părțile, suma, cota băncii"
+    id_cerinte: [D-05]
+    cuvinte_cheie: ["contract de credit", "contractul de credit", "term sheet", "împrumutat", "imprumutat", "împrumutător", "imprumutator", "facility agreement", "loan agreement", "borrower", "lender"]
+
+  # ------------------------------------------------------------------ GREEN BUILDINGS
+  certificat_sustenabilitate:
+    descriere: "Certificat de sustenabilitate a clădirii (BREEAM, LEED, DGNB, OGNI, EDGE) sau pentru materiale bio (RSB)"
+    id_cerinte: [GB-D1, CE-D3]
+    indiciu_categorie: {categorie: green_buildings, forta: slab}
+    cuvinte_cheie: ["breeam", "leed", "dgnb", "ogni", "edge", "rsb", "certificat de sustenabilitate", "certificare", "sustainability certificate", "certified", "rating"]
+
+  certificat_energetic:
+    descriere: "Certificat de performanță energetică (EPC): clasă energetică, consum kWh/m²·an, energie primară"
+    id_cerinte: [GB-D2, GB-D6, GB-D7]
+    roluri: {inainte: [GB-D6], dupa: [GB-D7]}
+    indiciu_categorie: {categorie: green_buildings, forta: slab}
+    cuvinte_cheie: ["certificat de performanță energetică", "certificat de performanta energetica", "clasa energetică", "clasa energetica", "energie primară", "energie primara", "kwh/m²", "kwh/m2", "energy performance certificate", "epc", "primary energy"]
+
+  audit_energetic:
+    descriere: "Audit energetic: consum înainte de investiție, măsuri propuse, economii estimate"
+    id_cerinte: [GB-D6, GB-D7, EE-D1]
+    roluri: {inainte: [GB-D6, EE-D1], dupa: [GB-D7]}
+    cuvinte_cheie: ["audit energetic", "auditor energetic", "consum de referință", "consum de referinta", "măsuri de eficiență", "masuri de eficienta", "energy audit", "baseline consumption", "energy savings"]
+
+  contract_inchiriere:
+    descriere: "Contracte de închiriere / lista chiriașilor (chiriaș, CAEN, suprafață închiriată)"
+    id_cerinte: [GB-D3]
+    indiciu_categorie: {categorie: green_buildings, forta: slab}
+    cuvinte_cheie: ["contract de închiriere", "contract de inchiriere", "contracte de închiriere", "contracte de inchiriere", "chiriaș", "chirias", "locatar", "suprafață închiriată", "suprafata inchiriata", "lease agreement", "tenant", "rent roll"]
+
+  extras_carte_funciara:
+    descriere: "Extras de carte funciară (proprietar, număr cadastral, suprafață teren/construcție)"
+    id_cerinte: [GB-D4]
+    indiciu_categorie: {categorie: green_buildings, forta: slab}
+    cuvinte_cheie: ["carte funciară", "carte funciara", "extras de carte funciară", "extras de carte funciara", "număr cadastral", "numar cadastral", "ancpi", "land register", "cadastral number"]
+
+  factura_energie:
+    descriere: "Facturi de energie / date de consum real (electricitate, gaz, termoficare)"
+    id_cerinte: [GB-D5]
+    cuvinte_cheie: ["factură", "factura", "consum facturat", "loc de consum", "furnizor de energie", "kwh consumați", "kwh consumati", "energy bill", "invoice", "metering point"]
+
+  deviz_lucrari:
+    descriere: "Deviz / buget al lucrărilor de renovare sau construcție (costuri pe capitole)"
+    id_cerinte: [GB-D8]
+    indiciu_categorie: {categorie: green_buildings, subcategorie: renovare, forta: slab}
+    cuvinte_cheie: ["deviz", "deviz general", "devizul lucrărilor", "devizul lucrarilor", "antemăsurătoare", "antemasuratoare", "cost lucrări", "cost lucrari", "bill of quantities", "cost estimate", "works budget"]
+
+  fisa_tehnica:
+    descriere: "Fișă tehnică a unui echipament, centrale sau vehicul (parametri tehnici, putere, consum, PUE măsurat)"
+    id_cerinte: [GB-D9, RE-D1, EE-D3, CT-D4]
+    cuvinte_cheie: ["fișă tehnică", "fisa tehnica", "specificații tehnice", "specificatii tehnice", "date tehnice", "parametri tehnici", "technical data sheet", "datasheet", "technical specifications"]
+
+  # ------------------------------------------------------------------ RENEWABLE ENERGY
+  studiu_fezabilitate:
+    descriere: "Studiu de fezabilitate al unei investiții (de regulă o centrală: capacitate, producție estimată, soluție tehnică)"
+    id_cerinte: [RE-D1]
+    cuvinte_cheie: ["studiu de fezabilitate", "fezabilitate", "soluția tehnică", "solutia tehnica", "putere instalată", "putere instalata", "feasibility study", "installed capacity"]
+
+  autorizatie:
+    descriere: "Autorizație / licență emisă de o autoritate (ANRE, autorizație de mediu, de construire, punere în funcțiune)"
+    id_cerinte: [RE-D2, PP-D2]
+    cuvinte_cheie: ["autorizație", "autorizatie", "licență", "licenta", "anre", "autorizație de mediu", "autorizatie de mediu", "punere în funcțiune", "punere in functiune", "permit", "licence", "license", "authorisation", "authorization"]
+
+  date_productie:
+    descriere: "Date de producție de energie, reale sau estimate (MWh/an, factor de capacitate, curbe de producție)"
+    id_cerinte: [RE-D3]
+    indiciu_categorie: {categorie: renewable_energy, forta: puternic}
+    cuvinte_cheie: ["producție anuală", "productie anuala", "energie produsă", "energie produsa", "mwh/an", "gwh/an", "factor de capacitate", "energy yield", "annual production", "generation data", "capacity factor"]
+
+  studiu_impact_mediu:
+    descriere: "Studiu / raport de evaluare a impactului asupra mediului (EIA)"
+    id_cerinte: [RE-D4]
+    indiciu_categorie: {categorie: renewable_energy, forta: slab}
+    cuvinte_cheie: ["impact asupra mediului", "evaluarea impactului", "raport la studiul de evaluare", "eia", "environmental impact assessment", "environmental impact"]
+
+  analiza_ciclu_viata:
+    descriere: "Analiză de ciclu de viață (LCA) a emisiilor (gCO2e/kWh pe ciclu de viață)"
+    id_cerinte: [RE-D5]
+    indiciu_categorie: {categorie: renewable_energy, forta: slab}
+    cuvinte_cheie: ["ciclu de viață", "ciclu de viata", "analiza ciclului de viață", "analiza ciclului de viata", "lca", "life cycle assessment", "life-cycle emissions", "gco2e/kwh"]
+
+  contract_materie_prima:
+    descriere: "Contract de aprovizionare cu materie primă (biomasă, deșeuri, combustibil) pentru o centrală"
+    id_cerinte: [RE-D6]
+    indiciu_categorie: {categorie: renewable_energy, subcategorie: biomasa_deseuri, forta: puternic}
+    cuvinte_cheie: ["contract de aprovizionare", "aprovizionare cu materie primă", "aprovizionare cu materie prima", "biomasă", "biomasa", "furnizare de biomasă", "furnizare de biomasa", "feedstock supply", "supply agreement", "biomass"]
+
+  # ------------------------------------------------------------------ ENERGY EFFICIENCY
+  raport_pue:
+    descriere: "Raport de eficiență a unui centru de date (PUE anualizat, consum IT vs. total)"
+    id_cerinte: [EE-D3]
+    indiciu_categorie: {categorie: energy_efficiency, subcategorie: data_center, forta: puternic}
+    cuvinte_cheie: ["pue", "power usage effectiveness", "annualised pue", "annualized pue", "pue anualizat", "centru de date", "data center", "data centre", "it load", "consum it"]
+
+  proiectie_dupa_investitie:
+    descriere: "Proiecție sau măsurători ale consumului DUPĂ investiție (economii realizate / estimate)"
+    id_cerinte: [EE-D2]
+    roluri: {dupa: [EE-D2]}
+    cuvinte_cheie: ["după investiție", "dupa investitie", "consum estimat după", "consum estimat dupa", "economie de energie", "economii realizate", "măsurători după", "masuratori dupa", "post-investment", "after implementation", "measured savings", "projected consumption"]
+
+  # ------------------------------------------------------------------ CLEAN TRANSPORTATION
+  lista_vehicule:
+    descriere: "Listă / anexă cu vehiculele finanțate (marcă, model, combustibil, bucăți, emisii, consum)"
+    id_cerinte: [CT-D1]
+    indiciu_categorie: {categorie: clean_transportation, forta: puternic}
+    cuvinte_cheie: ["lista vehiculelor", "lista vehicule", "anexa flotă", "anexa flota", "flota", "vehicule finanțate", "vehicule finantate", "marca", "model", "fleet list", "vehicle list"]
+
+  certificat_conformitate_vehicul:
+    descriere: "Certificat de conformitate (CoC) al unui vehicul, cu emisiile WLTP"
+    id_cerinte: [CT-D2]
+    indiciu_categorie: {categorie: clean_transportation, forta: puternic}
+    cuvinte_cheie: ["certificat de conformitate", "certificate of conformity", "coc", "wltp", "omologare", "type-approval", "type approval", "număr de identificare vehicul", "numar de identificare vehicul", "vin"]
+
+  declaratie_utilizare:
+    descriere: "Declarație de utilizare a vehiculelor (ce transportă, ex. că nu transportă combustibili fosili)"
+    id_cerinte: [CT-D3]
+    indiciu_categorie: {categorie: clean_transportation, forta: puternic}
+    cuvinte_cheie: ["declarație de utilizare", "declaratie de utilizare", "utilizarea vehiculelor", "combustibili fosili", "declaration of use", "fossil fuels", "intended use"]
+
+  # ------------------------------------------------------------------ POLLUTION PREVENTION
+  descriere_tehnica:
+    descriere: "Descriere tehnică a unei instalații sau a unui proces (reciclare, colectare, tratare deșeuri, captare gaz)"
+    id_cerinte: [PP-D1]
+    indiciu_categorie: {categorie: pollution_prevention, forta: slab}
+    cuvinte_cheie: ["descriere tehnică", "descriere tehnica", "descrierea instalației", "descrierea instalatiei", "fluxul tehnologic", "proces tehnologic", "instalație de reciclare", "instalatie de reciclare", "technical description", "process description", "recycling plant"]
+
+  plan_gestionare_deseuri:
+    descriere: "Plan de gestionare a deșeurilor (tipuri, cantități, colectare, valorificare)"
+    id_cerinte: [PP-D3]
+    indiciu_categorie: {categorie: pollution_prevention, forta: puternic}
+    cuvinte_cheie: ["plan de gestionare a deșeurilor", "plan de gestionare a deseurilor", "gestionarea deșeurilor", "gestionarea deseurilor", "cod deșeu", "cod deseu", "waste management plan", "waste code"]
+
+  # ------------------------------------------------------------------ CIRCULAR ECONOMY
+  descriere_produs:
+    descriere: "Descrierea unui produs sau proces de economie circulară (materiale reciclate, reutilizare, extindere ciclu de viață)"
+    id_cerinte: [CE-D1]
+    indiciu_categorie: {categorie: circular_economy, forta: slab}
+    cuvinte_cheie: ["descrierea produsului", "fișa produsului", "fisa produsului", "conținut reciclat", "continut reciclat", "reutilizare", "materie primă secundară", "materie prima secundara", "product description", "recycled content", "reuse"]
+
+  declaratie_furnizor:
+    descriere: "Declarație a furnizorului (conținut reciclat, intensitate de carbon a materialului, ex. aluminiu)"
+    id_cerinte: [CE-D2]
+    indiciu_categorie: {categorie: circular_economy, forta: puternic}
+    cuvinte_cheie: ["declarația furnizorului", "declaratia furnizorului", "declarație furnizor", "declaratie furnizor", "conținut reciclat", "continut reciclat", "intensitate de carbon", "tco2e/t", "supplier declaration", "recycled content", "carbon intensity"]
+
+  # ------------------------------------------------------------------ REZERVĂ
+  alt_document:
+    descriere: "Orice alt document care nu se încadrează în tipurile de mai sus"
+    id_cerinte: []
+    cuvinte_cheie: []

@@ -12,8 +12,10 @@ def curata_text_pentru_verificare(text: str) -> str:
     # Elimină diacritice
     nfkd = unicodedata.normalize("NFKD", text)
     fara_diacritice = "".join(c for c in nfkd if not unicodedata.combining(c))
+    # Tabelele ajung la LLM în markdown: '|' separă celule, nu e text din document
+    fara_separatori = fara_diacritice.replace("|", " ")
     # Comprimă spațiile albe (newline, tab etc.) la un singur spațiu
-    curatat = re.sub(r"\s+", " ", fara_diacritice).strip().lower()
+    curatat = re.sub(r"\s+", " ", fara_separatori).strip().lower()
     return curatat
 
 
@@ -175,3 +177,37 @@ def rezolva_conflicte_camp(
             })
 
     return ales, conflicte
+
+
+# Cuvinte care neagă o afirmație (RO + EN), comparate fără diacritice, ca cuvinte întregi
+NEGATII = {
+    "nu", "fara", "niciun", "nicio", "nici", "niciodata", "nimic", "neutilizat",
+    "not", "no", "without", "never", "none", "non", "nor", "doesn't", "don't", "isn't", "aren't", "won't",
+}
+
+
+def numara_negatii(citat: str) -> int:
+    """Numărul de cuvinte de negație din citat."""
+    cuvinte = re.findall(r"[a-z']+", curata_text_pentru_verificare(citat))
+    return sum(1 for c in cuvinte if c in NEGATII)
+
+
+def verifica_da_nu(valoare: Optional[bool], citat: str) -> tuple[Optional[bool], Optional[str]]:
+    """Confruntă o valoare da/nu cu negațiile din citat.
+
+    - true cu citat negat sau false cu citat fără negație -> ambiguu (null);
+    - mai mult de o negație (ex. dublă negație) -> ambiguu (null).
+    Întoarce (valoare, motiv) — motiv e „citat ambiguu” când valoarea devine null.
+    """
+    if valoare is None:
+        return None, None
+    if not citat or not citat.strip():
+        return None, "citat ambiguu"
+    negatii = numara_negatii(citat)
+    if negatii > 1:
+        return None, "citat ambiguu"
+    if valoare is True and negatii == 1:
+        return None, "citat ambiguu"
+    if valoare is False and negatii == 0:
+        return None, "citat ambiguu"
+    return valoare, None

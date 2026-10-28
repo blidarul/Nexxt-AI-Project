@@ -1,0 +1,32 @@
+{
+  "categorie": "clean_transportation",
+  "subcategorie": "autoturism_sau_utilitara",
+  "campuri": {
+    "cui": "9900000155",
+    "suma_eur": 200000,
+    "indicatori.transporta_combustibili_fosili": null
+  },
+  "liste": {
+    "indicatori.vehicule": {
+      "cheie": [
+        "marca",
+        "model"
+      ],
+      "randuri": [
+        {
+          "marca": "Exemplu",
+          "model": "Urban-EV",
+          "bucati": 6,
+          "emisii_wltp_gco2_km": null,
+          "consum_kwh_km": null,
+          "distanta_anuala_km": 20000
+        }
+      ]
+    }
+  },
+  "documente_lipsa_contine": [
+    "CT-D2",
+    "D-02"
+  ],
+  "_note": "Fără CoC: CT-D2 în documente_lipsa, emisiile rămân null (nu se inventează)."
+}

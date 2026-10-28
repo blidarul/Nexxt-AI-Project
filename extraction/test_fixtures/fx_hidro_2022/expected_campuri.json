@@ -1,0 +1,20 @@
+{
+  "categorie": "renewable_energy",
+  "subcategorie": "hidro",
+  "campuri": {
+    "cui": "9900000111",
+    "suma_eur": 6000000,
+    "cota_banca": 0.75,
+    "indicatori.tehnologie": "hidro",
+    "indicatori.capacitate_mw": 4.8,
+    "indicatori.productie_anuala_mwh": 18500,
+    "indicatori.an_punere_functiune": "2022",
+    "indicatori.eia_risc_semnificativ": false,
+    "indicatori.fir_de_apa_fara_rezervor": false
+  },
+  "conversii_contin": [
+    "kW",
+    "GWh"
+  ],
+  "liste": {}
+}

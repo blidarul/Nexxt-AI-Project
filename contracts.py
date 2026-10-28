@@ -16,7 +16,7 @@ from pydantic import BaseModel, Field
 # --------------------------------------------------------------------------- A
 class Camp(BaseModel):
     """Orice valoare extrasa dintr-un document isi pastreaza sursa (pentru audit)."""
-    valoare: Optional[Union[str, float, int]] = None
+    valoare: Optional[Union[bool, str, float, int, list, dict]] = None
     sursa: str = ""                 # ex: "01_cerere_finantare.pdf, p.1"
     incredere: float = 1.0          # 0-1; sub 0.7 agentul ar trebui sa verifice sau sa intrebe
 

@@ -1,0 +1,33 @@
+{
+  "fisier": "03_epc_dupa.pdf",
+  "dosar": "fx_renovare",
+  "tip_document": "certificat_energetic",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:58",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nCERTIFICAT DE PERFORMANȚĂ ENERGETICĂ –\ndupă renovare\nCertificat pentru clădirea după renovare, estimat conform proiectului tehnic de renovare.\nClasa energetică B\nConsum anual specific de energie primară 120 kWh/m²·an\nAria utilă (Au) 8.000 m²",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Clasa energetică",
+              "B"
+            ],
+            [
+              "Consum anual specific de energie primară",
+              "120 kWh/m²·an"
+            ],
+            [
+              "Aria utilă (Au)",
+              "8.000 m²"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

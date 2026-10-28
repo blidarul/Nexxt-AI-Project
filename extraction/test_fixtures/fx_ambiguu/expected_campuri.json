@@ -1,0 +1,12 @@
+{
+  "categorie_ambigua": true,
+  "categorie_candidati": [
+    "energy_efficiency",
+    "renewable_energy"
+  ],
+  "campuri": {
+    "cui": "9900000166",
+    "suma_eur": 1200000
+  },
+  "liste": {}
+}

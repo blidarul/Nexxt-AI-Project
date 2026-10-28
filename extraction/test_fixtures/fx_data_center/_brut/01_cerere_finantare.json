@@ -1,0 +1,49 @@
+{
+  "fisier": "01_cerere_finantare.pdf",
+  "dosar": "fx_data_center",
+  "tip_document": "cerere_finantare",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:58",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nCERERE DE FINANȚARE – PERSOANE JURIDICE\nSolicitant Exemplu Data Services SRL\nCUI 9900000099\nȚara România\nAdresa sediului social Ilfov, Șos. Fictivă nr. 12\nValoarea totală a proiectului 10.000.000 EUR\nSuma solicitată de la bancă 8.000.000 EUR\nStructura finanțării Banca 80% (8.000.000 EUR), aport propriu 20%\nDescrierea proiectului\nModernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu\nechipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de\ndate.",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Solicitant",
+              "Exemplu Data Services SRL"
+            ],
+            [
+              "CUI",
+              "9900000099"
+            ],
+            [
+              "Țara",
+              "România"
+            ],
+            [
+              "Adresa sediului social",
+              "Ilfov, Șos. Fictivă nr. 12"
+            ],
+            [
+              "Valoarea totală a proiectului",
+              "10.000.000 EUR"
+            ],
+            [
+              "Suma solicitată de la bancă",
+              "8.000.000 EUR"
+            ],
+            [
+              "Structura finanțării",
+              "Banca 80% (8.000.000 EUR), aport propriu 20%"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

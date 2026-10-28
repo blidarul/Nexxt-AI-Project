@@ -3,3 +3,7 @@ dosar_01_complet_eligibil,Dosarul de referinta: totul e in regula.,ELIGIBIL
 dosar_02_chirias_combustibili_fosili,"Acelasi dosar, dar un chirias important are ca activitate extractia petrolului.",EXCEPTIE_ESCALADARE_COMITET
 dosar_03_breeam_insuficient_cale_epc,"BREEAM doar 'Very Good' (pica GB-01), dar EPC clasa A (trece pe GB-03).",ELIGIBIL
 dosar_04_constructie_certificat_interim,"Cladire noua, in constructie, cu BREEAM Excellent dar doar 'Interim'.",ELIGIBIL_CU_MONITORIZARE
+dosar2,"Parc logistic verde cu BREEAM Excellent Final si clasa A.",ELIGIBIL
+dosar3,"Centru comercial cu BREEAM Outstanding Final si clasa A.",ELIGIBIL
+dosar4,"Cladire in constructie: BREEAM Very Good (pica GB-01), dar EPC clasa A (trece GB-03).",ELIGIBIL_CU_MONITORIZARE
+dosar5,"Parc industrial verde cu BREEAM Excellent Final si clasa A.",ELIGIBIL

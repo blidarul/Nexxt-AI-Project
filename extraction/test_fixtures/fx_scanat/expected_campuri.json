@@ -1,0 +1,34 @@
+{
+  "categorie": "clean_transportation",
+  "subcategorie": "autoturism_sau_utilitara",
+  "campuri": {
+    "cui": "9900000144",
+    "suma_eur": 300000
+  },
+  "liste": {
+    "indicatori.vehicule": {
+      "cheie": [
+        "marca",
+        "model"
+      ],
+      "randuri": [
+        {
+          "marca": "Exemplu",
+          "model": "City-EV",
+          "bucati": 5,
+          "emisii_wltp_gco2_km": 0,
+          "consum_kwh_km": 0.15
+        },
+        {
+          "marca": "Exemplu",
+          "model": "Cargo-PHEV",
+          "bucati": 3,
+          "emisii_wltp_gco2_km": 48,
+          "consum_kwh_km": 0.18
+        }
+      ]
+    }
+  },
+  "pagini_ocr_minim": 2,
+  "_note": "Emisiile Cargo-PHEV (48) și consumurile vin DOAR din CoC-urile scanate (OCR)."
+}

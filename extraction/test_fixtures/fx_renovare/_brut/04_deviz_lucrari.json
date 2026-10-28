@@ -1,0 +1,41 @@
+{
+  "fisier": "04_deviz_lucrari.pdf",
+  "dosar": "fx_renovare",
+  "tip_document": "contract_inchiriere",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:58",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nDEVIZ GENERAL AL LUCRĂRILOR DE RENOVARE\nCapitol Valoare\nAnvelopare termică și tâmplărie 2.750.000 EUR\nPompe de căldură și instalații 1.500.000 EUR\nAlte lucrări (amenajări interioare) 750.000 EUR\nTotal 5.000.000 EUR\nPonderea lucrărilor de renovare energetică în valoarea totală a devizului: 85%.",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Capitol",
+              "Valoare"
+            ],
+            [
+              "Anvelopare termică și tâmplărie",
+              "2.750.000 EUR"
+            ],
+            [
+              "Pompe de căldură și instalații",
+              "1.500.000 EUR"
+            ],
+            [
+              "Alte lucrări (amenajări interioare)",
+              "750.000 EUR"
+            ],
+            [
+              "Total",
+              "5.000.000 EUR"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

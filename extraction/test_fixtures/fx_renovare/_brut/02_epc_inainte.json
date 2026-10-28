@@ -1,0 +1,33 @@
+{
+  "fisier": "02_epc_inainte.pdf",
+  "dosar": "fx_renovare",
+  "tip_document": "necunoscut",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:58",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nCERTIFICAT DE PERFORMANȚĂ ENERGETICĂ –\nsituația existentă\nCertificat emis pentru clădirea în starea existentă, înainte de lucrările de renovare.\nClasa energetică D\nConsum anual specific de energie primară 245 kWh/m²·an\nAria utilă (Au) 8.000 m²",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Clasa energetică",
+              "D"
+            ],
+            [
+              "Consum anual specific de energie primară",
+              "245 kWh/m²·an"
+            ],
+            [
+              "Aria utilă (Au)",
+              "8.000 m²"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

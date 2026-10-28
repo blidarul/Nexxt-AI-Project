@@ -1,0 +1,45 @@
+{
+  "fisier": "03_coc_ev_van.pdf",
+  "dosar": "fx_transport_flota",
+  "tip_document": "certificat_energetic",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:43:08",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nCERTIFICAT DE CONFORMITATE CE / EC\nCERTIFICATE OF CONFORMITY\npentru vehicule complete din categoria N1 (omologare de tip UE)\n0.1 Marca (Make) Exemplu\n0.2 Tip / Model EV-Van\n0.4 Categoria vehiculului N1\n0.10 Număr de identificare vehicul (VIN) WEXFICTIV00000001\n47. Emisii CO2 WLTP, combinat 0 g/km\n49. Consum de energie electrică WLTP 160 Wh/km",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "0.1 Marca (Make)",
+              "Exemplu"
+            ],
+            [
+              "0.2 Tip / Model",
+              "EV-Van"
+            ],
+            [
+              "0.4 Categoria vehiculului",
+              "N1"
+            ],
+            [
+              "0.10 Număr de identificare vehicul (VIN)",
+              "WEXFICTIV00000001"
+            ],
+            [
+              "47. Emisii CO2 WLTP, combinat",
+              "0 g/km"
+            ],
+            [
+              "49. Consum de energie electrică WLTP",
+              "160 Wh/km"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

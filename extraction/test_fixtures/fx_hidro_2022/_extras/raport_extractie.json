@@ -1,0 +1,363 @@
+{
+  "dosar_id": "fx_hidro_2022",
+  "categorie_candidati": [
+    {
+      "categorie": "renewable_energy",
+      "subcategorie": "hidro",
+      "tip_nivel_3": null,
+      "incredere": 0.9,
+      "citat": "Refinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro)",
+      "citat_verificat": true,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "camp_subcategorie": "tehnologie",
+      "camp_nivel_3": null
+    }
+  ],
+  "categorie_ambigua": false,
+  "indicii_categorie": [
+    {
+      "categorie": "renewable_energy",
+      "subcategorie": null,
+      "forta": "slab",
+      "fisier": "04_studiu_impact_mediu.pdf",
+      "tip_document": "studiu_impact_mediu"
+    }
+  ],
+  "documente_clasificate": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_detectat": "cerere_finantare",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o cerere de finanțare depusă la bancă de solicitant, cu datele firmei, suma solicitată și descrierea proiectului.",
+      "id_cerinte": [
+        "D-01"
+      ]
+    },
+    {
+      "fisier": "02_studiu_fezabilitate.pdf",
+      "tip_detectat": "studiu_fezabilitate",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține termenul 'studiu de fezabilitate' și descrie parametrii unei centrale hidroelectrice, cum ar fi puterea instalată, suprafața lacului de acumulare și producția anuală estimată.",
+      "id_cerinte": [
+        "RE-D1"
+      ]
+    },
+    {
+      "fisier": "03_autorizatie_anre.pdf",
+      "tip_detectat": "autorizatie",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține mențiuni despre o licență emisă de ANRE pentru exploatarea comercială a capacităților de producere a energiei electrice, ceea ce îl încadrează în categoria de autorizație.",
+      "id_cerinte": [
+        "RE-D2"
+      ]
+    },
+    {
+      "fisier": "04_studiu_impact_mediu.pdf",
+      "tip_detectat": "studiu_impact_mediu",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține mențiunea 'RAPORT PRIVIND EVALUAREA IMPACTULUI ASUPRA MEDIULUI (EIA)' și se referă la un proiect de evaluare a impactului asupra mediului, ceea ce corespunde tipului 'studiu_impact_mediu'.",
+      "id_cerinte": [
+        "RE-D4"
+      ]
+    }
+  ],
+  "documente_gasite": [
+    {
+      "id": "D-01",
+      "nume": "Cerere de finantare",
+      "fisiere": [
+        "01_cerere_finantare.pdf"
+      ]
+    },
+    {
+      "id": "RE-D1",
+      "nume": "Studiu de fezabilitate / fisa tehnica a centralei",
+      "fisiere": [
+        "02_studiu_fezabilitate.pdf"
+      ]
+    },
+    {
+      "id": "RE-D2",
+      "nume": "Autorizatie de producere / licenta ANRE (sau echivalent)",
+      "fisiere": [
+        "03_autorizatie_anre.pdf"
+      ]
+    },
+    {
+      "id": "RE-D4",
+      "nume": "Studiu de impact asupra mediului (EIA)",
+      "fisiere": [
+        "04_studiu_impact_mediu.pdf"
+      ]
+    }
+  ],
+  "documente_lipsa": [
+    {
+      "id": "D-02",
+      "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-04",
+      "nume": "Declaratia privind beneficiarul real",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-05",
+      "nume": "Contractul de credit / term sheet (structura finantarii)",
+      "obligatoriu": true
+    },
+    {
+      "id": "RE-D3",
+      "nume": "Date de productie (reale sau estimate)",
+      "obligatoriu": true
+    }
+  ],
+  "documente_recomandate_lipsa": [
+    {
+      "id": "RE-D5",
+      "nume": "Analiza de ciclu de viata (LCA) a emisiilor",
+      "obligatoriu": "doar geotermal, biomasa",
+      "conditie": "doar geotermal, biomasa"
+    },
+    {
+      "id": "RE-D6",
+      "nume": "Contracte de aprovizionare cu materie prima",
+      "obligatoriu": "doar biomasa",
+      "conditie": "doar biomasa"
+    }
+  ],
+  "campuri_selectate": [
+    "cui",
+    "tara",
+    "aprobat_proces_standard",
+    "data_aprobare",
+    "data_marcare_verde",
+    "suma_eur",
+    "cota_banca",
+    "categorie",
+    "subcategorie",
+    "descriere_proiect",
+    "afirmatii_client",
+    "tehnologie",
+    "capacitate_mw",
+    "productie_anuala_mwh",
+    "an_punere_functiune",
+    "fir_de_apa_fara_rezervor",
+    "densitate_putere_w_m2",
+    "emisii_directe_gco2e_kwh",
+    "eia_risc_semnificativ"
+  ],
+  "campuri_extrase": {
+    "cui": {
+      "valoare": "9900000111",
+      "valoare_bruta": "9900000111",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "CUI 9900000111",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "tara": {
+      "valoare": "România",
+      "valoare_bruta": "România",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Țara România",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "aprobat_proces_standard": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_aprobare": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_marcare_verde": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "suma_eur": {
+      "valoare": 6000000,
+      "valoare_bruta": "6.000.000 EUR",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suma solicitată de la bancă 6.000.000 EUR",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "cota_banca": {
+      "valoare": 0.75,
+      "valoare_bruta": "0.75",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Banca 75% (6.000.000 EUR), aport propriu 25%",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "descriere_proiect": {
+      "valoare": "Refinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro), pusă în funcțiune în 2022, cu lac de acumulare propriu.",
+      "valoare_bruta": "Refinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro), pusă în funcțiune în 2022, cu lac de acumulare propriu.",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Descrierea proiectului Refinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro), pusă în funcțiune în 2022, cu lac de acumulare propriu.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "afirmatii_client": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "capacitate_mw": {
+      "valoare": 4.8,
+      "valoare_bruta": "4.800 kW",
+      "sursa": "02_studiu_fezabilitate.pdf, p.1",
+      "citat": "Putere instalată 4.800 kW",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "productie_anuala_mwh": {
+      "valoare": 18500.0,
+      "valoare_bruta": "18,5 GWh",
+      "sursa": "02_studiu_fezabilitate.pdf, p.1",
+      "citat": "Producția medie anuală estimată 18,5 GWh",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "an_punere_functiune": {
+      "valoare": "2022",
+      "valoare_bruta": "2022",
+      "sursa": "03_autorizatie_anre.pdf, p.1",
+      "citat": "Anul punerii în funcțiune 2022",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "fir_de_apa_fara_rezervor": {
+      "valoare": false,
+      "valoare_bruta": "nu",
+      "sursa": "02_studiu_fezabilitate.pdf, p.1",
+      "citat": "Centrala nu funcționează pe firul apei; dispune de un lac de acumulare de 60 ha.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "densitate_putere_w_m2": {
+      "valoare": 800,
+      "valoare_bruta": "800 W/m²",
+      "sursa": "02_studiu_fezabilitate.pdf, p.1",
+      "citat": "Putere instalată 4.800 kW",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.85
+    },
+    "emisii_directe_gco2e_kwh": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "eia_risc_semnificativ": {
+      "valoare": false,
+      "valoare_bruta": "nu",
+      "sursa": "04_studiu_impact_mediu.pdf, p.1",
+      "citat": "nu au fost identificate riscuri semnificative asupra mediului",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    }
+  },
+  "campuri_lipsa": [
+    {
+      "camp": "aprobat_proces_standard",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-03"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "data_aprobare",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-04"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "emisii_directe_gco2e_kwh",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "RE-D1",
+        "RE-D5"
+      ],
+      "pentru": [
+        "RE-03b",
+        "RE-03c"
+      ],
+      "obligatoriu": true
+    }
+  ],
+  "conflicte": [],
+  "conversii_unitati": [
+    {
+      "camp": "capacitate_mw",
+      "valoare_bruta": "4.800 kW",
+      "unitate_originala": "kW",
+      "valoare": 4.8,
+      "sursa": "02_studiu_fezabilitate.pdf, p.1"
+    },
+    {
+      "camp": "productie_anuala_mwh",
+      "valoare_bruta": "18,5 GWh",
+      "unitate_originala": "GWh",
+      "valoare": 18500.0,
+      "sursa": "02_studiu_fezabilitate.pdf, p.1"
+    }
+  ],
+  "valori_respinse": [],
+  "statistici_llm": {
+    "apeluri_reale": 0,
+    "apeluri_cache": 11,
+    "apeluri_offline": 0,
+    "total_apeluri": 11
+  },
+  "apeluri_llm_reale": []
+}

@@ -1,0 +1,383 @@
+{
+  "dosar_id": "fx_transport_flota",
+  "categorie_candidati": [
+    {
+      "categorie": "clean_transportation",
+      "subcategorie": "autoturism_sau_utilitara",
+      "tip_nivel_3": null,
+      "incredere": 0.99,
+      "citat": "Achiziția unei flote de 15 autoutilitare ușoare (categoria N1) pentru livrarea urbană de colete: 10 autoutilitare electrice și 5 autoutilitare hibride plug-in.",
+      "citat_verificat": true,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "camp_subcategorie": "tip",
+      "camp_nivel_3": null
+    }
+  ],
+  "categorie_ambigua": false,
+  "indicii_categorie": [
+    {
+      "categorie": "clean_transportation",
+      "subcategorie": null,
+      "forta": "puternic",
+      "fisier": "02_lista_vehicule.pdf",
+      "tip_document": "lista_vehicule"
+    },
+    {
+      "categorie": "clean_transportation",
+      "subcategorie": null,
+      "forta": "puternic",
+      "fisier": "03_coc_ev_van.pdf",
+      "tip_document": "certificat_conformitate_vehicul"
+    },
+    {
+      "categorie": "clean_transportation",
+      "subcategorie": null,
+      "forta": "puternic",
+      "fisier": "04_coc_phev_van.pdf",
+      "tip_document": "certificat_conformitate_vehicul"
+    },
+    {
+      "categorie": "clean_transportation",
+      "subcategorie": null,
+      "forta": "puternic",
+      "fisier": "05_declaratie_utilizare.pdf",
+      "tip_document": "declaratie_utilizare"
+    }
+  ],
+  "documente_clasificate": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_detectat": "cerere_finantare",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o cerere de finanțare depusă la bancă de solicitant, cu datele firmei, suma solicitată și descrierea proiectului de achiziție a unei flote de autoutilitare electrice și hibride.",
+      "id_cerinte": [
+        "D-01"
+      ]
+    },
+    {
+      "fisier": "02_lista_vehicule.pdf",
+      "tip_detectat": "lista_vehicule",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o listă cu vehiculele finanțate, cu informații despre marcă, model, combustibil, număr de bucăți, emisii CO2 WLTP și consum, corespunzând definiției tipului 'lista_vehicule'.",
+      "id_cerinte": [
+        "CT-D1"
+      ]
+    },
+    {
+      "fisier": "03_coc_ev_van.pdf",
+      "tip_detectat": "certificat_conformitate_vehicul",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține un certificat de conformitate pentru un vehicul, cu informații despre emisiile CO2 WLTP și consumul de energie electrică.",
+      "id_cerinte": [
+        "CT-D2"
+      ]
+    },
+    {
+      "fisier": "04_coc_phev_van.pdf",
+      "tip_detectat": "certificat_conformitate_vehicul",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține un certificat de conformitate pentru un vehicul, cu informații despre marca, model, categorie, VIN, emisii CO2 WLTP și consum de energie electrică WLTP.",
+      "id_cerinte": [
+        "CT-D2"
+      ]
+    },
+    {
+      "fisier": "05_declaratie_utilizare.pdf",
+      "tip_detectat": "declaratie_utilizare",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul este o declarație de utilizare a vehiculelor, conform titlului și conținutului, care precizează că vehiculele sunt utilizate exclusiv pentru livrarea de colete și nu transportă combustibili fosili.",
+      "id_cerinte": [
+        "CT-D3"
+      ]
+    }
+  ],
+  "documente_gasite": [
+    {
+      "id": "D-01",
+      "nume": "Cerere de finantare",
+      "fisiere": [
+        "01_cerere_finantare.pdf"
+      ]
+    },
+    {
+      "id": "CT-D1",
+      "nume": "Lista vehiculelor finantate (anexa flota)",
+      "fisiere": [
+        "02_lista_vehicule.pdf"
+      ]
+    },
+    {
+      "id": "CT-D2",
+      "nume": "Certificate de conformitate (CoC) cu emisiile WLTP",
+      "fisiere": [
+        "03_coc_ev_van.pdf",
+        "04_coc_phev_van.pdf"
+      ]
+    },
+    {
+      "id": "CT-D3",
+      "nume": "Declaratie de utilizare (nu transporta combustibili fosili)",
+      "fisiere": [
+        "05_declaratie_utilizare.pdf"
+      ]
+    }
+  ],
+  "documente_lipsa": [
+    {
+      "id": "D-02",
+      "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-04",
+      "nume": "Declaratia privind beneficiarul real",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-05",
+      "nume": "Contractul de credit / term sheet (structura finantarii)",
+      "obligatoriu": true
+    }
+  ],
+  "documente_recomandate_lipsa": [
+    {
+      "id": "CT-D4",
+      "nume": "Fisa tehnica (consum electric kWh/km)",
+      "obligatoriu": "pentru impact",
+      "conditie": "pentru impact"
+    }
+  ],
+  "campuri_selectate": [
+    "cui",
+    "tara",
+    "aprobat_proces_standard",
+    "data_aprobare",
+    "data_marcare_verde",
+    "suma_eur",
+    "cota_banca",
+    "categorie",
+    "subcategorie",
+    "descriere_proiect",
+    "afirmatii_client",
+    "tip",
+    "vehicule",
+    "transporta_combustibili_fosili"
+  ],
+  "campuri_extrase": {
+    "cui": {
+      "valoare": "9900000088",
+      "valoare_bruta": "9900000088",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "CUI 9900000088",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "tara": {
+      "valoare": "România",
+      "valoare_bruta": "România",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Țara România",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.97
+    },
+    "aprobat_proces_standard": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_aprobare": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_marcare_verde": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "suma_eur": {
+      "valoare": 450000,
+      "valoare_bruta": "450.000 EUR",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suma solicitată de la bancă 450.000 EUR",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "cota_banca": {
+      "valoare": 1.0,
+      "valoare_bruta": "100%",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Structura finanțării Banca 100% (450.000 EUR)",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.96
+    },
+    "descriere_proiect": {
+      "valoare": "Achiziția unei flote de 15 autoutilitare ușoare (categoria N1) pentru livrarea urbană de colete: 10 autoutilitare electrice și 5 autoutilitare hibride plug-in. Lista vehiculelor este în anexa flotă.",
+      "valoare_bruta": "Achiziția unei flote de 15 autoutilitare ușoare (categoria N1) pentru livrarea urbană de colete: 10 autoutilitare electrice și 5 autoutilitare hibride plug-in. Lista vehiculelor este în anexa flotă.",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Achiziția unei flote de 15 autoutilitare ușoare (categoria N1) pentru livrarea urbană de colete: 10 autoutilitare electrice și 5 autoutilitare hibride plug-in. Lista vehiculelor este în anexa flotă.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.99
+    },
+    "afirmatii_client": {
+      "valoare": [
+        "Flota noastră este 100% cu emisii zero."
+      ],
+      "valoare_bruta": null,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Flota noastră este 100% cu emisii zero.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 1.0,
+      "metoda": "determinist_afirmatii"
+    },
+    "transporta_combustibili_fosili": {
+      "valoare": false,
+      "valoare_bruta": "nu",
+      "sursa": "05_declaratie_utilizare.pdf, p.1",
+      "citat": "vehiculele finanțate prin creditul solicitat sunt utilizate exclusiv pentru livrarea de colete și nu transportă combustibili fosili.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "vehicule": {
+      "valoare": [
+        {
+          "marca": "Exemplu",
+          "model": "EV-Van",
+          "combustibil": "electric",
+          "bucati": 10,
+          "emisii_wltp_gco2_km": 0,
+          "consum_kwh_km": 0.16,
+          "distanta_anuala_km": 17746
+        },
+        {
+          "marca": "Exemplu",
+          "model": "PHEV-Van",
+          "combustibil": "hibrid plug-in",
+          "bucati": 5,
+          "emisii_wltp_gco2_km": 45,
+          "consum_kwh_km": 0.05,
+          "distanta_anuala_km": 17746
+        }
+      ],
+      "sursa": "02_lista_vehicule.pdf, p.1-2; 03_coc_ev_van.pdf, 04_coc_phev_van.pdf",
+      "citat": "1 | Exemplu | EV-Van | electric | 6 | 0 | 16,0 | 17.746; 2 | Exemplu | PHEV-Van | hibrid plug-in | 3 | 48 | 5,0 | 17.746; 3 | Exemplu | EV-Van | electric | 4 | 0 | 16,0 | 17.746",
+      "citat_verificat": true,
+      "metoda": "determinist_tabele",
+      "nr_randuri_brute": 4
+    }
+  },
+  "campuri_lipsa": [
+    {
+      "camp": "aprobat_proces_standard",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-03"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "data_aprobare",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-04"
+      ],
+      "obligatoriu": true
+    }
+  ],
+  "conflicte": [
+    {
+      "camp_lista": "vehicule",
+      "camp": "emisii_wltp_gco2_km",
+      "model": "PHEV-Van",
+      "valoare_lista": 48,
+      "valoare_autoritate": 45,
+      "ales": 45,
+      "sursa_autoritate": "04_coc_phev_van.pdf",
+      "motiv": "valoarea din documentul de autoritate (CoC) câștigă"
+    }
+  ],
+  "conversii_unitati": [
+    {
+      "camp": "vehicule.consum_kwh_km",
+      "valoare_bruta": "16,0",
+      "unitate_originala": "kWh/100km",
+      "valoare": 0.16,
+      "sursa": "02_lista_vehicule.pdf, p.1"
+    },
+    {
+      "camp": "vehicule.consum_kwh_km",
+      "valoare_bruta": "5,0",
+      "unitate_originala": "kWh/100km",
+      "valoare": 0.05,
+      "sursa": "02_lista_vehicule.pdf, p.1"
+    },
+    {
+      "camp": "vehicule.consum_kwh_km",
+      "valoare_bruta": "16,0",
+      "unitate_originala": "kWh/100km",
+      "valoare": 0.16,
+      "sursa": "02_lista_vehicule.pdf, p.2"
+    },
+    {
+      "camp": "vehicule.consum_kwh_km",
+      "valoare_bruta": "5,0",
+      "unitate_originala": "kWh/100km",
+      "valoare": 0.05,
+      "sursa": "02_lista_vehicule.pdf, p.2"
+    },
+    {
+      "camp": "vehicule.consum_kwh_km",
+      "valoare_bruta": "160 Wh/km",
+      "unitate_originala": "Wh/km",
+      "valoare": 0.16,
+      "sursa": "03_coc_ev_van.pdf, p.1"
+    },
+    {
+      "camp": "vehicule.consum_kwh_km",
+      "valoare_bruta": "50 Wh/km",
+      "unitate_originala": "Wh/km",
+      "valoare": 0.05,
+      "sursa": "04_coc_phev_van.pdf, p.1"
+    }
+  ],
+  "valori_respinse": [],
+  "statistici_llm": {
+    "apeluri_reale": 0,
+    "apeluri_cache": 10,
+    "apeluri_offline": 0,
+    "total_apeluri": 10
+  },
+  "apeluri_llm_reale": []
+}

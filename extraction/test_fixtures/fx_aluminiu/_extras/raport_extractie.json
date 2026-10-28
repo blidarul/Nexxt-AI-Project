@@ -1,0 +1,286 @@
+{
+  "dosar_id": "fx_aluminiu",
+  "categorie_candidati": [
+    {
+      "categorie": "circular_economy",
+      "subcategorie": "produse_aluminiu",
+      "tip_nivel_3": null,
+      "incredere": 0.99,
+      "citat": "Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
+      "citat_verificat": true,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "camp_subcategorie": "tip",
+      "camp_nivel_3": null
+    }
+  ],
+  "categorie_ambigua": false,
+  "indicii_categorie": [
+    {
+      "categorie": "circular_economy",
+      "subcategorie": null,
+      "forta": "puternic",
+      "fisier": "02_declaratie_furnizor.pdf",
+      "tip_document": "declaratie_furnizor"
+    }
+  ],
+  "documente_clasificate": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_detectat": "cerere_finantare",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o cerere de finanțare depusă la bancă, cu datele firmei, suma solicitată și descrierea proiectului.",
+      "id_cerinte": [
+        "D-01"
+      ]
+    },
+    {
+      "fisier": "02_declaratie_furnizor.pdf",
+      "tip_detectat": "declaratie_furnizor",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o declarație a furnizorului privind materialul livrat, cu informații despre conținutul de aluminiu reciclat și intensitatea de carbon a materialului, ceea ce corespunde tipului 'declaratie_furnizor'.",
+      "id_cerinte": [
+        "CE-D2"
+      ]
+    }
+  ],
+  "documente_gasite": [
+    {
+      "id": "D-01",
+      "nume": "Cerere de finantare",
+      "fisiere": [
+        "01_cerere_finantare.pdf"
+      ]
+    },
+    {
+      "id": "CE-D2",
+      "nume": "Declaratii furnizori (continut reciclat, intensitate carbon)",
+      "fisiere": [
+        "02_declaratie_furnizor.pdf"
+      ]
+    }
+  ],
+  "documente_lipsa": [
+    {
+      "id": "D-02",
+      "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-04",
+      "nume": "Declaratia privind beneficiarul real",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-05",
+      "nume": "Contractul de credit / term sheet (structura finantarii)",
+      "obligatoriu": true
+    },
+    {
+      "id": "CE-D1",
+      "nume": "Descrierea produsului / procesului",
+      "obligatoriu": true
+    }
+  ],
+  "documente_recomandate_lipsa": [
+    {
+      "id": "CE-D3",
+      "nume": "Certificare de sustenabilitate pentru materiale bio (ex. RSB)",
+      "obligatoriu": "doar bio",
+      "conditie": "doar bio"
+    }
+  ],
+  "campuri_selectate": [
+    "cui",
+    "tara",
+    "aprobat_proces_standard",
+    "data_aprobare",
+    "data_marcare_verde",
+    "suma_eur",
+    "cota_banca",
+    "categorie",
+    "subcategorie",
+    "descriere_proiect",
+    "afirmatii_client",
+    "tip",
+    "pondere_aluminiu_reciclat",
+    "intensitate_carbon_aluminiu_primar_tco2e_t",
+    "foloseste_plastic_virgin",
+    "economie_materie_prima_tone_an"
+  ],
+  "campuri_extrase": {
+    "cui": {
+      "valoare": "9900000133",
+      "valoare_bruta": "9900000133",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "CUI 9900000133",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "tara": {
+      "valoare": "România",
+      "valoare_bruta": "România",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Țara România",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.97
+    },
+    "aprobat_proces_standard": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_aprobare": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_marcare_verde": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "suma_eur": {
+      "valoare": 3000000,
+      "valoare_bruta": "3.000.000 EUR",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suma solicitată de la bancă 3.000.000 EUR",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "cota_banca": {
+      "valoare": 0.6,
+      "valoare_bruta": "0.6",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Banca 60% (3.000.000 EUR), aport propriu 40%",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.96
+    },
+    "descriere_proiect": {
+      "valoare": "Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
+      "valoare_bruta": "Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Descrierea proiectului Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.94
+    },
+    "afirmatii_client": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "pondere_aluminiu_reciclat": {
+      "valoare": 0.75,
+      "valoare_bruta": "75%",
+      "sursa": "02_declaratie_furnizor.pdf, p.1",
+      "citat": "Conținut de aluminiu reciclat 75%",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "intensitate_carbon_aluminiu_primar_tco2e_t": {
+      "valoare": 2.1,
+      "valoare_bruta": "2,1 tCO2e/t",
+      "sursa": "02_declaratie_furnizor.pdf, p.1",
+      "citat": "Intensitatea de carbon a aluminiului primar utilizat 2,1 tCO2e/t",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.97
+    },
+    "foloseste_plastic_virgin": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "economie_materie_prima_tone_an": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    }
+  },
+  "campuri_lipsa": [
+    {
+      "camp": "aprobat_proces_standard",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-03"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "data_aprobare",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-04"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "foloseste_plastic_virgin",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "CE-D1"
+      ],
+      "pentru": [
+        "CE-X1"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "economie_materie_prima_tone_an",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "CE-D1"
+      ],
+      "pentru": [
+        "impact"
+      ],
+      "obligatoriu": true
+    }
+  ],
+  "conflicte": [],
+  "conversii_unitati": [],
+  "valori_respinse": [],
+  "statistici_llm": {
+    "apeluri_reale": 0,
+    "apeluri_cache": 8,
+    "apeluri_offline": 0,
+    "total_apeluri": 8
+  },
+  "apeluri_llm_reale": []
+}

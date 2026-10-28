@@ -1,0 +1,41 @@
+{
+  "dosar": "fx_hidro_2022",
+  "documente": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_document": "cerere_finantare",
+      "json": "_brut/01_cerere_finantare.json",
+      "pagini": 1,
+      "tabele": 1,
+      "pagini_ocr": 0,
+      "eroare": null
+    },
+    {
+      "fisier": "02_studiu_fezabilitate.pdf",
+      "tip_document": "necunoscut",
+      "json": "_brut/02_studiu_fezabilitate.json",
+      "pagini": 1,
+      "tabele": 1,
+      "pagini_ocr": 0,
+      "eroare": null
+    },
+    {
+      "fisier": "03_autorizatie_anre.pdf",
+      "tip_document": "certificat_energetic",
+      "json": "_brut/03_autorizatie_anre.json",
+      "pagini": 1,
+      "tabele": 1,
+      "pagini_ocr": 0,
+      "eroare": null
+    },
+    {
+      "fisier": "04_studiu_impact_mediu.pdf",
+      "tip_document": "contract_inchiriere",
+      "json": "_brut/04_studiu_impact_mediu.json",
+      "pagini": 1,
+      "tabele": 0,
+      "pagini_ocr": 0,
+      "eroare": null
+    }
+  ]
+}

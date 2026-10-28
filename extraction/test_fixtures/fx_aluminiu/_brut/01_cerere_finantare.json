@@ -1,0 +1,41 @@
+{
+  "fisier": "01_cerere_finantare.pdf",
+  "dosar": "fx_aluminiu",
+  "tip_document": "cerere_finantare",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:57",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nCERERE DE FINANȚARE – PERSOANE JURIDICE\nSolicitant Exemplu Profile Metalice SRL\nCUI 9900000133\nȚara România\nSuma solicitată de la bancă 3.000.000 EUR\nStructura finanțării Banca 60% (3.000.000 EUR), aport propriu 40%\nDescrierea proiectului\nLinie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat\nde aluminiu reciclat.",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Solicitant",
+              "Exemplu Profile Metalice SRL"
+            ],
+            [
+              "CUI",
+              "9900000133"
+            ],
+            [
+              "Țara",
+              "România"
+            ],
+            [
+              "Suma solicitată de la bancă",
+              "3.000.000 EUR"
+            ],
+            [
+              "Structura finanțării",
+              "Banca 60% (3.000.000 EUR), aport propriu 40%"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
