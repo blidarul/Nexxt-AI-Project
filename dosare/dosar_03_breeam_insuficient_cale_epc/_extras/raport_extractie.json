@@ -1,0 +1,626 @@
+{
+  "dosar_id": "dosar_03_breeam_insuficient_cale_epc",
+  "documente_clasificate": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_detectat": "cerere_finantare",
+      "incredere": 0.98,
+      "motiv": "Documentul conține antetul și datele unei cereri de finanțare persoane juridice."
+    },
+    {
+      "fisier": "03_certificat_energetic.pdf",
+      "tip_detectat": "certificat_energetic",
+      "incredere": 0.98,
+      "motiv": "Certificat de performanță energetică cu date despre clădire și performanța EPC."
+    },
+    {
+      "fisier": "04_contract_inchiriere_extras.pdf",
+      "tip_detectat": "contract_inchiriere",
+      "incredere": 0.98,
+      "motiv": "Extras contracte de închiriere și situația chiriașilor în vigoare."
+    }
+  ],
+  "campuri_extrase": {
+    "cui": {
+      "valoare": "9900000061",
+      "valoare_bruta": "9900000061",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "CUI 9900000061",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "suma_eur": {
+      "valoare": 15000000,
+      "valoare_bruta": "15.000.000 EUR",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suma solicitată de la bancă 15.000.000 EUR",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "cota_banca": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_aprobare": {
+      "valoare": "2026-03-15",
+      "valoare_bruta": "2026-03-15",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Data aprobării creditului (procesul standard de credit): 2026-03-15",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "tara": {
+      "valoare": "România",
+      "valoare_bruta": "România",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Țara România",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.99
+    },
+    "adresa_cladire": {
+      "valoare": "ICluj-Napoca, Str. Exemplului nr. 5",
+      "valoare_bruta": "ICluj-Napoca, Str. Exemplului nr. 5",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Adresă ICluj-Napoca, Str. Exemplului nr. 5",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "suprafata_m2": {
+      "valoare": 12000,
+      "valoare_bruta": "12.000 m²",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suprafață utilă (declarată) 12.000 m²",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "stadiu_cladire": {
+      "valoare": "Finalizată, în exploatare",
+      "valoare_bruta": "Finalizată, în exploatare",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Stadiu Finalizată, în exploatare",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "nr_certificat_declarat": {
+      "valoare": "BREEAM-EXEMPLU-0002",
+      "valoare_bruta": "BREEAM-EXEMPLU-0002",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Număr certificat de sustenabilitate comunicat: BREEAM-EXEMPLU-0002",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "epc_clasa": {
+      "valoare": "A",
+      "valoare_bruta": "A",
+      "sursa": "03_certificat_energetic.pdf, p.1",
+      "citat": "Clasa energetică A",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "afirmatii_client": {
+      "valoare": [
+        "Clădirea deține certificare BREEAM.",
+        "Clădirea are certificat energetic clasa A."
+      ],
+      "valoare_bruta": null,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Declarații ale solicitantului privind sustenabilitatea",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 1.0
+    },
+    "aprobat_proces_standard": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_marcare_verde": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "descriere_proiect": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "categorie": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "subcategorie": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "certificare_sistem": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "certificare_nivel": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "certificare_stadiu": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "ped_kwh_m2": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "energie_finala_kwh_m2": {
+      "valoare": 80,
+      "valoare_bruta": "80 kWh/m²·an",
+      "sursa": "03_certificat_energetic.pdf, p.1",
+      "citat": "Consum anual specific de energie finală 80 kWh/m²·an",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.78
+    },
+    "ped_inainte_kwh_m2": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "ped_dupa_kwh_m2": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "reducere_emisii_pct": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "ani_pana_la_reducere": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "pondere_suma_pentru_renovare": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "tip_masura": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "gwp_agent_frigorific": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "sistem_management_agent_frigorific": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "statie_in_cladire": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "integrat_cu_regenerabile": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "deserveste_sistem_fosil": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "tehnologie": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "capacitate_mw": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "productie_anuala_mwh": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "an_punere_functiune": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "fir_de_apa_fara_rezervor": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "densitate_putere_w_m2": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "emisii_directe_gco2e_kwh": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "eia_risc_semnificativ": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "pondere_electricitate_solara": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "emisii_ciclu_viata_gco2_kwh": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "materie_prima": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "metoda_productie": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "pondere_regenerabil_sau_reziduala": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "tip_proiect": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "consum_inainte_mwh": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "consum_dupa_mwh": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "tehnologie_bat": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "industrie_beneficiar": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "echipament_combustibil_fosil": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "pue_anualizat": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "nr_gospodarii_conectate": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "nr_contoare": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "tip": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "vehicule": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "transporta_combustibili_fosili": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "emisii_gco2e_pkm": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "emisii_gco2_tkm": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "tip_infrastructura": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "reciclare_chimica_plastic": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "segregare_la_sursa": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "propulsie_vehicule_colectare": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "eficienta_captare_pct": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "tone_deseuri_reciclate_an": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "pondere_aluminiu_reciclat": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "intensitate_carbon_aluminiu_primar_tco2e_t": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "foloseste_plastic_virgin": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "economie_materie_prima_tone_an": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "chiriasi": {
+      "numar_chiriasi": 3,
+      "sursa": "04_contract_inchiriere_extras.pdf, p.1",
+      "citat": "Alfa Software SRL | 6201 – Activități de realizare a soft-ului la comandă | 10.000 m²; Beta Consulting SRL | 7022 – Activități de consultanță pentru afaceri și management | 6.000 m²; Gamma Café SRL | 5630 – Baruri și alte activități de servire a băuturilor | 1.000 m²",
+      "citat_verificat": true,
+      "metoda": "determinist_tabele",
+      "incredere": 1.0
+    }
+  },
+  "campuri_lipsa": [
+    "cota_banca"
+  ],
+  "conflicte": [
+    {
+      "camp": "adresa_cladire",
+      "valoare_aleasa": "ICluj-Napoca, Str. Exemplului nr. 5",
+      "document_ales": "01_cerere_finantare.pdf",
+      "valoare_alternativa": "Cluj-Napoca, Str. Exemplului nr. 5",
+      "document_alternativ": "03_certificat_energetic.pdf",
+      "citat_alternativ": "Adresa clădirii Cluj-Napoca, Str. Exemplului nr. 5"
+    },
+    {
+      "camp": "adresa_cladire",
+      "valoare_aleasa": "ICluj-Napoca, Str. Exemplului nr. 5",
+      "document_ales": "01_cerere_finantare.pdf",
+      "valoare_alternativa": "Cluj-Napoca, Str. Exemplului nr. 5",
+      "document_alternativ": "03_certificat_energetic.pdf",
+      "citat_alternativ": "Adresa clădirii Cluj-Napoca, Str. Exemplului nr. 5"
+    }
+  ],
+  "valori_respinse": [],
+  "statistici_llm": {
+    "apeluri_reale": 0,
+    "apeluri_cache": 18,
+    "total_apeluri": 18
+  }
+}

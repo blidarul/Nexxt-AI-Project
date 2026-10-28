@@ -141,8 +141,16 @@ def extrage_campuri_document_llm(
     client = llm_client or get_llm_client()
     text_document = formateaza_pagini_pentru_prompt(pagini)
 
+    # Filtrăm exclusiv câmpurile care trebuie extrase din documente (extras_din_document: True)
+    campuri_cerute = [
+        c for c in campuri
+        if catalog_campuri.get(c, {}).get("extras_din_document", True)
+    ]
+    if not campuri_cerute:
+        return {}
+
     descrieri = []
-    for c in campuri:
+    for c in campuri_cerute:
         info = catalog_campuri.get(c, {})
         desc = info.get("descriere", c)
         descrieri.append(f"- {c}: {desc}")

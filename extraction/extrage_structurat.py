@@ -96,8 +96,11 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
     # 3. Extragerea deterministă a chiriașilor din tabele
     chiriasi_extrasi, sursa_chiriasi, citat_chiriasi = extrage_chiriasi_determinist(documente_clasificate)
 
-    # Câmpuri de extras
-    toate_campurile = list(catalog_campuri.keys())
+    # Câmpuri de extras: exclusiv cele marcate cu extras_din_document: True
+    toate_campurile = [
+        c for c, info in catalog_campuri.items()
+        if info.get("extras_din_document", True)
+    ]
     campuri_scalare = [c for c in toate_campurile if c not in ("chiriasi",)]
 
     candidati_per_camp: dict[str, list[dict[str, Any]]] = {c: [] for c in campuri_scalare}
@@ -123,7 +126,16 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
             llm_client=llm_client,
         )
 
-        for camp, val_info in extrase_llm.items():
+        # Mapare de compatibilitate pentru câmpurile din cache Etapa 2
+        aliasuri_etapa2 = {
+            "epc_energie_finala": "energie_finala_kwh_m2",
+            "epc_suprafata_m2": "suprafata_m2",
+        }
+
+        for camp_raw, val_info in extrase_llm.items():
+            camp = aliasuri_etapa2.get(camp_raw, camp_raw)
+            if camp not in candidati_per_camp:
+                continue
             if not isinstance(val_info, dict) and camp == "afirmatii_client" and isinstance(val_info, list):
                 # caz listă de afirmații
                 candidati_per_camp[camp].append({
@@ -182,6 +194,8 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
                 llm_client=llm_client,
             )
             for camp, val_info in extrase_llm.items():
+                if camp not in candidati_per_camp:
+                    continue
                 if isinstance(val_info, dict):
                     val_text = val_info.get("valoare_text")
                     if val_text is not None and str(val_text).strip().lower() not in ("null", "none", ""):
@@ -324,6 +338,23 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
         if isinstance(val_af, list):
             afirmatii_lista = val_af
 
+    are_epc = any(d.get("tip_document") == "certificat_energetic" for d in documente_clasificate)
+    val_epc_energie = valori_selectate.get("epc_energie_finala") or valori_selectate.get("energie_finala_kwh_m2")
+    val_epc_sup = valori_selectate.get("epc_suprafata_m2") or (valori_selectate.get("suprafata_m2") if are_epc else None)
+
+    # Indicatori suplimentari pentru cerinte_dosar.yaml
+    indicatori_dict = {}
+    campuri_top_level = {
+        "cui", "suma_eur", "cota_banca", "data_aprobare", "tara",
+        "adresa_cladire", "suprafata_m2", "stadiu_cladire", "nr_certificat_declarat",
+        "epc_clasa", "epc_energie_finala", "epc_suprafata_m2", "afirmatii_client"
+    }
+    for camp_nume, camp_dict in valori_selectate.items():
+        if camp_nume not in campuri_top_level and camp_dict is not None:
+            obj_c = creeaza_obiect_camp(camp_nume, camp_dict)
+            if obj_c:
+                indicatori_dict[camp_nume] = obj_c
+
     dosar_extras = DosarExtras(
         dosar_id=dosar_id,
         cui=creeaza_camp_obligatoriu("cui", valori_selectate.get("cui")),
@@ -336,10 +367,11 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
         stadiu_cladire=creeaza_camp_obligatoriu("stadiu_cladire", valori_selectate.get("stadiu_cladire")),
         nr_certificat_declarat=creeaza_camp_obligatoriu("nr_certificat_declarat", valori_selectate.get("nr_certificat_declarat")),
         epc_clasa=creeaza_obiect_camp("epc_clasa", valori_selectate.get("epc_clasa")),
-        epc_energie_finala=creeaza_obiect_camp("epc_energie_finala", valori_selectate.get("epc_energie_finala")),
-        epc_suprafata_m2=creeaza_obiect_camp("epc_suprafata_m2", valori_selectate.get("epc_suprafata_m2")),
+        epc_energie_finala=creeaza_obiect_camp("epc_energie_finala", val_epc_energie),
+        epc_suprafata_m2=creeaza_obiect_camp("epc_suprafata_m2", val_epc_sup),
         chiriasi=chiriasi_extrasi,
         afirmatii_client=afirmatii_lista,
+        indicatori=indicatori_dict,
     )
 
     # --- Construirea Raportului de Extracție ---

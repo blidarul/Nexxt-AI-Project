@@ -53,12 +53,12 @@
   "epc_energie_finala": {
     "valoare": 95,
     "sursa": "03_certificat_energetic.pdf, p.1",
-    "incredere": 0.98
+    "incredere": 0.78
   },
   "epc_suprafata_m2": {
     "valoare": 20000,
-    "sursa": "03_certificat_energetic.pdf, p.1",
-    "incredere": 0.98
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
   },
   "chiriasi": [
     {
@@ -81,5 +81,14 @@
     "Clădirea deține certificare BREEAM Excellent.",
     "Clădirea are certificat energetic clasa A.",
     "Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România."
-  ]
+  ],
+  "categorie": null,
+  "subcategorie": null,
+  "indicatori": {
+    "energie_finala_kwh_m2": {
+      "valoare": 95,
+      "sursa": "03_certificat_energetic.pdf, p.1",
+      "incredere": 0.78
+    }
+  }
 }
