@@ -13,7 +13,7 @@
   "cota_banca": {
     "valoare": 0.6,
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.96
   },
   "data_aprobare": {
     "valoare": null,
@@ -23,7 +23,7 @@
   "tara": {
     "valoare": "România",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.97
   },
   "adresa_cladire": {
     "valoare": null,
@@ -52,15 +52,34 @@
   "afirmatii_client": [],
   "categorie": {
     "valoare": "circular_economy",
-    "sursa": "02_declaratie_furnizor.pdf (tip declaratie_furnizor)",
-    "incredere": 0.6
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.99
   },
-  "subcategorie": null,
+  "subcategorie": {
+    "valoare": "produse_aluminiu",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.99
+  },
   "indicatori": {
     "descriere_proiect": {
       "valoare": "Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "incredere": 0.95
+      "incredere": 0.94
+    },
+    "pondere_aluminiu_reciclat": {
+      "valoare": 0.75,
+      "sursa": "02_declaratie_furnizor.pdf, p.1",
+      "incredere": 0.98
+    },
+    "intensitate_carbon_aluminiu_primar_tco2e_t": {
+      "valoare": 2.1,
+      "sursa": "02_declaratie_furnizor.pdf, p.1",
+      "incredere": 0.97
+    },
+    "tip": {
+      "valoare": "produse_aluminiu",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.99
     }
   }
 }

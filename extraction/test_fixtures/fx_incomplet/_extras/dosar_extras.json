@@ -6,14 +6,14 @@
     "incredere": 0.98
   },
   "suma_eur": {
-    "valoare": null,
-    "sursa": "",
-    "incredere": 0.0
+    "valoare": 200000,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
   },
   "cota_banca": {
-    "valoare": null,
-    "sursa": "",
-    "incredere": 0.0
+    "valoare": 1.0,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
   },
   "data_aprobare": {
     "valoare": null,
@@ -23,7 +23,7 @@
   "tara": {
     "valoare": "România",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.9
+    "incredere": 0.95
   },
   "adresa_cladire": {
     "valoare": null,
@@ -64,7 +64,7 @@
     "descriere_proiect": {
       "valoare": "Achiziția a 6 autoutilitare ușoare (categoria N1) electrice pentru distribuție urbană.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "incredere": 0.99
+      "incredere": 0.98
     },
     "vehicule": {
       "valoare": [

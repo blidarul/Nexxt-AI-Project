@@ -551,10 +551,12 @@ class LLMClient:
         model: Optional[str] = None,
         temperature: float = 0.0,
         chei_asteptate: Optional[list[str]] = None,
+        chei_permise: Optional[set[str]] = None,
     ) -> tuple[Optional[Any], Optional[str]]:
         """Apelează LLM-ul și extrage un JSON valid.
 
         În caz de eșec de parsare, face până la două reîncercări.
+        Dacă se dau chei_permise, orice cheie din afara chei_asteptate ∪ chei_permise invalidează răspunsul.
         Dacă se dau chei_asteptate, un obiect care nu conține niciuna dintre ele
         (răspuns degenerat, ex. {"response": "{"}) e tratat tot ca eșec.
         Întoarce (obiect_json, eroare_str).
@@ -564,7 +566,11 @@ class LLMClient:
             if date is None:
                 return False
             if chei_asteptate and isinstance(date, dict):
-                return any(k in date for k in chei_asteptate)
+                if not any(k in date for k in chei_asteptate):
+                    return False
+                # chei stâlcite (ex. "sumaa_eur") = răspuns degenerat, chiar dacă alte chei sunt corecte
+                if chei_permise is not None and not set(date) <= (set(chei_asteptate) | chei_permise):
+                    return False
             return True
 
         nume_model = model or self.model_text

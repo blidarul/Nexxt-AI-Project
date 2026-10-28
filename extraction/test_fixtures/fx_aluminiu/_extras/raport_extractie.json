@@ -3,17 +3,17 @@
   "categorie_candidati": [
     {
       "categorie": "circular_economy",
-      "subcategorie": null,
+      "subcategorie": "produse_aluminiu",
       "tip_nivel_3": null,
-      "incredere": 0.6,
-      "citat": "",
-      "citat_verificat": false,
-      "sursa": "02_declaratie_furnizor.pdf (tip declaratie_furnizor)",
+      "incredere": 0.99,
+      "citat": "Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
+      "citat_verificat": true,
+      "sursa": "01_cerere_finantare.pdf, p.1",
       "camp_subcategorie": "tip",
       "camp_nivel_3": null
     }
   ],
-  "categorie_ambigua": true,
+  "categorie_ambigua": false,
   "indicii_categorie": [
     {
       "categorie": "circular_economy",
@@ -109,6 +109,8 @@
     "descriere_proiect",
     "afirmatii_client",
     "tip",
+    "pondere_aluminiu_reciclat",
+    "intensitate_carbon_aluminiu_primar_tco2e_t",
     "foloseste_plastic_virgin",
     "economie_materie_prima_tone_an"
   ],
@@ -129,7 +131,7 @@
       "citat": "Țara România",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.97
     },
     "aprobat_proces_standard": {
       "valoare": null,
@@ -171,16 +173,16 @@
       "citat": "Banca 60% (3.000.000 EUR), aport propriu 40%",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.96
     },
     "descriere_proiect": {
       "valoare": "Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
       "valoare_bruta": "Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
+      "citat": "Descrierea proiectului Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.94
     },
     "afirmatii_client": {
       "valoare": null,
@@ -189,6 +191,24 @@
       "citat_verificat": false,
       "treapta_cautare": null,
       "incredere": 0.0
+    },
+    "pondere_aluminiu_reciclat": {
+      "valoare": 0.75,
+      "valoare_bruta": "75%",
+      "sursa": "02_declaratie_furnizor.pdf, p.1",
+      "citat": "Conținut de aluminiu reciclat 75%",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "intensitate_carbon_aluminiu_primar_tco2e_t": {
+      "valoare": 2.1,
+      "valoare_bruta": "2,1 tCO2e/t",
+      "sursa": "02_declaratie_furnizor.pdf, p.1",
+      "citat": "Intensitatea de carbon a aluminiului primar utilizat 2,1 tCO2e/t",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.97
     },
     "foloseste_plastic_virgin": {
       "valoare": null,
@@ -257,35 +277,10 @@
   "conversii_unitati": [],
   "valori_respinse": [],
   "statistici_llm": {
-    "apeluri_reale": 4,
-    "apeluri_cache": 0,
+    "apeluri_reale": 0,
+    "apeluri_cache": 8,
     "apeluri_offline": 0,
-    "total_apeluri": 4
+    "total_apeluri": 8
   },
-  "apeluri_llm_reale": [
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "821b8b7041272a106f7d22c2484710cb6c5ef9b87b0223deb0ecae9b67a3e185"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "f4e3f6bb77a82dcafb9482bf7dadbbdbcb7c70eccf9d42f61a2a2b7bca79efa2"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "f8a85e4165f361d525de779a68e019971cb92e00b4c32fb6d70f4c5e7014e791"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "0d0919f9213e26c5270ac5e5f20ac399ed89f47115bee1155ab22f9da2e3ec75"
-    }
-  ]
+  "apeluri_llm_reale": []
 }

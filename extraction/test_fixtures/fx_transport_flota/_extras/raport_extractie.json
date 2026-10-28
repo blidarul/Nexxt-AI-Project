@@ -96,6 +96,67 @@
       ]
     }
   ],
+  "documente_gasite": [
+    {
+      "id": "D-01",
+      "nume": "Cerere de finantare",
+      "fisiere": [
+        "01_cerere_finantare.pdf"
+      ]
+    },
+    {
+      "id": "CT-D1",
+      "nume": "Lista vehiculelor finantate (anexa flota)",
+      "fisiere": [
+        "02_lista_vehicule.pdf"
+      ]
+    },
+    {
+      "id": "CT-D2",
+      "nume": "Certificate de conformitate (CoC) cu emisiile WLTP",
+      "fisiere": [
+        "03_coc_ev_van.pdf",
+        "04_coc_phev_van.pdf"
+      ]
+    },
+    {
+      "id": "CT-D3",
+      "nume": "Declaratie de utilizare (nu transporta combustibili fosili)",
+      "fisiere": [
+        "05_declaratie_utilizare.pdf"
+      ]
+    }
+  ],
+  "documente_lipsa": [
+    {
+      "id": "D-02",
+      "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-04",
+      "nume": "Declaratia privind beneficiarul real",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-05",
+      "nume": "Contractul de credit / term sheet (structura finantarii)",
+      "obligatoriu": true
+    }
+  ],
+  "documente_recomandate_lipsa": [
+    {
+      "id": "CT-D4",
+      "nume": "Fisa tehnica (consum electric kWh/km)",
+      "obligatoriu": "pentru impact",
+      "conditie": "pentru impact"
+    }
+  ],
   "campuri_selectate": [
     "cui",
     "tara",
@@ -140,13 +201,12 @@
       "incredere": 0.0
     },
     "data_aprobare": {
-      "valoare": "2025-10-15",
-      "valoare_bruta": "15.10.2025",
-      "sursa": "05_declaratie_utilizare.pdf, p.1",
-      "citat": "Data: 15.10.2025",
-      "citat_verificat": true,
-      "treapta_cautare": 2,
-      "incredere": 0.78
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
     },
     "data_marcare_verde": {
       "valoare": null,
@@ -167,7 +227,7 @@
     },
     "cota_banca": {
       "valoare": 1.0,
-      "valoare_bruta": "1.0",
+      "valoare_bruta": "100%",
       "sursa": "01_cerere_finantare.pdf, p.1",
       "citat": "Structura finanțării Banca 100% (450.000 EUR)",
       "citat_verificat": true,
@@ -178,19 +238,22 @@
       "valoare": "Achiziția unei flote de 15 autoutilitare ușoare (categoria N1) pentru livrarea urbană de colete: 10 autoutilitare electrice și 5 autoutilitare hibride plug-in. Lista vehiculelor este în anexa flotă.",
       "valoare_bruta": "Achiziția unei flote de 15 autoutilitare ușoare (categoria N1) pentru livrarea urbană de colete: 10 autoutilitare electrice și 5 autoutilitare hibride plug-in. Lista vehiculelor este în anexa flotă.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Descrierea proiectului Achiziția unei flote de 15 autoutilitare ușoare (categoria N1) pentru livrarea urbană de colete: 10 autoutilitare electrice și 5 autoutilitare hibride plug-in. Lista vehiculelor este în anexa flotă.",
+      "citat": "Achiziția unei flote de 15 autoutilitare ușoare (categoria N1) pentru livrarea urbană de colete: 10 autoutilitare electrice și 5 autoutilitare hibride plug-in. Lista vehiculelor este în anexa flotă.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.94
+      "incredere": 0.99
     },
     "afirmatii_client": {
-      "valoare": "Flota noastră este 100% cu emisii zero.",
-      "valoare_bruta": "Flota noastră este 100% cu emisii zero.",
+      "valoare": [
+        "Flota noastră este 100% cu emisii zero."
+      ],
+      "valoare_bruta": null,
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "• Flota noastră este 100% cu emisii zero.",
+      "citat": "Flota noastră este 100% cu emisii zero.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.93
+      "incredere": 1.0,
+      "metoda": "determinist_afirmatii"
     },
     "transporta_combustibili_fosili": {
       "valoare": false,
@@ -238,6 +301,17 @@
       ],
       "pentru": [
         "G-03"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "data_aprobare",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-04"
       ],
       "obligatoriu": true
     }
@@ -301,8 +375,9 @@
   "valori_respinse": [],
   "statistici_llm": {
     "apeluri_reale": 0,
-    "apeluri_cache": 47,
+    "apeluri_cache": 10,
     "apeluri_offline": 0,
-    "total_apeluri": 47
-  }
+    "total_apeluri": 10
+  },
+  "apeluri_llm_reale": []
 }

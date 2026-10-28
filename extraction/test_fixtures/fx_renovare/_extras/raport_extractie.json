@@ -315,65 +315,10 @@
   "conversii_unitati": [],
   "valori_respinse": [],
   "statistici_llm": {
-    "apeluri_reale": 9,
-    "apeluri_cache": 0,
+    "apeluri_reale": 0,
+    "apeluri_cache": 9,
     "apeluri_offline": 0,
     "total_apeluri": 9
   },
-  "apeluri_llm_reale": [
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "5d32091d4e8cfcf8baeb80314ab273f5e22ca543905fd20315c36e03ce17065c"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "b219f06f945a0992073301d4dd4b545643e64ebabbea7f40e3212ca78d1efc2e"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "e7b3f62dc105f0f47aced85cbeae3d0b743c664448fadd9f82106882028a7c2e"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "e5ee0a31d8b2094323836cabed939abc31284c077a917bf68294efe549e3c4ef"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "268ed1ddcfa85c414ab0cb9066a2fa7fdac00fd584444fae917efbe7215d72fc"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "802ac59c8eb716108539a482c045e87cad48ab99b8c497de711c8211339d2ccc"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "268a6fe8091692a475a3939c5d4cfa7f2ccbe22d6dbce26fa878ea0796b44d94"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "51247fab6742edacbfd857db049404bdedb86e749f3428dabaeef0bab0bf9ec9"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "fd5eb8f82f28dc7094135e1d683b18d87c789c796c7a2cbc253bd41d9c9522a1"
-    }
-  ]
+  "apeluri_llm_reale": []
 }

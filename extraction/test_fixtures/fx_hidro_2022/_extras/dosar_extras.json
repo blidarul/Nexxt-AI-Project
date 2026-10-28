@@ -69,7 +69,12 @@
     "capacitate_mw": {
       "valoare": 4.8,
       "sursa": "02_studiu_fezabilitate.pdf, p.1",
-      "incredere": 0.98
+      "incredere": 0.95
+    },
+    "productie_anuala_mwh": {
+      "valoare": 18500.0,
+      "sursa": "02_studiu_fezabilitate.pdf, p.1",
+      "incredere": 0.95
     },
     "an_punere_functiune": {
       "valoare": "2022",
@@ -79,12 +84,12 @@
     "fir_de_apa_fara_rezervor": {
       "valoare": false,
       "sursa": "02_studiu_fezabilitate.pdf, p.1",
-      "incredere": 0.99
+      "incredere": 0.98
     },
     "densitate_putere_w_m2": {
-      "valoare": 8,
+      "valoare": 800,
       "sursa": "02_studiu_fezabilitate.pdf, p.1",
-      "incredere": 0.95
+      "incredere": 0.85
     },
     "eia_risc_semnificativ": {
       "valoare": false,

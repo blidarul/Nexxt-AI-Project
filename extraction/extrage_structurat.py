@@ -14,6 +14,7 @@ Orchestrează:
 
 import json
 from pathlib import Path
+import re
 import sys
 from typing import Any, Optional
 
@@ -53,6 +54,7 @@ from extraction.normalizare import (
     detecteaza_si_normalizeaza_unitate,
     normalizeaza_camp,
     normalizeaza_da_nu,
+    normalizeaza_numar,
     valideaza_valoare,
 )
 from extraction.tabele import (
@@ -161,6 +163,26 @@ def reconstituie_citat(valoare_bruta: Any, cuvinte_cheie: list[str], doc: dict[s
             if valoare in linie_norm and any(k in linie_norm for k in chei):
                 potriviri.append(linie.strip())
     return potriviri[0] if len(set(potriviri)) == 1 else None
+
+
+def aliniaza_valoare_cu_citatul(camp: str, valoare_bruta: Any, citat: str) -> Any:
+    """Dacă numărul dat de LLM nu apare în citat (LLM-ul a convertit singur, ex. „4,8” din „4.800 kW”),
+    caută în citat un număr cu unitate care, normalizat, dă aceeași valoare și îl folosește ca valoare brută.
+    Așa conversia se face (și se raportează) în cod. Dacă nu există o astfel de potrivire, nu schimbă nimic.
+    """
+    text = str(valoare_bruta).strip()
+    if not citat or re.sub(r"\s+", "", text) in re.sub(r"\s+", "", citat):
+        return valoare_bruta
+    tinta, _ = detecteaza_si_normalizeaza_unitate(camp, text)
+    if not isinstance(tinta, (int, float)) or isinstance(tinta, bool):
+        return valoare_bruta
+    for m in re.finditer(r"\d[\d.,]*\s*[^\d\s|;,()]{0,12}", citat):
+        val, _ = detecteaza_si_normalizeaza_unitate(camp, m.group(0))
+        if isinstance(val, (int, float)) and not isinstance(val, bool) and abs(val - tinta) <= 1e-6 * max(1.0, abs(tinta)):
+            numar = re.match(r"[\d.,]+", m.group(0)).group(0).rstrip(".,")
+            # același număr, alt format (ex. 1.38 / 1,38): fără conversie, se păstrează doar numărul
+            return numar if normalizeaza_numar(numar) == tinta else m.group(0).strip()
+    return valoare_bruta
 
 
 def normalizeaza_valoare(
@@ -438,6 +460,8 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
                 })
                 continue
 
+            if camp not in CAMPURI_TOP_LEVEL and info_c.get("tip") in ("numar", "procent"):
+                cand["valoare_bruta"] = aliniaza_valoare_cu_citatul(camp, cand["valoare_bruta"], citat)
             val_norm, motiv_norm, unitate_conv = normalizeaza_valoare(camp, info_c, cand["valoare_bruta"], citat)
 
             if val_norm is None:

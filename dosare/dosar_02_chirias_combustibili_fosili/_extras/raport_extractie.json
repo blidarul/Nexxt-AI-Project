@@ -338,17 +338,10 @@
   "conversii_unitati": [],
   "valori_respinse": [],
   "statistici_llm": {
-    "apeluri_reale": 1,
-    "apeluri_cache": 8,
+    "apeluri_reale": 0,
+    "apeluri_cache": 9,
     "apeluri_offline": 0,
     "total_apeluri": 9
   },
-  "apeluri_llm_reale": [
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "6fa8ede500039dd2dc6ecb95e3ae3eb0cf24c6ad5b1e7cd5fbfff50b66f8d75b"
-    }
-  ]
+  "apeluri_llm_reale": []
 }

@@ -237,20 +237,21 @@
     },
     "capacitate_mw": {
       "valoare": 4.8,
-      "valoare_bruta": "4,8",
+      "valoare_bruta": "4.800 kW",
       "sursa": "02_studiu_fezabilitate.pdf, p.1",
       "citat": "Putere instalată 4.800 kW",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.95
     },
     "productie_anuala_mwh": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
+      "valoare": 18500.0,
+      "valoare_bruta": "18,5 GWh",
+      "sursa": "02_studiu_fezabilitate.pdf, p.1",
+      "citat": "Producția medie anuală estimată 18,5 GWh",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
     },
     "an_punere_functiune": {
       "valoare": "2022",
@@ -268,16 +269,16 @@
       "citat": "Centrala nu funcționează pe firul apei; dispune de un lac de acumulare de 60 ha.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.99
+      "incredere": 0.98
     },
     "densitate_putere_w_m2": {
-      "valoare": 8,
-      "valoare_bruta": "8",
+      "valoare": 800,
+      "valoare_bruta": "800 W/m²",
       "sursa": "02_studiu_fezabilitate.pdf, p.1",
-      "citat": "Putere instalată 4.800 kW... Suprafața lacului de acumulare 60 ha",
+      "citat": "Putere instalată 4.800 kW",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.85
     },
     "emisii_directe_gco2e_kwh": {
       "valoare": null,
@@ -321,18 +322,6 @@
       "obligatoriu": true
     },
     {
-      "camp": "productie_anuala_mwh",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "RE-D3"
-      ],
-      "pentru": [
-        "impact",
-        "PL-20"
-      ],
-      "obligatoriu": true
-    },
-    {
       "camp": "emisii_directe_gco2e_kwh",
       "motiv": "negasit",
       "documente_asteptate": [
@@ -347,86 +336,28 @@
     }
   ],
   "conflicte": [],
-  "conversii_unitati": [],
+  "conversii_unitati": [
+    {
+      "camp": "capacitate_mw",
+      "valoare_bruta": "4.800 kW",
+      "unitate_originala": "kW",
+      "valoare": 4.8,
+      "sursa": "02_studiu_fezabilitate.pdf, p.1"
+    },
+    {
+      "camp": "productie_anuala_mwh",
+      "valoare_bruta": "18,5 GWh",
+      "unitate_originala": "GWh",
+      "valoare": 18500.0,
+      "sursa": "02_studiu_fezabilitate.pdf, p.1"
+    }
+  ],
   "valori_respinse": [],
   "statistici_llm": {
-    "apeluri_reale": 12,
-    "apeluri_cache": 0,
+    "apeluri_reale": 0,
+    "apeluri_cache": 11,
     "apeluri_offline": 0,
-    "total_apeluri": 12
+    "total_apeluri": 11
   },
-  "apeluri_llm_reale": [
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "c5207e5adc31ede7e243121dd6219acb7582a7ec8dae8254e8924d446c5dddd3"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "f8b0eb4f3e49661787c2291f18e3b0b849ce04bb3d53cba2f0a9525655787c49"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "ef31978c177b98c593b76e4bbb2de4b8c1a32788da147bcf89c614e9dfe6ac9e"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "45bc2784b3fc56ad8a45a0b1f1795b5d95ae38daddd821750a550c6ce3cfbbe6"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "102e26f2b4abc4a1e0535ebef42c4dfd9db264ed401979fb9090a1dbbefefa1a"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "a2b4f1ac54ff6ba532e5dd5996ebeece982c16995c0254f75504c82c781d7c9d"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "a35e3fcaffd589fc854c06bcd7e9da74a48ab5b47c8fb72861e6db7046cde1a5"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "3d8701b542ab1279b3a7a69b27843a0e62bb1a264004e5565b03d97702cf57b8"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "874b4cedd2bc94a82d70a2a891fb8f9df52a28a3385b6c57a939f51f7eec663a"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": false,
-      "cheie_cache": "43b22632d30f37c013d96f96b83d8ad06a0aa536b97afeafe1da8b48c13f1252"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "0dc9a043b6d025062abc2ef8c774e0158711de60f953a8bc6e12e7df5d76f677"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "355f34fb11a77fdf14cf6a6a3f81a160ff8b8163621b6f3574458dbb0b9de9b4"
-    }
-  ]
+  "apeluri_llm_reale": []
 }

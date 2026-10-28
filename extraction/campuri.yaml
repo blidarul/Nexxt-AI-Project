@@ -682,9 +682,14 @@ productie_anuala_mwh:
   descriere: "Producția anuală de energie (reală sau estimată), în MWh/an"
   tip: "numar"
   unit: "MWh/an"
-  documente_probabile: ["RE-D3"]
+  # Producția estimată apare de regulă și în studiul de fezabilitate (RE-D1)
+  documente_probabile: ["RE-D3", "RE-D1"]
   cuvinte_cheie:
   - "productie anuala"
+  - "producția anuală"
+  - "productia medie anuala"
+  - "producția medie anuală"
+  - "gwh/an"
   - "annual production"
   - "generare anuala"
   - "mwh/an"

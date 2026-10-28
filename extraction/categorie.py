@@ -13,6 +13,9 @@ from extraction.verificare import verifica_citat
 
 TIP_CERERE = "cerere_finantare"
 
+# Un al doilea candidat cu cel puțin această încredere (și citat verificat) face proiectul mixt
+PRAG_CANDIDAT_SECUNDAR = 0.5
+
 
 def indicii_deterministe(documente_clasificate: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Indiciile de categorie date de documentele găsite.
@@ -138,7 +141,7 @@ def stabileste_categoria(
     date_json, _ = client.apeleaza_cu_json([
         {"role": "system", "content": prompt_sistem},
         {"role": "user", "content": prompt_utilizator},
-    ])
+    ], chei_asteptate=["candidati"], chei_permise=set())
 
     candidati: list[dict[str, Any]] = []
     if isinstance(date_json, dict):
@@ -156,6 +159,17 @@ def stabileste_categoria(
         if not sursa:
             c["incredere"] *= 0.7
 
+    # Proiect mixt: LLM-ul a dat cel puțin două categorii diferite, iar a doua e susținută de un citat
+    # verificat și o încredere ≥ PRAG_CANDIDAT_SECUNDAR. Atunci nicio categorie nu e sigură (sub prag).
+    secundari = [
+        c for c in candidati[1:]
+        if c["citat_verificat"] and c["incredere"] >= PRAG_CANDIDAT_SECUNDAR and c["categorie"] != candidati[0]["categorie"]
+    ]
+    proiect_mixt = bool(secundari)
+    if proiect_mixt:
+        for c in candidati:
+            c["incredere"] = min(c["incredere"], prag - 0.05)
+
     # Indicii deterministe puternice
     puternice = [i for i in indicii if i["forta"] == "puternic" and i["categorie"] in categorii]
     for ind in puternice:
@@ -171,7 +185,7 @@ def stabileste_categoria(
                 "sursa": f"{ind['fisier']} (tip {ind['tip_document']})",
             })
         else:
-            if existent is candidati[0]:
+            if existent is candidati[0] and not proiect_mixt:
                 existent["incredere"] = min(0.99, existent["incredere"] + 0.1)
             if not existent["subcategorie"] and ind.get("subcategorie"):
                 existent["subcategorie"] = ind["subcategorie"]
@@ -188,6 +202,7 @@ def stabileste_categoria(
 
     ambiguu = bool(candidati) and candidati[0]["incredere"] < prag
     return {
+        "proiect_mixt": proiect_mixt,
         "candidati": candidati[:2] if ambiguu else candidati[:1],
         "ambiguu": ambiguu,
         "indicii": indicii,

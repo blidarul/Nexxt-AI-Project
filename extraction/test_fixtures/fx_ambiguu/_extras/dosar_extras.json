@@ -13,7 +13,7 @@
   "cota_banca": {
     "valoare": 1.0,
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.9
+    "incredere": 0.96
   },
   "data_aprobare": {
     "valoare": null,
@@ -23,7 +23,7 @@
   "tara": {
     "valoare": "România",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.97
   },
   "adresa_cladire": {
     "valoare": null,
@@ -53,23 +53,23 @@
   "categorie": {
     "valoare": "renewable_energy",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.9
+    "incredere": 0.65
   },
   "subcategorie": {
     "valoare": "solar_fotovoltaic",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.9
+    "incredere": 0.65
   },
   "indicatori": {
     "descriere_proiect": {
       "valoare": "Modernizarea iluminatului și panouri fotovoltaice pe hala de producție.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "incredere": 0.95
+      "incredere": 0.99
     },
     "tehnologie": {
       "valoare": "solar_fotovoltaic",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "incredere": 0.9
+      "incredere": 0.65
     }
   }
 }

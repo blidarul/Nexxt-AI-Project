@@ -135,7 +135,7 @@
       "citat": "Țara România",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.9
+      "incredere": 0.95
     },
     "aprobat_proces_standard": {
       "valoare": null,
@@ -162,20 +162,22 @@
       "incredere": 0.0
     },
     "suma_eur": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
+      "valoare": 200000,
+      "valoare_bruta": "200.000 EUR",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suma solicitată de la bancă 200.000 EUR",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
     },
     "cota_banca": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
+      "valoare": 1.0,
+      "valoare_bruta": "100%",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Banca 100% (200.000 EUR)",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
     },
     "descriere_proiect": {
       "valoare": "Achiziția a 6 autoutilitare ușoare (categoria N1) electrice pentru distribuție urbană.",
@@ -184,7 +186,7 @@
       "citat": "Achiziția a 6 autoutilitare ușoare (categoria N1) electrice pentru distribuție urbană.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.99
+      "incredere": 0.98
     },
     "afirmatii_client": {
       "valoare": null,
@@ -243,30 +245,6 @@
       "obligatoriu": true
     },
     {
-      "camp": "suma_eur",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "D-01",
-        "D-05"
-      ],
-      "pentru": [
-        "impact",
-        "PL-50"
-      ],
-      "obligatoriu": true
-    },
-    {
-      "camp": "cota_banca",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "D-05"
-      ],
-      "pentru": [
-        "impact"
-      ],
-      "obligatoriu": true
-    },
-    {
       "camp": "transporta_combustibili_fosili",
       "motiv": "negasit",
       "documente_asteptate": [
@@ -283,35 +261,10 @@
   "conversii_unitati": [],
   "valori_respinse": [],
   "statistici_llm": {
-    "apeluri_reale": 4,
-    "apeluri_cache": 0,
+    "apeluri_reale": 0,
+    "apeluri_cache": 5,
     "apeluri_offline": 0,
-    "total_apeluri": 4
+    "total_apeluri": 5
   },
-  "apeluri_llm_reale": [
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "04c060c49faf38d19276365ec204fa833421c2a51134ad1b1107b010eebd6340"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "d06a8411f7196d0973885c6412d8d0ffedc9ca4408ad1a90e8f01fe323e64b03"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "838f0854998a423d63b1462048967ad1e0b507b20b5726abe9e71133845396aa"
-    },
-    {
-      "model_cerut": "Qwen/Qwen3-32B",
-      "model_raspuns": "Qwen/Qwen3-32B",
-      "json_mode": true,
-      "cheie_cache": "b5c9100149b6ab958efa73e39aef2ecd3859ef16afc75ccbcd13a34990f1008f"
-    }
-  ]
+  "apeluri_llm_reale": []
 }

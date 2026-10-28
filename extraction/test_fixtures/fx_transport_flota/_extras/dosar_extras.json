@@ -16,9 +16,9 @@
     "incredere": 0.96
   },
   "data_aprobare": {
-    "valoare": "2025-10-15",
-    "sursa": "05_declaratie_utilizare.pdf, p.1",
-    "incredere": 0.78
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
   },
   "tara": {
     "valoare": "România",
@@ -49,7 +49,9 @@
   "epc_energie_finala": null,
   "epc_suprafata_m2": null,
   "chiriasi": [],
-  "afirmatii_client": [],
+  "afirmatii_client": [
+    "Flota noastră este 100% cu emisii zero."
+  ],
   "categorie": {
     "valoare": "clean_transportation",
     "sursa": "01_cerere_finantare.pdf, p.1",
@@ -64,7 +66,7 @@
     "descriere_proiect": {
       "valoare": "Achiziția unei flote de 15 autoutilitare ușoare (categoria N1) pentru livrarea urbană de colete: 10 autoutilitare electrice și 5 autoutilitare hibride plug-in. Lista vehiculelor este în anexa flotă.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "incredere": 0.94
+      "incredere": 0.99
     },
     "transporta_combustibili_fosili": {
       "valoare": false,

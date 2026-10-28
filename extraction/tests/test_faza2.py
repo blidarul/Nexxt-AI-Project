@@ -96,7 +96,7 @@ class _ClientFals:
     def __init__(self, raspuns):
         self.raspuns = raspuns
 
-    def apeleaza_cu_json(self, mesaje):
+    def apeleaza_cu_json(self, mesaje, **kwargs):
         return self.raspuns, None
 
 
