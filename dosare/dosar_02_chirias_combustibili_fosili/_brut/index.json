@@ -1,0 +1,29 @@
+{
+  "dosar": "dosar_02_chirias_combustibili_fosili",
+  "documente": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_document": "cerere_finantare",
+      "json": "_brut/01_cerere_finantare.json",
+      "pagini": 1,
+      "tabele": 3,
+      "eroare": null
+    },
+    {
+      "fisier": "03_certificat_energetic.pdf",
+      "tip_document": "certificat_energetic",
+      "json": "_brut/03_certificat_energetic.json",
+      "pagini": 1,
+      "tabele": 2,
+      "eroare": null
+    },
+    {
+      "fisier": "04_contract_inchiriere_extras.pdf",
+      "tip_document": "contract_inchiriere",
+      "json": "_brut/04_contract_inchiriere_extras.json",
+      "pagini": 1,
+      "tabele": 1,
+      "eroare": null
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+# Metodologia de calcul a impactului (CO2 evitat, energie economisita), pe categorii.
+# Sursa: RBI Green Bond Allocation and Impact Report 2025, p. 22-28.
+# Toate formulele se inmultesc la final cu cota_banca (partea RBI din finantarea totala).
+#
+# Date de referinta: RBI foloseste Enerdata/Odyssee (platit) si IRENA. Noi folosim substitute publice,
+# marcate "proxy". Spuneti asta explicit in demo.
+
+factori_comuni:
+  factor_emisie_retea_kgco2_kwh:
+    sursa_rbi: "Enerdata / Odyssee (national)"
+    sursa_noastra: "Ember / Our World in Data, intensitatea carbon a electricitatii, pe tara si an"
+    tip: proxy
+  cota_banca: "Partea RBI din finantarea totala a proiectului (din cererea de finantare)"
+
+formule:
+  green_buildings:
+    sursa: "Impact Report p. 22"
+    energie_economisita_kwh_an: "(baseline_kwh_m2 - energie_finala_kwh_m2) x suprafata_m2 x cota_banca"
+    co2_evitat_kg_an: "(baseline_kwh_m2 - energie_finala_kwh_m2) x factor_emisie x suprafata_m2 x cota_banca"
+    intrari:
+      energie_finala_kwh_m2: "consum real de la chiriasi (preferat) SAU energia finala din EPC"
+      suprafata_m2: "din EPC"
+      baseline_kwh_m2: "medie nationala pe tip de cladire (RBI: Enerdata). Proxy: 297 = media portofoliului RBI (p. 18)"
+    exceptii: "Cladirile in constructie: nu se calculeaza (Impact Report p. 18)"
+
+  renewable_energy:
+    sursa: "Impact Report p. 23"
+    co2_evitat_t_an: "productie_anuala_mwh x (factor_evitat_tara / productie_regenerabila_totala_tara) x cota_banca"
+    intrari:
+      productie_anuala_mwh: "productie reala de la client (preferat) SAU capacitatea x productia estimata declarata de client"
+      factor_evitat_tara: "IRENA Avoided Emissions Calculator, pe tehnologie si tara (benchmark 2021)"
+    proxy_simplificat: "productie_anuala_mwh x factor_emisie_retea_tara x cota_banca (presupune ca inlocuieste mixul national)"
+    nota: "Proxy-ul supraestimeaza fata de IRENA daca mixul national e deja curat. Marcati ca proxy."
+
+  energy_efficiency_fibra:
+    sursa: "Impact Report p. 24"
+    co2_evitat_kg_an: "consum_retea_acces_per_gospodarie_kwh x 0.30 x factor_emisie x nr_gospodarii_conectate x cota_banca"
+    ipoteza: "30% economie fibra vs. cupru (Europacable)"
+
+  energy_efficiency_contoare_inteligente:
+    sursa: "Impact Report p. 25"
+    co2_evitat_kg_an: "consum_mediu_per_gospodarie_kwh x 0.03 x factor_emisie x nr_contoare x cota_banca"
+    ipoteza: "3% economie per gospodarie (minimul intervalului 3-5% declarat de client)"
+
+  energy_efficiency_generic:
+    sursa: "Metoda noastra, aliniata cu logica RBI (raportul nu da formula pentru industrie/LED)"
+    co2_evitat_kg_an: "(consum_inainte_kwh - consum_dupa_kwh) x factor_emisie x cota_banca"
+    nota: "Raportul spune ca pentru LED impactul nu s-a calculat din lipsa datelor de la client (p. 19). Agentul cere datele."
+
+  clean_transportation_electric:
+    sursa: "Impact Report p. 26"
+    co2_evitat_g_an: "(emisie_medie_vehicul_termic_g_km - consum_electric_kwh_km x factor_emisie_g_kwh) x distanta_anuala_km x cota_banca"
+
+  clean_transportation_hibrid:
+    sursa: "Impact Report p. 26"
+    co2_evitat_g_an: "(emisie_medie_vehicul_termic_g_km - consum_electric_kwh_km x factor_emisie_g_kwh - emisii_motor_termic_g_km) x distanta_anuala_km x cota_banca"
+
+  clean_transportation_baterii:
+    sursa: "Impact Report p. 27"
+    co2_evitat: "nr_baterii x distanta_medie_anuala_km x impact_carbon_mediu_ev_per_km x pondere_eligibila x cota_banca"
+    ipoteza: "fiecare baterie alimenteaza un singur vehicul"
+
+  clean_transportation_stivuitoare:
+    sursa: "Impact Report p. 28"
+    co2_evitat_kg_an: "(emisie_medie_stivuitor_diesel_kg_h - consum_electric_kwh_h x factor_emisie) x ore_lucru_an x cota_banca"
+    ipoteza: "ore_lucru_an = 5 ore/zi x zile lucratoare in tara"
+
+valori_de_referinta_din_raport:   # pentru verificari de plauzibilitate (Impact Report 2025)
+  green_buildings:
+    tco2_per_mil_eur: 37               # p. 18
+    tco2_medie_cladire_nerezidentiala: 642   # p. 18
+    consum_mediu_portofoliu_kwh_m2: 97 # p. 18
+  clean_transportation:
+    distanta_medie_anuala_km: 17746    # p. 15 (media vehiculelor din portofoliu)

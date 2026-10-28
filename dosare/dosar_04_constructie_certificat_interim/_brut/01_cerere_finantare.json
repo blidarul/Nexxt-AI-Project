@@ -1,0 +1,107 @@
+{
+  "fisier": "01_cerere_finantare.pdf",
+  "dosar": "dosar_04_constructie_certificat_interim",
+  "tip_document": "cerere_finantare",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T16:16:53",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC – DATE DE TEST – NU ESTE UN DOCUMENT REAL\nCERERE DE FINANȚARE – PERSOANĂ JURIDICĂ\nNr. înregistrare: CF-2026-0004 · Data: 2026-02-10\n1. Date despre solicitant\nDenumire LACUL OFFICE TOWER SRL\nCUI 9900000070\nNr. Registrul Comerțului J40/0001/2024\nSediu social București, Sector 1, Str. Exemplului nr. 20\nCod CAEN activitate principală 6820 – Închirierea și subînchirierea bunurilor imobiliare proprii\nsau închiriate\nReprezentant legal Ion Exemplu\n2. Finanțarea solicitată\nTip finanțare Credit de investiții – construcție clădire nouă de birouri\nValoare totală proiect 40.000.000 EUR\nSuma solicitată de la bancă 40.000.000 EUR\nStructura finanțării Banca 100% (40.000.000 EUR)\nC\nDurata 12 ani\nI\nT\nScopul declarat Construcția clădirii Lacul Office – Turnul 1\nE\n3. Activul finanțat T\nN\nDenumire clădire Lacul Office – Turnul 1\nAdresă IBucurești, Sector 1, Str. Exemplului nr. 20\nS\nȚara România\nTip utilizare Clădire de birouri\nStadiu În construcție, finalizare estimată 2027\nSuprafață utilă (declarată) 25.000 m²\nCertificare de sustenabilitate BREEAM Excellent (certificare de proiect)\n(declarată)\n4. Declarații ale solicitantului privind sustenabilitatea\n• Clădirea va avea certificare BREEAM Excellent.\n5. Documente anexate\nAnexa 1 – Certificat de performanță energetică · Anexa 2 – Extras contracte de închiriere (lista\nchiriașilor) · Anexa 3 – Certificat de sustenabilitate (număr de certificat comunicat mai jos)\nNumăr certificat de sustenabilitate comunicat: BREEAM-EXEMPLU-0003\nData aprobării creditului (procesul standard de credit): 2026-03-15\nSemnătura reprezentantului legal: ____________________\nDOCUMENT SINTETIC – DATE DE TEST – NU ESTE UN DOCUMENT REAL",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Denumire",
+              "LACUL OFFICE TOWER SRL"
+            ],
+            [
+              "CUI",
+              "9900000070"
+            ],
+            [
+              "Nr. Registrul Comerțului",
+              "J40/0001/2024"
+            ],
+            [
+              "Sediu social",
+              "București, Sector 1, Str. Exemplului nr. 20"
+            ],
+            [
+              "Cod CAEN activitate principală",
+              "6820 – Închirierea și subînchirierea bunurilor imobiliare proprii sau închiriate"
+            ],
+            [
+              "Reprezentant legal",
+              "Ion Exemplu"
+            ]
+          ]
+        },
+        {
+          "index": 1,
+          "randuri": [
+            [
+              "Tip finanțare",
+              "Credit de investiții – construcție clădire nouă de birouri"
+            ],
+            [
+              "Valoare totală proiect",
+              "40.000.000 EUR"
+            ],
+            [
+              "Suma solicitată de la bancă",
+              "40.000.000 EUR"
+            ],
+            [
+              "Structura finanțării",
+              "Banca 100% (40.000.000 EUR)"
+            ],
+            [
+              "Durata",
+              "C 12 ani"
+            ],
+            [
+              "Scopul declarat",
+              "I Construcția clădirii Lacul Office – Turnul 1"
+            ]
+          ]
+        },
+        {
+          "index": 2,
+          "randuri": [
+            [
+              "Denumire clădire",
+              "T Lacul Office – Turnul 1"
+            ],
+            [
+              "Adresă",
+              "N București, Sector 1, Str. Exemplului nr. 20"
+            ],
+            [
+              "I S Țara",
+              "România"
+            ],
+            [
+              "Tip utilizare",
+              "Clădire de birouri"
+            ],
+            [
+              "Stadiu",
+              "În construcție, finalizare estimată 2027"
+            ],
+            [
+              "Suprafață utilă (declarată)",
+              "25.000 m²"
+            ],
+            [
+              "Certificare de sustenabilitate (declarată)",
+              "BREEAM Excellent (certificare de proiect)"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

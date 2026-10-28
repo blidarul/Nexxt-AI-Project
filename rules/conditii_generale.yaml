@@ -1,0 +1,98 @@
+# Conditii care se aplica ORICARUI dosar, indiferent de categorie,
+# plus reguli care se verifica la nivel de PORTOFOLIU (nu pe un singur credit).
+sursa: "RBI Sustainability Bond Framework, Aug-2025"
+
+conditii_generale:
+  - id: G-01
+    nume: "Tara eligibila pentru utilizare verde"
+    sursa: "Anexa B, p. 26"
+    tip: lista
+    camp: tara
+    in_lista: [Austria, Belgia, Bulgaria, Croatia, Cipru, Cehia, Danemarca, Estonia,
+               Finlanda, Franta, Germania, Grecia, Ungaria, Irlanda, Italia, Letonia,
+               Lituania, Luxemburg, Malta, Olanda, Polonia, Portugalia, Romania,
+               Slovacia, Slovenia, Spania, Suedia,
+               Albania, Bosnia si Hertegovina, Kosovo, Serbia, Ucraina,
+               China, India, Japonia, Regatul Unit, Statele Unite, Brazilia]
+    daca_lipseste: NEEVALUABIL
+
+  - id: G-02
+    nume: "Imprumutatul nu e intr-un sector exclus"
+    sursa: "Anexa A, p. 25"
+    tip: excludere
+    camp: caen_imprumutat            # din ANAF (tool verifica_firma)
+    sectoare_excluse_prefixe_caen:    # CAEN Rev.2; de verificat corespondenta cu CAEN Rev.3
+      aparare_si_arme: ["254", "304"]
+      energie_nucleara: ["2446"]
+      energie_fosila: ["05", "06", "0910", "19", "352"]
+      minerit: ["07", "08", "099"]
+      alcool: ["1101", "1102", "1103", "1104", "1105"]
+      tutun: ["12"]
+      jocuri_de_noroc: ["92"]
+    prefixe_caen_semnal:              # nu se exclud automat: depinde de sursa -> SEMNAL, agentul verifica
+      productie_energie_electrica: ["3511"]   # poate fi regenerabil, fosil sau nuclear
+    nota: "Lista de prefixe e o aproximare a Anexei A; C o verifica si o completeaza."
+    daca_lipseste: NEEVALUABIL
+
+  - id: G-03
+    nume: "Creditul a trecut prin procesul standard de credit"
+    sursa: "p. 19"
+    tip: da_nu
+    camp: aprobat_proces_standard
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+  - id: G-04
+    nume: "Credit acordat in ultimele 24 de luni fata de decizia de alocare"
+    sursa: "p. 6"
+    tip: prag
+    camp: luni_de_la_aprobare        # calculat: DATA_ALOCARE - data_aprobare
+    operator: "<="
+    valoare: 24
+    daca_lipseste: NEEVALUABIL
+
+  - id: G-05
+    nume: "Criteriile se aplica la data marcarii ca eligibil (grandfathering)"
+    sursa: "p. 23"
+    tip: informativ
+    camp: data_marcare_verde
+    nota: >
+      Pragurile care se schimba in timp (ex. masini: 50 g/km pana in dec. 2025, 0 g/km din 2026)
+      se evalueaza la data la care creditul a fost marcat ca eligibil, nu la data de azi.
+      Daca data_marcare_verde lipseste, se foloseste data_aprobare si se semnaleaza.
+
+# --------------------------------------------------------------------------
+# Reguli de PORTOFOLIU: se verifica pe toate creditele alocate, nu pe unul singur.
+# --------------------------------------------------------------------------
+portofoliu:
+  - id: P-01
+    nume: "Cheltuielile de cercetare-dezvoltare (R&D) sub 10% din fonduri"
+    sursa: "p. 18"
+    tip: prag
+    camp: pondere_rd_in_portofoliu
+    operator: "<="
+    valoare: 0.10
+
+  - id: P-02
+    nume: "Pure player: peste 90% din cifra de afaceri din activitati sustenabile"
+    sursa: "p. 18-19"
+    tip: toate
+    conditii:
+      - {camp: pondere_cifra_afaceri_sustenabila, operator: ">", valoare: 0.90}
+      - {camp: restul_cifrei_in_sector_exclus, operator: "==", valoare: false}
+    aplica_daca: {tip_finantare: [general_purpose, pure_player]}
+
+  - id: P-03
+    nume: "Achizitie de companie non-pure-player: eligibil doar pro-rata pe active"
+    sursa: "p. 19"
+    tip: informativ
+    nota: "Suma eligibila = pret achizitie x (valoare active eligibile / total active), NU pe cifra de afaceri."
+
+  - id: P-04
+    nume: "Portofoliul eligibil >= fondurile nete ale obligatiunilor in circulatie"
+    sursa: "p. 22"
+    tip: prag
+    camp: acoperire_portofoliu        # total credite eligibile / total obligatiuni in circulatie
+    operator: ">="
+    valoare: 1.0
+    nota: "Diferenta poate fi tinuta temporar in trezorerie (p. 23): semnalati, nu respingeti."

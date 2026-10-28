@@ -1,0 +1,87 @@
+# Verificari de PLAUZIBILITATE pentru cifrele de energie si CO2.
+#
+# ATENTIE: acestea NU sunt reguli din Framework. Sunt verificari de bun-simt (anti-greenwashing)
+# care prind cifre declarate imposibile, erori de unitati (kWh vs MWh) sau contradictii intre documente.
+# Rezultatul lor nu respinge niciodata un dosar. Doua severitati:
+#   severitate: blocant     -> SEMNAL: cifra folosita intr-o regula e nesigura -> EXCEPTIE (agentul cere date / escaladeaza)
+#   severitate: informativ  -> nu schimba verdictul, dar apare ca actiune (ex. afirmatie de marketing corectata)
+# Implicit: blocant.
+# Pragurile sunt aproximari conservatoare, de confirmat cu un mentor.
+
+verificari:
+  # ------------------------------------------------------------ consistenta intre documente
+  - id: PL-01
+    nume: "Aceeasi valoare difera intre documente"
+    se_aplica: [suprafata_m2, energie_finala_kwh_m2, capacitate_mw, emisii_wltp_gco2_km, productie_anuala_mwh]
+    regula: "abs(valoare_doc1 - valoare_doc2) / max(...) > 0.02  -> SEMNAL"
+    exemplu: "Cererea: 20.000 m2; EPC: 18.500 m2 -> SEMNAL; pentru CO2 se foloseste valoarea din EPC (sursa oficiala)."
+
+  - id: PL-02
+    nume: "Valoarea declarata de client difera de registrul oficial"
+    se_aplica:
+      emisii_wltp_gco2_km: "datele EEA pe model (tool cauta_emisii_vehicul)"
+      certificare_nivel: "registrul BREEAM/LEED"
+      caen: "ANAF"
+    regula: "orice diferenta -> SEMNAL; registrul oficial castiga"
+
+  # ------------------------------------------------------------ afirmatiile clientului (anti-greenwashing)
+  - id: PL-03
+    nume: "Afirmatia clientului despre economii nu e sustinuta de cifre"
+    regula: "abs(economie_declarata_pct - economie_calculata_pct) > 0.10 -> SEMNAL"
+    severitate: informativ
+    exemplu: "Clientul: 'consumam cu 60% mai putin'. Calculat din EPC: (297-180)/297 = 39% -> SEMNAL."
+
+  # ------------------------------------------------------------ cladiri
+  - id: PL-10
+    nume: "Energie primara mai mica decat energia finala"
+    regula: "ped_kwh_m2 < energie_finala_kwh_m2 -> SEMNAL (posibil doar cu productie proprie mare din regenerabile)"
+  - id: PL-11
+    nume: "Consum final neobisnuit de mic pentru o cladire nerezidentiala"
+    regula: "energie_finala_kwh_m2 < 20 -> SEMNAL (posibila eroare de unitati sau de pagina)"
+  - id: PL-12
+    nume: "Renovare: consumul dupa e mai mare decat inainte"
+    regula: "ped_dupa > ped_inainte -> SEMNAL"
+
+  # ------------------------------------------------------------ regenerabile
+  - id: PL-20
+    nume: "Factor de capacitate imposibil (productie declarata vs. capacitate)"
+    calcul: "factor_capacitate = productie_anuala_mwh / (capacitate_mw x 8760)"
+    praguri_maxime:
+      solar_fotovoltaic: 0.25
+      eolian_onshore: 0.55
+      hidro: 0.75
+      geotermal: 0.95
+    regula: "factor_capacitate > prag -> SEMNAL; factor_capacitate > 1 -> aproape sigur eroare de unitati (kWh vs MWh)"
+  - id: PL-21
+    nume: "Densitatea de putere hidro declarata nu se potriveste cu datele tehnice"
+    calcul: "densitate = putere_instalata_w / suprafata_lac_m2"
+    regula: "diferenta fata de valoarea declarata > 10% -> SEMNAL"
+
+  # ------------------------------------------------------------ eficienta energetica
+  - id: PL-30
+    nume: "PUE imposibil sau foarte rar"
+    regula: "pue < 1.0 -> valoare invalida (respinsa); 1.0 <= pue < 1.1 -> SEMNAL (cere dovada masuratorii anuale)"
+  - id: PL-31
+    nume: "Imbunatatire de eficienta neverosimila"
+    regula: "imbunatatire_eficienta_pct > 0.80 -> SEMNAL"
+
+  # ------------------------------------------------------------ transport
+  - id: PL-40
+    nume: "Consum electric declarat neobisnuit pentru un autoturism/utilitara"
+    regula: "consum_kwh_km < 0.10 sau > 0.35 -> SEMNAL"
+  - id: PL-41
+    nume: "Contradictie: emisii 0 g/km, dar combustibil declarat hibrid sau termic"
+    regula: "emisii_wltp_gco2_km == 0 si combustibil in [hibrid, benzina, diesel, gpl] -> SEMNAL"
+  - id: PL-42
+    nume: "Distanta anuala declarata mult peste medie"
+    regula: "distanta_anuala_km > 3 x 17746 -> SEMNAL (media portofoliului RBI, Impact Report p. 15)"
+
+  # ------------------------------------------------------------ impact
+  - id: PL-50
+    nume: "CO2 evitat pe milion de euro mult peste media categoriei"
+    regula: "tco2_per_mil_eur > 3 x media_categoriei -> SEMNAL"
+    medii: {green_buildings: 37}
+  - id: PL-51
+    nume: "Valoare procentuala in afara intervalului 0-1"
+    se_aplica: [cota_banca, pondere_aluminiu_reciclat, imbunatatire_eficienta_pct, eficienta_captare_pct]
+    regula: "valoare < 0 sau > 1 -> invalida (probabil procent nenormalizat: 60 in loc de 0.6)"

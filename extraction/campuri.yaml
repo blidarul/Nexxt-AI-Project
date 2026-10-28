@@ -1,0 +1,1279 @@
+# Catalogul câmpurilor extrase în Etapa 2
+# Descrie fiecare câmp din DosarExtras: tip, documente probabile, cuvinte cheie bilingve, obligativitate și reguli de validare.
+
+# ============================================================ CÂMPURI COMUNE (existente)
+
+cui:
+  descriere: "Codul Unic de Înregistrare (CUI/CIF) al companiei împrumutate"
+  tip: "text"
+  documente_probabile: ["cerere_finantare"]
+  cuvinte_cheie:
+    - "cui"
+    - "c.u.i."
+    - "cif"
+    - "cod unic de inregistrare"
+    - "cod unic de înregistrare"
+    - "cod fiscal"
+    - "tax id"
+    - "vat number"
+    - "registration number"
+  obligatoriu: true
+  validare:
+    regex: "^[0-9]{2,10}$"
+
+suma_eur:
+  descriere: "Valoarea creditului / finanțării în EUR"
+  tip: "numar"
+  documente_probabile: ["cerere_finantare"]
+  cuvinte_cheie:
+    - "suma solicitata"
+    - "suma solicitată"
+    - "valoarea finantarii"
+    - "valoarea finanțării"
+    - "valoarea creditului"
+    - "suma finantata"
+    - "suma finanțată"
+    - "credit solicitat"
+    - "loan amount"
+    - "financing amount"
+    - "facility amount"
+    - "eur"
+    - "euro"
+  obligatoriu: true
+  validare:
+    min: 1000
+    max: 2000000000
+
+cota_banca:
+  descriere: "Cota de participare a băncii la finanțare (valoare între 0.0 și 1.0)"
+  tip: "procent"
+  documente_probabile: ["cerere_finantare"]
+  cuvinte_cheie:
+    - "cota de participare"
+    - "cota banca"
+    - "cota băncii"
+    - "participare banca"
+    - "participarea bancii"
+    - "pondere banca"
+    - "bank share"
+    - "participation share"
+    - "financing share"
+    - "%"
+    - "procent"
+  obligatoriu: true
+  validare:
+    min: 0.01
+    max: 1.0
+
+data_aprobare:
+  descriere: "Data aprobării creditului sau data cererii de finanțare (YYYY-MM-DD)"
+  tip: "data"
+  documente_probabile: ["cerere_finantare"]
+  cuvinte_cheie:
+    - "data cererii"
+    - "data aprobarii"
+    - "data aprobării"
+    - "data solicitarii"
+    - "data solicitării"
+    - "data finantarii"
+    - "data"
+    - "approval date"
+    - "application date"
+    - "request date"
+    - "date"
+  obligatoriu: true
+
+tara:
+  descriere: "Țara în care este situată clădirea / proiectul"
+  tip: "text"
+  documente_probabile: ["cerere_finantare"]
+  cuvinte_cheie:
+    - "tara"
+    - "țara"
+    - "country"
+    - "romania"
+    - "românia"
+  obligatoriu: true
+
+adresa_cladire:
+  descriere: "Adresa completă a clădirii finanțate"
+  tip: "text"
+  documente_probabile: ["cerere_finantare", "extras_carte_funciara"]
+  cuvinte_cheie:
+    - "adresa cladirii"
+    - "adresa clădirii"
+    - "adresa imobilului"
+    - "adresa proiectului"
+    - "adresa"
+    - "locatie"
+    - "locație"
+    - "property address"
+    - "building address"
+    - "location"
+    - "str."
+    - "strada"
+    - "sector"
+  obligatoriu: true
+
+suprafata_m2:
+  descriere: "Suprafața utilă / desfășurată a clădirii finanțate, în m²"
+  tip: "numar"
+  documente_probabile: ["cerere_finantare", "extras_carte_funciara", "certificat_energetic"]
+  cuvinte_cheie:
+    - "suprafata utila"
+    - "suprafață utilă"
+    - "aria utila"
+    - "aria utilă"
+    - "suprafata desfasurata"
+    - "suprafața desfășurată"
+    - "aria construita desfasurata"
+    - "floor area"
+    - "net internal area"
+    - "useful floor area"
+    - "GIA"
+    - "gross internal area"
+    - "m²"
+    - "mp"
+    - "sqm"
+  obligatoriu: true
+  validare:
+    min: 10
+    max: 2000000
+
+stadiu_cladire:
+  descriere: "Stadiul clădirii (ex: finalizată, în exploatare, în construcție)"
+  tip: "text"
+  documente_probabile: ["cerere_finantare"]
+  cuvinte_cheie:
+    - "stadiu cladire"
+    - "stadiu clădire"
+    - "stadiul fizic"
+    - "stadiul investitiei"
+    - "stadiul investiției"
+    - "stadiu"
+    - "finalizata"
+    - "finalizată"
+    - "in exploatare"
+    - "în exploatare"
+    - "in constructie"
+    - "în construcție"
+    - "building status"
+    - "construction status"
+    - "stage"
+    - "completed"
+    - "under construction"
+  obligatoriu: true
+
+nr_certificat_declarat:
+  descriere: "Codul sau numărul certificatului de sustenabilitate declarat (BREEAM, LEED etc.)"
+  tip: "text"
+  documente_probabile: ["cerere_finantare", "certificat_sustenabilitate"]
+  cuvinte_cheie:
+    - "nr certificat"
+    - "nr. certificat"
+    - "numar certificat"
+    - "număr certificat"
+    - "cod certificat"
+    - "certificat sustenabilitate"
+    - "certificare breeam"
+    - "certificare leed"
+    - "breeam"
+    - "leed"
+    - "certificate number"
+    - "certificate id"
+    - "certification id"
+    - "breeam-"
+  obligatoriu: true
+
+epc_clasa:
+  descriere: "Clasa de performanță energetică din certificatul energetic (ex: A, A+, B)"
+  tip: "clasa_energetica"
+  documente_probabile: ["certificat_energetic"]
+  cuvinte_cheie:
+    - "clasa energetica"
+    - "clasa energetică"
+    - "clasa de performanta energetica"
+    - "clasa de performanță energetică"
+    - "clasa"
+    - "energy class"
+    - "epc class"
+    - "performance class"
+    - "clasa a"
+    - "clasa b"
+  obligatoriu: false
+
+epc_energie_finala:
+  descriere: "Consumul specific anual de energie (kWh/m²/an)"
+  tip: "numar"
+  documente_probabile: ["certificat_energetic"]
+  cuvinte_cheie:
+    - "consum specific"
+    - "energie finala"
+    - "energie finală"
+    - "energie primara"
+    - "energie primară"
+    - "consum anual"
+    - "kwh/m2/an"
+    - "kwh/m²/an"
+    - "specific energy"
+    - "energy consumption"
+    - "primary energy"
+  obligatoriu: false
+  validare:
+    min: 1
+    max: 2000
+
+epc_suprafata_m2:
+  descriere: "Suprafața utilă / aria utilă menționată în certificatul energetic"
+  tip: "numar"
+  documente_probabile: ["certificat_energetic"]
+  cuvinte_cheie:
+    - "suprafata utila"
+    - "suprafață utilă"
+    - "aria utila"
+    - "aria utilă"
+    - "aria incalzita"
+    - "aria încălzită"
+    - "au"
+    - "useful floor area"
+    - "heated area"
+    - "m²"
+    - "mp"
+    - "sqm"
+  obligatoriu: false
+  validare:
+    min: 10
+    max: 2000000
+
+chiriasi:
+  descriere: "Lista chiriașilor (nume, cod CAEN din 4 cifre, suprafață m²)"
+  tip: "lista_chiriasi"
+  documente_probabile: ["contract_inchiriere"]
+  cuvinte_cheie:
+    - "chirias"
+    - "chiriaș"
+    - "chiriasi"
+    - "chiriași"
+    - "locatar"
+    - "locatari"
+    - "tenant"
+    - "tenants"
+    - "caen"
+    - "cod caen"
+    - "nace"
+    - "suprafata inchiriata"
+    - "suprafață închiriată"
+    - "leased area"
+    - "rented area"
+  obligatoriu: false
+  sinonime_coloane:
+    - {cheie: nume, sinonime: ["chirias", "chiriaș", "tenant", "locatar", "denumire chiriaș"]}
+    - {cheie: caen, sinonime: ["caen", "cod caen", "cod caen principal", "nace", "activitate"]}
+    - {cheie: m2, sinonime: ["suprafata", "suprafată", "suprafata inchiriata", "suprafată închiriată", "area", "m2", "m²", "mp", "leased area"]}
+
+afirmatii_client:
+  descriere: "Afirmații sau declarații ale clientului privind sustenabilitatea / eficiența"
+  tip: "lista_texte"
+  documente_probabile: ["cerere_finantare"]
+  cuvinte_cheie:
+    - "afirmatii"
+    - "afirmații"
+    - "declaratii"
+    - "declarații"
+    - "declaratie pe propria raspundere"
+    - "declarație pe propria răspundere"
+    - "sustenabilitate"
+    - "performanta"
+    - "performanță"
+    - "declarations"
+    - "statements"
+    - "client claims"
+  obligatoriu: false
+
+# ============================================================ CÂMPURI COMUNE (noi)
+
+aprobat_proces_standard:
+  tip: "da_nu"
+  documente_probabile: ["D-02"]
+  cuvinte_cheie:
+    - "aprobat"
+    - "proces standard"
+    - "credit aprobat"
+    - "approved"
+    - "standard process"
+  obligatoriu: false
+
+data_marcare_verde:
+  tip: "data"
+  documente_probabile: ["D-02"]
+  cuvinte_cheie:
+    - "data marcare"
+    - "data marcare verde"
+    - "data eligibilitate"
+    - "green marking date"
+    - "marking date"
+  obligatoriu: false
+
+descriere_proiect:
+  tip: "text"
+  documente_probabile: ["D-01"]
+  cuvinte_cheie:
+    - "descriere proiect"
+    - "scopul finantarii"
+    - "destinatia creditului"
+    - "project description"
+    - "purpose of financing"
+    - "scope"
+  obligatoriu: false
+
+categorie:
+  tip: "categorie"
+  documente_probabile: ["D-01"]
+  cuvinte_cheie:
+    - "categorie"
+    - "tip proiect"
+    - "green category"
+    - "sustainability category"
+  obligatoriu: false
+
+subcategorie:
+  tip: "text"
+  documente_probabile: ["D-01"]
+  cuvinte_cheie:
+    - "subcategorie"
+    - "tip investitie"
+    - "subcategory"
+    - "project type"
+  obligatoriu: false
+
+# ============================================================ GREEN BUILDINGS
+
+certificare_sistem:
+  tip: "text"
+  documente_probabile: ["GB-D1"]
+  cuvinte_cheie:
+    - "breeam"
+    - "leed"
+    - "dgnb"
+    - "ogni"
+    - "edge"
+    - "certificare"
+    - "certification system"
+  obligatoriu: false
+
+certificare_nivel:
+  tip: "text"
+  documente_probabile: ["GB-D1"]
+  cuvinte_cheie:
+    - "nivel certificare"
+    - "rating"
+    - "outstanding"
+    - "excellent"
+    - "very good"
+    - "gold"
+    - "platinum"
+    - "certification level"
+  obligatoriu: false
+
+certificare_stadiu:
+  tip: "text"
+  documente_probabile: ["GB-D1"]
+  cuvinte_cheie:
+    - "stadiu certificare"
+    - "status certificat"
+    - "final"
+    - "interim"
+    - "pre-certificat"
+    - "aplicat"
+    - "certification status"
+  obligatoriu: false
+
+ped_kwh_m2:
+  tip: "numar"
+  unit: "kWh/m²/an"
+  documente_probabile: ["GB-D2"]
+  cuvinte_cheie:
+    - "energie primara"
+    - "primary energy demand"
+    - "ped"
+    - "kwh/m2"
+    - "kwh/m²"
+    - "consum primar"
+  obligatoriu: false
+
+energie_finala_kwh_m2:
+  tip: "numar"
+  unit: "kWh/m²/an"
+  documente_probabile: ["GB-D2", "GB-D5"]
+  cuvinte_cheie:
+    - "energie finala"
+    - "final energy"
+    - "consum final"
+    - "kwh/m2"
+    - "kwh/m²"
+  obligatoriu: false
+  validare:
+    min: 1
+    max: 2000
+
+ped_inainte_kwh_m2:
+  tip: "numar"
+  unit: "kWh/m²/an"
+  documente_probabile: ["GB-D6"]
+  cuvinte_cheie:
+    - "energie primara inainte"
+    - "ped inainte"
+    - "primary energy before"
+    - "before renovation"
+  obligatoriu: false
+
+ped_dupa_kwh_m2:
+  tip: "numar"
+  unit: "kWh/m²/an"
+  documente_probabile: ["GB-D7"]
+  cuvinte_cheie:
+    - "energie primara dupa"
+    - "ped dupa"
+    - "primary energy after"
+    - "after renovation"
+  obligatoriu: false
+
+reducere_emisii_pct:
+  tip: "procent"
+  documente_probabile: ["GB-D7"]
+  cuvinte_cheie:
+    - "reducere emisii"
+    - "reducere CO2"
+    - "emissions reduction"
+    - "% reduction"
+  obligatoriu: false
+
+ani_pana_la_reducere:
+  tip: "numar"
+  documente_probabile: ["GB-D7"]
+  cuvinte_cheie:
+    - "ani pana la reducere"
+    - "years to reduction"
+    - "termen reducere"
+  obligatoriu: false
+
+pondere_suma_pentru_renovare:
+  tip: "procent"
+  documente_probabile: ["GB-D8"]
+  cuvinte_cheie:
+    - "pondere renovare"
+    - "costuri renovare"
+    - "renovation cost share"
+  obligatoriu: false
+
+tip_masura:
+  tip: "text"
+  documente_probabile: ["GB-D9"]
+  cuvinte_cheie:
+    - "tip masura"
+    - "tip echipament"
+    - "statie incarcare"
+    - "pompa de caldura"
+    - "stocare energie"
+    - "recuperator caldura"
+    - "measure type"
+  obligatoriu: false
+
+gwp_agent_frigorific:
+  tip: "numar"
+  documente_probabile: ["GB-D9"]
+  cuvinte_cheie:
+    - "gwp"
+    - "global warming potential"
+    - "agent frigorific"
+    - "refrigerant"
+    - "gwp100"
+  obligatoriu: false
+
+sistem_management_agent_frigorific:
+  tip: "da_nu"
+  documente_probabile: ["GB-D9"]
+  cuvinte_cheie:
+    - "sistem management agent frigorific"
+    - "refrigerant management"
+    - "f-gas"
+    - "regulament ue 2024/573"
+  obligatoriu: false
+
+statie_in_cladire:
+  tip: "da_nu"
+  documente_probabile: ["GB-D9"]
+  cuvinte_cheie:
+    - "statie incarcare in cladire"
+    - "in building"
+    - "charging in building"
+    - "parcare in cladire"
+  obligatoriu: false
+
+integrat_cu_regenerabile:
+  tip: "da_nu"
+  documente_probabile: ["GB-D9", "RE-D1", "EE-D3"]
+  cuvinte_cheie:
+    - "integrat regenerabile"
+    - "renewable integrated"
+    - "surse regenerabile"
+    - "renewable energy"
+    - "solar"
+    - "eolian"
+  obligatoriu: false
+
+deserveste_sistem_fosil:
+  tip: "da_nu"
+  documente_probabile: ["GB-D9"]
+  cuvinte_cheie:
+    - "sistem fosil"
+    - "combustibil fosil"
+    - "fossil fuel system"
+    - "caldura din fosile"
+  obligatoriu: false
+
+# ============================================================ RENEWABLE ENERGY
+
+tehnologie:
+  tip: "text"
+  documente_probabile: ["RE-D1"]
+  cuvinte_cheie:
+    - "tehnologie"
+    - "tip centrala"
+    - "eolian"
+    - "solar"
+    - "hidro"
+    - "geotermal"
+    - "biomasa"
+    - "hidrogen"
+    - "technology"
+    - "wind"
+    - "photovoltaic"
+    - "solar pv"
+    - "hydro"
+    - "geothermal"
+  obligatoriu: false
+
+capacitate_mw:
+  tip: "numar"
+  unit: "MW"
+  documente_probabile: ["RE-D1", "RE-D2"]
+  cuvinte_cheie:
+    - "capacitate instalata"
+    - "putere instalata"
+    - "installed capacity"
+    - "mw"
+    - "megawatt"
+  obligatoriu: false
+  validare:
+    min: 0.001
+    max: 50000
+
+productie_anuala_mwh:
+  tip: "numar"
+  unit: "MWh/an"
+  documente_probabile: ["RE-D3"]
+  cuvinte_cheie:
+    - "productie anuala"
+    - "annual production"
+    - "generare anuala"
+    - "mwh/an"
+    - "mwh per year"
+  obligatoriu: false
+  validare:
+    min: 1
+
+an_punere_functiune:
+  tip: "text"
+  documente_probabile: ["RE-D2"]
+  cuvinte_cheie:
+    - "an punere in functiune"
+    - "year of commissioning"
+    - "commissioned"
+    - "pus in functiune"
+    - "operational since"
+  obligatoriu: false
+
+fir_de_apa_fara_rezervor:
+  tip: "da_nu"
+  documente_probabile: ["RE-D1"]
+  cuvinte_cheie:
+    - "fir de apa"
+    - "run-of-river"
+    - "fara rezervor"
+    - "no reservoir"
+    - "without reservoir"
+  obligatoriu: false
+
+densitate_putere_w_m2:
+  tip: "numar"
+  unit: "W/m²"
+  documente_probabile: ["RE-D1"]
+  cuvinte_cheie:
+    - "densitate putere"
+    - "power density"
+    - "w/m2"
+    - "w/m²"
+    - "watts per sqm"
+  obligatoriu: false
+
+emisii_directe_gco2e_kwh:
+  tip: "numar"
+  unit: "gCO2e/kWh"
+  documente_probabile: ["RE-D1", "RE-D5"]
+  cuvinte_cheie:
+    - "emisii directe"
+    - "direct emissions"
+    - "gco2/kwh"
+    - "gco2e/kwh"
+  obligatoriu: false
+
+eia_risc_semnificativ:
+  tip: "da_nu"
+  documente_probabile: ["RE-D4"]
+  cuvinte_cheie:
+    - "risc semnificativ"
+    - "significant risk"
+    - "impact semnificativ"
+    - "eia conclusion"
+    - "EIA"
+  obligatoriu: false
+
+pondere_electricitate_solara:
+  tip: "procent"
+  documente_probabile: ["RE-D1"]
+  cuvinte_cheie:
+    - "pondere solar"
+    - "solar share"
+    - "electricitate solara"
+    - "% solar"
+  obligatoriu: false
+
+emisii_ciclu_viata_gco2_kwh:
+  tip: "numar"
+  unit: "gCO2/kWh"
+  documente_probabile: ["RE-D5"]
+  cuvinte_cheie:
+    - "ciclu de viata"
+    - "lifecycle emissions"
+    - "lca"
+    - "gco2/kwh"
+  obligatoriu: false
+
+materie_prima:
+  tip: "text"
+  documente_probabile: ["RE-D6"]
+  cuvinte_cheie:
+    - "materie prima"
+    - "feedstock"
+    - "biomasa sursa"
+    - "raw material"
+    - "reziduuri agricole"
+  obligatoriu: false
+
+metoda_productie:
+  tip: "text"
+  documente_probabile: ["RE-D1"]
+  cuvinte_cheie:
+    - "metoda productie"
+    - "production method"
+    - "electroliza"
+    - "electrolysis"
+    - "hidrogen verde"
+  obligatoriu: false
+
+pondere_regenerabil_sau_reziduala:
+  tip: "procent"
+  documente_probabile: ["RE-D1"]
+  cuvinte_cheie:
+    - "pondere regenerabila"
+    - "renewable share"
+    - "% regenerabil"
+    - "termoficare verde"
+  obligatoriu: false
+
+# ============================================================ ENERGY EFFICIENCY
+
+tip_proiect:
+  tip: "text"
+  documente_probabile: ["D-01"]
+  cuvinte_cheie:
+    - "tip proiect"
+    - "project type"
+    - "eficienta energetica"
+    - "data center"
+    - "smart grid"
+    - "fibra optica"
+    - "iluminat"
+  obligatoriu: false
+
+consum_inainte_mwh:
+  tip: "numar"
+  unit: "MWh/an"
+  documente_probabile: ["EE-D1"]
+  cuvinte_cheie:
+    - "consum inainte"
+    - "consum actual"
+    - "energy before"
+    - "baseline consumption"
+    - "mwh/an"
+  obligatoriu: false
+
+consum_dupa_mwh:
+  tip: "numar"
+  unit: "MWh/an"
+  documente_probabile: ["EE-D2"]
+  cuvinte_cheie:
+    - "consum dupa"
+    - "consum proiectat"
+    - "energy after"
+    - "projected consumption"
+    - "mwh/an"
+  obligatoriu: false
+
+tehnologie_bat:
+  tip: "da_nu"
+  documente_probabile: ["EE-D3"]
+  cuvinte_cheie:
+    - "bat"
+    - "best available technology"
+    - "cea mai buna tehnica disponibila"
+    - "tehnologie bat"
+    - "BAT"
+  obligatoriu: false
+
+industrie_beneficiar:
+  tip: "text"
+  documente_probabile: ["D-03"]
+  cuvinte_cheie:
+    - "industrie"
+    - "sector"
+    - "caen"
+    - "activitate"
+    - "industry sector"
+    - "beneficiary sector"
+  obligatoriu: false
+
+echipament_combustibil_fosil:
+  tip: "da_nu"
+  documente_probabile: ["EE-D3"]
+  cuvinte_cheie:
+    - "combustibil fosil"
+    - "fossil fuel equipment"
+    - "gaze naturale"
+    - "pacura"
+    - "carbune"
+  obligatoriu: false
+
+pue_anualizat:
+  tip: "numar"
+  documente_probabile: ["EE-D3"]
+  cuvinte_cheie:
+    - "pue"
+    - "power usage effectiveness"
+    - "pue anualizat"
+    - "annualised pue"
+    - "annualized pue"
+    - "data center efficiency"
+  obligatoriu: false
+  validare:
+    min: 1.0
+    max: 5.0
+
+nr_gospodarii_conectate:
+  tip: "numar"
+  documente_probabile: ["EE-D2"]
+  cuvinte_cheie:
+    - "gospodarii conectate"
+    - "connected households"
+    - "numar gospodarii"
+    - "households"
+  obligatoriu: false
+
+nr_contoare:
+  tip: "numar"
+  documente_probabile: ["EE-D2"]
+  cuvinte_cheie:
+    - "contoare inteligente"
+    - "smart meters"
+    - "numar contoare"
+    - "meters installed"
+  obligatoriu: false
+
+# ============================================================ CLEAN TRANSPORTATION
+
+tip:
+  tip: "text"
+  documente_probabile: ["D-01", "CT-D1"]
+  cuvinte_cheie:
+    - "tip vehicul"
+    - "vehicle type"
+    - "camion"
+    - "autoturism"
+    - "utilitara"
+    - "tren"
+    - "bicicleta"
+    - "vehicul electric"
+    - "transport"
+  obligatoriu: false
+
+vehicule:
+  tip: "lista"
+  documente_probabile: ["CT-D1", "CT-D2"]
+  cuvinte_cheie:
+    - "lista vehicule"
+    - "flota"
+    - "vehicle list"
+    - "fleet"
+    - "marca"
+    - "model"
+    - "vin"
+    - "emission"
+    - "consum"
+  obligatoriu: false
+  coloane:
+    - {cheie: marca, sinonime: ["marca", "brand", "manufacturer", "fabricant"]}
+    - {cheie: model, sinonime: ["model", "model auto", "vehicle model"]}
+    - {cheie: combustibil, sinonime: ["combustibil", "fuel type", "propulsie", "propulsion", "fuel", "energie"]}
+    - {cheie: bucati, sinonime: ["bucati", "nr. buc.", "cantitate", "quantity", "units", "nr."]}
+    - {cheie: emisii_wltp_gco2_km, sinonime: ["emisii wltp", "co2 wltp", "gco2/km", "g/km", "co2 emissions", "emissions wltp"]}
+    - {cheie: consum_kwh_km, sinonime: ["consum electric", "consum kwh/km", "kwh/km", "energy consumption", "consum energie"]}
+    - {cheie: distanta_anuala_km, sinonime: ["distanta anuala", "km/an", "annual mileage", "km per year", "annual distance"]}
+    - {cheie: vin, sinonime: ["vin", "nr. inmatriculare", "serial number", "chassis number", "vehicle id"]}
+    - {cheie: data_marcare_verde, sinonime: ["data marcare", "marking date", "data eligibilitate", "green date"]}
+    - {cheie: utilizare, sinonime: ["utilizare", "use", "destinatie", "purpose", "application"]}
+
+transporta_combustibili_fosili:
+  tip: "da_nu"
+  documente_probabile: ["CT-D3"]
+  cuvinte_cheie:
+    - "combustibil fosil"
+    - "fossil fuel transport"
+    - "transporta petrol"
+    - "gaze naturale"
+    - "fosile"
+  obligatoriu: false
+
+emisii_gco2e_pkm:
+  tip: "numar"
+  unit: "gCO2e/pasager-km"
+  documente_probabile: ["CT-D2"]
+  cuvinte_cheie:
+    - "emisii per pasager"
+    - "g/pasager-km"
+    - "gco2e/pkm"
+    - "passenger emissions"
+  obligatoriu: false
+
+emisii_gco2_tkm:
+  tip: "numar"
+  unit: "gCO2/tona-km"
+  documente_probabile: ["CT-D2"]
+  cuvinte_cheie:
+    - "emisii per tona"
+    - "g/tona-km"
+    - "gco2/tkm"
+    - "freight emissions"
+  obligatoriu: false
+
+tip_infrastructura:
+  tip: "text"
+  documente_probabile: ["D-01"]
+  cuvinte_cheie:
+    - "tip infrastructura"
+    - "infrastructure type"
+    - "pista bicicleta"
+    - "statie incarcare"
+    - "cale ferata"
+  obligatoriu: false
+
+# ============================================================ POLLUTION PREVENTION
+
+reciclare_chimica_plastic:
+  tip: "da_nu"
+  documente_probabile: ["PP-D1"]
+  cuvinte_cheie:
+    - "reciclare chimica"
+    - "chemical recycling"
+    - "plastic chimic"
+  obligatoriu: false
+
+segregare_la_sursa:
+  tip: "da_nu"
+  documente_probabile: ["PP-D1"]
+  cuvinte_cheie:
+    - "segregare la sursa"
+    - "source separation"
+    - "colectare separata"
+    - "separate collection"
+  obligatoriu: false
+
+propulsie_vehicule_colectare:
+  tip: "text"
+  documente_probabile: ["PP-D1"]
+  cuvinte_cheie:
+    - "propulsie vehicule"
+    - "vehicle propulsion"
+    - "vehicule colectare"
+    - "electric"
+    - "hibrid"
+    - "hidrogen"
+  obligatoriu: false
+
+eficienta_captare_pct:
+  tip: "procent"
+  documente_probabile: ["PP-D1"]
+  cuvinte_cheie:
+    - "eficienta captare"
+    - "capture efficiency"
+    - "captare biogaz"
+    - "captare gaz"
+    - "% captare"
+  obligatoriu: false
+
+tone_deseuri_reciclate_an:
+  tip: "numar"
+  unit: "t/an"
+  documente_probabile: ["PP-D1"]
+  cuvinte_cheie:
+    - "tone deseuri"
+    - "waste tonnes"
+    - "deseuri reciclate"
+    - "recycled waste"
+    - "tone/an"
+  obligatoriu: false
+
+# ============================================================ CIRCULAR ECONOMY
+
+pondere_aluminiu_reciclat:
+  tip: "procent"
+  documente_probabile: ["CE-D2"]
+  cuvinte_cheie:
+    - "aluminiu reciclat"
+    - "recycled aluminium"
+    - "reciclat"
+    - "% reciclat"
+    - "recycled content"
+  obligatoriu: false
+
+intensitate_carbon_aluminiu_primar_tco2e_t:
+  tip: "numar"
+  unit: "tCO2e/t"
+  documente_probabile: ["CE-D2"]
+  cuvinte_cheie:
+    - "intensitate carbon aluminiu"
+    - "carbon intensity aluminium"
+    - "tco2e/t"
+    - "aluminiu primar"
+  obligatoriu: false
+
+foloseste_plastic_virgin:
+  tip: "da_nu"
+  documente_probabile: ["CE-D1"]
+  cuvinte_cheie:
+    - "plastic virgin"
+    - "virgin plastic"
+    - "plastic nou"
+    - "materiale plastice virgine"
+  obligatoriu: false
+
+economie_materie_prima_tone_an:
+  tip: "numar"
+  unit: "t/an"
+  documente_probabile: ["CE-D1"]
+  cuvinte_cheie:
+    - "economie materie prima"
+    - "raw material savings"
+    - "tone economie"
+    - "tonnes saved"
+  obligatoriu: false
+
+# ============================================================ CÂMPURI SUPLIMENTARE DIN rules/*.yaml
+
+alimentat_regenerabil:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "alimentat din surse regenerabile"
+    - "powered by renewables"
+    - "renewable powered"
+  obligatoriu: false
+
+biodeseuri_colectate_separat:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "biodeseuri colectate separat"
+    - "biowaste collected separately"
+    - "separate biowaste collection"
+  obligatoriu: false
+
+caen_imprumutat:
+  tip: "text"
+  cuvinte_cheie:
+    - "cod caen"
+    - "caen imprumutat"
+    - "sector"
+    - "activitate"
+  obligatoriu: false
+
+certificare_sustenabila_bio:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "certificare bio"
+    - "rsb"
+    - "sustainable biomaterial"
+    - "certificate bio"
+  obligatoriu: false
+
+conexiune_dedicata_centrala_fosila:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "conexiune fosila"
+    - "fossil power plant connection"
+    - "dedicated fossil connection"
+  obligatoriu: false
+
+conform_renovare_majora:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "renovare majora"
+    - "major renovation"
+    - "directiva 2010/31"
+    - "substantial renovation"
+  obligatoriu: false
+
+dedicat_conectarii_regenerabile:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "conectare regenerabile"
+    - "renewable grid connection"
+    - "grid connection renewable"
+  obligatoriu: false
+
+dedicat_zero_emisii:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "zero emisii"
+    - "zero emission dedicated"
+    - "emisii zero dedicat"
+  obligatoriu: false
+
+depozit_inchis_sau_dezafectat:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "depozit inchis"
+    - "closed landfill"
+    - "dezafectat"
+    - "decommissioned landfill"
+  obligatoriu: false
+
+deseuri_nepericuloase:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "deseuri nepericuloase"
+    - "non-hazardous waste"
+    - "deseuri municipale"
+  obligatoriu: false
+
+destinat_operatiuni_fosile:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "operatiuni fosile"
+    - "fossil operations"
+    - "destinat fosil"
+  obligatoriu: false
+
+digestat_folosit_ca_fertilizant:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "digestat"
+    - "digestate fertilizer"
+    - "folosit ca fertilizant"
+    - "circular digestate"
+  obligatoriu: false
+
+din_crestere_intensiva_animale:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "crestere intensiva animale"
+    - "intensive animal farming"
+    - "factory farming"
+  obligatoriu: false
+
+economie_energie_edge_pct:
+  tip: "procent"
+  cuvinte_cheie:
+    - "economie energie edge"
+    - "edge energy savings"
+    - "edge %"
+    - "energy savings %"
+  obligatoriu: false
+
+eia_efectuat_de_organism_credibil:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "eia organism"
+    - "credibil"
+    - "authorized eia"
+    - "organism autorizat eia"
+  obligatoriu: false
+
+imbunatatire_eficienta_pct:
+  tip: "procent"
+  cuvinte_cheie:
+    - "imbunatatire eficienta"
+    - "efficiency improvement"
+    - "% imbunatatire"
+    - "energy efficiency gain"
+  obligatoriu: false
+
+include_productie_sau_achizitie_otel:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "otel"
+    - "steel"
+    - "productie otel"
+    - "steel manufacturing"
+  obligatoriu: false
+
+industrie_sursa:
+  tip: "text"
+  cuvinte_cheie:
+    - "industrie sursa"
+    - "source industry"
+    - "sector sursa caldura"
+    - "heat source sector"
+  obligatoriu: false
+
+inlocuieste_retea_energointensiva:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "inlocuieste retea"
+    - "replaces network"
+    - "energia veche"
+    - "energy intensive network"
+  obligatoriu: false
+
+luni_de_la_aprobare:
+  tip: "numar"
+  cuvinte_cheie:
+    - "luni de la aprobare"
+    - "months since approval"
+    - "elapsed months"
+  obligatoriu: false
+
+percentila_nationala_ped:
+  tip: "numar"
+  cuvinte_cheie:
+    - "percentila nationala"
+    - "national percentile"
+    - "top 15%"
+    - "best 15%"
+  obligatoriu: false
+
+ped_fata_de_nzeb:
+  tip: "numar"
+  cuvinte_cheie:
+    - "nzeb"
+    - "prag nzeb"
+    - "nzeb ratio"
+    - "energy performance vs nzeb"
+  obligatoriu: false
+
+plan_gestionare_deseuri:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "plan gestionare deseuri"
+    - "waste management plan"
+    - "plan deseuri"
+  obligatoriu: false
+
+pondere_cifra_afaceri_sustenabila:
+  tip: "procent"
+  cuvinte_cheie:
+    - "cifra afaceri sustenabila"
+    - "sustainable revenue"
+    - "pondere sustenabila"
+  obligatoriu: false
+
+pondere_rd_in_portofoliu:
+  tip: "procent"
+  cuvinte_cheie:
+    - "cercetare dezvoltare"
+    - "r&d"
+    - "research development"
+    - "pondere rd"
+  obligatoriu: false
+
+propulsie:
+  tip: "text"
+  cuvinte_cheie:
+    - "propulsie"
+    - "propulsion type"
+    - "electric"
+    - "hibrid"
+    - "diesel"
+    - "benzina"
+    - "hidrogen"
+  obligatoriu: false
+
+propulsie_zero_emisii_sau_umana:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "zero emisii"
+    - "propulsie umana"
+    - "zero emission propulsion"
+    - "human powered"
+  obligatoriu: false
+
+reducere_ped_pct:
+  tip: "procent"
+  cuvinte_cheie:
+    - "reducere ped"
+    - "reducere energie primara"
+    - "primary energy reduction"
+    - "% reducere ped"
+  obligatoriu: false
+
+restul_cifrei_in_sector_exclus:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "sector exclus"
+    - "excluded sector"
+    - "cifra afaceri exclusa"
+  obligatoriu: false
+
+scop_reutilizare_sau_reciclare:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "reutilizare reciclare"
+    - "reuse or recycling"
+    - "recyclable purpose"
+  obligatoriu: false
+
+ulei_palmier_fara_rspo:
+  tip: "da_nu"
+  cuvinte_cheie:
+    - "ulei de palmier"
+    - "palm oil"
+    - "rspo"
+    - "without rspo"
+  obligatoriu: false
+
+utilizare:
+  tip: "text"
+  cuvinte_cheie:
+    - "utilizare"
+    - "use"
+    - "ardere"
+    - "destinatie"
+    - "flacara"
+    - "use case"
+  obligatoriu: false
+
+acoperire_portofoliu:
+  tip: "procent"
+  cuvinte_cheie:
+    - "acoperire portofoliu"
+    - "portfolio coverage"
+    - "green bonds coverage"
+  obligatoriu: false

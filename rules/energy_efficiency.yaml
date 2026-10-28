@@ -1,0 +1,85 @@
+categorie: energy_efficiency
+sursa: "RBI Sustainability Bond Framework, Aug-2025, p. 10-11"
+taxonomie_ue: ["3.5", "4.9", "4.10", "4.19", "4.20", "7.3"]
+
+tipuri_proiect: [eficienta_industriala, echipament_eficient, stocare_energie, smart_grid,
+                 retea_conectare_regenerabile, fibra_optica, data_center]
+
+reguli:
+  - id: EE-01
+    nume: "Eficienta in productia industriala: minim 30% imbunatatire SAU tehnologie BAT"
+    sursa: "p. 10"
+    aplica_daca: {tip_proiect: eficienta_industriala}
+    tip: oricare
+    conditii:
+      - {camp: imbunatatire_eficienta_pct, operator: ">=", valoare: 0.30}
+      - {camp: tehnologie_bat, operator: "==", valoare: true}
+    calcul_ajutator: "imbunatatire_eficienta_pct = 1 - consum_dupa_mwh / consum_inainte_mwh (la aceeasi productie)"
+    daca_lipseste: NEEVALUABIL
+
+  - id: EE-02
+    nume: "Echipamente eficiente (ex. LED)"
+    sursa: "p. 10"
+    aplica_daca: {tip_proiect: echipament_eficient}
+    tip: informativ
+    nota: "Fara prag in Framework. Pentru impact e nevoie de consumul inainte/dupa (raportul: lipsa lor a blocat calculul pentru LED)."
+
+  - id: EE-03
+    nume: "Stocare de energie (pile de combustie, BESS) integrata direct cu surse regenerabile"
+    sursa: "p. 10"
+    aplica_daca: {tip_proiect: stocare_energie}
+    tip: da_nu
+    camp: integrat_cu_regenerabile
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+  - id: EE-04
+    nume: "Smart grid / transport energie: nu dedicat conectarii la centrale pe combustibili fosili"
+    sursa: "p. 11, nota 20"
+    aplica_daca: {tip_proiect: [smart_grid, retea_conectare_regenerabile]}
+    tip: excludere
+    camp: conexiune_dedicata_centrala_fosila
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+  - id: EE-05
+    nume: "Retele care conecteaza surse regenerabile la retea"
+    sursa: "p. 11"
+    aplica_daca: {tip_proiect: retea_conectare_regenerabile}
+    tip: da_nu
+    camp: dedicat_conectarii_regenerabile
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+  - id: EE-06
+    nume: "Fibra optica: inlocuieste retele mari consumatoare de energie"
+    sursa: "p. 11"
+    aplica_daca: {tip_proiect: fibra_optica}
+    tip: da_nu
+    camp: inlocuieste_retea_energointensiva
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+    nota: "Raportul (p. 9) arata ca fibra nu e aliniata cu Taxonomia UE: verde intern, dar nu 'EU Taxonomy aligned'."
+
+  - id: EE-07
+    nume: "Data centere: PUE anualizat < 1.5"
+    sursa: "p. 11"
+    aplica_daca: {tip_proiect: data_center}
+    tip: prag
+    camp: pue_anualizat
+    operator: "<"
+    valoare: 1.5
+    calcul_ajutator: "PUE = energie_totala_data_center / energie_echipamente_IT (valori anuale)"
+    daca_lipseste: NEEVALUABIL
+
+excluderi:
+  - id: EE-X1
+    nume: "Echipamente pe combustibili fosili sau imbunatatiri in industrii grele intensive in carbon"
+    sursa: "p. 10, nota 19"
+    tip: excludere
+    oricare:
+      - {camp: echipament_combustibil_fosil, operator: "==", valoare: true}
+      - {camp: industrie_beneficiar, in_lista: [otel, ciment, rafinare]}
+    daca_lipseste: NEEVALUABIL
+
+indicatori_impact: [economie_energie_mwh_an, tco2e_evitate_an]
