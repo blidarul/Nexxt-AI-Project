@@ -369,3 +369,266 @@ def normalizeaza_camp(
         return None, motiv
 
     return val_norm, None
+
+
+# ---------------------------------------------------------------------------
+# Conversii și normalizări specifice de unități de măsură (Etapa 3)
+# ---------------------------------------------------------------------------
+
+def normalizeaza_kwh_per_100km_la_km(valoare: Any) -> Optional[float]:
+    """Convertește consumul din kWh/100 km în kWh/km (împărțire la 100).
+
+    Exemple:
+        - "16 kWh/100 km" -> 0.16
+        - "21.0 kWh/100km" -> 0.21
+        - "0.16 kWh/km" -> 0.16
+    """
+    if valoare is None:
+        return None
+
+    text = str(valoare).strip()
+    num = normalizeaza_numar(text)
+    if num is None:
+        return None
+
+    val = float(num)
+    # Dacă în text apare '100' sau '100km' / '100 km', se împarte la 100
+    if re.search(r"\b100\s*km\b|100km", text, re.IGNORECASE) or val >= 5.0:
+        val = val / 100.0
+
+    return round(val, 4)
+
+
+def normalizeaza_wh_per_km(valoare: Any) -> Optional[float]:
+    """Convertește consumul din Wh/km în kWh/km (împărțire la 1000).
+
+    Exemple:
+        - "160 Wh/km" -> 0.16
+    """
+    if valoare is None:
+        return None
+
+    num = normalizeaza_numar(valoare)
+    if num is None:
+        return None
+
+    val = float(num) / 1000.0
+    return round(val, 4)
+
+
+def normalizeaza_putere_la_mw(valoare: Any, unitate: str = "") -> Optional[float]:
+    """Convertește puterea la MW (kW -> MW prin /1000, GW -> MW prin *1000).
+
+    Exemple:
+        - "500 kW" -> 0.5
+        - "1.5 GW" -> 1500.0
+        - "2 MW" -> 2.0
+    """
+    if valoare is None:
+        return None
+
+    text = str(valoare).strip()
+    u = unitate.lower() if unitate else ""
+    if not u:
+        if re.search(r"\bkw\b", text, re.IGNORECASE):
+            u = "kw"
+        elif re.search(r"\bgw\b", text, re.IGNORECASE):
+            u = "gw"
+        elif re.search(r"\bmw\b", text, re.IGNORECASE):
+            u = "mw"
+
+    num = normalizeaza_numar(text)
+    if num is None:
+        return None
+
+    val = float(num)
+    if u == "kw":
+        val = val / 1000.0
+    elif u == "gw":
+        val = val * 1000.0
+
+    return round(val, 4)
+
+
+def normalizeaza_energie_la_mwh(valoare: Any, unitate: str = "") -> Optional[float]:
+    """Convertește energia la MWh (kWh -> MWh prin /1000, GWh -> MWh prin *1000).
+
+    Exemple:
+        - "500 kWh" -> 0.5
+        - "1.5 GWh" -> 1500.0
+        - "2 MWh" -> 2.0
+    """
+    if valoare is None:
+        return None
+
+    text = str(valoare).strip()
+    u = unitate.lower() if unitate else ""
+    if not u:
+        if re.search(r"\bkwh\b", text, re.IGNORECASE):
+            u = "kwh"
+        elif re.search(r"\bgwh\b", text, re.IGNORECASE):
+            u = "gwh"
+        elif re.search(r"\bmwh\b", text, re.IGNORECASE):
+            u = "mwh"
+
+    num = normalizeaza_numar(text)
+    if num is None:
+        return None
+
+    val = float(num)
+    if u == "kwh":
+        val = val / 1000.0
+    elif u == "gwh":
+        val = val * 1000.0
+
+    return round(val, 4)
+
+
+def normalizeaza_emisii_g_per_mi_la_km(valoare: Any) -> Optional[float]:
+    """Convertește emisiile din g/mi în g/km (împărțire la 1.609).
+
+    Exemple:
+        - "80.47 g/mi" -> ~50.01
+    """
+    if valoare is None:
+        return None
+
+    num = normalizeaza_numar(valoare)
+    if num is None:
+        return None
+
+    val = float(num) / 1.609
+    return round(val, 2)
+
+
+def normalizeaza_pue(valoare: Any) -> Optional[float]:
+    """Normalizează valoarea PUE (Power Usage Effectiveness).
+
+    Exemple:
+        - "1,38" -> 1.38
+        - "1.5" -> 1.5
+        - "0.9" -> None (invalid, PUE >= 1.0)
+    """
+    if valoare is None:
+        return None
+
+    num = normalizeaza_numar(valoare)
+    if num is None:
+        return None
+
+    val = float(num)
+    if val < 1.0:
+        return None
+
+    return round(val, 4)
+
+
+def normalizeaza_da_nu(valoare: Any) -> Optional[bool]:
+    """Normalizează o valoare booleană / da-nu din text.
+
+    Exemple:
+        - "da", "true", "yes" -> True
+        - "nu", "false", "no" -> False
+    """
+    if valoare is None:
+        return None
+    if isinstance(valoare, bool):
+        return valoare
+
+    text = str(valoare).strip().lower()
+    if text in ("da", "true", "yes", "1", "afirmativ", "conform"):
+        return True
+    elif text in ("nu", "false", "no", "0", "negativ", "neconform"):
+        return False
+
+    return None
+
+
+def detecteaza_si_normalizeaza_unitate(
+    camp: str,
+    valoare_text: str,
+) -> tuple[Any, Optional[str]]:
+    """Detectează unitatea din valoare_text și aplică conversia corespunzătoare conform cerințelor.
+
+    Întoarce:
+        (valoare_normalizata, unitate_originala_detectata)
+    """
+    if valoare_text is None:
+        return None, None
+
+    text = str(valoare_text).strip()
+    text_lower = text.lower()
+
+    # 1. PUE
+    if "pue" in camp:
+        val = normalizeaza_pue(text)
+        return val, "PUE"
+
+    # 2. Consum electric vehicule (kWh/km)
+    if "consum_kwh_km" in camp or ("kwh" in text_lower and "km" in text_lower):
+        if re.search(r"\b100\s*km\b|100km", text_lower):
+            val = normalizeaza_kwh_per_100km_la_km(text)
+            return val, "kWh/100km"
+        elif "wh" in text_lower and "kwh" not in text_lower:
+            val = normalizeaza_wh_per_km(text)
+            return val, "Wh/km"
+        else:
+            val = normalizeaza_numar(text)
+            return val, "kWh/km"
+
+    # 3. Putere (kW, MW, GW -> MW)
+    if "capacitate_mw" in camp or "putere" in camp:
+        if re.search(r"\bkw\b", text_lower):
+            val = normalizeaza_putere_la_mw(text, "kw")
+            return val, "kW"
+        elif re.search(r"\bgw\b", text_lower):
+            val = normalizeaza_putere_la_mw(text, "gw")
+            return val, "GW"
+        elif re.search(r"\bmw\b", text_lower):
+            val = normalizeaza_putere_la_mw(text, "mw")
+            return val, "MW"
+
+    # 4. Energie (kWh, MWh, GWh -> MWh)
+    if any(k in camp for k in ("productie_anuala_mwh", "consum_inainte_mwh", "consum_dupa_mwh", "energie_generata_mwh_an", "economie_energie_mwh_an")):
+        if re.search(r"\bkwh\b", text_lower):
+            val = normalizeaza_energie_la_mwh(text, "kwh")
+            return val, "kWh"
+        elif re.search(r"\bgwh\b", text_lower):
+            val = normalizeaza_energie_la_mwh(text, "gwh")
+            return val, "GWh"
+        elif re.search(r"\bmwh\b", text_lower):
+            val = normalizeaza_energie_la_mwh(text, "mwh")
+            return val, "MWh"
+
+    # 5. Emisii per pasager-milă sau tonă-milă -> km
+    if "pkm" in camp or "tkm" in camp or "g/mi" in text_lower or "gco2/mi" in text_lower:
+        if re.search(r"\bmi\b|mila|mile", text_lower):
+            val = normalizeaza_emisii_g_per_mi_la_km(text)
+            return val, "g/mi"
+        else:
+            val = normalizeaza_numar(text)
+            return val, "g/km"
+
+    # 6. Procente (campuri *_pct sau pondere_*)
+    if camp.endswith("_pct") or camp.startswith("pondere_") or "cota_" in camp:
+        val = normalizeaza_procent(text)
+        return val, "%"
+
+    # 7. Valori de tip da_nu
+    if camp in ("aprobat_proces_standard", "fir_de_apa_fara_rezervor", "eia_risc_semnificativ",
+                 "tehnologie_bat", "echipament_combustibil_fosil", "transporta_combustibili_fosili",
+                 "reciclare_chimica_plastic", "segregare_la_sursa", "foloseste_plastic_virgin",
+                 "statie_in_cladire", "integrat_cu_regenerabile", "deserveste_sistem_fosil",
+                 "sistem_management_agent_frigorific", "alimentat_regenerabil",
+                 "conform_renovare_majora", "conexiune_dedicata_centrala_fosila",
+                 "dedicat_conectarii_regenerabile", "dedicat_zero_emisii"):
+        val = normalizeaza_da_nu(text)
+        return val, "da_nu"
+
+    # Implicit număr dacă e cazul
+    num = normalizeaza_numar(text)
+    if num is not None:
+        return num, None
+
+    return text, None
+
