@@ -517,12 +517,23 @@ class LLMClient:
         mesaje: list[dict[str, Any]],
         model: Optional[str] = None,
         temperature: float = 0.0,
+        chei_asteptate: Optional[list[str]] = None,
     ) -> tuple[Optional[Any], Optional[str]]:
         """Apelează LLM-ul și extrage un JSON valid.
 
-        În caz de eșec de parsare, face o singură reîncercare trimițând eroarea.
+        În caz de eșec de parsare, face până la două reîncercări.
+        Dacă se dau chei_asteptate, un obiect care nu conține niciuna dintre ele
+        (răspuns degenerat, ex. {"response": "{"}) e tratat tot ca eșec.
         Întoarce (obiect_json, eroare_str).
         """
+
+        def este_valid(date: Any) -> bool:
+            if date is None:
+                return False
+            if chei_asteptate and isinstance(date, dict):
+                return any(k in date for k in chei_asteptate)
+            return True
+
         nume_model = model or self.model_text
         text_raspuns = self.apeleaza(
             mesaje=mesaje,
@@ -532,33 +543,31 @@ class LLMClient:
         )
 
         date_json = self.extrage_json_din_text(text_raspuns)
-        if date_json is not None:
+        if este_valid(date_json):
             return date_json, None
 
-        # Reîncercare unică pentru corectarea JSON-ului
-        mesaje_retry = list(mesaje)
-        mesaje_retry.append({"role": "assistant", "content": text_raspuns})
-        mesaje_retry.append({
-            "role": "user",
-            "content": (
-                "Răspunsul anterior nu este un JSON valid. "
-                "Te rog să întorci EXCLUSIV obiectul JSON valid cerut, "
-                "fără explicații, fără introducere, fără blocuri <think> și fără formatare markdown."
-            ),
-        })
-
-        text_retry = self.apeleaza(
-            mesaje=mesaje_retry,
-            model=nume_model,
-            temperature=temperature,
-            cere_json=True,
+        # Reîncercări: mesajele originale + o cerință explicită. Răspunsul greșit NU intră în istoric
+        # (modelul tinde să-l continue). A doua reîncercare e fără JSON mode, care la unii furnizori
+        # produce răspunsuri degenerate. Mesajele sunt deterministe, deci și reîncercările se cache-uiesc.
+        cerinta = (
+            "Întoarce EXCLUSIV obiectul JSON valid cerut"
+            + (f", cu cheile: {', '.join(chei_asteptate)}" if chei_asteptate else "")
+            + ". Fără explicații, fără introducere, fără blocuri <think> și fără formatare markdown."
         )
+        text_retry = text_raspuns
+        for incercare, cere_json in ((1, True), (2, False)):
+            mesaje_retry = list(mesaje) + [{"role": "user", "content": f"{cerinta} (reîncercarea {incercare})"}]
+            text_retry = self.apeleaza(
+                mesaje=mesaje_retry,
+                model=nume_model,
+                temperature=temperature,
+                cere_json=cere_json,
+            )
+            date_json_retry = self.extrage_json_din_text(text_retry)
+            if este_valid(date_json_retry):
+                return date_json_retry, None
 
-        date_json_retry = self.extrage_json_din_text(text_retry)
-        if date_json_retry is not None:
-            return date_json_retry, None
-
-        return None, f"Eșec parsare JSON chiar și după reîncercare. Răspuns brut: {text_retry[:200]}"
+        return None, f"Eșec parsare JSON chiar și după reîncercări. Răspuns brut: {text_retry[:200]}"
 
     def apeleaza_vision(
         self,

@@ -103,7 +103,8 @@
       "citat": "Țara România",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.95,
+      "citat_reconstituit": true
     },
     "aprobat_proces_standard": {
       "valoare": null,
@@ -120,7 +121,7 @@
       "citat": "Data aprobării creditului (procesul standard de credit): 2026-03-15",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.97
+      "incredere": 0.99
     },
     "data_marcare_verde": {
       "valoare": null,
@@ -131,10 +132,10 @@
       "incredere": 0.0
     },
     "suma_eur": {
-      "valoare": 30000000,
-      "valoare_bruta": "30.000.000 EUR",
+      "valoare": 15000000,
+      "valoare_bruta": "15.000.000 EUR",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Valoare totală proiect 30.000.000 EUR",
+      "citat": "Suma solicitată de la bancă 15.000.000 EUR",
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 0.95
@@ -146,7 +147,7 @@
       "citat": "Structura finanțării Banca 50% (15.000.000 EUR), aport propriu 50%",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.96
+      "incredere": 0.95
     },
     "descriere_proiect": {
       "valoare": "Achiziția clădirii Nord Office – Clădirea 1",
@@ -155,22 +156,22 @@
       "citat": "Scopul declarat Achiziția clădirii Nord Office – Clădirea 1",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.94
+      "incredere": 0.95
     },
     "afirmatii_client": {
-      "valoare": "Clădirea deține certificare BREEAM.\nClădirea are certificat energetic clasa A.",
-      "valoare_bruta": "Clădirea deține certificare BREEAM.\nClădirea are certificat energetic clasa A.",
+      "valoare": "Clădirea deține certificare BREEAM. Clădirea are certificat energetic clasa A.",
+      "valoare_bruta": "Clădirea deține certificare BREEAM. Clădirea are certificat energetic clasa A.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "• Clădirea deține certificare BREEAM.\n• Clădirea are certificat energetic clasa A.",
+      "citat": "Clădirea deține certificare BREEAM. Clădirea are certificat energetic clasa A.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.93
+      "incredere": 0.95
     },
     "certificare_sistem": {
       "valoare": "BREEAM",
       "valoare_bruta": "BREEAM",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Certificare de sustenabilitate BREEAM (certificare finală)",
+      "citat": "Certificare de sustenabilitate (declarată) BREEAM (certificare finală)",
       "citat_verificat": true,
       "treapta_cautare": 2,
       "incredere": 0.78
@@ -187,7 +188,7 @@
       "valoare": "finală",
       "valoare_bruta": "finală",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Certificare de sustenabilitate BREEAM (certificare finală)",
+      "citat": "Certificare de sustenabilitate (declarată) BREEAM (certificare finală)",
       "citat_verificat": true,
       "treapta_cautare": 2,
       "incredere": 0.78
@@ -199,38 +200,40 @@
       "citat": "Număr certificat de sustenabilitate comunicat: BREEAM-EXEMPLU-0002",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.96
+      "incredere": 0.95
     },
     "epc_clasa": {
       "valoare": "A",
       "valoare_bruta": "A",
-      "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Clădirea are certificat energetic clasa A.",
+      "sursa": "03_certificat_energetic.pdf, p.1",
+      "citat": "Clasa energetică A",
       "citat_verificat": true,
-      "treapta_cautare": 2,
-      "incredere": 0.76
+      "treapta_cautare": 1,
+      "incredere": 0.99
     },
     "ped_kwh_m2": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
+      "valoare": 98,
+      "valoare_bruta": "98 kWh/m²·an",
+      "sursa": "03_certificat_energetic.pdf, p.1",
+      "citat": "Consum anual specific de energie primară 98 kWh/m²·an",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
     },
     "energie_finala_kwh_m2": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
+      "valoare": 80,
+      "valoare_bruta": "80 kWh/m²·an",
+      "sursa": "03_certificat_energetic.pdf, p.1",
+      "citat": "Consum anual specific de energie finală 80 kWh/m²·an",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
     },
     "suprafata_m2": {
       "valoare": 12000,
       "valoare_bruta": "12.000 m²",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Suprafață utilă (declarată) 12.000 m²",
+      "citat": "Suprafața utilă (declarată) 12.000 m²",
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 0.95
@@ -242,7 +245,7 @@
       "citat": "Adresă ICluj-Napoca, Str. Exemplului nr. 5",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.94
+      "incredere": 0.95
     },
     "stadiu_cladire": {
       "valoare": "Finalizată, în exploatare",
@@ -284,40 +287,15 @@
         "GB-01"
       ],
       "obligatoriu": true
-    },
-    {
-      "camp": "ped_kwh_m2",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "GB-D2"
-      ],
-      "pentru": [
-        "GB-04",
-        "PL-10"
-      ],
-      "obligatoriu": true
-    },
-    {
-      "camp": "energie_finala_kwh_m2",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "GB-D2",
-        "GB-D5"
-      ],
-      "pentru": [
-        "impact",
-        "PL-11"
-      ],
-      "obligatoriu": true
     }
   ],
   "conflicte": [],
   "conversii_unitati": [],
   "valori_respinse": [],
   "statistici_llm": {
-    "apeluri_reale": 22,
-    "apeluri_cache": 4,
+    "apeluri_reale": 0,
+    "apeluri_cache": 28,
     "apeluri_offline": 0,
-    "total_apeluri": 26
+    "total_apeluri": 28
   }
 }

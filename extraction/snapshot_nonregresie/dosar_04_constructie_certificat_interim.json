@@ -1,0 +1,87 @@
+{
+  "dosar_id": "dosar_04_constructie_certificat_interim",
+  "cui": {
+    "valoare": "9900000070",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.98
+  },
+  "suma_eur": {
+    "valoare": 40000000,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "cota_banca": {
+    "valoare": 1.0,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.92
+  },
+  "data_aprobare": {
+    "valoare": "2026-03-15",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.97
+  },
+  "tara": {
+    "valoare": "România",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "adresa_cladire": {
+    "valoare": "București, Sector 1, Str. Exemplului nr. 20",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "suprafata_m2": {
+    "valoare": 25000,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.96
+  },
+  "stadiu_cladire": {
+    "valoare": "În construcție",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.93
+  },
+  "nr_certificat_declarat": {
+    "valoare": "BREEAM-EXEMPLU-0003",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.98
+  },
+  "epc_clasa": null,
+  "epc_energie_finala": null,
+  "epc_suprafata_m2": null,
+  "chiriasi": [],
+  "afirmatii_client": [
+    "Clădirea va avea certificare BREEAM Excellent."
+  ],
+  "categorie": {
+    "valoare": "green_buildings",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.9
+  },
+  "subcategorie": {
+    "valoare": "cladire_noua_sau_existenta",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.9
+  },
+  "indicatori": {
+    "descriere_proiect": {
+      "valoare": "Credit de investiții – construcție clădire nouă de birouri",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.94
+    },
+    "certificare_sistem": {
+      "valoare": "BREEAM",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.78
+    },
+    "certificare_nivel": {
+      "valoare": "Excellent",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.78
+    },
+    "certificare_stadiu": {
+      "valoare": "de proiect",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.78
+    }
+  }
+}

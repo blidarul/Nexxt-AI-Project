@@ -33,7 +33,7 @@
   "suprafata_m2": {
     "valoare": 20000,
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.96
+    "incredere": 0.95
   },
   "stadiu_cladire": {
     "valoare": "Finalizată, în exploatare",
@@ -43,7 +43,7 @@
   "nr_certificat_declarat": {
     "valoare": "BREEAM-EXEMPLU-0001",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.98
+    "incredere": 0.96
   },
   "epc_clasa": {
     "valoare": "A",
@@ -58,7 +58,7 @@
   "epc_suprafata_m2": {
     "valoare": 20000,
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.96
+    "incredere": 0.95
   },
   "chiriasi": [
     {
@@ -77,11 +77,7 @@
       "m2": 1000.0
     }
   ],
-  "afirmatii_client": [
-    "Clădirea deține certificare BREEAM Excellent.",
-    "Clădirea are certificat energetic clasa A.",
-    "Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România."
-  ],
+  "afirmatii_client": [],
   "categorie": {
     "valoare": "green_buildings",
     "sursa": "01_cerere_finantare.pdf, p.1",
@@ -98,10 +94,20 @@
       "sursa": "01_cerere_finantare.pdf, p.1",
       "incredere": 0.94
     },
+    "certificare_sistem": {
+      "valoare": "BREEAM",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.78
+    },
+    "certificare_nivel": {
+      "valoare": "Excellent",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.78
+    },
     "certificare_stadiu": {
       "valoare": "finală",
-      "sursa": "03_certificat_energetic.pdf, p.1",
-      "incredere": 0.76
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.78
     },
     "ped_kwh_m2": {
       "valoare": 110,

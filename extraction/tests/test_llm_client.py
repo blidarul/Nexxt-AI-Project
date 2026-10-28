@@ -93,3 +93,16 @@ def test_simulator_offline_nu_citeste_cache(monkeypatch):
         cheie = client._calculeaza_cheie_cache(client.model_text, mesaje, 0.0)
         client._salveaza_in_cache(cheie, '{"real": true}', client.model_text, mesaje)
         assert client.apeleaza(mesaje) != '{"real": true}'
+
+
+def test_raspuns_fara_cheile_asteptate_declanseaza_reincercare():
+    class Client(LLMClient):
+        def __init__(self):
+            super().__init__(cache_dir=Path(tempfile.mkdtemp()))
+            self.raspunsuri = ['{"model": "x", "response": "{"}', '{"pue_anualizat": {"valoare_text": "1,38"}}']
+
+        def apeleaza(self, mesaje, model=None, temperature=0.0, cere_json=True):
+            return self.raspunsuri.pop(0)
+
+    date, eroare = Client().apeleaza_cu_json([{"role": "user", "content": "x"}], chei_asteptate=["pue_anualizat"])
+    assert eroare is None and "pue_anualizat" in date

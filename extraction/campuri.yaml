@@ -24,7 +24,7 @@ cui:
   extras_din_document: true
   sursa_valoare: document
 suma_eur:
-  descriere: "Valoarea creditului / finanțării în EUR"
+  descriere: "Suma creditului solicitată de la bancă / finanțată de bancă, în EUR (NU valoarea totală a proiectului)"
   tip: "numar"
   documente_probabile: ["cerere_finantare"]
   cuvinte_cheie:

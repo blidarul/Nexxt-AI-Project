@@ -30,6 +30,7 @@ from extraction.cautare import (
     gaseste_pagini_treapta_2,
     grupeaza_campuri_pe_documente,
     incarca_catalog_campuri,
+    normalizeaza_text_cautare,
 )
 from extraction.categorie import stabileste_categoria
 from extraction.cerinte import (
@@ -135,6 +136,23 @@ def documente_tinta(
         d for d in documente
         if d.get("tip_document") in tipuri or ids.intersection(d.get("id_cerinte") or [])
     ]
+
+
+def reconstituie_citat(valoare_bruta: Any, cuvinte_cheie: list[str], doc: dict[str, Any]) -> Optional[str]:
+    """Când LLM-ul dă o valoare fără citat: linia unică din document care conține valoarea
+    și un cuvânt-cheie al câmpului. Dacă nu există exact o astfel de linie, nu se reconstituie nimic.
+    """
+    valoare = normalizeaza_text_cautare(str(valoare_bruta)).strip()
+    if not valoare or isinstance(valoare_bruta, (list, dict)):
+        return None
+    chei = [normalizeaza_text_cautare(k) for k in cuvinte_cheie if k]
+    potriviri = []
+    for pag in doc.get("pagini", []):
+        for linie in (pag.get("text") or "").splitlines():
+            linie_norm = normalizeaza_text_cautare(linie)
+            if valoare in linie_norm and any(k in linie_norm for k in chei):
+                potriviri.append(linie.strip())
+    return potriviri[0] if len(set(potriviri)) == 1 else None
 
 
 def normalizeaza_valoare(
@@ -385,7 +403,11 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
                 })
                 continue
 
-            citat = cand.get("citat", "")
+            citat = cand.get("citat", "") or ""
+            citat_reconstituit = False
+            if not citat.strip():
+                citat = reconstituie_citat(cand["valoare_bruta"], info_c.get("cuvinte_cheie") or [], cand.get("doc_complet", {})) or ""
+                citat_reconstituit = bool(citat)
             citat_gasit, pag_reala, sursa_calc = verifica_citat(citat, cand.get("pagina", 1), cand.get("doc_complet", {}))
 
             if not citat_gasit:
@@ -437,6 +459,7 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
                 "fisier": cand["fisier"],
                 "tip_document": cand["tip_document"],
                 "unitate_originala": unitate_conv,
+                "citat_reconstituit": citat_reconstituit,
             })
 
     # --- Rezolvarea conflictelor și selecția valorilor unice ---
@@ -587,6 +610,8 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
                 "treapta_cautare": ales.get("treapta", 1),
                 "incredere": ales["incredere"],
             }
+            if ales.get("citat_reconstituit"):
+                campuri_raport[camp]["citat_reconstituit"] = True
         else:
             campuri_raport[camp] = {
                 "valoare": None,

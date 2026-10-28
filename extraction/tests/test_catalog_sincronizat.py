@@ -29,7 +29,7 @@ def test_extractorul_cere_doar_campuri_extras_din_document_true():
         def __init__(self):
             self.ultimele_mesaje = None
 
-        def apeleaza_cu_json(self, mesaje):
+        def apeleaza_cu_json(self, mesaje, **kwargs):
             self.ultimele_mesaje = mesaje
             return {}, None
 

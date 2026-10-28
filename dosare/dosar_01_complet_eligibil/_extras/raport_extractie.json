@@ -100,7 +100,7 @@
       "valoare": "România",
       "valoare_bruta": "România",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "S Țara România",
+      "citat": "Țara România",
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 0.95
@@ -152,48 +152,46 @@
       "valoare": "Achiziția clădirii de birouri Verde Business Park – Clădirea B",
       "valoare_bruta": "Achiziția clădirii de birouri Verde Business Park – Clădirea B",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "I T Achiziția clădirii de birouri Verde Business Park – Clădirea B",
+      "citat": "Scopul declarat Achiziția clădirii de birouri Verde Business Park – Clădirea B",
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 0.94
     },
     "afirmatii_client": {
-      "valoare": [
-        "Clădirea deține certificare BREEAM Excellent.",
-        "Clădirea are certificat energetic clasa A.",
-        "Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România."
-      ],
-      "valoare_bruta": null,
+      "valoare": "Clădirea deține certificare BREEAM Excellent. Clădirea are certificat energetic clasa A. Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România.",
+      "valoare_bruta": "Clădirea deține certificare BREEAM Excellent. Clădirea are certificat energetic clasa A. Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România.",
       "sursa": "01_cerere_finantare.pdf, p.1",
       "citat": "• Clădirea deține certificare BREEAM Excellent.\n• Clădirea are certificat energetic clasa A.\n• Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 1.0
+      "incredere": 0.93
     },
     "certificare_sistem": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
+      "valoare": "BREEAM",
+      "valoare_bruta": "BREEAM",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Certificare de sustenabilitate BREEAM Excellent (certificare finală)",
+      "citat_verificat": true,
+      "treapta_cautare": 2,
+      "incredere": 0.78
     },
     "certificare_nivel": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
+      "valoare": "Excellent",
+      "valoare_bruta": "Excellent",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Certificare de sustenabilitate BREEAM Excellent (certificare finală)",
+      "citat_verificat": true,
+      "treapta_cautare": 2,
+      "incredere": 0.78
     },
     "certificare_stadiu": {
       "valoare": "finală",
       "valoare_bruta": "finală",
-      "sursa": "03_certificat_energetic.pdf, p.1",
-      "citat": "Consum anual specific de energie finală",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Certificare de sustenabilitate BREEAM Excellent (certificare finală)",
       "citat_verificat": true,
       "treapta_cautare": 2,
-      "incredere": 0.76
+      "incredere": 0.78
     },
     "nr_certificat_declarat": {
       "valoare": "BREEAM-EXEMPLU-0001",
@@ -202,7 +200,7 @@
       "citat": "Număr certificat de sustenabilitate comunicat: BREEAM-EXEMPLU-0001",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.96
     },
     "epc_clasa": {
       "valoare": "A",
@@ -238,13 +236,13 @@
       "citat": "Suprafață utilă (declarată) 20.000 m²",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.96
+      "incredere": 0.95
     },
     "adresa_cladire": {
       "valoare": "București, Sector 2, Str. Exemplului nr. 10",
       "valoare_bruta": "București, Sector 2, Str. Exemplului nr. 10",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "I Adresă București, Sector 2, Str. Exemplului nr. 10",
+      "citat": "Adresă București, Sector 2, Str. Exemplului nr. 10",
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 0.95
@@ -278,50 +276,15 @@
         "G-03"
       ],
       "obligatoriu": true
-    },
-    {
-      "camp": "certificare_sistem",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "GB-D1"
-      ],
-      "pentru": [
-        "GB-01"
-      ],
-      "obligatoriu": true
-    },
-    {
-      "camp": "certificare_nivel",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "GB-D1"
-      ],
-      "pentru": [
-        "GB-01"
-      ],
-      "obligatoriu": true
     }
   ],
-  "conflicte": [
-    {
-      "camp": "afirmatii_client",
-      "valoare_aleasa": [
-        "Clădirea deține certificare BREEAM Excellent.",
-        "Clădirea are certificat energetic clasa A.",
-        "Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România."
-      ],
-      "document_ales": "01_cerere_finantare.pdf",
-      "valoare_alternativa": "• Clădirea deține certificare BREEAM Excellent.\n• Clădirea are certificat energetic clasa A.\n• Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România.",
-      "document_alternativ": "01_cerere_finantare.pdf",
-      "citat_alternativ": "• Clădirea deține certificare BREEAM Excellent.\n• Clădirea are certificat energetic clasa A.\n• Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România."
-    }
-  ],
+  "conflicte": [],
   "conversii_unitati": [],
   "valori_respinse": [],
   "statistici_llm": {
-    "apeluri_reale": 9,
-    "apeluri_cache": 0,
+    "apeluri_reale": 0,
+    "apeluri_cache": 10,
     "apeluri_offline": 0,
-    "total_apeluri": 9
+    "total_apeluri": 10
   }
 }

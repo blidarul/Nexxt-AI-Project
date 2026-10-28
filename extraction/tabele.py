@@ -313,7 +313,8 @@ def aplica_document_autoritate(
         for rand in lista:
             model = normalizeaza_text_cautare(str(rand.get("model") or "")).strip()
             marca = normalizeaza_text_cautare(str(rand.get("marca") or "")).strip()
-            if not model or (model != model_auto and model not in model_auto and model_auto not in model):
+            # egalitate exactă: „EV-Van” e subșir în „PHEV-Van”, dar e alt model
+            if not model or model != model_auto:
                 continue
             if marca and marca_auto and marca != marca_auto:
                 continue
