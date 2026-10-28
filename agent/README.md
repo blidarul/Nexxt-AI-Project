@@ -7,3 +7,6 @@
 - `prompts/system_prompt.md`: instrucțiunile agentului.
 
 **Regula de aur:** LLM-ul nu scrie verdictul. Îl calculează `engine/verdict.py`.
+
+
+
