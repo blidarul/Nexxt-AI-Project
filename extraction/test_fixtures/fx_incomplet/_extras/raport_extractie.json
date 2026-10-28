@@ -27,9 +27,12 @@
     {
       "fisier": "01_cerere_finantare.pdf",
       "tip_detectat": "cerere_finantare",
+      "tip_din_continut": "cerere_finantare",
+      "tip_din_nume": "cerere_finantare",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o cerere de finanțare depusă la bancă de solicitant, cu datele firmei, suma solicitată și descrierea proiectului.",
+      "motiv": "Documentul conține o cerere de finanțare depusă la bancă de către solicitantul Exemplu Distribuție SRL, cu suma solicitată de 200.000 EUR și descrierea proiectului de achiziție a 6 autoutilitare electrice.",
       "id_cerinte": [
         "D-01"
       ]
@@ -37,9 +40,12 @@
     {
       "fisier": "02_lista_vehicule.pdf",
       "tip_detectat": "lista_vehicule",
+      "tip_din_continut": "lista_vehicule",
+      "tip_din_nume": null,
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o listă a vehiculelor finanțate, cu informații despre marcă, model, combustibil și numărul de bucăți, ceea ce corespunde definiției tipului 'lista_vehicule'.",
+      "motiv": "Documentul conține o listă a vehiculelor finanțate, cu informații despre marcă, model, combustibil și număr de bucăți, ceea ce corespunde definiției tipului 'lista_vehicule'.",
       "id_cerinte": [
         "CT-D1"
       ]
@@ -135,7 +141,7 @@
       "citat": "Țara România",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.97
     },
     "aprobat_proces_standard": {
       "valoare": null,
@@ -174,10 +180,10 @@
       "valoare": 1.0,
       "valoare_bruta": "100%",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Banca 100% (200.000 EUR)",
+      "citat": "Structura finanțării Banca 100% (200.000 EUR)",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.96
     },
     "descriere_proiect": {
       "valoare": "Achiziția a 6 autoutilitare ușoare (categoria N1) electrice pentru distribuție urbană.",
@@ -186,7 +192,7 @@
       "citat": "Achiziția a 6 autoutilitare ușoare (categoria N1) electrice pentru distribuție urbană.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.99
     },
     "afirmatii_client": {
       "valoare": null,
@@ -262,9 +268,9 @@
   "valori_respinse": [],
   "statistici_llm": {
     "apeluri_reale": 0,
-    "apeluri_cache": 5,
+    "apeluri_cache": 4,
     "apeluri_offline": 0,
-    "total_apeluri": 5
+    "total_apeluri": 4
   },
   "apeluri_llm_reale": []
 }

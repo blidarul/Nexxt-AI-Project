@@ -55,12 +55,12 @@
   "categorie": {
     "valoare": "green_buildings",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.9
+    "incredere": 0.65
   },
   "subcategorie": {
     "valoare": "cladire_noua_sau_existenta",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.9
+    "incredere": 0.65
   },
   "indicatori": {
     "descriere_proiect": {
@@ -79,9 +79,14 @@
       "incredere": 0.78
     },
     "certificare_stadiu": {
-      "valoare": "de proiect",
+      "valoare": "certificare de proiect",
       "sursa": "01_cerere_finantare.pdf, p.1",
       "incredere": 0.78
+    },
+    "industrie_beneficiar": {
+      "valoare": "Închirierea și subînchirierea bunurilor imobiliare proprii sau închiriate",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.76
     }
   }
 }

@@ -181,7 +181,9 @@ def aliniaza_valoare_cu_citatul(camp: str, valoare_bruta: Any, citat: str) -> An
     Așa conversia se face (și se raportează) în cod. Dacă nu există o astfel de potrivire, nu schimbă nimic.
     """
     text = str(valoare_bruta).strip()
-    if not citat or re.sub(r"\s+", "", text) in re.sub(r"\s+", "", citat):
+    # numărul trebuie să apară întreg în citat: „4.8” nu e în „4.800 kW”
+    tipar = r"(?<![\d.,])" + re.escape(re.sub(r"\s+", "", text)) + r"(?![\d]|[.,]\d)"
+    if not citat or re.search(tipar, re.sub(r"\s+", "", citat)):
         return valoare_bruta
     tinta, _ = detecteaza_si_normalizeaza_unitate(camp, text)
     if not isinstance(tinta, (int, float)) or isinstance(tinta, bool):

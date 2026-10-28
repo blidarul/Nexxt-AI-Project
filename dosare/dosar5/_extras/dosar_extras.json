@@ -2,83 +2,117 @@
   "dosar_id": "dosar5",
   "cui": {
     "valoare": "9900000050",
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.99
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+    "incredere": 0.98
   },
   "suma_eur": {
     "valoare": 35000000,
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
     "incredere": 0.95
   },
   "cota_banca": {
     "valoare": 0.58,
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.98
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+    "incredere": 0.9
   },
   "data_aprobare": {
-    "valoare": "2026-02-20",
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.98
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
   },
   "tara": {
     "valoare": "România",
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.95
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+    "incredere": 0.85
   },
   "adresa_cladire": {
-    "valoare": "Timișoara, Jud. Timiș, Calea Aradului nr. 210",
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.98
+    "valoare": "Timișoara, Calea Aradului nr. 210",
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+    "incredere": 0.95
   },
   "suprafata_m2": {
     "valoare": 40000,
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
     "incredere": 0.95
   },
   "stadiu_cladire": {
-    "valoare": "Finalizată, în exploatare",
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "valoare": "Finalizat",
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
     "incredere": 0.95
   },
   "nr_certificat_declarat": {
     "valoare": "BREEAM-EXEMPLU-0005",
-    "sursa": "CERERE_FINANTARE.pdf, p.1",
-    "incredere": 0.98
+    "sursa": "BREEAM.pdf, p.1",
+    "incredere": 0.99
   },
   "epc_clasa": {
     "valoare": "A",
     "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
-    "incredere": 0.98
+    "incredere": 0.99
   },
   "epc_energie_finala": {
-    "valoare": 76.0,
+    "valoare": 76,
     "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.98
   },
   "epc_suprafata_m2": {
     "valoare": 40000,
-    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
     "incredere": 0.95
   },
   "chiriasi": [
     {
       "nume": "Continental Automotive SRL",
-      "cui": "9900000401",
       "caen": "2931",
-      "m2": 22000.0,
-      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
-      "incredere": 0.95
+      "m2": 22000.0
     },
     {
       "nume": "Flexronics Romania SRL",
-      "cui": "9900000402",
       "caen": "2611",
-      "m2": 13200.0,
-      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
-      "incredere": 0.95
+      "m2": 13200.0
     }
   ],
   "afirmatii_client": [],
-  "indicatori": {}
+  "categorie": {
+    "valoare": "green_buildings",
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+    "incredere": 0.9
+  },
+  "subcategorie": {
+    "valoare": "cladire_noua_sau_existenta",
+    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+    "incredere": 0.9
+  },
+  "indicatori": {
+    "descriere_proiect": {
+      "valoare": "Extindere spații de producție nepoluantă Bio Park Timișoara",
+      "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+      "incredere": 0.95
+    },
+    "certificare_sistem": {
+      "valoare": "BREEAM",
+      "sursa": "BREEAM.pdf, p.1",
+      "incredere": 0.98
+    },
+    "certificare_nivel": {
+      "valoare": "EXCELLENT",
+      "sursa": "BREEAM.pdf, p.1",
+      "incredere": 0.97
+    },
+    "certificare_stadiu": {
+      "valoare": "Final Certificate",
+      "sursa": "BREEAM.pdf, p.1",
+      "incredere": 0.96
+    },
+    "ped_kwh_m2": {
+      "valoare": 90,
+      "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+      "incredere": 0.98
+    },
+    "energie_finala_kwh_m2": {
+      "valoare": 76,
+      "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+      "incredere": 0.98
+    }
+  }
 }
-

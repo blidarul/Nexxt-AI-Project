@@ -13,14 +13,14 @@
       "camp_nivel_3": null
     },
     {
-      "categorie": "green_buildings",
-      "subcategorie": "cladire_noua_sau_existenta",
+      "categorie": "energy_efficiency",
+      "subcategorie": "eficienta_industriala",
       "tip_nivel_3": null,
       "incredere": 0.6,
-      "citat": "Modernizarea iluminatului și panouri fotovoltaice pe hala de producție",
+      "citat": "Modernizarea iluminatului",
       "citat_verificat": true,
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "camp_subcategorie": null,
+      "camp_subcategorie": "tip_proiect",
       "camp_nivel_3": null
     }
   ],
@@ -30,9 +30,12 @@
     {
       "fisier": "01_cerere_finantare.pdf",
       "tip_detectat": "cerere_finantare",
+      "tip_din_continut": "cerere_finantare",
+      "tip_din_nume": "cerere_finantare",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o cerere de finanțare depusă la bancă, cu datele firmei, suma solicitată și descrierea proiectului.",
+      "motiv": "Documentul conține o cerere de finanțare depusă la bancă de către solicitant, cu datele firmei, suma solicitată și descrierea proiectului.",
       "id_cerinte": [
         "D-01"
       ]
@@ -176,8 +179,8 @@
       ]
     },
     {
-      "categorie": "green_buildings",
-      "subcategorie": "cladire_noua_sau_existenta",
+      "categorie": "energy_efficiency",
+      "subcategorie": "eficienta_industriala",
       "documente_gasite": [
         {
           "id": "D-01",
@@ -209,19 +212,18 @@
           "obligatoriu": true
         },
         {
-          "id": "GB-D1 sau GB-D2",
-          "nume": "Certificat de sustenabilitate (BREEAM/LEED/DGNB/OGNI/EDGE)",
-          "obligatoriu": "una_din: [GB-D1, GB-D2]",
-          "motiv": "niciunul din grup"
-        },
-        {
-          "id": "GB-D3",
-          "nume": "Contracte de inchiriere / lista chiriasilor",
+          "id": "EE-D1",
+          "nume": "Audit energetic inainte de investitie",
           "obligatoriu": true
         },
         {
-          "id": "GB-D4",
-          "nume": "Extras de carte funciara",
+          "id": "EE-D2",
+          "nume": "Proiectie / masuratori dupa investitie",
+          "obligatoriu": true
+        },
+        {
+          "id": "EE-D3",
+          "nume": "Fisa tehnica a echipamentului (BAT, PUE masurat etc.)",
           "obligatoriu": true
         }
       ],
@@ -243,17 +245,12 @@
     "tehnologie",
     "capacitate_mw",
     "productie_anuala_mwh",
-    "certificare_sistem",
-    "certificare_nivel",
-    "certificare_stadiu",
-    "nr_certificat_declarat",
-    "epc_clasa",
-    "ped_kwh_m2",
-    "energie_finala_kwh_m2",
-    "suprafata_m2",
-    "adresa_cladire",
-    "stadiu_cladire",
-    "chiriasi"
+    "tip_proiect",
+    "consum_inainte_mwh",
+    "consum_dupa_mwh",
+    "tehnologie_bat",
+    "industrie_beneficiar",
+    "echipament_combustibil_fosil"
   ],
   "campuri_extrase": {
     "cui": {
@@ -349,7 +346,7 @@
       "treapta_cautare": null,
       "incredere": 0.0
     },
-    "certificare_sistem": {
+    "consum_inainte_mwh": {
       "valoare": null,
       "sursa": "",
       "citat": null,
@@ -357,7 +354,7 @@
       "treapta_cautare": null,
       "incredere": 0.0
     },
-    "certificare_nivel": {
+    "consum_dupa_mwh": {
       "valoare": null,
       "sursa": "",
       "citat": null,
@@ -365,7 +362,7 @@
       "treapta_cautare": null,
       "incredere": 0.0
     },
-    "certificare_stadiu": {
+    "tehnologie_bat": {
       "valoare": null,
       "sursa": "",
       "citat": null,
@@ -373,7 +370,7 @@
       "treapta_cautare": null,
       "incredere": 0.0
     },
-    "nr_certificat_declarat": {
+    "industrie_beneficiar": {
       "valoare": null,
       "sursa": "",
       "citat": null,
@@ -381,47 +378,7 @@
       "treapta_cautare": null,
       "incredere": 0.0
     },
-    "epc_clasa": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
-    },
-    "ped_kwh_m2": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
-    },
-    "energie_finala_kwh_m2": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
-    },
-    "suprafata_m2": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
-    },
-    "adresa_cladire": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
-    },
-    "stadiu_cladire": {
+    "echipament_combustibil_fosil": {
       "valoare": null,
       "sursa": "",
       "citat": null,
@@ -479,133 +436,48 @@
       "obligatoriu": true
     },
     {
-      "camp": "certificare_sistem",
+      "camp": "consum_inainte_mwh",
       "motiv": "negasit",
       "documente_asteptate": [
-        "GB-D1"
+        "EE-D1"
       ],
       "pentru": [
-        "GB-01"
-      ],
-      "obligatoriu": true
-    },
-    {
-      "camp": "certificare_nivel",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "GB-D1"
-      ],
-      "pentru": [
-        "GB-01"
-      ],
-      "obligatoriu": true
-    },
-    {
-      "camp": "certificare_stadiu",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "GB-D1"
-      ],
-      "pentru": [
-        "GB-01",
-        "GB-X2"
-      ],
-      "obligatoriu": true
-    },
-    {
-      "camp": "nr_certificat_declarat",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "D-01",
-        "GB-D1"
-      ],
-      "pentru": [
-        "GB-01",
-        "PL-02"
-      ],
-      "obligatoriu": true
-    },
-    {
-      "camp": "epc_clasa",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "GB-D2"
-      ],
-      "pentru": [
-        "GB-03"
-      ],
-      "obligatoriu": true
-    },
-    {
-      "camp": "ped_kwh_m2",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "GB-D2"
-      ],
-      "pentru": [
-        "GB-04",
-        "PL-10"
-      ],
-      "obligatoriu": true
-    },
-    {
-      "camp": "energie_finala_kwh_m2",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "GB-D2",
-        "GB-D5"
-      ],
-      "pentru": [
-        "impact",
-        "PL-11"
-      ],
-      "obligatoriu": true
-    },
-    {
-      "camp": "suprafata_m2",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "GB-D2",
-        "GB-D4"
-      ],
-      "pentru": [
-        "impact",
-        "GB-X1"
-      ],
-      "obligatoriu": true
-    },
-    {
-      "camp": "adresa_cladire",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "D-01",
-        "GB-D2",
-        "GB-D4"
-      ],
-      "pentru": [
-        "PL-01"
-      ],
-      "obligatoriu": true
-    },
-    {
-      "camp": "stadiu_cladire",
-      "motiv": "negasit",
-      "documente_asteptate": [
-        "D-01"
-      ],
-      "pentru": [
+        "EE-01",
         "impact"
       ],
       "obligatoriu": true
     },
     {
-      "camp": "chiriasi",
+      "camp": "consum_dupa_mwh",
       "motiv": "negasit",
       "documente_asteptate": [
-        "GB-D3"
+        "EE-D2"
       ],
       "pentru": [
-        "GB-X1"
+        "EE-01",
+        "impact"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "industrie_beneficiar",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-03"
+      ],
+      "pentru": [
+        "EE-X1"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "echipament_combustibil_fosil",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "EE-D3"
+      ],
+      "pentru": [
+        "EE-X1"
       ],
       "obligatoriu": true
     }
@@ -615,9 +487,9 @@
   "valori_respinse": [],
   "statistici_llm": {
     "apeluri_reale": 0,
-    "apeluri_cache": 3,
+    "apeluri_cache": 4,
     "apeluri_offline": 0,
-    "total_apeluri": 3
+    "total_apeluri": 4
   },
   "apeluri_llm_reale": []
 }

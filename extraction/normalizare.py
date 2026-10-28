@@ -341,6 +341,10 @@ def normalizeaza_camp(
     if valoare_bruta is None:
         return None, None
 
+    # CUI-ul are normalizare proprie (prefixul de TVA „RO”), chiar dacă în catalog e de tip text
+    if camp_nume == "cui":
+        tip_camp = "cui"
+
     # Dacă tipul nu este specificat explicit, deducem după numele câmpului
     if tip_camp is None:
         if camp_nume in ("cui",):

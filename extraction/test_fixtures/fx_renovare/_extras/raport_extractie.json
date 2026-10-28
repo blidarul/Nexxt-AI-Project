@@ -41,9 +41,12 @@
     {
       "fisier": "01_cerere_finantare.pdf",
       "tip_detectat": "cerere_finantare",
+      "tip_din_continut": "cerere_finantare",
+      "tip_din_nume": "cerere_finantare",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o cerere de finanțare depusă la bancă de către solicitant, cu date despre firmă, suma solicitată și descrierea proiectului.",
+      "motiv": "Documentul conține o cerere de finanțare depusă la bancă de către solicitant, cu date ale firmei, suma solicitată și descrierea proiectului.",
       "id_cerinte": [
         "D-01"
       ]
@@ -51,9 +54,12 @@
     {
       "fisier": "02_epc_inainte.pdf",
       "tip_detectat": "certificat_energetic",
+      "tip_din_continut": "certificat_energetic",
+      "tip_din_nume": null,
+      "nume_contrazice_continut": false,
       "rol": "inainte",
       "incredere": 0.95,
-      "motiv": "Documentul conține mențiuni directe despre certificatul de performanță energetică, clasa energetică D, consum anual specific de energie primară și menționează clar că este pentru starea existentă înainte de renovare.",
+      "motiv": "Documentul conține informații despre clasa energetică, consumul anual specific de energie primară și aria utilă, fiind un certificat de performanță energetică pentru starea existentă a clădirii înainte de renovare.",
       "id_cerinte": [
         "GB-D6"
       ]
@@ -61,9 +67,12 @@
     {
       "fisier": "03_epc_dupa.pdf",
       "tip_detectat": "certificat_energetic",
+      "tip_din_continut": "certificat_energetic",
+      "tip_din_nume": "certificat_energetic",
+      "nume_contrazice_continut": false,
       "rol": "dupa",
       "incredere": 0.95,
-      "motiv": "Documentul conține mențiuni clare despre un certificat de performanță energetică pentru o clădire după renovare, cu mențiuni despre clasa energetică, consumul anual specific de energie primară și aria utilă.",
+      "motiv": "Documentul conține mențiuni despre clasa energetică, consumul anual specific de energie primară și menționează expresia 'după renovare', indicând faptul că este un certificat de performanță energetică emis pentru situația post-renovare.",
       "id_cerinte": [
         "GB-D7"
       ]
@@ -71,9 +80,12 @@
     {
       "fisier": "04_deviz_lucrari.pdf",
       "tip_detectat": "deviz_lucrari",
+      "tip_din_continut": "deviz_lucrari",
+      "tip_din_nume": "contract_inchiriere",
+      "nume_contrazice_continut": true,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține un deviz general al lucrărilor de renovare, cu detalii privind costurile pe capitole (anvelopare termică, pompe de căldură etc.) și totalul valorii, ceea ce corespunde definiției tipului 'deviz_lucrari'.",
+      "motiv": "Documentul conține un deviz general al lucrărilor de renovare, cu detalii pe capitole și total, menționând explicit renovarea energetică.",
       "id_cerinte": [
         "GB-D8"
       ]
@@ -215,7 +227,7 @@
       "valoare": "Renovarea energetică majoră a unei clădiri de birouri existente: anvelopare termică, înlocuirea tâmplăriei și instalarea de pompe de căldură.",
       "valoare_bruta": "Renovarea energetică majoră a unei clădiri de birouri existente: anvelopare termică, înlocuirea tâmplăriei și instalarea de pompe de căldură.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Renovarea energetică majoră a unei clădiri de birouri existente: anvelopare termică, înlocuirea tâmplăriei și instalarea de pompe de căldură.",
+      "citat": "Descrierea proiectului Renovarea energetică majoră a unei clădiri de birouri existente: anvelopare termică, înlocuirea tâmplăriei și instalarea de pompe de căldură.",
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 0.96

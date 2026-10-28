@@ -27,9 +27,12 @@
     {
       "fisier": "01_cerere_finantare.pdf",
       "tip_detectat": "cerere_finantare",
+      "tip_din_continut": "cerere_finantare",
+      "tip_din_nume": "cerere_finantare",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o cerere de credit / finanțare depusă la bancă de solicitant (date firmă, suma solicitată, descrierea proiectului)",
+      "motiv": "Documentul conține o cerere de finanțare depusă la bancă de către solicitant, cu date despre firmă, suma solicitată și descrierea proiectului.",
       "id_cerinte": [
         "D-01"
       ]
@@ -37,9 +40,12 @@
     {
       "fisier": "02_raport_pue.pdf",
       "tip_detectat": "raport_pue",
+      "tip_din_continut": "raport_pue",
+      "tip_din_nume": null,
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține un raport de eficiență energetică al unui centru de date, cu valoare PUE anualizată și măsurători conform EN 50600-4-2.",
+      "motiv": "Documentul conține date privind eficiența energetică a unui centru de date, inclusiv PUE anualizat (1,38) și consumul IT vs. total, conform EN 50600-4-2.",
       "id_cerinte": [
         "EE-D3"
       ]
@@ -179,7 +185,7 @@
       "valoare": "Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
       "valoare_bruta": "Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
+      "citat": "Descrierea proiectului Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 0.95
@@ -239,7 +245,7 @@
       "citat": "Annualised PUE 1,38",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.98
     }
   },
   "campuri_lipsa": [

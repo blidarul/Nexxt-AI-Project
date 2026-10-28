@@ -27,6 +27,9 @@
     {
       "fisier": "01_cerere_finantare.pdf",
       "tip_detectat": "cerere_finantare",
+      "tip_din_continut": "cerere_finantare",
+      "tip_din_nume": "cerere_finantare",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
       "motiv": "Documentul conține o cerere de finanțare depusă la bancă de solicitant, cu datele firmei, suma solicitată și descrierea proiectului.",
@@ -37,9 +40,12 @@
     {
       "fisier": "02_studiu_fezabilitate.pdf",
       "tip_detectat": "studiu_fezabilitate",
+      "tip_din_continut": "studiu_fezabilitate",
+      "tip_din_nume": null,
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține termenul 'studiu de fezabilitate' și descrie parametrii unei centrale hidroelectrice, cum ar fi puterea instalată, suprafața lacului de acumulare și producția anuală estimată.",
+      "motiv": "Documentul conține termenul 'studiu de fezabilitate' și descrie parametrii unei centrale hidroelectrice, cum ar fi puterea instalată, suprafața lacului de acumulare și producția medie anuală estimată.",
       "id_cerinte": [
         "RE-D1"
       ]
@@ -47,9 +53,12 @@
     {
       "fisier": "03_autorizatie_anre.pdf",
       "tip_detectat": "autorizatie",
+      "tip_din_continut": "autorizatie",
+      "tip_din_nume": "certificat_energetic",
+      "nume_contrazice_continut": true,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține mențiuni despre o licență emisă de ANRE pentru exploatarea comercială a capacităților de producere a energiei electrice, ceea ce îl încadrează în categoria de autorizație.",
+      "motiv": "Documentul conține o licență emisă de ANRE pentru exploatarea comercială a capacităților de producere a energiei electrice, ceea ce îl încadrează în categoria autorizațiilor emise de o autoritate.",
       "id_cerinte": [
         "RE-D2"
       ]
@@ -57,9 +66,12 @@
     {
       "fisier": "04_studiu_impact_mediu.pdf",
       "tip_detectat": "studiu_impact_mediu",
+      "tip_din_continut": "studiu_impact_mediu",
+      "tip_din_nume": "contract_inchiriere",
+      "nume_contrazice_continut": true,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține mențiunea 'RAPORT PRIVIND EVALUAREA IMPACTULUI ASUPRA MEDIULUI (EIA)' și se referă la un proiect de evaluare a impactului asupra mediului, ceea ce corespunde tipului 'studiu_impact_mediu'.",
+      "motiv": "Documentul conține mențiunea 'RAPORT PRIVIND EVALUAREA IMPACTULUI ASUPRA MEDIULUI (EIA)' și descrie analiza impactului unui proiect asupra mediului, inclusiv concluzii privind riscurile semnificative.",
       "id_cerinte": [
         "RE-D4"
       ]
@@ -174,7 +186,7 @@
       "citat": "Țara România",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.97
     },
     "aprobat_proces_standard": {
       "valoare": null,
@@ -216,16 +228,16 @@
       "citat": "Banca 75% (6.000.000 EUR), aport propriu 25%",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.96
     },
     "descriere_proiect": {
       "valoare": "Refinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro), pusă în funcțiune în 2022, cu lac de acumulare propriu.",
       "valoare_bruta": "Refinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro), pusă în funcțiune în 2022, cu lac de acumulare propriu.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Descrierea proiectului Refinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro), pusă în funcțiune în 2022, cu lac de acumulare propriu.",
+      "citat": "Refinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro), pusă în funcțiune în 2022, cu lac de acumulare propriu.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.99
     },
     "afirmatii_client": {
       "valoare": null,
@@ -272,13 +284,12 @@
       "incredere": 0.98
     },
     "densitate_putere_w_m2": {
-      "valoare": 800,
-      "valoare_bruta": "800 W/m²",
-      "sursa": "02_studiu_fezabilitate.pdf, p.1",
-      "citat": "Putere instalată 4.800 kW",
-      "citat_verificat": true,
-      "treapta_cautare": 1,
-      "incredere": 0.85
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
     },
     "emisii_directe_gco2e_kwh": {
       "valoare": null,
@@ -318,6 +329,19 @@
       ],
       "pentru": [
         "G-04"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "densitate_putere_w_m2",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "RE-D1"
+      ],
+      "pentru": [
+        "RE-03b",
+        "RE-03c",
+        "PL-21"
       ],
       "obligatoriu": true
     },

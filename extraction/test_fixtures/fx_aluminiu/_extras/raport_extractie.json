@@ -27,9 +27,12 @@
     {
       "fisier": "01_cerere_finantare.pdf",
       "tip_detectat": "cerere_finantare",
+      "tip_din_continut": "cerere_finantare",
+      "tip_din_nume": "cerere_finantare",
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o cerere de finanțare depusă la bancă, cu datele firmei, suma solicitată și descrierea proiectului.",
+      "motiv": "Documentul conține o cerere de finanțare depusă la bancă de către solicitant, cu datele firmei, suma solicitată și descrierea proiectului.",
       "id_cerinte": [
         "D-01"
       ]
@@ -37,9 +40,12 @@
     {
       "fisier": "02_declaratie_furnizor.pdf",
       "tip_detectat": "declaratie_furnizor",
+      "tip_din_continut": "declaratie_furnizor",
+      "tip_din_nume": null,
+      "nume_contrazice_continut": false,
       "rol": null,
       "incredere": 0.95,
-      "motiv": "Documentul conține o declarație a furnizorului privind materialul livrat, cu informații despre conținutul de aluminiu reciclat și intensitatea de carbon a materialului, ceea ce corespunde tipului 'declaratie_furnizor'.",
+      "motiv": "Documentul conține o declarație a furnizorului privind materialul livrat, cu informații despre conținutul de aluminiu reciclat și intensitatea de carbon a materialului primar, ceea ce corespunde tipului 'declaratie_furnizor'.",
       "id_cerinte": [
         "CE-D2"
       ]
@@ -179,10 +185,10 @@
       "valoare": "Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
       "valoare_bruta": "Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Descrierea proiectului Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
+      "citat": "Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.94
+      "incredere": 0.99
     },
     "afirmatii_client": {
       "valoare": null,
@@ -208,7 +214,7 @@
       "citat": "Intensitatea de carbon a aluminiului primar utilizat 2,1 tCO2e/t",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.97
+      "incredere": 0.98
     },
     "foloseste_plastic_virgin": {
       "valoare": null,
@@ -278,9 +284,9 @@
   "valori_respinse": [],
   "statistici_llm": {
     "apeluri_reale": 0,
-    "apeluri_cache": 8,
+    "apeluri_cache": 6,
     "apeluri_offline": 0,
-    "total_apeluri": 8
+    "total_apeluri": 6
   },
   "apeluri_llm_reale": []
 }

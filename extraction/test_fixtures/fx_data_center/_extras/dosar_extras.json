@@ -69,7 +69,7 @@
     "pue_anualizat": {
       "valoare": 1.38,
       "sursa": "02_raport_pue.pdf, p.1",
-      "incredere": 0.95
+      "incredere": 0.98
     },
     "tip_proiect": {
       "valoare": "data_center",

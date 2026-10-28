@@ -64,7 +64,7 @@
     "descriere_proiect": {
       "valoare": "Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "incredere": 0.94
+      "incredere": 0.99
     },
     "pondere_aluminiu_reciclat": {
       "valoare": 0.75,
@@ -74,7 +74,7 @@
     "intensitate_carbon_aluminiu_primar_tco2e_t": {
       "valoare": 2.1,
       "sursa": "02_declaratie_furnizor.pdf, p.1",
-      "incredere": 0.97
+      "incredere": 0.98
     },
     "tip": {
       "valoare": "produse_aluminiu",

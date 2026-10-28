@@ -189,3 +189,26 @@ def test_data_aprobare_cauta_in_d02_d05_si_cerere_doar_cu_expresii_precise():
 def test_fixture_corespunde_asteptarilor(fixture):
     gresite = [r for r in verifica_fixture(FOLDER_FIXTURES / fixture) if not r["ok"]]
     assert gresite == [], gresite
+
+
+# ----------------------------------------------------------------------------- reparații după rularea reală
+def test_cui_cu_prefix_ro_si_spatiu():
+    from extraction.cautare import incarca_catalog_campuri
+    from extraction.normalizare import normalizeaza_camp
+    info = incarca_catalog_campuri()["cui"]
+    assert normalizeaza_camp("cui", "RO 9900000030", info.get("tip"), info.get("validare")) == ("9900000030", None)
+
+
+def test_citat_cu_cuvant_despartit_la_capat_de_rand():
+    from extraction.verificare import verifica_citat_in_pagina
+    text = "Certificare declarată: BREEAM Outstanding (Certificat nr. BREEAM-\nEXEMPLU-0003)"
+    assert verifica_citat_in_pagina("Certificat nr. BREEAM-EXEMPLU-0003", text)
+    assert not verifica_citat_in_pagina("Certificat nr. BREEAM-EXEMPLU-0004", text)
+
+
+def test_valoarea_convertita_de_llm_se_aliniaza_cu_citatul():
+    from extraction.extrage_structurat import aliniaza_valoare_cu_citatul
+    # LLM-ul a convertit singur 4.800 kW -> 4.8: conversia se reface (și se raportează) în cod
+    assert aliniaza_valoare_cu_citatul("capacitate_mw", "4.8", "Putere instalată 4.800 kW") == "4.800 kW"
+    assert aliniaza_valoare_cu_citatul("capacitate_mw", "4.800 kW", "Putere instalată 4.800 kW") == "4.800 kW"
+    assert aliniaza_valoare_cu_citatul("pue_anualizat", "1,38", "annualised PUE: 1,38") == "1,38"

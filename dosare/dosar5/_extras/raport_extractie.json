@@ -1,0 +1,442 @@
+{
+  "dosar_id": "dosar5",
+  "categorie_candidati": [
+    {
+      "categorie": "green_buildings",
+      "subcategorie": "cladire_noua_sau_existenta",
+      "tip_nivel_3": null,
+      "incredere": 0.9,
+      "citat": "Denumire imobil: Bio Industrial Hall B3",
+      "citat_verificat": true,
+      "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+      "camp_subcategorie": null,
+      "camp_nivel_3": null
+    }
+  ],
+  "categorie_ambigua": false,
+  "indicii_categorie": [
+    {
+      "categorie": "green_buildings",
+      "subcategorie": null,
+      "forta": "slab",
+      "fisier": "BREEAM.pdf",
+      "tip_document": "certificat_sustenabilitate"
+    },
+    {
+      "categorie": "green_buildings",
+      "subcategorie": null,
+      "forta": "slab",
+      "fisier": "CERTIFICAT_PERFORMANTA.pdf",
+      "tip_document": "certificat_energetic"
+    },
+    {
+      "categorie": "green_buildings",
+      "subcategorie": null,
+      "forta": "slab",
+      "fisier": "CONTRACTE_CHIRIASI.pdf",
+      "tip_document": "contract_inchiriere"
+    }
+  ],
+  "documente_clasificate": [
+    {
+      "fisier": "BREEAM.pdf",
+      "tip_detectat": "certificat_sustenabilitate",
+      "tip_din_continut": "certificat_sustenabilitate",
+      "tip_din_nume": "certificat_sustenabilitate",
+      "nume_contrazice_continut": false,
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține informații despre un certificat BREEAM pentru o clădire industrială, cu mențiunea 'Nivel Certificare (Rating): EXCELLENT' și 'Schema BREEAM: International V6 Industrial'.",
+      "id_cerinte": [
+        "GB-D1"
+      ]
+    },
+    {
+      "fisier": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf",
+      "tip_detectat": "cerere_finantare",
+      "tip_din_continut": "cerere_finantare",
+      "tip_din_nume": "cerere_finantare",
+      "nume_contrazice_continut": false,
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o cerere de credit de investiții pentru extinderea unui parc industrial, cu date despre solicitant, suma solicitată, structura finanțării și o declarație privind sustenabilitatea. Conține toate elementele caracteristice unei cereri de finanțare: date ale firmei, obiectivul proiectului, suma, durata, structura finanțării, etc.",
+      "id_cerinte": [
+        "D-01"
+      ]
+    },
+    {
+      "fisier": "CERTIFICAT_PERFORMANTA.pdf",
+      "tip_detectat": "certificat_energetic",
+      "tip_din_continut": "certificat_energetic",
+      "tip_din_nume": "certificat_energetic",
+      "nume_contrazice_continut": false,
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține un certificat de performanță energetică (CPE) cu date privind clasa energetică, consumul de energie și emisiile CO2 ale unei clădiri.",
+      "id_cerinte": [
+        "GB-D2"
+      ]
+    },
+    {
+      "fisier": "CONTRACT_PPA_VERDE.pdf",
+      "tip_detectat": "contract_ppa_verde",
+      "tip_din_continut": "contract_ppa_verde",
+      "tip_din_nume": "contract_ppa_verde",
+      "nume_contrazice_continut": false,
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține un contract de achiziție de energie verde (PPA) între Enel Green Power România S.A. și S.C. BIO INDUSTRIAL PARK TIMIȘOARA S.R.L., cu mențiuni despre energie regenerabilă, Garanții de Origine (GO) și durata contractului.",
+      "id_cerinte": []
+    },
+    {
+      "fisier": "CONTRACTE_CHIRIASI.pdf",
+      "tip_detectat": "contract_inchiriere",
+      "tip_din_continut": "contract_inchiriere",
+      "tip_din_nume": "contract_inchiriere",
+      "nume_contrazice_continut": false,
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o listă de chiriași cu datele lor (CUI, CAEN, suprafață închiriată) și contracte de închiriere pentru un imobil.",
+      "id_cerinte": [
+        "GB-D3"
+      ]
+    },
+    {
+      "fisier": "DECLARATII_DE_MEDIU_PRODUSE.pdf",
+      "tip_detectat": "declaratie_mediu_produs",
+      "tip_din_continut": "declaratie_mediu_produs",
+      "tip_din_nume": "declaratie_mediu_produs",
+      "nume_contrazice_continut": false,
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o fișă de conformitate a materialelor de construcții cu mențiuni privind emisiile de CO2 și alte caracteristici de mediu, ceea ce corespunde definiției unei Declarații de Mediu de Produs (EPD).",
+      "id_cerinte": []
+    },
+    {
+      "fisier": "RASPUNS_ANAF.pdf",
+      "tip_detectat": "raspuns_anaf",
+      "tip_din_continut": "raspuns_anaf",
+      "tip_din_nume": "raspuns_anaf",
+      "nume_contrazice_continut": false,
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o fișă oficială de verificare a stării fiscale și inactivității emisă de Agenția Națională de Administrare Fiscală, cu datele de identificare ale firmei, stare înregistrare fiscală, status inactivitate, stare plătitor TVA și cazier fiscal.",
+      "id_cerinte": []
+    }
+  ],
+  "documente_gasite": [
+    {
+      "id": "D-01",
+      "nume": "Cerere de finantare",
+      "fisiere": [
+        "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf"
+      ]
+    },
+    {
+      "id": "GB-D1",
+      "nume": "Certificat de sustenabilitate (BREEAM/LEED/DGNB/OGNI/EDGE)",
+      "fisiere": [
+        "BREEAM.pdf"
+      ]
+    },
+    {
+      "id": "GB-D2",
+      "nume": "Certificat de performanta energetica (EPC)",
+      "fisiere": [
+        "CERTIFICAT_PERFORMANTA.pdf"
+      ]
+    },
+    {
+      "id": "GB-D3",
+      "nume": "Contracte de inchiriere / lista chiriasilor",
+      "fisiere": [
+        "CONTRACTE_CHIRIASI.pdf"
+      ]
+    }
+  ],
+  "documente_lipsa": [
+    {
+      "id": "D-02",
+      "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-04",
+      "nume": "Declaratia privind beneficiarul real",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-05",
+      "nume": "Contractul de credit / term sheet (structura finantarii)",
+      "obligatoriu": true
+    },
+    {
+      "id": "GB-D4",
+      "nume": "Extras de carte funciara",
+      "obligatoriu": true
+    }
+  ],
+  "documente_recomandate_lipsa": [],
+  "campuri_selectate": [
+    "cui",
+    "tara",
+    "aprobat_proces_standard",
+    "data_aprobare",
+    "data_marcare_verde",
+    "suma_eur",
+    "cota_banca",
+    "categorie",
+    "subcategorie",
+    "descriere_proiect",
+    "afirmatii_client",
+    "certificare_sistem",
+    "certificare_nivel",
+    "certificare_stadiu",
+    "nr_certificat_declarat",
+    "epc_clasa",
+    "ped_kwh_m2",
+    "energie_finala_kwh_m2",
+    "suprafata_m2",
+    "adresa_cladire",
+    "stadiu_cladire",
+    "chiriasi"
+  ],
+  "campuri_extrase": {
+    "cui": {
+      "valoare": "9900000050",
+      "valoare_bruta": "RO 9900000050",
+      "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+      "citat": "CUI: RO 9900000050",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "tara": {
+      "valoare": "România",
+      "valoare_bruta": "România",
+      "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+      "citat": "Calea Aradului nr. 210",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.85
+    },
+    "aprobat_proces_standard": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_aprobare": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_marcare_verde": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "suma_eur": {
+      "valoare": 35000000,
+      "valoare_bruta": "35.000.000 EUR",
+      "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+      "citat": "Suma solicitată de la bancă: 35.000.000 EUR",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "cota_banca": {
+      "valoare": 0.58,
+      "valoare_bruta": "0.58",
+      "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+      "citat": "Structură finanțare: Credit Sindicalizat (58%), Fonduri proprii (42%)",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.9
+    },
+    "descriere_proiect": {
+      "valoare": "Extindere spații de producție nepoluantă Bio Park Timișoara",
+      "valoare_bruta": "Extindere spații de producție nepoluantă Bio Park Timișoara",
+      "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+      "citat": "Obiectiv: Extindere spații de producție nepoluantă Bio Park Timișoara",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "afirmatii_client": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "certificare_sistem": {
+      "valoare": "BREEAM",
+      "valoare_bruta": "BREEAM",
+      "sursa": "BREEAM.pdf, p.1",
+      "citat": "Schema BREEAM: International V6 Industrial",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "certificare_nivel": {
+      "valoare": "EXCELLENT",
+      "valoare_bruta": "EXCELLENT",
+      "sursa": "BREEAM.pdf, p.1",
+      "citat": "Nivel Certificare (Rating): EXCELLENT",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.97
+    },
+    "certificare_stadiu": {
+      "valoare": "Final Certificate",
+      "valoare_bruta": "Final Certificate",
+      "sursa": "BREEAM.pdf, p.1",
+      "citat": "Etapa Evaluării: Final Certificate",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.96
+    },
+    "nr_certificat_declarat": {
+      "valoare": "BREEAM-EXEMPLU-0005",
+      "valoare_bruta": "BREEAM-EXEMPLU-0005",
+      "sursa": "BREEAM.pdf, p.1",
+      "citat": "Nr. Certificat: BREEAM-EXEMPLU-0005",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.99
+    },
+    "epc_clasa": {
+      "valoare": "A",
+      "valoare_bruta": "A",
+      "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+      "citat": "Clasa Energetică | A",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.99
+    },
+    "ped_kwh_m2": {
+      "valoare": 90,
+      "valoare_bruta": "90.0",
+      "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+      "citat": "Consum Anual Specific de Energie Primară | 90.0 kWh/m²/an",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "energie_finala_kwh_m2": {
+      "valoare": 76,
+      "valoare_bruta": "76.0",
+      "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+      "citat": "Consum Anual Specific de Energie Finală | 76.0 kWh/m²/an",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "suprafata_m2": {
+      "valoare": 40000,
+      "valoare_bruta": "40.000 m²",
+      "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+      "citat": "Suprafață utilă închiriabilă (GLA): 40.000 m²",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "adresa_cladire": {
+      "valoare": "Timișoara, Calea Aradului nr. 210",
+      "valoare_bruta": "Timișoara, Calea Aradului nr. 210",
+      "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+      "citat": "Adresă: Timișoara, Calea Aradului nr. 210",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "stadiu_cladire": {
+      "valoare": "Finalizat",
+      "valoare_bruta": "Finalizat",
+      "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
+      "citat": "Stadiu: Finalizat (Grad de ocupare: 88%)",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "chiriasi": {
+      "valoare": [
+        {
+          "nume": "Continental Automotive SRL",
+          "caen": "2931",
+          "m2": 22000.0
+        },
+        {
+          "nume": "Flexronics Romania SRL",
+          "caen": "2611",
+          "m2": 13200.0
+        }
+      ],
+      "numar_chiriasi": 2,
+      "fara_caen": [],
+      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
+      "citat": "Chiriaș 1: Continental Automotive SRL | CUI 9900000401 | CAEN 2931 | Suprafață: 22.000 m² (55%) | Contract: 2024-2034; Chiriaș 2: Flexronics Romania SRL | CUI 9900000402 | CAEN 2611 | Suprafață: 13.200 m² (33%) | Contract: 2024-2032",
+      "citat_verificat": true,
+      "metoda": "determinist_tabele",
+      "incredere": 1.0
+    }
+  },
+  "campuri_lipsa": [
+    {
+      "camp": "aprobat_proces_standard",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-03"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "data_aprobare",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-04"
+      ],
+      "obligatoriu": true
+    }
+  ],
+  "conflicte": [
+    {
+      "camp": "adresa_cladire",
+      "valoare_aleasa": "Timișoara, Calea Aradului nr. 210",
+      "document_ales": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf",
+      "valoare_alternativa": "Timișoara, Calea Aradului nr. 210, Jud. Timiș",
+      "document_alternativ": "CERTIFICAT_PERFORMANTA.pdf",
+      "citat_alternativ": "Adresă: Timișoara, Calea Aradului nr. 210, Jud. Timiș"
+    }
+  ],
+  "conversii_unitati": [],
+  "valori_respinse": [],
+  "statistici_llm": {
+    "apeluri_reale": 0,
+    "apeluri_cache": 13,
+    "apeluri_offline": 0,
+    "total_apeluri": 13
+  },
+  "apeluri_llm_reale": []
+}
