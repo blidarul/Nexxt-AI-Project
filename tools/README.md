@@ -29,5 +29,8 @@ Reguli de interpretare pentru agent:
 - `data/emisii_vehicule.csv`: `python -m tools.data.descarca_eea`, sau, dacă API-ul EEA refuză cererea,
   `python -m tools.data.descarca_eea --din-fisier <CSV descărcat de pe EEA Datahub>`.
   Agregă pe (marcă, model) cu mediana emisiilor WLTP; rândurile `SINTETIC` (fixture-uri) se păstrează.
+  Fișierul EEA e mare (zeci de milioane de rânduri): se citește direct din `.zip`, în flux, doar coloanele necesare,
+  cu memorie constantă (~600.000 rânduri/s, deci un an de date în sub un minut). Opțiuni: `--tara RO` (doar
+  înmatriculările din România), `--max-randuri N` (probă rapidă), `--top N` (câte modele se păstrează, implicit 300).
 
 Teste: `python -m pytest tools -q` (rețeaua e simulată, nu e nevoie de internet).

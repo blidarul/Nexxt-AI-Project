@@ -253,3 +253,37 @@ def test_ember_filtreaza_doar_tarile_cerute():
         {"tara": "Romania", "iso3": "ROU", "an": 2024, "gco2e_kwh": 251.33, "sursa": descarca_ember.SURSA}]
     with pytest.raises(SystemExit):
         descarca_ember.filtreaza("a,b\n1,2\n", {"ROU": "Romania"})
+
+
+def _zip_eea(cale, randuri):
+    import zipfile
+    antet = "ID\tMs\tMk\tCn\tFt\tEwltp (g/km)\tyear\tAlta coloana\n"
+    corp = "".join(f"{i}\t{ms}\t{mk}\t{cn}\t{ft}\t{e}\t2025\tx\n" for i, (ms, mk, cn, ft, e) in enumerate(randuri))
+    with zipfile.ZipFile(cale, "w") as z:
+        z.writestr("readme.txt", "x")
+        z.writestr("data.csv", antet + corp)
+
+
+def test_eea_din_zip_in_flux_cu_filtru_tara_si_limita(tmp_path):
+    cale = tmp_path / "eea.zip"
+    _zip_eea(cale, [("RO", "DACIA", "SPRING", "electric", 0), ("DE", "VW", "GOLF", "petrol", 130),
+                    ("RO", "VW", "GOLF", "petrol", 120), ("ro", "VW", "GOLF", "petrol", 124)])
+    toate = {r["model"]: r for r in descarca_eea.agrega(descarca_eea.citeste_fisier(cale), 10, "t")}
+    assert toate["GOLF"]["nr_inmatriculari"] == 3 and toate["GOLF"]["emisii_wltp_gco2_km"] == 124
+    ro = {r["model"]: r for r in descarca_eea.agrega(descarca_eea.citeste_fisier(cale, tara="RO"), 10, "t")}
+    assert ro["GOLF"]["nr_inmatriculari"] == 2 and ro["GOLF"]["emisii_wltp_gco2_km"] == 122
+    assert sum(1 for _ in descarca_eea.citeste_fisier(cale, max_randuri=2)) == 2
+
+
+def test_eea_cli_din_fisier_pastreaza_randurile_sintetice(tmp_path, monkeypatch):
+    iesire = tmp_path / "emisii.csv"
+    shutil.copy(emisii_vehicul.CALE_CSV, iesire)
+    monkeypatch.setattr(descarca_eea, "CALE_IESIRE", iesire)
+    cale = tmp_path / "eea.zip"
+    _zip_eea(cale, [("RO", "DACIA", "SPRING", "electric", 0)] * 3 + [("RO", "VW", "GOLF", "petrol", 120)])
+    descarca_eea.main(["--din-fisier", str(cale), "--top", "1"])
+    with open(iesire, encoding="utf-8", newline="") as f:
+        randuri = list(csv.DictReader(f))
+    assert sum(r["sursa"].startswith("SINTETIC") for r in randuri) == 5
+    reale = [r for r in randuri if r["sursa"].startswith("EEA")]
+    assert [(r["marca"], r["model"], r["nr_inmatriculari"]) for r in reale] == [("DACIA", "SPRING", "3")]
