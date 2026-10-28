@@ -1,0 +1,432 @@
+{
+  "dosar_id": "fx_hidro_2022",
+  "categorie_candidati": [
+    {
+      "categorie": "renewable_energy",
+      "subcategorie": "hidro",
+      "tip_nivel_3": null,
+      "incredere": 0.9,
+      "citat": "Refinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro)",
+      "citat_verificat": true,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "camp_subcategorie": "tehnologie",
+      "camp_nivel_3": null
+    }
+  ],
+  "categorie_ambigua": false,
+  "indicii_categorie": [
+    {
+      "categorie": "renewable_energy",
+      "subcategorie": null,
+      "forta": "slab",
+      "fisier": "04_studiu_impact_mediu.pdf",
+      "tip_document": "studiu_impact_mediu"
+    }
+  ],
+  "documente_clasificate": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_detectat": "cerere_finantare",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o cerere de finanțare depusă la bancă de solicitant, cu datele firmei, suma solicitată și descrierea proiectului.",
+      "id_cerinte": [
+        "D-01"
+      ]
+    },
+    {
+      "fisier": "02_studiu_fezabilitate.pdf",
+      "tip_detectat": "studiu_fezabilitate",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține termenul 'studiu de fezabilitate' și descrie parametrii unei centrale hidroelectrice, cum ar fi puterea instalată, suprafața lacului de acumulare și producția anuală estimată.",
+      "id_cerinte": [
+        "RE-D1"
+      ]
+    },
+    {
+      "fisier": "03_autorizatie_anre.pdf",
+      "tip_detectat": "autorizatie",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține mențiuni despre o licență emisă de ANRE pentru exploatarea comercială a capacităților de producere a energiei electrice, ceea ce îl încadrează în categoria de autorizație.",
+      "id_cerinte": [
+        "RE-D2"
+      ]
+    },
+    {
+      "fisier": "04_studiu_impact_mediu.pdf",
+      "tip_detectat": "studiu_impact_mediu",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține mențiunea 'RAPORT PRIVIND EVALUAREA IMPACTULUI ASUPRA MEDIULUI (EIA)' și se referă la un proiect de evaluare a impactului asupra mediului, ceea ce corespunde tipului 'studiu_impact_mediu'.",
+      "id_cerinte": [
+        "RE-D4"
+      ]
+    }
+  ],
+  "documente_gasite": [
+    {
+      "id": "D-01",
+      "nume": "Cerere de finantare",
+      "fisiere": [
+        "01_cerere_finantare.pdf"
+      ]
+    },
+    {
+      "id": "RE-D1",
+      "nume": "Studiu de fezabilitate / fisa tehnica a centralei",
+      "fisiere": [
+        "02_studiu_fezabilitate.pdf"
+      ]
+    },
+    {
+      "id": "RE-D2",
+      "nume": "Autorizatie de producere / licenta ANRE (sau echivalent)",
+      "fisiere": [
+        "03_autorizatie_anre.pdf"
+      ]
+    },
+    {
+      "id": "RE-D4",
+      "nume": "Studiu de impact asupra mediului (EIA)",
+      "fisiere": [
+        "04_studiu_impact_mediu.pdf"
+      ]
+    }
+  ],
+  "documente_lipsa": [
+    {
+      "id": "D-02",
+      "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-04",
+      "nume": "Declaratia privind beneficiarul real",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-05",
+      "nume": "Contractul de credit / term sheet (structura finantarii)",
+      "obligatoriu": true
+    },
+    {
+      "id": "RE-D3",
+      "nume": "Date de productie (reale sau estimate)",
+      "obligatoriu": true
+    }
+  ],
+  "documente_recomandate_lipsa": [
+    {
+      "id": "RE-D5",
+      "nume": "Analiza de ciclu de viata (LCA) a emisiilor",
+      "obligatoriu": "doar geotermal, biomasa",
+      "conditie": "doar geotermal, biomasa"
+    },
+    {
+      "id": "RE-D6",
+      "nume": "Contracte de aprovizionare cu materie prima",
+      "obligatoriu": "doar biomasa",
+      "conditie": "doar biomasa"
+    }
+  ],
+  "campuri_selectate": [
+    "cui",
+    "tara",
+    "aprobat_proces_standard",
+    "data_aprobare",
+    "data_marcare_verde",
+    "suma_eur",
+    "cota_banca",
+    "categorie",
+    "subcategorie",
+    "descriere_proiect",
+    "afirmatii_client",
+    "tehnologie",
+    "capacitate_mw",
+    "productie_anuala_mwh",
+    "an_punere_functiune",
+    "fir_de_apa_fara_rezervor",
+    "densitate_putere_w_m2",
+    "emisii_directe_gco2e_kwh",
+    "eia_risc_semnificativ"
+  ],
+  "campuri_extrase": {
+    "cui": {
+      "valoare": "9900000111",
+      "valoare_bruta": "9900000111",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "CUI 9900000111",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "tara": {
+      "valoare": "România",
+      "valoare_bruta": "România",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Țara România",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "aprobat_proces_standard": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_aprobare": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_marcare_verde": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "suma_eur": {
+      "valoare": 6000000,
+      "valoare_bruta": "6.000.000 EUR",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suma solicitată de la bancă 6.000.000 EUR",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "cota_banca": {
+      "valoare": 0.75,
+      "valoare_bruta": "0.75",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Banca 75% (6.000.000 EUR), aport propriu 25%",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "descriere_proiect": {
+      "valoare": "Refinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro), pusă în funcțiune în 2022, cu lac de acumulare propriu.",
+      "valoare_bruta": "Refinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro), pusă în funcțiune în 2022, cu lac de acumulare propriu.",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Descrierea proiectului Refinanțarea centralei hidroelectrice Exemplu-Râu (producție de energie electrică din sursă hidro), pusă în funcțiune în 2022, cu lac de acumulare propriu.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "afirmatii_client": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "capacitate_mw": {
+      "valoare": 4.8,
+      "valoare_bruta": "4,8",
+      "sursa": "02_studiu_fezabilitate.pdf, p.1",
+      "citat": "Putere instalată 4.800 kW",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "productie_anuala_mwh": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "an_punere_functiune": {
+      "valoare": "2022",
+      "valoare_bruta": "2022",
+      "sursa": "03_autorizatie_anre.pdf, p.1",
+      "citat": "Anul punerii în funcțiune 2022",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "fir_de_apa_fara_rezervor": {
+      "valoare": false,
+      "valoare_bruta": "nu",
+      "sursa": "02_studiu_fezabilitate.pdf, p.1",
+      "citat": "Centrala nu funcționează pe firul apei; dispune de un lac de acumulare de 60 ha.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.99
+    },
+    "densitate_putere_w_m2": {
+      "valoare": 8,
+      "valoare_bruta": "8",
+      "sursa": "02_studiu_fezabilitate.pdf, p.1",
+      "citat": "Putere instalată 4.800 kW... Suprafața lacului de acumulare 60 ha",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "emisii_directe_gco2e_kwh": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "eia_risc_semnificativ": {
+      "valoare": false,
+      "valoare_bruta": "nu",
+      "sursa": "04_studiu_impact_mediu.pdf, p.1",
+      "citat": "nu au fost identificate riscuri semnificative asupra mediului",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    }
+  },
+  "campuri_lipsa": [
+    {
+      "camp": "aprobat_proces_standard",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-03"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "data_aprobare",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-04"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "productie_anuala_mwh",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "RE-D3"
+      ],
+      "pentru": [
+        "impact",
+        "PL-20"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "emisii_directe_gco2e_kwh",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "RE-D1",
+        "RE-D5"
+      ],
+      "pentru": [
+        "RE-03b",
+        "RE-03c"
+      ],
+      "obligatoriu": true
+    }
+  ],
+  "conflicte": [],
+  "conversii_unitati": [],
+  "valori_respinse": [],
+  "statistici_llm": {
+    "apeluri_reale": 12,
+    "apeluri_cache": 0,
+    "apeluri_offline": 0,
+    "total_apeluri": 12
+  },
+  "apeluri_llm_reale": [
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "c5207e5adc31ede7e243121dd6219acb7582a7ec8dae8254e8924d446c5dddd3"
+    },
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "f8b0eb4f3e49661787c2291f18e3b0b849ce04bb3d53cba2f0a9525655787c49"
+    },
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "ef31978c177b98c593b76e4bbb2de4b8c1a32788da147bcf89c614e9dfe6ac9e"
+    },
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "45bc2784b3fc56ad8a45a0b1f1795b5d95ae38daddd821750a550c6ce3cfbbe6"
+    },
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "102e26f2b4abc4a1e0535ebef42c4dfd9db264ed401979fb9090a1dbbefefa1a"
+    },
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "a2b4f1ac54ff6ba532e5dd5996ebeece982c16995c0254f75504c82c781d7c9d"
+    },
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "a35e3fcaffd589fc854c06bcd7e9da74a48ab5b47c8fb72861e6db7046cde1a5"
+    },
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "3d8701b542ab1279b3a7a69b27843a0e62bb1a264004e5565b03d97702cf57b8"
+    },
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "874b4cedd2bc94a82d70a2a891fb8f9df52a28a3385b6c57a939f51f7eec663a"
+    },
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": false,
+      "cheie_cache": "43b22632d30f37c013d96f96b83d8ad06a0aa536b97afeafe1da8b48c13f1252"
+    },
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "0dc9a043b6d025062abc2ef8c774e0158711de60f953a8bc6e12e7df5d76f677"
+    },
+    {
+      "model_cerut": "Qwen/Qwen3-32B",
+      "model_raspuns": "Qwen/Qwen3-32B",
+      "json_mode": true,
+      "cheie_cache": "355f34fb11a77fdf14cf6a6a3f81a160ff8b8163621b6f3574458dbb0b9de9b4"
+    }
+  ]
+}

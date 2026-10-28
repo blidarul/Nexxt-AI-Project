@@ -1,0 +1,88 @@
+{
+  "dosar_id": "fx_incomplet",
+  "cui": {
+    "valoare": "9900000155",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.98
+  },
+  "suma_eur": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "cota_banca": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "data_aprobare": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "tara": {
+    "valoare": "România",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.9
+  },
+  "adresa_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "suprafata_m2": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "stadiu_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "epc_clasa": null,
+  "epc_energie_finala": null,
+  "epc_suprafata_m2": null,
+  "chiriasi": [],
+  "afirmatii_client": [],
+  "categorie": {
+    "valoare": "clean_transportation",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.99
+  },
+  "subcategorie": {
+    "valoare": "autoturism_sau_utilitara",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.99
+  },
+  "indicatori": {
+    "descriere_proiect": {
+      "valoare": "Achiziția a 6 autoutilitare ușoare (categoria N1) electrice pentru distribuție urbană.",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.99
+    },
+    "vehicule": {
+      "valoare": [
+        {
+          "marca": "Exemplu",
+          "model": "Urban-EV",
+          "combustibil": "electric",
+          "bucati": 6,
+          "distanta_anuala_km": 20000
+        }
+      ],
+      "sursa": "02_lista_vehicule.pdf, p.1",
+      "incredere": 0.95
+    },
+    "tip": {
+      "valoare": "autoturism_sau_utilitara",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.99
+    }
+  }
+}
