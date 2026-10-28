@@ -1,0 +1,142 @@
+categorie: renewable_energy
+sursa: "RBI Sustainability Bond Framework, Aug-2025, p. 8-10"
+taxonomie_ue: ["3.1", "3.2", "3.10", "4.1", "4.2", "4.3", "4.5", "4.6", "4.8", "4.15", "4.25", "7.6"]
+
+# Camp-cheie: tehnologie. Agentul o alege din descrierea proiectului.
+tehnologii: [eolian_onshore, solar_fotovoltaic, solar_csp, hidro, geotermal, biomasa_deseuri,
+             hidrogen, caldura_reziduala, termoficare, stocare_regenerabila]
+
+reguli:
+  # ------------------------------------------------------------ eolian, fotovoltaic
+  - id: RE-01
+    nume: "Eolian onshore si fotovoltaic: eligibile ca tehnologie"
+    sursa: "p. 9"
+    aplica_daca: {tehnologie: [eolian_onshore, solar_fotovoltaic]}
+    tip: informativ
+    nota: "Nu exista prag de emisii. Eolianul OFFSHORE nu e in lista din Framework -> SEMNAL."
+
+  - id: RE-02
+    nume: "Solar concentrat (CSP): minim 85% din electricitate din energie solara"
+    sursa: "p. 9, nota 15"
+    aplica_daca: {tehnologie: solar_csp}
+    tip: prag
+    camp: pondere_electricitate_solara
+    operator: ">="
+    valoare: 0.85
+    daca_lipseste: NEEVALUABIL
+
+  # ------------------------------------------------------------ hidro
+  - id: RE-03
+    nume: "Hidro: fir de apa fara rezervor artificial (sau cu capacitate mica de stocare) SAU praguri de densitate/emisii"
+    sursa: "p. 9 + nota 16"
+    aplica_daca: {tehnologie: hidro}
+    tip: oricare
+    conditii:
+      - id: RE-03a
+        nume: "Fir de apa fara rezervor artificial sau cu stocare mica"
+        tip: da_nu
+        camp: fir_de_apa_fara_rezervor
+        valoare: true
+      - id: RE-03b
+        nume: "Puse in functiune pana in 2020: densitate > 5 W/m2 SAU emisii directe < 100 gCO2e/kWh"
+        aplica_daca: {an_punere_functiune: "<=2020"}
+        tip: oricare
+        conditii:
+          - {camp: densitate_putere_w_m2, operator: ">", valoare: 5}
+          - {camp: emisii_directe_gco2e_kwh, operator: "<", valoare: 100}
+      - id: RE-03c
+        nume: "Puse in functiune dupa 2020: densitate > 10 W/m2 SAU emisii directe < 50 gCO2e/kWh"
+        aplica_daca: {an_punere_functiune: ">2020"}
+        tip: oricare
+        conditii:
+          - {camp: densitate_putere_w_m2, operator: ">", valoare: 10}
+          - {camp: emisii_directe_gco2e_kwh, operator: "<", valoare: 50}
+    calcul_ajutator: "densitate_putere_w_m2 = putere_instalata_w / suprafata_lac_m2"
+    daca_lipseste: NEEVALUABIL
+
+  - id: RE-04
+    nume: "Hidro, proiecte noi: studiu de impact de mediu (EIA) fara risc semnificativ"
+    sursa: "p. 9"
+    aplica_daca: {tehnologie: hidro, proiect_nou: true}
+    tip: toate
+    conditii:
+      - {camp: eia_efectuat_de_organism_credibil, operator: "==", valoare: true}
+      - {camp: eia_risc_semnificativ, operator: "==", valoare: false}
+    daca_lipseste: NEEVALUABIL
+    nota: "Concluzia EIA e text: agentul o citeste si o rezuma; daca e ambigua -> SEMNAL."
+
+  # ------------------------------------------------------------ geotermal, biomasa
+  - id: RE-05
+    nume: "Geotermal: emisii pe ciclu de viata < 100 gCO2/kWh"
+    sursa: "p. 9"
+    aplica_daca: {tehnologie: geotermal}
+    tip: prag
+    camp: emisii_ciclu_viata_gco2_kwh
+    operator: "<"
+    valoare: 100
+    daca_lipseste: NEEVALUABIL
+
+  - id: RE-06
+    nume: "Biomasa din deseuri: emisii pe ciclu de viata < 100 gCO2e/kWh"
+    sursa: "p. 9"
+    aplica_daca: {tehnologie: biomasa_deseuri}
+    tip: prag
+    camp: emisii_ciclu_viata_gco2_kwh
+    operator: "<"
+    valoare: 100
+    daca_lipseste: NEEVALUABIL
+
+  - id: RE-07
+    nume: "Biomasa: materie prima doar din reziduuri agricole/forestiere, namol, biodeseuri"
+    sursa: "p. 9, notele 17 si 18"
+    aplica_daca: {tehnologie: biomasa_deseuri}
+    tip: toate
+    conditii:
+      - {camp: materie_prima, in_lista: [reziduuri_agricole, reziduuri_forestiere, namol_epurare, biodeseuri, gunoi_grajd, grasimi_uleiuri]}
+      - {camp: din_crestere_intensiva_animale, operator: "==", valoare: false}
+      - {camp: ulei_palmier_fara_rspo, operator: "==", valoare: false}
+      - {camp: biodeseuri_colectate_separat, operator: "==", valoare: true}
+      - {camp: digestat_folosit_ca_fertilizant, operator: "==", valoare: true}
+    daca_lipseste: NEEVALUABIL
+
+  # ------------------------------------------------------------ hidrogen, caldura, termoficare
+  - id: RE-08
+    nume: "Hidrogen: doar prin electroliza alimentata din surse regenerabile"
+    sursa: "p. 10"
+    aplica_daca: {tehnologie: hidrogen}
+    tip: toate
+    conditii:
+      - {camp: metoda_productie, in_lista: [electroliza]}
+      - {camp: alimentat_regenerabil, operator: "==", valoare: true}
+    daca_lipseste: NEEVALUABIL
+
+  - id: RE-09
+    nume: "Caldura reziduala: exclusa in industriile grele intensive in carbon"
+    sursa: "p. 10"
+    aplica_daca: {tehnologie: caldura_reziduala}
+    tip: excludere
+    camp: industrie_sursa
+    in_lista: [otel, ciment, rafinare, aluminiu_primar, chimie_grea]
+    daca_lipseste: NEEVALUABIL
+
+  - id: RE-10
+    nume: "Termoficare/racire: reteaua alimentata peste 50% din regenerabile si/sau caldura reziduala"
+    sursa: "p. 10"
+    aplica_daca: {tehnologie: termoficare}
+    tip: prag
+    camp: pondere_regenerabil_sau_reziduala
+    operator: ">"
+    valoare: 0.50
+    daca_lipseste: NEEVALUABIL
+
+  - id: RE-11
+    nume: "Stocare (ex. BESS): pentru electricitate regenerabila"
+    sursa: "p. 9"
+    aplica_daca: {tehnologie: stocare_regenerabila}
+    tip: da_nu
+    camp: integrat_cu_regenerabile
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+# Indicatorii de impact raportati (p. 24): capacitate instalata (MW), productie anuala (MWh), tCO2e evitate.
+indicatori_impact: [capacitate_mw, productie_anuala_mwh, tco2e_evitate_an]

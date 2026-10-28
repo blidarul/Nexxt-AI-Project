@@ -1,0 +1,132 @@
+categorie: clean_transportation
+sursa: "RBI Sustainability Bond Framework, Aug-2025, p. 11-13"
+taxonomie_ue: ["3.3", "6.1", "6.2", "6.3", "6.4", "6.5", "6.6", "6.13", "6.14", "6.15", "6.17"]
+
+tipuri: [mobilitate_personala, vehicul_emisii_zero, autoturism_sau_utilitara, camion,
+         tren_pasageri, tren_marfa_sau_autocar, vagon_fara_tractiune, vehicul_non_rutier,
+         componente_ev, infrastructura, infrastructura_aeroport]
+
+# Toate emisiile se masoara dupa WLTP (p. 12). Sursa de verificare: datele EEA pe model (tool B).
+standard_masurare: WLTP
+
+reguli:
+  - id: CT-01
+    nume: "Mobilitate personala (biciclete etc.): propulsie umana, motor cu emisii zero sau combinatie"
+    sursa: "p. 11, nota 24"
+    aplica_daca: {tip: mobilitate_personala}
+    tip: da_nu
+    camp: propulsie_zero_emisii_sau_umana
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+  - id: CT-02
+    nume: "Vehicule cu emisii directe zero"
+    sursa: "p. 11"
+    aplica_daca: {tip: vehicul_emisii_zero}
+    tip: prag
+    camp: emisii_wltp_gco2_km
+    operator: "=="
+    valoare: 0
+    daca_lipseste: NEEVALUABIL
+
+  - id: CT-03
+    nume: "Autoturisme si utilitare usoare: prag care depinde de DATA marcarii (grandfathering)"
+    sursa: "p. 11-12 + p. 23"
+    aplica_daca: {tip: autoturism_sau_utilitara}
+    tip: prag_dependent_de_data
+    camp: emisii_wltp_gco2_km
+    camp_data: data_marcare_verde        # daca lipseste: data_aprobare + SEMNAL
+    praguri:
+      - {pana_la: "2025-12-31", operator: "<=", valoare: 50}
+      - {de_la: "2026-01-01", operator: "<=", valoare: 0}
+    daca_lipseste: NEEVALUABIL
+    exemplu: "Hibrid 45 g/km: ELIGIBIL daca a fost marcat in 2025, NEELIGIBIL daca e marcat in 2026."
+
+  - id: CT-04
+    nume: "Camioane (transport rutier de marfa): <= 25 gCO2/km"
+    sursa: "p. 12"
+    aplica_daca: {tip: camion}
+    tip: prag
+    camp: emisii_wltp_gco2_km
+    operator: "<="
+    valoare: 25
+    daca_lipseste: NEEVALUABIL
+
+  - id: CT-05
+    nume: "Trenuri de pasageri: <= 50 gCO2e/pasager-km"
+    sursa: "p. 12"
+    aplica_daca: {tip: tren_pasageri}
+    tip: prag
+    camp: emisii_gco2e_pkm
+    operator: "<="
+    valoare: 50
+    echivalent: "80.47 gCO2/pasager-mila"
+    daca_lipseste: NEEVALUABIL
+
+  - id: CT-06
+    nume: "Trenuri de marfa si autocare: <= 25 gCO2/tona-km"
+    sursa: "p. 12"
+    aplica_daca: {tip: tren_marfa_sau_autocar}
+    tip: prag
+    camp: emisii_gco2_tkm
+    operator: "<="
+    valoare: 25
+    echivalent: "40.23 gCO2/tona-mila"
+    daca_lipseste: NEEVALUABIL
+
+  - id: CT-07
+    nume: "Vagoane fara tractiune: nici proiectate, nici folosite pentru combustibili fosili"
+    sursa: "p. 12"
+    aplica_daca: {tip: vagon_fara_tractiune}
+    tip: excludere
+    camp: transporta_combustibili_fosili
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+  - id: CT-08
+    nume: "Vehicule non-rutiere (macarale, excavatoare): doar electrice"
+    sursa: "p. 11, nota 25"
+    aplica_daca: {tip: vehicul_non_rutier}
+    tip: lista
+    camp: propulsie
+    in_lista: [electric]
+    daca_lipseste: NEEVALUABIL
+
+  - id: CT-09
+    nume: "Componente EV (ex. baterii): doar piese specializate, nu otel"
+    sursa: "p. 11, nota 22"
+    aplica_daca: {tip: componente_ev}
+    tip: excludere
+    camp: include_productie_sau_achizitie_otel
+    valoare: true
+    daca_lipseste: SEMNAL
+
+  - id: CT-10
+    nume: "Infrastructura eligibila (trotuare, piste de biciclete, incarcare EV/hidrogen, cai ferate, semnalizare)"
+    sursa: "p. 12-13, nota 26"
+    aplica_daca: {tip: infrastructura}
+    tip: excludere
+    camp: tip_infrastructura
+    in_lista: [drum_nou, modernizare_drum, pod_rutier, parcare, statie_carburant_fosil]
+    nota: "Parcarile sunt excluse chiar daca au statii de incarcare (nota 26)."
+    daca_lipseste: NEEVALUABIL
+
+  - id: CT-11
+    nume: "Infrastructura de aeroport: doar pentru aeronave cu emisii zero, operatiuni proprii zero emisii, alimentare la sol electrica"
+    sursa: "p. 13"
+    aplica_daca: {tip: infrastructura_aeroport}
+    tip: da_nu
+    camp: dedicat_zero_emisii
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+excluderi:
+  - id: CT-X1
+    nume: "Camioane/trenuri dedicate transportului de combustibili fosili (sau amestecuri cu combustibili alternativi)"
+    sursa: "p. 11, nota 23"
+    tip: excludere
+    camp: transporta_combustibili_fosili
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+indicatori_impact: [nr_vehicule, nr_persoane_transport_public, tco2e_evitate_an]

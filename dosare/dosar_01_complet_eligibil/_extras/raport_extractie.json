@@ -1,0 +1,162 @@
+{
+  "dosar_id": "dosar_01_complet_eligibil",
+  "documente_clasificate": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_detectat": "cerere_finantare",
+      "incredere": 0.98,
+      "motiv": "Documentul conține antetul și datele unei cereri de finanțare persoane juridice."
+    },
+    {
+      "fisier": "03_certificat_energetic.pdf",
+      "tip_detectat": "certificat_energetic",
+      "incredere": 0.98,
+      "motiv": "Certificat de performanță energetică cu date despre clădire și performanța EPC."
+    },
+    {
+      "fisier": "04_contract_inchiriere_extras.pdf",
+      "tip_detectat": "contract_inchiriere",
+      "incredere": 0.98,
+      "motiv": "Extras contracte de închiriere și situația chiriașilor în vigoare."
+    }
+  ],
+  "campuri_extrase": {
+    "cui": {
+      "valoare": "9900000010",
+      "valoare_bruta": "9900000010",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "CUI 9900000010",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "suma_eur": {
+      "valoare": 30000000,
+      "valoare_bruta": "30.000.000 EUR",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suma solicitată de la bancă 30.000.000 EUR",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "cota_banca": {
+      "valoare": 0.6,
+      "valoare_bruta": "60%",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "banca 60% (30.000.000 EUR)",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "data_aprobare": {
+      "valoare": "2026-03-15",
+      "valoare_bruta": "2026-03-15",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Data aprobării creditului (procesul standard de credit): 2026-03-15",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "tara": {
+      "valoare": "România",
+      "valoare_bruta": "România",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Țara România",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.99
+    },
+    "adresa_cladire": {
+      "valoare": "București, Sector 2, Str. Exemplului nr. 10",
+      "valoare_bruta": "București, Sector 2, Str. Exemplului nr. 10",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Adresă București, Sector 2, Str. Exemplului nr. 10",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "suprafata_m2": {
+      "valoare": 20000,
+      "valoare_bruta": "20.000 m²",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suprafață utilă (declarată) 20.000 m²",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "stadiu_cladire": {
+      "valoare": "Finalizată, în exploatare",
+      "valoare_bruta": "Finalizată, în exploatare",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Stadiu Finalizată, în exploatare",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "nr_certificat_declarat": {
+      "valoare": "BREEAM-EXEMPLU-0001",
+      "valoare_bruta": "BREEAM-EXEMPLU-0001",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Număr certificat de sustenabilitate comunicat: BREEAM-EXEMPLU-0001",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "epc_clasa": {
+      "valoare": "A",
+      "valoare_bruta": "A",
+      "sursa": "03_certificat_energetic.pdf, p.1",
+      "citat": "Clasa energetică A",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "epc_energie_finala": {
+      "valoare": 95,
+      "valoare_bruta": "95 kWh/m²·an",
+      "sursa": "03_certificat_energetic.pdf, p.1",
+      "citat": "Consum anual specific de energie finală 95 kWh/m²·an",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "epc_suprafata_m2": {
+      "valoare": 20000,
+      "valoare_bruta": "20.000 m²",
+      "sursa": "03_certificat_energetic.pdf, p.1",
+      "citat": "Aria utilă (Au) 20.000 m²",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "afirmatii_client": {
+      "valoare": [
+        "Clădirea deține certificare BREEAM Excellent.",
+        "Clădirea are certificat energetic clasa A.",
+        "Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România."
+      ],
+      "valoare_bruta": null,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Declarații ale solicitantului privind sustenabilitatea",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 1.0
+    },
+    "chiriasi": {
+      "numar_chiriasi": 3,
+      "sursa": "04_contract_inchiriere_extras.pdf, p.1",
+      "citat": "Alfa Software SRL | 6201 – Activități de realizare a soft-ului la comandă | 10.000 m²; Beta Consulting SRL | 7022 – Activități de consultanță pentru afaceri și management | 6.000 m²; Gamma Café SRL | 5630 – Baruri și alte activități de servire a băuturilor | 1.000 m²",
+      "citat_verificat": true,
+      "metoda": "determinist_tabele",
+      "incredere": 1.0
+    }
+  },
+  "campuri_lipsa": [],
+  "conflicte": [],
+  "valori_respinse": [],
+  "statistici_llm": {
+    "apeluri_reale": 0,
+    "apeluri_cache": 5,
+    "total_apeluri": 5
+  }
+}

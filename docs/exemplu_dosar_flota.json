@@ -1,0 +1,48 @@
+{
+  "_nota": "EXEMPLU SINTETIC. Cum arata datele extrase dintr-un dosar complet de Clean Transportation (flota mixta). Firmele, VIN-urile si valorile de referinta marcate PROXY sunt fictive/aproximative.",
+  "dosar_id": "dosar_flota_curierat",
+  "categorie": {"valoare": "clean_transportation", "sursa": "01_cerere_finantare.pdf, p.1", "incredere": 0.95},
+  "subcategorie": {"valoare": "autoturism_sau_utilitara", "sursa": "01_cerere_finantare.pdf, p.1", "incredere": 0.95},
+  "cui": {"valoare": "9900000088", "sursa": "01_cerere_finantare.pdf, p.1", "incredere": 0.98},
+  "tara": {"valoare": "România", "sursa": "01_cerere_finantare.pdf, p.1", "incredere": 0.98},
+  "data_aprobare": {"valoare": "2025-11-20", "sursa": "02_decizie_aprobare.pdf, p.1", "incredere": 0.98},
+  "data_marcare_verde": {"valoare": "2025-12-05", "sursa": "02_decizie_aprobare.pdf, p.2", "incredere": 0.95},
+  "suma_eur": {"valoare": 450000, "sursa": "05_contract_credit.pdf, p.1", "incredere": 0.98},
+  "cota_banca": {"valoare": 1.0, "sursa": "05_contract_credit.pdf, p.1", "incredere": 0.98},
+  "afirmatii_client": ["Flota noastră este 100% cu emisii zero."],
+  "indicatori": {
+    "transporta_combustibili_fosili": {"valoare": false, "sursa": "CT-D3_declaratie_utilizare.pdf, p.1", "incredere": 0.95},
+    "vehicule": {
+      "valoare": [
+        {"marca": "Exemplu", "model": "EV-Van", "combustibil": "electric", "bucati": 10,
+         "emisii_wltp_gco2_km": 0, "consum_kwh_km": 0.16, "distanta_anuala_km": 17746, "data_marcare_verde": "2025-12-05"},
+        {"marca": "Exemplu", "model": "PHEV-Van", "combustibil": "hibrid_plug_in", "bucati": 5,
+         "emisii_wltp_gco2_km": 45, "consum_kwh_km": 0.05, "distanta_anuala_km": 17746, "data_marcare_verde": "2025-12-05"}
+      ],
+      "sursa": "CT-D1_lista_vehicule.pdf, p.1-2; CT-D2_CoC_*.pdf",
+      "incredere": 0.9
+    }
+  },
+  "_verificare_asteptata": {
+    "reguli": {
+      "G-01": "OK", "G-02": "OK", "G-03": "OK", "G-04": "OK",
+      "CT-03 (EV-Van)": "OK: 0 <= 50 g/km (marcat in 2025)",
+      "CT-03 (PHEV-Van)": "OK: 45 <= 50 g/km, pentru ca a fost marcat inainte de 2026 (grandfathering, p. 23). Marcat in 2026 ar fi NU.",
+      "CT-X1": "OK",
+      "PL-02": "verifica emisiile WLTP ale fiecarui model in datele EEA",
+      "PL-03": "SEMNAL informativ: clientul afirma '100% emisii zero', dar 5 vehicule sunt hibride (45 g/km)"
+    },
+    "impact": {
+      "formula_electric": "(emisie_termic - consum_kwh_km x factor_emisie) x distanta x cota  [Impact Report p. 26]",
+      "formula_hibrid": "(emisie_termic - consum_kwh_km x factor_emisie - emisii_motor) x distanta x cota",
+      "valori_proxy": {"emisie_medie_vehicul_termic_g_km": 120, "factor_emisie_g_kwh": 250},
+      "calcul": [
+        "EV-Van: (120 - 0.16 x 250) x 17746 = 80 x 17746 = 1.42 tCO2/an per vehicul; x10 = 14.2 tCO2/an",
+        "PHEV-Van: (120 - 0.05 x 250 - 45) x 17746 = 62.5 x 17746 = 1.11 tCO2/an per vehicul; x5 = 5.5 tCO2/an",
+        "Total flota: ~19.7 tCO2/an (cu valori PROXY)"
+      ]
+    },
+    "verdict": "ELIGIBIL",
+    "actiuni": ["Afirmatia '100% emisii zero' nu e sustinuta: 5 din 15 vehicule sunt hibride. Nu se foloseste in comunicare / raportare."]
+  }
+}

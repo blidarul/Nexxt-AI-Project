@@ -8,9 +8,10 @@ venv/
 # Secrete: NICIODATA in git
 .env
 
-# Cache local generat de tools
+# Cache local generat de tools si extraction
 tools/cache/*
 !tools/cache/.gitkeep
+extraction/.cache/
 
 # Sistem / editor
 .DS_Store

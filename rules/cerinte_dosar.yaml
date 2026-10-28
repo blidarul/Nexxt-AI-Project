@@ -1,0 +1,159 @@
+# CE TREBUIE SA CONTINA UN DOSAR COMPLET, pe categorii si subcategorii.
+#
+# Folosit de:
+#   - agent (tool verifica_completitudine): compara ce s-a extras cu ce e cerut aici
+#     -> lista de lipsuri -> cere_date_client
+#   - C: ca sa genereze dosare de test complete sau cu lipsuri controlate
+#   - A: ca sa stie ce campuri trebuie cautate pentru fiecare tip de proiect
+#
+# "camp" = cheia din DosarExtras (sau din DosarExtras.indicatori) = numele folosit in rules/*.yaml
+# "pentru" = la ce foloseste: regula (ID) sau calculul de impact
+
+# =========================================================================== COMUN
+comun:
+  documente:
+    - {id: D-01, nume: "Cerere de finantare", obligatoriu: true}
+    - {id: D-02, nume: "Decizia de aprobare a creditului (proces standard)", obligatoriu: true}
+    - {id: D-03, nume: "Certificat constatator ONRC (sau echivalent)", obligatoriu: true}
+    - {id: D-04, nume: "Declaratia privind beneficiarul real", obligatoriu: true}
+    - {id: D-05, nume: "Contractul de credit / term sheet (structura finantarii)", obligatoriu: true}
+  campuri:
+    - {camp: cui, pentru: [G-02], document: [D-01, D-03]}
+    - {camp: tara, pentru: [G-01], document: [D-01]}
+    - {camp: aprobat_proces_standard, pentru: [G-03], document: [D-02]}
+    - {camp: data_aprobare, pentru: [G-04], document: [D-02]}
+    - {camp: data_marcare_verde, pentru: [G-05], document: [D-02], obligatoriu: false}
+    - {camp: suma_eur, pentru: [impact, PL-50], document: [D-01, D-05]}
+    - {camp: cota_banca, pentru: [impact], document: [D-05]}
+    - {camp: categorie, pentru: [toate], document: [D-01]}
+    - {camp: subcategorie, pentru: [toate], document: [D-01]}
+    - {camp: descriere_proiect, pentru: [stabileste_categoria], document: [D-01]}
+    - {camp: afirmatii_client, pentru: [PL-03], document: [D-01], obligatoriu: false}
+
+# =========================================================================== GREEN BUILDINGS
+green_buildings:
+  cladire_noua_sau_existenta:
+    documente:
+      - {id: GB-D1, nume: "Certificat de sustenabilitate (BREEAM/LEED/DGNB/OGNI/EDGE)", obligatoriu: "una_din: [GB-D1, GB-D2]"}
+      - {id: GB-D2, nume: "Certificat de performanta energetica (EPC)", obligatoriu: "una_din: [GB-D1, GB-D2]"}
+      - {id: GB-D3, nume: "Contracte de inchiriere / lista chiriasilor", obligatoriu: true}
+      - {id: GB-D4, nume: "Extras de carte funciara", obligatoriu: true}
+      - {id: GB-D5, nume: "Facturi de energie / consum real", obligatoriu: false}
+    campuri:
+      - {camp: certificare_sistem, pentru: [GB-01], document: [GB-D1]}
+      - {camp: certificare_nivel, pentru: [GB-01], document: [GB-D1]}
+      - {camp: certificare_stadiu, pentru: [GB-01, GB-X2], document: [GB-D1]}
+      - {camp: nr_certificat_declarat, pentru: [GB-01, PL-02], document: [D-01, GB-D1]}
+      - {camp: epc_clasa, pentru: [GB-03], document: [GB-D2]}
+      - {camp: ped_kwh_m2, pentru: [GB-04, PL-10], document: [GB-D2]}
+      - {camp: energie_finala_kwh_m2, pentru: [impact, PL-11], document: [GB-D2, GB-D5]}
+      - {camp: suprafata_m2, pentru: [impact, GB-X1], document: [GB-D2, GB-D4]}
+      - {camp: adresa_cladire, pentru: [PL-01], document: [D-01, GB-D2, GB-D4]}
+      - {camp: stadiu_cladire, pentru: [impact], document: [D-01]}
+      - {camp: chiriasi, pentru: [GB-X1], document: [GB-D3]}
+  renovare:
+    documente:
+      - {id: GB-D6, nume: "EPC sau audit energetic INAINTE de renovare", obligatoriu: true}
+      - {id: GB-D7, nume: "EPC sau audit energetic DUPA renovare (sau estimat in proiect)", obligatoriu: true}
+      - {id: GB-D8, nume: "Devizul lucrarilor (costuri de renovare)", obligatoriu: true}
+    campuri:
+      - {camp: ped_inainte_kwh_m2, pentru: [GB-R1, PL-12], document: [GB-D6]}
+      - {camp: ped_dupa_kwh_m2, pentru: [GB-R1, PL-12], document: [GB-D7]}
+      - {camp: reducere_emisii_pct, pentru: [GB-R1], document: [GB-D7], obligatoriu: false}
+      - {camp: ani_pana_la_reducere, pentru: [GB-R3], document: [GB-D7]}
+      - {camp: pondere_suma_pentru_renovare, pentru: [GB-R4], document: [GB-D8]}
+  masura_individuala:
+    documente:
+      - {id: GB-D9, nume: "Fisa tehnica a echipamentului", obligatoriu: true}
+    campuri:
+      - {camp: tip_masura, pentru: [GB-M1..M6], document: [D-01, GB-D9]}
+      - {camp: gwp_agent_frigorific, pentru: [GB-M2], document: [GB-D9], doar_pentru: pompa_caldura}
+      - {camp: sistem_management_agent_frigorific, pentru: [GB-M3], document: [GB-D9], doar_pentru: pompa_caldura}
+      - {camp: statie_in_cladire, pentru: [GB-M1], document: [GB-D9], doar_pentru: statie_incarcare}
+      - {camp: integrat_cu_regenerabile, pentru: [GB-M4], document: [GB-D9], doar_pentru: stocare_energie}
+      - {camp: deserveste_sistem_fosil, pentru: [GB-M6], document: [GB-D9], doar_pentru: recuperator_caldura}
+
+# =========================================================================== RENEWABLE ENERGY
+renewable_energy:
+  documente:
+    - {id: RE-D1, nume: "Studiu de fezabilitate / fisa tehnica a centralei", obligatoriu: true}
+    - {id: RE-D2, nume: "Autorizatie de producere / licenta ANRE (sau echivalent)", obligatoriu: true}
+    - {id: RE-D3, nume: "Date de productie (reale sau estimate)", obligatoriu: true}
+    - {id: RE-D4, nume: "Studiu de impact asupra mediului (EIA)", obligatoriu: "doar hidro nou"}
+    - {id: RE-D5, nume: "Analiza de ciclu de viata (LCA) a emisiilor", obligatoriu: "doar geotermal, biomasa"}
+    - {id: RE-D6, nume: "Contracte de aprovizionare cu materie prima", obligatoriu: "doar biomasa"}
+  campuri:
+    - {camp: tehnologie, pentru: [RE-01..11], document: [D-01, RE-D1]}
+    - {camp: capacitate_mw, pentru: [impact, PL-20], document: [RE-D1, RE-D2]}
+    - {camp: productie_anuala_mwh, pentru: [impact, PL-20], document: [RE-D3]}
+    - {camp: an_punere_functiune, pentru: [RE-03], document: [RE-D2], doar_pentru: hidro}
+    - {camp: fir_de_apa_fara_rezervor, pentru: [RE-03a], document: [RE-D1], doar_pentru: hidro}
+    - {camp: densitate_putere_w_m2, pentru: [RE-03b, RE-03c, PL-21], document: [RE-D1], doar_pentru: hidro}
+    - {camp: emisii_directe_gco2e_kwh, pentru: [RE-03b, RE-03c], document: [RE-D1, RE-D5], doar_pentru: hidro}
+    - {camp: eia_risc_semnificativ, pentru: [RE-04], document: [RE-D4], doar_pentru: hidro}
+    - {camp: pondere_electricitate_solara, pentru: [RE-02], document: [RE-D1], doar_pentru: solar_csp}
+    - {camp: emisii_ciclu_viata_gco2_kwh, pentru: [RE-05, RE-06], document: [RE-D5], doar_pentru: [geotermal, biomasa_deseuri]}
+    - {camp: materie_prima, pentru: [RE-07], document: [RE-D6], doar_pentru: biomasa_deseuri}
+    - {camp: metoda_productie, pentru: [RE-08], document: [RE-D1], doar_pentru: hidrogen}
+    - {camp: pondere_regenerabil_sau_reziduala, pentru: [RE-10], document: [RE-D1], doar_pentru: termoficare}
+
+# =========================================================================== ENERGY EFFICIENCY
+energy_efficiency:
+  documente:
+    - {id: EE-D1, nume: "Audit energetic inainte de investitie", obligatoriu: true}
+    - {id: EE-D2, nume: "Proiectie / masuratori dupa investitie", obligatoriu: true}
+    - {id: EE-D3, nume: "Fisa tehnica a echipamentului (BAT, PUE masurat etc.)", obligatoriu: true}
+  campuri:
+    - {camp: tip_proiect, pentru: [EE-01..07], document: [D-01]}
+    - {camp: consum_inainte_mwh, pentru: [EE-01, impact], document: [EE-D1]}
+    - {camp: consum_dupa_mwh, pentru: [EE-01, impact], document: [EE-D2]}
+    - {camp: tehnologie_bat, pentru: [EE-01], document: [EE-D3], obligatoriu: false}
+    - {camp: industrie_beneficiar, pentru: [EE-X1], document: [D-03]}
+    - {camp: echipament_combustibil_fosil, pentru: [EE-X1], document: [EE-D3]}
+    - {camp: pue_anualizat, pentru: [EE-07, PL-30], document: [EE-D3], doar_pentru: data_center}
+    - {camp: nr_gospodarii_conectate, pentru: [impact], document: [EE-D2], doar_pentru: fibra_optica}
+    - {camp: nr_contoare, pentru: [impact], document: [EE-D2], doar_pentru: contoare_inteligente}
+
+# =========================================================================== CLEAN TRANSPORTATION
+clean_transportation:
+  documente:
+    - {id: CT-D1, nume: "Lista vehiculelor finantate (anexa flota)", obligatoriu: true}
+    - {id: CT-D2, nume: "Certificate de conformitate (CoC) cu emisiile WLTP", obligatoriu: true}
+    - {id: CT-D3, nume: "Declaratie de utilizare (nu transporta combustibili fosili)", obligatoriu: "doar marfa"}
+    - {id: CT-D4, nume: "Fisa tehnica (consum electric kWh/km)", obligatoriu: "pentru impact"}
+  campuri:
+    - {camp: tip, pentru: [CT-01..11], document: [D-01, CT-D1]}
+    - {camp: vehicule, pentru: [CT-02..08, impact], document: [CT-D1, CT-D2], tip_camp: lista}
+    #   fiecare vehicul: marca, model, varianta, combustibil, emisii_wltp_gco2_km, consum_kwh_km,
+    #   vin_sau_nr_inmatriculare, data_marcare_verde, distanta_anuala_km, utilizare
+    - {camp: transporta_combustibili_fosili, pentru: [CT-X1, CT-07], document: [CT-D3]}
+    - {camp: emisii_gco2e_pkm, pentru: [CT-05], document: [CT-D2], doar_pentru: tren_pasageri}
+    - {camp: emisii_gco2_tkm, pentru: [CT-06], document: [CT-D2], doar_pentru: tren_marfa_sau_autocar}
+    - {camp: tip_infrastructura, pentru: [CT-10], document: [D-01], doar_pentru: infrastructura}
+
+# =========================================================================== POLLUTION PREVENTION
+pollution_prevention:
+  documente:
+    - {id: PP-D1, nume: "Descrierea tehnica a instalatiei / procesului", obligatoriu: true}
+    - {id: PP-D2, nume: "Autorizatie de mediu", obligatoriu: true}
+    - {id: PP-D3, nume: "Plan de gestionare a deseurilor", obligatoriu: "doar deseuri electronice"}
+  campuri:
+    - {camp: tip, pentru: [PP-01..06], document: [D-01]}
+    - {camp: reciclare_chimica_plastic, pentru: [PP-01], document: [PP-D1]}
+    - {camp: segregare_la_sursa, pentru: [PP-03], document: [PP-D1]}
+    - {camp: propulsie_vehicule_colectare, pentru: [PP-04], document: [PP-D1]}
+    - {camp: eficienta_captare_pct, pentru: [PP-06], document: [PP-D1], doar_pentru: captare_gaz_depozit}
+    - {camp: tone_deseuri_reciclate_an, pentru: [impact], document: [PP-D1]}
+
+# =========================================================================== CIRCULAR ECONOMY
+circular_economy:
+  documente:
+    - {id: CE-D1, nume: "Descrierea produsului / procesului", obligatoriu: true}
+    - {id: CE-D2, nume: "Declaratii furnizori (continut reciclat, intensitate carbon)", obligatoriu: "doar aluminiu"}
+    - {id: CE-D3, nume: "Certificare de sustenabilitate pentru materiale bio (ex. RSB)", obligatoriu: "doar bio"}
+  campuri:
+    - {camp: tip, pentru: [CE-01..05], document: [D-01]}
+    - {camp: pondere_aluminiu_reciclat, pentru: [CE-03], document: [CE-D2], doar_pentru: produse_aluminiu}
+    - {camp: intensitate_carbon_aluminiu_primar_tco2e_t, pentru: [CE-03], document: [CE-D2], doar_pentru: produse_aluminiu}
+    - {camp: foloseste_plastic_virgin, pentru: [CE-X1], document: [CE-D1]}
+    - {camp: economie_materie_prima_tone_an, pentru: [impact], document: [CE-D1]}

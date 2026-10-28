@@ -1,0 +1,61 @@
+categorie: circular_economy
+sursa: "RBI Sustainability Bond Framework, Aug-2025, p. 14-15"
+taxonomie_ue: ["5.1 (Economie circulara)"]
+
+tipuri: [extindere_ciclu_viata, materiale_reciclate_sau_bio, produse_aluminiu, aparate_rvm]
+
+reguli:
+  - id: CE-01
+    nume: "Extinderea ciclului de viata (reutilizare, reparare, recondiționare, design modular, take-back)"
+    sursa: "p. 14"
+    aplica_daca: {tip: extindere_ciclu_viata}
+    tip: informativ
+
+  - id: CE-02
+    nume: "Materiale bio: certificare de aprovizionare sustenabila (ex. RSB)"
+    sursa: "p. 14"
+    aplica_daca: {tip: materiale_reciclate_sau_bio, material_bio: true}
+    tip: da_nu
+    camp: certificare_sustenabila_bio
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+  - id: CE-03
+    nume: "Produse din aluminiu: >= 90% aluminiu reciclat SAU (>= 75% reciclat SI aluminiu primar < 2.5 tCO2e/t)"
+    sursa: "p. 14-15"
+    aplica_daca: {tip: produse_aluminiu}
+    tip: oricare
+    conditii:
+      - {camp: pondere_aluminiu_reciclat, operator: ">=", valoare: 0.90}
+      - tip: toate
+        conditii:
+          - {camp: pondere_aluminiu_reciclat, operator: ">=", valoare: 0.75}
+          - {camp: intensitate_carbon_aluminiu_primar_tco2e_t, operator: "<", valoare: 2.5}
+    daca_lipseste: NEEVALUABIL
+    exemplu: "80% reciclat + aluminiu primar la 3.1 tCO2e/t -> NEELIGIBIL; 80% + 2.1 tCO2e/t -> ELIGIBIL."
+
+  - id: CE-04
+    nume: "Instalatii de reciclare: procese robuste de gestionare a deseurilor"
+    sursa: "p. 15"
+    aplica_daca: {tip: [produse_aluminiu, materiale_reciclate_sau_bio]}
+    tip: da_nu
+    camp: plan_gestionare_deseuri
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+  - id: CE-05
+    nume: "Productia sau instalarea de aparate de returnare a ambalajelor (RVM)"
+    sursa: "p. 15"
+    aplica_daca: {tip: aparate_rvm}
+    tip: informativ
+
+excluderi:
+  - id: CE-X1
+    nume: "Solutii pe baza de plastic virgin"
+    sursa: "p. 14, nota 28"
+    tip: excludere
+    camp: foloseste_plastic_virgin
+    valoare: true
+    daca_lipseste: NEEVALUABIL
+
+indicatori_impact: [economie_materie_prima_tone_an, tco2e_evitate_an, economie_energie_mwh_an]

@@ -5,5 +5,8 @@ pytest>=8
 reportlab>=4
 python-dotenv>=1.0
 # streamlit       # D: interfata de demo
-# pdfplumber      # A: text din PDF
+pdfplumber>=0.11
+openai>=1.0
+pypdfium2>=4.0
+pillow>=10.0
 # anthropic       # D / A: LLM
