@@ -2,6 +2,7 @@
 
 import pytest
 from extraction.normalizare import (
+    normalizeaza_numar,
     normalizeaza_kwh_per_100km_la_km,
     normalizeaza_wh_per_km,
     normalizeaza_putere_la_mw,
@@ -83,3 +84,36 @@ def test_detecteaza_si_normalizeaza_unitate():
     val, u = detecteaza_si_normalizeaza_unitate("transporta_combustibili_fosili", "nu")
     assert val is False
     assert u == "da_nu"
+
+
+def test_cazuri_specifice_cerinta():
+    """Testează cazurile exacte cerute explicit în specificațiile utilizatorului:
+    - 16 kWh/100 km → 0.16
+    - 120 gCO2/km → 120
+    - 2,1 tCO2e/t → 2.1
+    - 20.000 m² → 20000
+    - PUE: 1,38 → 1.38
+    - CO2 emissions: 45 g/km → 45
+    - 30.000.000,00 EUR → 30000000
+    """
+    # 1. 16 kWh/100 km -> 0.16
+    val, u = detecteaza_si_normalizeaza_unitate("consum_kwh_km", "16 kWh/100 km")
+    assert val == 0.16
+
+    # 2. 120 gCO2/km -> 120
+    assert normalizeaza_numar("120 gCO2/km") == 120
+
+    # 3. 2,1 tCO2e/t -> 2.1
+    assert normalizeaza_numar("2,1 tCO2e/t") == 2.1
+
+    # 4. 20.000 m² -> 20000
+    assert normalizeaza_numar("20.000 m²") == 20000
+
+    # 5. PUE: 1,38 -> 1.38
+    assert normalizeaza_pue("PUE: 1,38") == 1.38
+
+    # 6. CO2 emissions: 45 g/km -> 45
+    assert normalizeaza_numar("CO2 emissions: 45 g/km") == 45
+
+    # 7. 30.000.000,00 EUR -> 30000000
+    assert normalizeaza_numar("30.000.000,00 EUR") == 30000000

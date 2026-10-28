@@ -67,6 +67,35 @@ def test_schema_pentru_llm_format():
         assert "parameters" in s["function"]
 
 
+def test_camp_valoare_tipuri():
+    """Verifică că Camp.valoare acceptă bool, int, float, str, list, dict (cu bool primul)."""
+    c_bool = Camp(valoare=True)
+    assert isinstance(c_bool.valoare, bool) and c_bool.valoare is True
+
+    c_int = Camp(valoare=42)
+    assert isinstance(c_int.valoare, int) and c_int.valoare == 42 and not isinstance(c_int.valoare, bool)
+
+    c_float = Camp(valoare=3.14)
+    assert isinstance(c_float.valoare, float) and c_float.valoare == 3.14
+
+    c_str = Camp(valoare="text")
+    assert isinstance(c_str.valoare, str) and c_str.valoare == "text"
+
+    c_list = Camp(valoare=[{"a": 1}, {"b": 2}])
+    assert isinstance(c_list.valoare, list) and len(c_list.valoare) == 2
+
+    c_dict = Camp(valoare={"cheie": "valoare"})
+    assert isinstance(c_dict.valoare, dict) and c_dict.valoare["cheie"] == "valoare"
+
+
+def test_stare_dosar_raport_extractie():
+    """Verifică că StareDosar include raport_extractie cu valoare implicită dict."""
+    stare = _creeaza_stare_test()
+    assert hasattr(stare, "raport_extractie")
+    assert isinstance(stare.raport_extractie, dict)
+    assert stare.raport_extractie == {}
+
+
 # ---------------------------------------------------------------------------
 # 1. Successful orchestration
 # ---------------------------------------------------------------------------
