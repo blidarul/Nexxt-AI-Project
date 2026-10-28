@@ -516,3 +516,4 @@ def test_calcul_impact_regenerabile_si_transport():
     imp_ct = calculeaza_impact_categorie("clean_transportation", stare_ct)
     # dif = 120 - 0.20 * 250 = 70 g/km. 70 * 15000 * 20 / 1_000_000 = 21.0 tCO2/an
     assert imp_ct["rezultat_tco2_an"] == 21.0
+

@@ -262,3 +262,4 @@ def evalueaza_plauzibilitate(stare: StareDosar) -> list[RezultatRegula]:
         stare.reguli[r.regula_id] = r
 
     return rezultate
+

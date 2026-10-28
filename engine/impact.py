@@ -260,3 +260,4 @@ def calculeaza_impact_categorie(categorie: str, stare: StareDosar) -> dict[str, 
     impact_data["pasi"].append(f"Nu există formulă specifică sau date suficiente de impact pentru categoria '{cat_norm}'.")
     stare.impact = impact_data
     return impact_data
+
