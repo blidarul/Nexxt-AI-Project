@@ -34,35 +34,25 @@ logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
-# Helpers de configurație – importate lazy pentru a nu forța existența
-# implementării la momentul importului orchestratorului.
+# Helpers de configurație
 # ---------------------------------------------------------------------------
 
 def _get_max_pasi() -> int:
-    """Citește MAX_PASI_AGENT din config; fallback la 15."""
-    try:
-        from config import MAX_PASI_AGENT  # type: ignore[import-untyped]
-        return int(MAX_PASI_AGENT)
-    except Exception:
-        return 15
+    """Citește MAX_PASI_AGENT din config."""
+    from config import MAX_PASI_AGENT
+    return int(MAX_PASI_AGENT)
 
 
 def _get_mod_extractie() -> str:
-    """Citește MOD_EXTRACTIE din config; fallback la 'mock'."""
-    try:
-        from config import MOD_EXTRACTIE  # type: ignore[import-untyped]
-        return str(MOD_EXTRACTIE)
-    except Exception:
-        return "mock"
+    """Citește MOD_EXTRACTIE din config."""
+    from config import MOD_EXTRACTIE
+    return str(MOD_EXTRACTIE)
 
 
 def _get_mod_agent() -> str:
-    """Citește MOD_AGENT din config; fallback la 'scriptat'."""
-    try:
-        from config import MOD_AGENT  # type: ignore[import-untyped]
-        return str(MOD_AGENT)
-    except Exception:
-        return "scriptat"
+    """Citește MOD_AGENT din config."""
+    from config import MOD_AGENT
+    return str(MOD_AGENT)
 
 
 # ---------------------------------------------------------------------------
@@ -139,6 +129,13 @@ def _executa_bucla(stare: StareDosar) -> None:
     for nr_pas in range(1, max_pasi + 1):
         # 1. Planificatorul decide pasul următor
         decizie = planificator.pas_urmator(stare, ultim_rezultat)
+
+        if decizie is None or not hasattr(decizie, "tip") or decizie.tip not in ("tool", "final"):
+            raise ValueError(f"Decizie invalidă de la planificator la pasul {nr_pas}: {decizie!r}")
+
+        if decizie.tip == "tool":
+            if not getattr(decizie, "nume", None) or not str(decizie.nume).strip():
+                raise ValueError(f"Decizia de tip 'tool' la pasul {nr_pas} nu are specificat un nume valid de tool: {decizie!r}")
 
         logger.info(
             "Pas %d: tip=%s, nume=%s, motiv=%s",

@@ -376,25 +376,24 @@ def normalizeaza_camp(
 # ---------------------------------------------------------------------------
 
 def normalizeaza_kwh_per_100km_la_km(valoare: Any) -> Optional[float]:
-    """Convertește consumul din kWh/100 km în kWh/km (împărțire la 100).
-
-    Exemple:
-        - "16 kWh/100 km" -> 0.16
-        - "21.0 kWh/100km" -> 0.21
-        - "0.16 kWh/km" -> 0.16
-    """
+    """Convertește kWh/100 km sau kWh/km în kWh/km."""
     if valoare is None:
         return None
 
     text = str(valoare).strip()
-    num = normalizeaza_numar(text)
+
+    match = re.search(r"[-+]?\d+(?:[.,]\d+)?", text)
+    if not match:
+        return None
+
+    num = normalizeaza_numar(match.group(0))
     if num is None:
         return None
 
     val = float(num)
-    # Dacă în text apare '100' sau '100km' / '100 km', se împarte la 100
-    if re.search(r"\b100\s*km\b|100km", text, re.IGNORECASE) or val >= 5.0:
-        val = val / 100.0
+
+    if re.search(r"/\s*100\s*km\b|per\s*100\s*km\b", text, re.IGNORECASE):
+        val /= 100.0
 
     return round(val, 4)
 
