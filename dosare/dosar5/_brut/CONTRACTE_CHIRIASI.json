@@ -1,0 +1,15 @@
+{
+  "fisier": "CONTRACTE_CHIRIASI.pdf",
+  "dosar": "dosar5",
+  "tip_document": "contract_inchiriere",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T23:30:16",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "EXTRAS CONTRACTE CHIRIAȘI ȘI VERIFICARE FISCALĂ ANAF\n(PROIECT 05 - BIO INDUSTRIAL PARK TIMIȘOARA SRL)\nImobil: Bio Industrial Hall B3 (Timișoara, Calea Aradului nr. 210)\n* Chiriaș 1: Continental Automotive SRL | CUI 9900000401 | CAEN\n2931 | Suprafață: 22.000 m² (55%) | Contract: 2024-2034\n* Chiriaș 2: Flexronics Romania SRL | CUI 9900000402 | CAEN 2611 |\nSuprafață: 13.200 m² (33%) | Contract: 2024-2032\n* Grad ocupare: 88% (35.200 m²) | Spațiu liber: 4.800 m² (12%)",
+      "necesita_ocr": false,
+      "tabele": []
+    }
+  ]
+}

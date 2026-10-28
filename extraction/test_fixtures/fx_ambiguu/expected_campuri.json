@@ -1,6 +1,8 @@
 {
   "categorie_ambigua": true,
-  "categorie_candidati": [
+  "categorie_candidati_minim": 2,
+  "categorie_incredere_maxima_sub": 0.7,
+  "categorie_candidati_contine_unul_din": [
     "energy_efficiency",
     "renewable_energy"
   ],

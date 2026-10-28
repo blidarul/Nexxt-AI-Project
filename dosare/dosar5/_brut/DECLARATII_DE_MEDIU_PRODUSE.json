@@ -1,0 +1,15 @@
+{
+  "fisier": "DECLARATII_DE_MEDIU_PRODUSE.pdf",
+  "dosar": "dosar5",
+  "tip_document": "declaratii_mediu",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T23:30:16",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "FIȘĂ DE CONFORMITATE MATERIALE DE CONSTRUCȚII (EPD)\nProiect: Bio Industrial Hall B3 - Timișoara\nBeneficiar: S.C. BIO INDUSTRIAL PARK TIMIȘOARA S.R.L.\n1. OȚEL STRUCTURAL CU CARBON SCĂZUT (LOW-CARBON STEEL)\n- Producător: ArcelorMittal (Gama XCarb® Green Steel)\n- Nr. Registru EPD: EPD-ARM-20240012-IBU1-DE\n- Emisii specifice CO2 (Cradle-to-Gate): 0.33 tone CO2 / tonă oțel\n(față de media europeană de 1.8 tone CO2/tonă).\n- Conținut de fier vechi reciclat: 100% Topit în cuptor cu arc electric\n(EAF) alimentat din surse regenerabile.\n2. PANOURI VATA MINERALĂ BAZALTICĂ (IZOLAȚIE TERMICĂ)\n- Producător: Rockwool A/S\n- Nr. Registru EPD: EPD-RCK-20230211-CGA1-EN\n- Potențial de Încălzire Globală (GWP A1-A3): 0.82 kg CO2-eq/kg\nprodus.\n- Durabilitate declarată: Minimum 50 ani fără pierderea rezistenței\ntermice (R=6.25 m²K/W).\nSupervizor Materiale Sustenabile: BuildGreen Consultant S.R.L.",
+      "necesita_ocr": false,
+      "tabele": []
+    }
+  ]
+}

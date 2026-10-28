@@ -322,7 +322,7 @@ class LLMClient:
                     "incredere": 0.9
                 }
 
-        # Data aprobare
+        # Data aprobare: doar expresia precisă, niciodată un „Data:” generic
         m = re.search(r"Data aprobării creditului[^:\n]*:[ \t]*([0-9.\-/]+)", doc_text)
         if m:
             rezultat["data_aprobare"] = {
@@ -331,15 +331,6 @@ class LLMClient:
                 "pagina": 1,
                 "incredere": 0.98
             }
-        else:
-            m2 = re.search(r"Data:\s*([0-9.\-/]+)", doc_text)
-            if m2:
-                rezultat["data_aprobare"] = {
-                    "valoare_text": m2.group(1),
-                    "citat": m2.group(0),
-                    "pagina": 1,
-                    "incredere": 0.9
-                }
 
         # Țara
         m = re.search(r"(?:Țara|Tara)[ \t]+([A-Za-zĂÎÂȘȚăîâșț]+)", doc_text)

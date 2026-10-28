@@ -4,7 +4,7 @@ import json
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     try:
@@ -17,32 +17,36 @@ from extraction.ocr import MIME_IMAGINI, aplica_ocr_pdf, pagina_ocr
 from extraction.pdf_text import extrage_pagini_pdf
 
 
-def determina_tip_document(nume_fisier: str) -> str:
-    """Deduce tipul documentului pe baza prefixului sau a numelui fișierului."""
+def determina_tip_din_nume(nume_fisier: str) -> Optional[str]:
+    """Ghicește tipul documentului din numele fișierului. DOAR indiciu, pentru raport:
+    tipul folosit în extracție vine din conținut (extraction/clasificare.py).
+
+    Întoarce o cheie din tipuri_documente.yaml sau None dacă numele nu spune nimic.
+    """
     nume = nume_fisier.lower()
     if nume.startswith("01_") or "cerere" in nume:
         return "cerere_finantare"
     elif nume.startswith("03_") or "performan" in nume or "energetic" in nume:
         return "certificat_energetic"
-    elif nume.startswith("04_") or "chirias" in nume or "contracte_chiriasi" in nume:
+    elif nume.startswith("04_") or "chirias" in nume:
         return "contract_inchiriere"
     elif "breeam" in nume or "sustenabilitate" in nume or "leed" in nume:
         return "certificat_sustenabilitate"
     elif "anaf" in nume:
         return "raspuns_anaf"
-    elif "breviar" in nume:
-        return "breviar_tehnic"
-    elif "taxonomie" in nume:
-        return "raport_taxonomie"
+    elif "breviar" in nume or "nota_tehnica" in nume:
+        return "nota_tehnica"
+    elif "taxonomie" in nume or "taxonomy" in nume:
+        return "raport_taxonomie_ue"
     elif "lca" in nume:
-        return "raport_lca"
+        return "analiza_ciclu_viata"
     elif "etanseitate" in nume:
-        return "raport_etanseitate_aer"
+        return "raport_etanseitate"
     elif "ppa" in nume:
-        return "contract_ppa"
-    elif "declarati" in nume:
-        return "declaratii_mediu"
-    return "necunoscut"
+        return "contract_ppa_verde"
+    elif "epd" in nume or "declaratii_de_mediu" in nume:
+        return "declaratie_mediu_produs"
+    return None
 
 
 def proceseaza_pdf(cale_pdf: Path, nume_dosar: str, folder_brut: Path) -> dict[str, Any]:
@@ -50,7 +54,7 @@ def proceseaza_pdf(cale_pdf: Path, nume_dosar: str, folder_brut: Path) -> dict[s
 
     Întoarce metadatele documentului pentru index.json.
     """
-    tip_document = determina_tip_document(cale_pdf.name)
+    tip_din_nume = determina_tip_din_nume(cale_pdf.name)
     cale_json_relativa = f"_brut/{cale_pdf.stem}.json"
     cale_json_iesire = folder_brut / f"{cale_pdf.stem}.json"
 
@@ -67,7 +71,7 @@ def proceseaza_pdf(cale_pdf: Path, nume_dosar: str, folder_brut: Path) -> dict[s
         continut_brut = {
             "fisier": cale_pdf.name,
             "dosar": nume_dosar,
-            "tip_document": tip_document,
+            "tip_din_nume": tip_din_nume,
             "nr_pagini": nr_pagini,
             "extras_la": datetime.now().isoformat(timespec="seconds"),
             "pagini": pagini,
@@ -80,7 +84,7 @@ def proceseaza_pdf(cale_pdf: Path, nume_dosar: str, folder_brut: Path) -> dict[s
 
         return {
             "fisier": cale_pdf.name,
-            "tip_document": tip_document,
+            "tip_din_nume": tip_din_nume,
             "json": cale_json_relativa,
             "pagini": nr_pagini,
             "tabele": nr_tabele,
@@ -91,7 +95,7 @@ def proceseaza_pdf(cale_pdf: Path, nume_dosar: str, folder_brut: Path) -> dict[s
     except Exception as e:
         return {
             "fisier": cale_pdf.name,
-            "tip_document": tip_document,
+            "tip_din_nume": tip_din_nume,
             "json": None,
             "pagini": 0,
             "tabele": 0,

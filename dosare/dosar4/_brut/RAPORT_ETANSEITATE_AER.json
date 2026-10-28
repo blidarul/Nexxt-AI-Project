@@ -1,0 +1,15 @@
+{
+  "fisier": "RAPORT_ETANSEITATE_AER.pdf",
+  "dosar": "dosar4",
+  "tip_document": "raport_etanseitate_aer",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T23:30:16",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "RAPORT DE MĂSURARE ETANȘEITATE LA AER (BLOWER\nDOOR)\nObiectiv: Eco Village Mogoșoaia - Faza 1 (Bloc A1 - 45 Apartamente)\nStandard: SR EN ISO 9972:2015 (Metoda A - Clădire în exploatare)\nEchipament utilizat: Minneapolis Blower Door Model 4 / Software\nTectite Express\nREZULTATE MĂSURĂTORI LA O DIFERENȚĂ DE PRESIUNE DE 50\nPa:\n- V50 (Debitul de aer scurs la 50 Pa): 1.420 mc/h\n- Volumul interior net al clădirii (Vn): 3.250 mc\n- RATA DE SCHIMB DE AER LA 50 Pa (n50): 0.437 /h (0.44 h⁻¹)\nCONFORMITATE NORMATIV nZEB+:\n- Cerință maximă nZEB România pentru rezidențial: n50 <= 1.5 h⁻¹\n- Cerință Casa Pasivă (Passive House): n50 <= 0.60 h⁻¹\nCONCLUZIE: Clădirea depășește cerințele standard nZEB și se\nîncadrează în nivelul de performanță al unei Case Pasive (n50 = 0.44\nh⁻¹). Pierderile necontrolate de căldură prin neetanșeități sunt\nreduse cu 70%.\nLaborator Atestat: AirTight Test S.R.L. (Acreditat RENAR nr. TL-\n882/2024)\nOperator: Ing. Sorin Radu",
+      "necesita_ocr": false,
+      "tabele": []
+    }
+  ]
+}

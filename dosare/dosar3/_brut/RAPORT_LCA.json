@@ -1,0 +1,21 @@
+{
+  "fisier": "RAPORT_LCA.pdf",
+  "dosar": "dosar3",
+  "tip_document": "raport_lca",
+  "nr_pagini": 2,
+  "extras_la": "2026-10-28T23:30:15",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "RAPORT DE EVALUARE A CICLULUI DE VIAȚĂ (LCA)\nProiect: Green Retail Mall (Cluj-Napoca)\nDezvoltator: S.C. GREEN RETAIL TOWER S.R.L. | CUI 9900000030\nStandard de evaluare: EN 15978 / ISO 14040/44\nProgram de calcul: One Click LCA (Baza de date EPD Verificate UE)\nRESULTATE EVALUARE (PERIOADĂ DE STRUCTURĂ: 50 ANI):\n1. CARBON ÎNCORPORAT (EMBODIED CARBON - Etapele A1-A5:\nExtracție, Transport, Construcție):\n- Structură beton & oțel reciclat: 310 kg CO2-eq/mp\n- Anvelopă și finisaje: 95 kg CO2-eq/mp\n- Total Carbon Încorporat: 405 kg CO2-eq/mp (Țintă BREEAM\nOutstanding < 500 kg CO2-eq/mp)\n2. CARBON OPERAȚIONAL (OPERATIONAL CARBON - Etapa B6:\nConsum energie 50 ani):\n- Emisii anuale operaționale: 12.4 kg CO2-eq/mp/an\n- Total Emisii pe 50 ani: 620 kg CO2-eq/mp\n3. TOTAL GWP (GLOBAL WARMING POTENTIAL - A1-C4):\n- Intensitate emisii totală: 1.025 kg CO2-eq/mp pe întreaga durată\nde viață.\n- Reducere realizată față de o clădire etalon comercială: -42.8%",
+      "necesita_ocr": false,
+      "tabele": []
+    },
+    {
+      "pagina": 2,
+      "text": "Evaluator LCA Atestat: Ing. Corina Dobre (Certificat LCA-RO-04)\nData: 18 ianuarie 2026",
+      "necesita_ocr": false,
+      "tabele": []
+    }
+  ]
+}

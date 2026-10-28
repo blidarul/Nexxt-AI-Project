@@ -64,7 +64,7 @@ tipuri:
     descriere: "Contracte de închiriere / lista chiriașilor (chiriaș, CAEN, suprafață închiriată)"
     id_cerinte: [GB-D3]
     indiciu_categorie: {categorie: green_buildings, forta: slab}
-    cuvinte_cheie: ["contract de închiriere", "contract de inchiriere", "contracte de închiriere", "contracte de inchiriere", "chiriaș", "chirias", "locatar", "suprafață închiriată", "suprafata inchiriata", "lease agreement", "tenant", "rent roll"]
+    cuvinte_cheie: ["contract de închiriere", "contract de inchiriere", "contracte de închiriere", "contracte de inchiriere", "chiriaș", "chirias", "locatar", "suprafață închiriată", "suprafata inchiriata", "contracte chiriași", "contracte chiriasi", "spațiu liber", "spatiu liber", "lease agreement", "tenant", "rent roll"]
 
   extras_carte_funciara:
     descriere: "Extras de carte funciară (proprietar, număr cadastral, suprafață teren/construcție)"
@@ -115,7 +115,7 @@ tipuri:
     descriere: "Analiză de ciclu de viață (LCA) a emisiilor (gCO2e/kWh pe ciclu de viață)"
     id_cerinte: [RE-D5]
     indiciu_categorie: {categorie: renewable_energy, forta: slab}
-    cuvinte_cheie: ["ciclu de viață", "ciclu de viata", "analiza ciclului de viață", "analiza ciclului de viata", "lca", "life cycle assessment", "life-cycle emissions", "gco2e/kwh"]
+    cuvinte_cheie: ["ciclu de viață", "ciclu de viata", "ciclului de viață", "ciclului de viata", "carbon încorporat", "carbon incorporat", "embodied carbon", "en 15978", "iso 14040", "analiza ciclului de viață", "analiza ciclului de viata", "lca", "life cycle assessment", "life-cycle emissions", "gco2e/kwh"]
 
   contract_materie_prima:
     descriere: "Contract de aprovizionare cu materie primă (biomasă, deșeuri, combustibil) pentru o centrală"
@@ -180,6 +180,39 @@ tipuri:
     id_cerinte: [CE-D2]
     indiciu_categorie: {categorie: circular_economy, forta: puternic}
     cuvinte_cheie: ["declarația furnizorului", "declaratia furnizorului", "declarație furnizor", "declaratie furnizor", "conținut reciclat", "continut reciclat", "intensitate de carbon", "tco2e/t", "supplier declaration", "recycled content", "carbon intensity"]
+
+  # ------------------------------------------------------------------ DOCUMENTE SUPORT
+  # Utile pentru verificare, dar fără ID propriu în cerinte_dosar.yaml (id_cerinte gol),
+  # în afară de cele care pot ține locul unui document cerut.
+  raspuns_anaf:
+    descriere: "Răspuns / fișă ANAF privind starea fiscală a firmei (înregistrare, inactivitate, TVA, CAEN principal)"
+    id_cerinte: []
+    cuvinte_cheie: ["anaf", "agenția națională de administrare fiscală", "agentia nationala de administrare fiscala", "stare fiscală", "stare fiscala", "contribuabililor inactivi", "contribuabil inactiv", "plătitor tva", "platitor tva", "cazier fiscal", "fiscal status", "tax authority", "inactive taxpayer", "vat payer"]
+
+  nota_tehnica:
+    descriere: "Notă tehnică / breviar de calcul / memoriu tehnic al unui sistem sau al unei instalații (dimensionare, producție sau economii estimate)"
+    id_cerinte: [RE-D1, GB-D9]
+    cuvinte_cheie: ["notă tehnică", "nota tehnica", "breviar", "breviar de calcul", "breviar tehnic", "memoriu tehnic", "memoriu justificativ", "proiect tehnic", "proiectant", "dimensionare", "technical note", "calculation note", "design calculation", "technical memorandum"]
+
+  raport_taxonomie_ue:
+    descriere: "Raport de aliniere la Taxonomia UE (Regulamentul 2020/852): contribuție substanțială și criterii DNSH"
+    id_cerinte: []
+    cuvinte_cheie: ["taxonomia ue", "taxonomiei ue", "taxonomie", "2020/852", "dnsh", "do no significant harm", "contribuție substanțială", "contributie substantiala", "eu taxonomy", "taxonomy regulation", "taxonomy alignment", "substantial contribution"]
+
+  raport_etanseitate:
+    descriere: "Raport de măsurare a etanșeității la aer a clădirii (test blower door, n50)"
+    id_cerinte: []
+    cuvinte_cheie: ["etanșeitate", "etanseitate", "blower door", "n50", "iso 9972", "rata de schimb de aer", "schimburi de aer", "air tightness", "airtightness", "air permeability", "air leakage", "air changes"]
+
+  contract_ppa_verde:
+    descriere: "Contract de achiziție de energie verde (PPA), cu garanții de origine pentru energia din surse regenerabile"
+    id_cerinte: []
+    cuvinte_cheie: ["ppa", "power purchase agreement", "contract de achiziție de energie", "contract de achizitie de energie", "garanții de origine", "garantii de origine", "furnizarea de energie electrică", "furnizarea de energie electrica", "guarantees of origin", "green ppa", "renewable energy supply"]
+
+  declaratie_mediu_produs:
+    descriere: "Declarație de mediu de produs (EPD) pentru materiale de construcții: GWP, emisii pe unitate de produs, conținut reciclat"
+    id_cerinte: [CE-D2]
+    cuvinte_cheie: ["declarație de mediu", "declaratie de mediu", "declarații de mediu", "declaratii de mediu", "epd", "environmental product declaration", "registru epd", "cradle-to-gate", "gwp a1-a3", "potențial de încălzire globală", "potential de incalzire globala"]
 
   # ------------------------------------------------------------------ REZERVĂ
   alt_document:

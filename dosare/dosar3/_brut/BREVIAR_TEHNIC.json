@@ -1,0 +1,15 @@
+{
+  "fisier": "BREVIAR_TEHNIC.pdf",
+  "dosar": "dosar3",
+  "tip_document": "breviar_tehnic",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T23:30:15",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "PROIECT TEHNIC - SISTEM RECIRCULARE APĂ DE PLOAIE ȘI\nAPE GRI\nImobil: Green Retail Mall Cluj-Napoca\n1. COLECTARE APĂ DE PLOAIE\n- Suprafață captare acoperiș: 12.000 mp\n- Rezervor subteran de stocare și decantare: 250 mc\n- Utilizare: Irigare completă zone verzi (4.500 mp) și spălare căi de\nacces.\n2. SISTEM DE RECIRCULARE APE GRI (GREYWATER)\n- Sursă apă gri: Lavoare grupuri sanitare comerciale (estimat 18\nmc/zi)\n- Unitate de filtrare: Bioreactor cu membrană (MBR) + Sterilizare UV\n- Destinație apă tratată: Alimentare vase de WC din spațiile publice\nale centrului comercial.\n3. REDUCERE CONSUM APĂ POTABILĂ\n- Consum mediu estimat fără sistem: 45 mc/zi\n- Consum mediu estimat cu sistem instalat: 16.2 mc/zi\n- Economie totală de apă potabilă: 64% (Economie anuală: ~10.500\nmc apă potabilă)\nProiectant Instalatii: HydroGreen Tech S.R.L.",
+      "necesita_ocr": false,
+      "tabele": []
+    }
+  ]
+}
