@@ -249,22 +249,27 @@ class PlanificatorScriptat:
                 motiv="Escaladare către comitet ca urmare a semnalului de plauzibilitate",
             )
 
-        # 11. Calcul impact CO2 / energie
-        if "calculeaza_co2" not in stare.rezultate_tools and "calculeaza_impact" not in stare.rezultate_tools:
-            if cat_nume in ("green_buildings", "cladiri"):
-                return Decizie(
-                    tip="tool",
-                    nume="calculeaza_co2",
-                    argumente={},
-                    motiv="Calcul economie de emisii CO2 conform metodologiei RBI",
-                )
-            else:
-                return Decizie(
-                    tip="tool",
-                    nume="calculeaza_impact",
-                    argumente={"categorie": cat_nume},
-                    motiv=f"Calcul impact de mediu pentru categoria {cat_nume}",
-                )
+        # 11. Calcul impact CO2 / energie (doar dacă dosarul este eligibil)
+        from engine.verdict import decide_verdict
+        verdict_preliminar = decide_verdict(stare)
+        if verdict_preliminar.verdict in ("ELIGIBIL", "ELIGIBIL_CU_MONITORIZARE"):
+            stadiu_clad = str(getattr(stare.extras, "stadiu_cladire", None) and stare.extras.stadiu_cladire.valoare or "").lower()
+            if "construc" not in stadiu_clad and "interim" not in str(getattr(stare.extras, "nr_certificat_declarat", "")).lower():
+                if "calculeaza_co2" not in stare.rezultate_tools and "calculeaza_impact" not in stare.rezultate_tools:
+                    if cat_nume in ("green_buildings", "cladiri"):
+                        return Decizie(
+                            tip="tool",
+                            nume="calculeaza_co2",
+                            argumente={},
+                            motiv="Calcul economie de emisii CO2 conform metodologiei RBI",
+                        )
+                    else:
+                        return Decizie(
+                            tip="tool",
+                            nume="calculeaza_impact",
+                            argumente={"categorie": cat_nume},
+                            motiv=f"Calcul impact de mediu pentru categoria {cat_nume}",
+                        )
 
         # 12. Finalizare buclă
         return Decizie(

@@ -62,14 +62,15 @@ def _get_mod_agent() -> str:
 def _extrage(folder: str) -> DosarExtras:
     """Apelează modulul de extracție (A) și întoarce DosarExtras.
 
-    În modul mock citește extras_mock.json direct; în modul real apelează
-    extraction.extractor.extrage(folder).
+    În modul mock sau pentru dosare sintetice fără PDF-uri citește extras_mock.json;
+    în modul real apelează extraction.extractor.extrage(folder).
     """
     cale = Path(folder)
+    fisier_mock = cale / "extras_mock.json"
 
     mod = _get_mod_extractie()
-    if mod == "mock":
-        fisier_mock = cale / "extras_mock.json"
+    # Dacă este modul mock sau dacă dosarul este sintetic (fără fișiere PDF)
+    if mod == "mock" or (fisier_mock.exists() and not any(cale.glob("*.pdf"))):
         if not fisier_mock.exists():
             raise FileNotFoundError(
                 f"Fișierul extras_mock.json nu există în {cale}. "

@@ -1,0 +1,11 @@
+{
+  "dosar": "caz_10_pompe_caldura_r410a",
+  "descriere": "Pomp\u0103 de c\u0103ldur\u0103 cu agent R410A (GWP = 2088 > 675)",
+  "verdict": "NEELIGIBIL",
+  "reguli": [
+    {
+      "id": "GB-M2",
+      "rezultat": "NU"
+    }
+  ]
+}

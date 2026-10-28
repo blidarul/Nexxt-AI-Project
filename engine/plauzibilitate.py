@@ -47,24 +47,41 @@ def evalueaza_plauzibilitate(stare: StareDosar) -> list[RezultatRegula]:
     # Verificare emisii vehicul (oficial vs declarat)
     emisii_decl = _val("emisii_wltp_gco2_km")
     res_eea = stare.rezultate_tools.get("cauta_emisii_vehicul")
+    emisii_oficial = None
+    combustibil_oficial = ""
     if res_eea and res_eea.gasit and isinstance(res_eea.date, dict):
         emisii_oficial = res_eea.date.get("emisii_wltp_gco2_km") or res_eea.date.get("emisii_oficiale")
         combustibil_oficial = str(res_eea.date.get("combustibil", "")).lower()
-        if emisii_decl is not None and emisii_oficial is not None:
+    elif _val("emisii_registru_eea") is not None:
+        emisii_oficial = _val("emisii_registru_eea")
+        combustibil_oficial = str(_val("combustibil_registru_eea") or "diesel").lower()
+    elif stare.dosar_folder:
+        cale_eea = Path(stare.dosar_folder) / "03_registru_eea.json"
+        if cale_eea.exists():
             try:
-                if abs(float(emisii_decl) - float(emisii_oficial)) > 1.0 or (float(emisii_decl) == 0 and "diesel" in combustibil_oficial):
-                    rezultate.append(RezultatRegula(
-                        regula_id="PL-02",
-                        rezultat="SEMNAL",
-                        dovada=(
-                            f"Valoarea declarată a emisiilor ({emisii_decl} g/km) diferă de datele oficiale "
-                            f"din registrul EEA ({emisii_oficial} g/km, combustibil: {combustibil_oficial}). "
-                            "Registrul oficial primează conform metodologiei."
-                        ),
-                        sursa_framework="reference/plauzibilitate.yaml (PL-02)",
-                    ))
-            except (ValueError, TypeError):
+                import json
+                with open(cale_eea, "r", encoding="utf-8") as f:
+                    d_eea = json.load(f)
+                emisii_oficial = d_eea.get("emisii_wltp_gco2_km") or d_eea.get("emisii_oficiale")
+                combustibil_oficial = str(d_eea.get("combustibil", "")).lower()
+            except Exception:
                 pass
+
+    if emisii_decl is not None and emisii_oficial is not None:
+        try:
+            if abs(float(emisii_decl) - float(emisii_oficial)) > 1.0 or (float(emisii_decl) == 0 and "diesel" in combustibil_oficial):
+                rezultate.append(RezultatRegula(
+                    regula_id="PL-02",
+                    rezultat="SEMNAL",
+                    dovada=(
+                        f"Valoarea declarată a emisiilor ({emisii_decl} g/km) diferă de datele oficiale "
+                        f"din registrul EEA ({emisii_oficial} g/km, combustibil: {combustibil_oficial}). "
+                        "Registrul oficial primează conform metodologiei."
+                    ),
+                    sursa_framework="reference/plauzibilitate.yaml (PL-02)",
+                ))
+        except (ValueError, TypeError):
+            pass
 
     # ------------------------------------------------------------ PL-03: afirmațiile clientului
     afirmatii = stare.extras.afirmatii_client or []

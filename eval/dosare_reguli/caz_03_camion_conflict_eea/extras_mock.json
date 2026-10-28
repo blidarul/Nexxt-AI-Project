@@ -1,0 +1,87 @@
+{
+  "dosar_id": "caz_03_camion_conflict_eea",
+  "cui": {
+    "valoare": "9900000001",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "suma_eur": {
+    "valoare": 1000000.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "cota_banca": {
+    "valoare": 1.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "data_aprobare": {
+    "valoare": "2025-06-01",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "tara": {
+    "valoare": "Rom\u00e2nia",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "adresa_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "suprafata_m2": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "stadiu_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "categorie": {
+    "valoare": "clean_transportation",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "subcategorie": {
+    "valoare": "camion",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "chiriasi": [],
+  "afirmatii_client": [],
+  "indicatori": {
+    "model_vehicul": {
+      "valoare": "Heavy Truck e-500",
+      "sursa": "indicator:model_vehicul",
+      "incredere": 1.0
+    },
+    "emisii_wltp_gco2_km": {
+      "valoare": 0,
+      "sursa": "indicator:emisii_wltp_gco2_km",
+      "incredere": 1.0
+    },
+    "emisii_declarate_wltp": {
+      "valoare": 0,
+      "sursa": "indicator:emisii_declarate_wltp",
+      "incredere": 1.0
+    },
+    "emisii_registru_eea": {
+      "valoare": 720,
+      "sursa": "indicator:emisii_registru_eea",
+      "incredere": 1.0
+    },
+    "transporta_combustibili_fosili": {
+      "valoare": false,
+      "sursa": "indicator:transporta_combustibili_fosili",
+      "incredere": 1.0
+    }
+  }
+}

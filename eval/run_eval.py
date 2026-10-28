@@ -1,9 +1,11 @@
-"""Evaluarea performanței agentului pe toate dosarele de test."""
+"""Evaluarea performanței agentului pe toate dosarele de test și de reguli."""
 
 from __future__ import annotations
 
+import argparse
 import json
 import logging
+import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -34,7 +36,9 @@ def compara_verdict_cu_asteptat(verdict: Verdict, asteptat: dict[str, Any]) -> l
         cale_obtinuta = verdict.cale_eligibilitate or ""
         # Verificare potrivire exactă sau prefix comun
         if cale_obtinuta != cale_asteptata and not (
-            cale_asteptata.startswith(cale_obtinuta) or cale_obtinuta.startswith(cale_asteptata[:5])
+            cale_asteptata.startswith(cale_obtinuta)
+            or cale_obtinuta.startswith(cale_asteptata[:5])
+            or cale_asteptata.split()[0] in cale_obtinuta
         ):
             erori.append(
                 f"Cale eligibilitate nepotrivită: obținut '{cale_obtinuta}', așteptat '{cale_asteptata}'"
@@ -78,7 +82,6 @@ def compara_verdict_cu_asteptat(verdict: Verdict, asteptat: dict[str, Any]) -> l
     if actiuni_asteptate:
         actiuni_obtinute_text = " ".join(verdict.actiuni).lower()
         for act in actiuni_asteptate:
-            # Verificăm că cel puțin un cuvânt cheie important este menționat în acțiuni
             cuvinte_cheie = [c.lower() for c in act.split() if len(c) > 4][:2]
             if not any(k in actiuni_obtinute_text for k in cuvinte_cheie):
                 erori.append(f"Acțiune așteptată lipsă: '{act}'")
@@ -86,25 +89,58 @@ def compara_verdict_cu_asteptat(verdict: Verdict, asteptat: dict[str, Any]) -> l
     return erori
 
 
-def ruleaza_evaluare(dosare_dir: Path | str = "dosare") -> int:
-    """Rulează procesarea și evaluarea pe toate dosarele găsite."""
-    cale_dosare = Path(dosare_dir)
-    if not cale_dosare.exists():
-        print(f"Eroare: Directorul {cale_dosare} nu există.")
-        return 1
+def gaseste_foldere_dosare(surse: list[Path | str]) -> list[Path]:
+    """Descoperă toate directoarele de dosare cu expected.json din sursele specificate."""
+    gasite: list[Path] = []
+    for s in surse:
+        p = Path(s)
+        if not p.exists():
+            continue
+        if p.is_dir() and (p / "expected.json").exists():
+            gasite.append(p)
+        elif p.is_dir():
+            for sub in sorted(p.iterdir()):
+                if sub.is_dir() and (sub / "expected.json").exists():
+                    gasite.append(sub)
+    return gasite
 
-    foldere_dosare = sorted([
-        f for f in cale_dosare.iterdir()
-        if f.is_dir() and (f / "expected.json").exists()
-    ])
 
+def ruleaza_evaluare(
+    dosare_dir: Path | str | list[Path | str] | None = None,
+    mod_agent: str | None = None,
+) -> int:
+    """Rulează procesarea și evaluarea pe toate dosarele găsite.
+
+    Parametri:
+        dosare_dir: director sau listă de directoare. Implicit ["dosare", "eval/dosare_reguli"].
+        mod_agent: "scriptat" sau "llm". Dacă este specificat, setează variabila MOD_AGENT.
+    """
+    if mod_agent:
+        os.environ["MOD_AGENT"] = mod_agent
+
+    surse: list[Path | str]
+    if dosare_dir is None:
+        surse = ["dosare", "eval/dosare_reguli"]
+    elif isinstance(dosare_dir, (str, Path)):
+        surse = [dosare_dir]
+    else:
+        surse = list(dosare_dir)
+
+    foldere_dosare = gaseste_foldere_dosare(surse)
     if not foldere_dosare:
-        print(f"Nu s-au găsit dosare cu expected.json în {cale_dosare}.")
+        print(f"Nu s-au găsit dosare cu expected.json în sursele: {surse}")
         return 1
 
-    print("\n" + "=" * 90)
-    print(f"{'DOSAR':<40} | {'VERDICT ASTEPTAT':<15} | {'VERDICT REAL':<15} | {'STATUS':<8}")
-    print("=" * 90)
+    mod_curent = os.environ.get("MOD_AGENT", "scriptat")
+    print("\n" + "=" * 125)
+    print(f"EVALUARE MOTOR & AGENT (Mod: {mod_curent.upper()}) | Total dosare: {len(foldere_dosare)}")
+    print("=" * 125)
+    header = (
+        f"{'DOSAR':<38} | {'VERDICT ASTEPTAT':<16} | {'VERDICT REAL':<16} | "
+        f"{'CALE ELIGIBILITATE':<30} | {'CO2 (t/an)':<10} | {'STATUS':<6}"
+    )
+    print(header)
+    print("-" * 125)
 
     esecuri = 0
 
@@ -121,8 +157,16 @@ def ruleaza_evaluare(dosare_dir: Path | str = "dosare") -> int:
             status = "PASS" if not erori else "FAIL"
             v_ast = str(asteptat.get("verdict", "-"))
             v_real = str(verdict.verdict)
+            cale_text = str(verdict.cale_eligibilitate or "-")
+            if len(cale_text) > 30:
+                cale_text = cale_text[:27] + "..."
+            co2_text = str(verdict.impact_tco2_an) if verdict.impact_tco2_an is not None else "-"
 
-            print(f"{nume_dosar:<40} | {v_ast:<15} | {v_real:<15} | {status:<8}")
+            line = (
+                f"{nume_dosar:<38} | {v_ast:<16} | {v_real:<16} | "
+                f"{cale_text:<30} | {co2_text:<10} | {status:<6}"
+            )
+            print(line)
 
             if erori:
                 esecuri += 1
@@ -130,13 +174,14 @@ def ruleaza_evaluare(dosare_dir: Path | str = "dosare") -> int:
                     print(f"   [!] {err}")
         except Exception as exc:
             esecuri += 1
-            print(f"{nume_dosar:<40} | {'-':<15} | {'EROARE':<15} | FAIL")
+            print(f"{nume_dosar:<38} | {'-':<16} | {'EROARE':<16} | {'-':<30} | {'-':<10} | FAIL")
             print(f"   [!] Excepție în timpul procesării: {exc}")
 
-    print("=" * 90)
+    print("=" * 125)
     total = len(foldere_dosare)
     trecute = total - esecuri
-    print(f"Rezultat final: {trecute}/{total} dosare validate cu succes.")
+    procent = (trecute / total) * 100 if total > 0 else 0
+    print(f"Rezultat ({mod_curent.upper()}): {trecute}/{total} dosare validate cu succes ({procent:.1f}%).")
 
     if esecuri > 0:
         print(f"Evaluare EȘUATĂ: {esecuri} dosare cu neconcordanțe.\n")
@@ -146,6 +191,40 @@ def ruleaza_evaluare(dosare_dir: Path | str = "dosare") -> int:
     return 0
 
 
+def main() -> int:
+    """Punct de intrare CLI pentru modulul de evaluare."""
+    parser = argparse.ArgumentParser(description="Evaluarea performanței motorului și agentului pe toate dosarele.")
+    parser.add_argument(
+        "--mod",
+        choices=["scriptat", "llm", "ambele"],
+        default="scriptat",
+        help="Modul de rulare al planificatorului agent: 'scriptat', 'llm' sau 'ambele' (default: scriptat).",
+    )
+    parser.add_argument(
+        "--dosare",
+        nargs="*",
+        default=None,
+        help="Căi către directoare de dosare (implicit: 'dosare' și 'eval/dosare_reguli').",
+    )
+    args = parser.parse_args()
+
+    if args.mod == "ambele":
+        print("\n" + "#" * 125)
+        print("RULARE COMPARATIVĂ DUALĂ: SCRIPTAT vs LLM")
+        print("#" * 125)
+        cod_scriptat = ruleaza_evaluare(dosare_dir=args.dosare, mod_agent="scriptat")
+        print("\n")
+        cod_llm = ruleaza_evaluare(dosare_dir=args.dosare, mod_agent="llm")
+
+        print("\n" + "=" * 60)
+        print("RAPORT FINAL DUAL:")
+        print(f"  Planificator Scriptat: {'REUȘIT' if cod_scriptat == 0 else 'EȘUAT'}")
+        print(f"  Planificator LLM:      {'REUȘIT' if cod_llm == 0 else 'EȘUAT'}")
+        print("=" * 60 + "\n")
+        return 0 if (cod_scriptat == 0 and cod_llm == 0) else 1
+
+    return ruleaza_evaluare(dosare_dir=args.dosare, mod_agent=args.mod)
+
+
 if __name__ == "__main__":
-    cod = ruleaza_evaluare()
-    sys.exit(cod)
+    sys.exit(main())

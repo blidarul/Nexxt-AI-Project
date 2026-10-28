@@ -1,0 +1,82 @@
+{
+  "dosar_id": "caz_09_aluminiu_reciclat_ce03",
+  "cui": {
+    "valoare": "9900000001",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "suma_eur": {
+    "valoare": 1000000.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "cota_banca": {
+    "valoare": 1.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "data_aprobare": {
+    "valoare": "2025-06-01",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "tara": {
+    "valoare": "Rom\u00e2nia",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "adresa_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "suprafata_m2": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "stadiu_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "categorie": {
+    "valoare": "circular_economy",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "subcategorie": {
+    "valoare": "produse_aluminiu",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "chiriasi": [],
+  "afirmatii_client": [],
+  "indicatori": {
+    "pondere_aluminiu_reciclat": {
+      "valoare": 0.8,
+      "sursa": "indicator:pondere_aluminiu_reciclat",
+      "incredere": 1.0
+    },
+    "intensitate_carbon_aluminiu_primar_tco2e_t": {
+      "valoare": 2.1,
+      "sursa": "indicator:intensitate_carbon_aluminiu_primar_tco2e_t",
+      "incredere": 1.0
+    },
+    "foloseste_plastic_virgin": {
+      "valoare": false,
+      "sursa": "indicator:foloseste_plastic_virgin",
+      "incredere": 1.0
+    },
+    "productie_tone_an": {
+      "valoare": 5000,
+      "sursa": "indicator:productie_tone_an",
+      "incredere": 1.0
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "dosar": "caz_13_cladire_breeam_final_eligibil",
+  "descriere": "Cl\u0103dire verde BREEAM Excellent Final (GB-01)",
+  "verdict": "ELIGIBIL",
+  "cale_eligibilitate": "GB-01",
+  "reguli": [
+    {
+      "id": "GB-01",
+      "rezultat": "OK"
+    }
+  ]
+}
