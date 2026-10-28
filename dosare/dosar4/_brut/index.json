@@ -3,57 +3,57 @@
   "documente": [
     {
       "fisier": "BREEAM.pdf",
-      "tip_document": "certificat_sustenabilitate",
       "json": "_brut/BREEAM.json",
       "pagini": 1,
       "tabele": 0,
       "pagini_ocr": 0,
-      "eroare": null
+      "eroare": null,
+      "tip_din_nume": "certificat_sustenabilitate"
     },
     {
       "fisier": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf",
-      "tip_document": "cerere_finantare",
       "json": "_brut/CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.json",
       "pagini": 2,
       "tabele": 0,
       "pagini_ocr": 0,
-      "eroare": null
+      "eroare": null,
+      "tip_din_nume": "cerere_finantare"
     },
     {
       "fisier": "CERTIFICAT_PERFORMANTA.pdf",
-      "tip_document": "certificat_energetic",
       "json": "_brut/CERTIFICAT_PERFORMANTA.json",
       "pagini": 1,
       "tabele": 0,
       "pagini_ocr": 0,
-      "eroare": null
+      "eroare": null,
+      "tip_din_nume": "certificat_energetic"
     },
     {
       "fisier": "CONTRACTE_CHIRIASI.pdf",
-      "tip_document": "contract_inchiriere",
       "json": "_brut/CONTRACTE_CHIRIASI.json",
       "pagini": 1,
       "tabele": 0,
       "pagini_ocr": 0,
-      "eroare": null
+      "eroare": null,
+      "tip_din_nume": "contract_inchiriere"
     },
     {
       "fisier": "RAPORT_ETANSEITATE_AER.pdf",
-      "tip_document": "raport_etanseitate_aer",
       "json": "_brut/RAPORT_ETANSEITATE_AER.json",
       "pagini": 1,
       "tabele": 0,
       "pagini_ocr": 0,
-      "eroare": null
+      "eroare": null,
+      "tip_din_nume": "raport_etanseitate"
     },
     {
       "fisier": "RASPUNS_ANAF.pdf",
-      "tip_document": "raspuns_anaf",
       "json": "_brut/RASPUNS_ANAF.json",
       "pagini": 1,
       "tabele": 0,
       "pagini_ocr": 0,
-      "eroare": null
+      "eroare": null,
+      "tip_din_nume": "raspuns_anaf"
     }
   ]
 }

@@ -3,39 +3,39 @@
   "documente": [
     {
       "fisier": "01_cerere_finantare.pdf",
-      "tip_document": "cerere_finantare",
       "json": "_brut/01_cerere_finantare.json",
       "pagini": 1,
       "tabele": 1,
       "pagini_ocr": 0,
-      "eroare": null
+      "eroare": null,
+      "tip_din_nume": "cerere_finantare"
     },
     {
       "fisier": "02_lista_vehicule.pdf",
-      "tip_document": "necunoscut",
       "json": "_brut/02_lista_vehicule.json",
       "pagini": 1,
       "tabele": 1,
       "pagini_ocr": 0,
-      "eroare": null
+      "eroare": null,
+      "tip_din_nume": null
     },
     {
       "fisier": "03_coc_cargo_phev_scanat.pdf",
-      "tip_document": "certificat_energetic",
       "json": "_brut/03_coc_cargo_phev_scanat.json",
       "pagini": 1,
       "tabele": 0,
       "pagini_ocr": 1,
-      "eroare": null
+      "eroare": null,
+      "tip_din_nume": "certificat_energetic"
     },
     {
       "fisier": "04_coc_city_ev_foto.png",
-      "tip_document": "contract_inchiriere",
       "json": "_brut/04_coc_city_ev_foto.json",
       "pagini": 1,
       "tabele": 0,
       "pagini_ocr": 1,
-      "eroare": null
+      "eroare": null,
+      "tip_din_nume": "contract_inchiriere"
     }
   ]
 }

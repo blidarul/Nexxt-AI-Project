@@ -1,7 +1,6 @@
 {
   "fisier": "CERTIFICAT_PERFORMANTA.pdf",
   "dosar": "dosar4",
-  "tip_document": "certificat_energetic",
   "nr_pagini": 1,
   "extras_la": "2026-10-28T23:30:16",
   "pagini": [
@@ -11,5 +10,6 @@
       "necesita_ocr": false,
       "tabele": []
     }
-  ]
+  ],
+  "tip_din_nume": "certificat_energetic"
 }

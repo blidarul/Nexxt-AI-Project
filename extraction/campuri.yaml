@@ -327,7 +327,10 @@ afirmatii_client:
   # + orice frază încheiată (cu punct) sau bullet din cerere care conține un cuvânt de sustenabilitate.
   metoda: determinist_afirmatii
   titluri_sectiune: ["declarații ale solicitantului", "declaratii ale solicitantului", "afirmații", "afirmatii",
-    "declarații privind sustenabilitatea", "declaratii privind sustenabilitatea", "sustainability statements", "client statements"]
+    "declarații privind sustenabilitatea", "declaratii privind sustenabilitatea", "declarație privind sustenabilitatea",
+    "declaratie privind sustenabilitatea", "sustainability statements", "sustainability statement", "client statements"]
+  # rândurile care încheie secțiunea de declarații (semnătura)
+  sfarsit_sectiune: ["semnătură", "semnatura", "semnătura", "signature"]
   cuvinte_afirmatii: ["verde", "verzi", "green", "emisii zero", "zero emisii", "zero emissions", "net zero", "net-zero",
     "sustenabil", "sustainable", "economie de energie", "economii de energie", "energy savings", "neutru", "neutră",
     "neutra", "neutral", "climate neutral", "carbon neutral", "100%", "ecologic", "eco-friendly", "regenerabil",

@@ -57,8 +57,8 @@
   },
   "epc_suprafata_m2": {
     "valoare": 12000,
-    "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "sursa": "03_certificat_energetic.pdf, p.1",
+    "incredere": 0.97
   },
   "chiriasi": [
     {

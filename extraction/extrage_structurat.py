@@ -647,7 +647,13 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
 
     are_epc = any(d.get("tip_document") == "certificat_energetic" for d in documente_clasificate)
     val_epc_energie = valori_selectate.get("epc_energie_finala") or valori_selectate.get("energie_finala_kwh_m2")
-    val_epc_sup = valori_selectate.get("epc_suprafata_m2") or (valori_selectate.get("suprafata_m2") if are_epc else None)
+    # Suprafața din EPC vine din candidatul găsit în EPC, nu din valoarea aleasă pentru suprafata_m2 (de obicei cererea)
+    candidati_sup_epc = [c for c in campuri_finale_valide.get("suprafata_m2", []) if c["tip_document"] == "certificat_energetic"]
+    val_epc_sup = (
+        valori_selectate.get("epc_suprafata_m2")
+        or max(candidati_sup_epc, key=lambda c: c["incredere"], default=None)
+        or (valori_selectate.get("suprafata_m2") if are_epc else None)
+    )
 
     # Indicatori: câmpurile din cerinte_dosar.yaml, cu cheia exact ca acolo
     indicatori_dict: dict[str, Camp] = {}

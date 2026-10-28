@@ -266,12 +266,17 @@
       "incredere": 0.95
     },
     "afirmatii_client": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
+      "valoare": [
+        "Certificare declarată: BREEAM Very Good (Certificat nr. BREEAM-EXEMPLU-0004)",
+        "Performanță energetică declarată: Clasa A (Consum specific 98 kWh/m²/an)"
+      ],
+      "valoare_bruta": null,
+      "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1; CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.2",
+      "citat": "Certificare declarată: BREEAM Very Good (Certificat nr. BREEAM-EXEMPLU-0004); Performanță energetică declarată: Clasa A (Consum specific 98 kWh/m²/an)",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 1.0,
+      "metoda": "determinist_afirmatii"
     },
     "certificare_sistem": {
       "valoare": "BREEAM",

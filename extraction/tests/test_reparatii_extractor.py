@@ -7,7 +7,7 @@ import pytest
 
 from extraction import extrage_structurat
 from extraction.extrage_brut import determina_tip_din_nume
-from extraction.extragere_campuri import extrage_chiriasi_determinist
+from extraction.extragere_campuri import extrage_afirmatii_determinist, extrage_chiriasi_determinist
 from extraction.test_fixtures.verifica_fixtures import FOLDER as FOLDER_FIXTURES, verifica_fixture
 
 TEXT_CHIRIASI = (
@@ -26,6 +26,12 @@ TEXT_CERERE = (
     "Suma solicitată de la bancă: 1.000.000 EUR\n"
     "Descrierea proiectului: achiziție clădire de birouri certificată BREEAM\n"
     "Declar pe propria răspundere că datele sunt corecte. Data: 12.03.2026\n"
+)
+
+TEXT_DECLARATIE = (
+    "DECLARAȚIE PE PROPRIA RĂSPUNDERE\n"
+    "Subsemnatul declar că vehiculele/clădirea nu sunt folosite pentru combustibili fosili.\n"
+    "Data: 20.03.2026\n"
 )
 
 TEXT_CPE = (
@@ -153,17 +159,22 @@ def test_cpe_cu_nume_inselator_e_clasificat_din_continut(tmp_path, monkeypatch):
 
 
 # ----------------------------------------------------------------------------- data aprobării
-@pytest.mark.parametrize("valoare,citat", [
-    ("10.03.2026", "Data cererii: 10.03.2026"),
-    ("12.03.2026", "Data: 12.03.2026"),
+@pytest.mark.parametrize("valoare,citat,motiv", [
+    ("10.03.2026", "Data cererii: 10.03.2026", "citat_fara_cuvant_cheie"),
+    ("12.03.2026", "Data: 12.03.2026", "citat_fara_cuvant_cheie"),
+    # declarația separată nu e document țintă pentru data aprobării: citatul nu e în cerere
+    ("20.03.2026", "Data: 20.03.2026", "citat_negasit"),
 ])
-def test_data_cererii_sau_o_declaratie_datata_nu_dau_data_aprobare(tmp_path, monkeypatch, valoare, citat):
-    docs = [{"fisier": "cerere.pdf", "pagini": [{"pagina": 1, "text": TEXT_CERERE, "tabele": []}]}]
+def test_data_cererii_sau_o_declaratie_datata_nu_dau_data_aprobare(tmp_path, monkeypatch, valoare, citat, motiv):
+    docs = [
+        {"fisier": "cerere.pdf", "pagini": [{"pagina": 1, "text": TEXT_CERERE, "tabele": []}]},
+        {"fisier": "declaratie.pdf", "pagini": [{"pagina": 1, "text": TEXT_DECLARATIE, "tabele": []}]},
+    ]
     client = _ClientFals({"data_aprobare": {"valoare_text": valoare, "citat": citat, "pagina": 1, "incredere": 0.9}})
     extras, raport = _ruleaza(tmp_path, monkeypatch, docs, client)
     assert extras.data_aprobare.valoare is None
     assert "data_aprobare" in {c["camp"] for c in raport["campuri_lipsa"]}
-    assert any(r["camp"] == "data_aprobare" and r["motiv"] == "citat_fara_cuvant_cheie" for r in raport["valori_respinse"])
+    assert any(r["camp"] == "data_aprobare" and r["motiv"] == motiv for r in raport["valori_respinse"])
 
 
 def test_data_aprobarii_explicita_e_acceptata(tmp_path, monkeypatch):
@@ -226,3 +237,47 @@ def test_categoria_cade_pe_indicii_cand_llm_nu_da_candidati():
     assert rez["candidati"][0]["categorie"] == "green_buildings"
     assert rez["ambiguu"] and rez["candidati"][0]["incredere"] < 0.7
     assert stabileste_categoria([_doc("x.pdf", "alt_document", "")], _FaraRaspuns())["candidati"] == []
+
+
+def test_cpe_pdf_real_salvat_ca_scan_e_clasificat_din_continut(tmp_path, monkeypatch):
+    """Cap-coadă: PDF real -> _brut (tip_din_nume) -> clasificare din conținut."""
+    from extraction.extrage_brut import proceseaza_dosar
+    from extraction.test_fixtures.genereaza_fixtures import _cerere, _p, _pdf
+    folder = tmp_path / "dosar_pdf"
+    folder.mkdir()
+    _cerere(folder / "cerere.pdf", [["CUI", "9900000099"], ["Suma solicitată de la bancă", "1.000.000 EUR"]],
+            "Achiziție clădire de birouri certificată BREEAM", [])
+    _pdf(folder / "scan_0034.pdf", [_p(linie) for linie in TEXT_CPE.splitlines()])
+    proceseaza_dosar(folder)
+    index = json.loads((folder / "_brut" / "index.json").read_text(encoding="utf-8"))
+    assert {d["fisier"]: d["tip_din_nume"] for d in index["documente"]} == {
+        "cerere.pdf": "cerere_finantare", "scan_0034.pdf": None}
+    monkeypatch.setattr(extrage_structurat, "get_llm_client", lambda: _ClientFals())
+    _, raport = extrage_structurat.proceseaza_dosar_structurat(folder)
+    scan = next(d for d in raport["documente_clasificate"] if d["fisier"] == "scan_0034.pdf")
+    assert scan["tip_din_nume"] is None and scan["tip_din_continut"] == "certificat_energetic"
+
+
+# ----------------------------------------------------------------------------- afirmațiile din dosarele reale
+@pytest.fixture
+def info_afirmatii():
+    from extraction.cautare import incarca_catalog_campuri
+    return incarca_catalog_campuri()["afirmatii_client"]
+
+
+def test_afirmatii_sectiune_la_singular_peste_pagini_pana_la_semnatura(info_afirmatii):
+    doc = {"fisier": "cerere.pdf", "pagini": [
+        {"pagina": 1, "tabele": [], "text": (
+            "• Obiectiv: Dezvoltarea depozitului logistic verde \"Solar\nLogistics Center\"\n"
+            "DECLARAȚIE PRIVIND SUSTENABILITATEA\n"
+            "Certificare declarată: BREEAM Outstanding (Certificat nr. BREEAM-\nEXEMPLU-0003)")},
+        {"pagina": 2, "tabele": [], "text": (
+            "Performanță energetică declarată: Clasa A+ (Consum specific 72\nkWh/m²/an)\n"
+            "Semnătură autorizată: [Radu Popa]")},
+    ]}
+    afirmatii, sursa, _ = extrage_afirmatii_determinist([doc], info_afirmatii)
+    assert afirmatii == [
+        "Certificare declarată: BREEAM Outstanding (Certificat nr. BREEAM-EXEMPLU-0003)",
+        "Performanță energetică declarată: Clasa A+ (Consum specific 72 kWh/m²/an)",
+    ]
+    assert sursa == "cerere.pdf, p.1; cerere.pdf, p.2"

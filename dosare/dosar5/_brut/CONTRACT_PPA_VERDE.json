@@ -1,7 +1,6 @@
 {
   "fisier": "CONTRACT_PPA_VERDE.pdf",
   "dosar": "dosar5",
-  "tip_document": "contract_ppa",
   "nr_pagini": 1,
   "extras_la": "2026-10-28T23:30:16",
   "pagini": [
@@ -11,5 +10,6 @@
       "necesita_ocr": false,
       "tabele": []
     }
-  ]
+  ],
+  "tip_din_nume": "contract_ppa_verde"
 }

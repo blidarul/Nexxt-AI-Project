@@ -1,7 +1,6 @@
 {
   "fisier": "03_coc_ev_van.pdf",
   "dosar": "fx_transport_flota",
-  "tip_document": "certificat_energetic",
   "nr_pagini": 1,
   "extras_la": "2026-10-28T21:43:08",
   "pagini": [
@@ -41,5 +40,6 @@
         }
       ]
     }
-  ]
+  ],
+  "tip_din_nume": "certificat_energetic"
 }

@@ -430,11 +430,12 @@
     },
     "afirmatii_client": {
       "valoare": [
-        "Obiectiv: Dezvoltarea depozitului logistic verde \"Solar Logistics Center\""
+        "Certificare declarată: BREEAM Excellent (Certificat nr. BREEAM-EXEMPLU-0002)",
+        "Performanță energetică declarată: Clasa A (Consum specific 85 kWh/m²/an)"
       ],
       "valoare_bruta": null,
       "sursa": "CERERE_FINANTARE.pdf, p.1",
-      "citat": "Obiectiv: Dezvoltarea depozitului logistic verde \"Solar Logistics Center\"",
+      "citat": "Certificare declarată: BREEAM Excellent (Certificat nr. BREEAM-EXEMPLU-0002); Performanță energetică declarată: Clasa A (Consum specific 85 kWh/m²/an)",
       "citat_verificat": true,
       "treapta_cautare": 1,
       "incredere": 1.0,

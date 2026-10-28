@@ -171,6 +171,12 @@ def extrage_chiriasi_determinist(
 
 _BULLET = re.compile(r"^\s*[•\-\*–·▪]\s+")
 _TITLU_NUMEROTAT = re.compile(r"^\s*\d+[\.\)]\s+\S")
+# „Eticheta: valoare” (rând de formular), cu eticheta scurtă și fără punct
+_ETICHETA_FORMULAR = re.compile(r"^\s*[^\s:.][^:.]{1,50}:\s+\S")
+
+
+def curent_inchis(curent: Optional[str]) -> bool:
+    return curent is None or curent.rstrip().endswith(".")
 
 
 def _norm(text: str) -> str:
@@ -191,27 +197,31 @@ def extrage_afirmatii_determinist(
     Bullet-urile continuate pe rândul următor se unesc. Întoarce (afirmatii, sursa, citate).
     """
     titluri = [_norm(t) for t in info_camp.get("titluri_sectiune") or []]
+    sfarsit = [_norm(t) for t in info_camp.get("sfarsit_sectiune") or []]
     cuvinte = [_norm(c) for c in info_camp.get("cuvinte_afirmatii") or []]
     afirmatii: list[str] = []
     surse: list[str] = []
 
     def adauga(text: str, fisier: str, pagina: int, in_sectiune: bool) -> None:
         text = re.sub(r"\s+", " ", text).strip()
+        text = re.sub(r"-\s+(?=[A-Z0-9])", "-", text)  # cod despărțit la capăt de rând („BREEAM- EXEMPLU”)
         if len(text) < 8 or text in afirmatii:
             return
+        if not in_sectiune and _ETICHETA_FORMULAR.match(text):
+            return  # câmp de formular („Obiectiv: …”), nu o afirmație
         if in_sectiune or any(c in _norm(text) for c in cuvinte):
             afirmatii.append(text)
             surse.append(f"{fisier}, p.{pagina}")
 
     for doc in documente:
         fisier = doc.get("fisier", "")
+        in_sectiune = False  # secțiunea de declarații poate continua pe pagina următoare
         for pag in doc.get("pagini", []):
             nr = pag.get("pagina", 1)
             randuri_tabel = {
                 _norm(" ".join(str(c) for c in r)).strip()
                 for t in pag.get("tabele", []) for r in t.get("randuri", [])
             }
-            in_sectiune = False
             curent: Optional[str] = None
 
             def inchide_bullet() -> None:
@@ -230,18 +240,25 @@ def extrage_afirmatii_determinist(
                     inchide_bullet()
                     in_sectiune = este_titlu
                     continue
+                if in_sectiune and any(s in linie_norm for s in sfarsit):
+                    inchide_bullet()  # ex. „Semnătură autorizată: …” încheie declarațiile
+                    in_sectiune = False
+                    continue
                 if _BULLET.match(linie):
                     inchide_bullet()
                     curent = _BULLET.sub("", linie)
                     continue
-                if curent is not None and not curent.rstrip().endswith("."):
-                    curent += " " + linie.strip()  # bullet continuat pe rândul următor
+                # în secțiune, rândul continuă până la o nouă etichetă („Performanță declarată: …”),
+                # chiar dacă se termină cu o abreviere („Certificat nr.”); în afara ei, până la punct
+                continua = (not _ETICHETA_FORMULAR.match(linie)) if in_sectiune else not curent_inchis(curent)
+                if curent is not None and continua:
+                    curent += " " + linie.strip()  # rând continuat pe rândul următor
                     continue
                 inchide_bullet()
                 if linie_norm in randuri_tabel:
                     continue  # rând de formular (cheie | valoare), nu o afirmație
                 if in_sectiune:
-                    adauga(linie, fisier, nr, True)
+                    curent = linie.strip()  # în secțiune, fiecare rând e o afirmație care poate continua
                 elif linie.strip().endswith(".") and ":" not in linie and len(linie) <= 300:
                     # în afara secțiunii: doar rânduri care sunt fraze complete, nu câmpuri de formular
                     adauga(linie, fisier, nr, False)

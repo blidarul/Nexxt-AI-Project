@@ -1,7 +1,6 @@
 {
   "fisier": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf",
   "dosar": "dosar3",
-  "tip_document": "cerere_finantare",
   "nr_pagini": 2,
   "extras_la": "2026-10-28T23:30:15",
   "pagini": [
@@ -17,5 +16,6 @@
       "necesita_ocr": false,
       "tabele": []
     }
-  ]
+  ],
+  "tip_din_nume": "cerere_finantare"
 }

@@ -1,7 +1,6 @@
 {
   "fisier": "RAPORT_ETANSEITATE_AER.pdf",
   "dosar": "dosar4",
-  "tip_document": "raport_etanseitate_aer",
   "nr_pagini": 1,
   "extras_la": "2026-10-28T23:30:16",
   "pagini": [
@@ -11,5 +10,6 @@
       "necesita_ocr": false,
       "tabele": []
     }
-  ]
+  ],
+  "tip_din_nume": "raport_etanseitate"
 }

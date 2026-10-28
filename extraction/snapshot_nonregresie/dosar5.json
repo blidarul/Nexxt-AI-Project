@@ -57,8 +57,8 @@
   },
   "epc_suprafata_m2": {
     "valoare": 40000,
-    "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",
-    "incredere": 0.95
+    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "incredere": 0.97
   },
   "chiriasi": [
     {
@@ -72,7 +72,10 @@
       "m2": 13200.0
     }
   ],
-  "afirmatii_client": [],
+  "afirmatii_client": [
+    "Certificare declarată: BREEAM Excellent (Certificat nr. BREEAM-EXEMPLU-0005)",
+    "Performanță energetică declarată: Clasa A (Consum specific 90 kWh/m²/an)"
+  ],
   "categorie": {
     "valoare": "green_buildings",
     "sursa": "CERERE DE FINANȚARE - PERSOANĂ JURIDICĂ (CREDIT STANDARD)1.pdf, p.1",

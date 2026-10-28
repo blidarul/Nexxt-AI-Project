@@ -1,7 +1,6 @@
 {
   "fisier": "RAPORT_LCA.pdf",
   "dosar": "dosar3",
-  "tip_document": "raport_lca",
   "nr_pagini": 2,
   "extras_la": "2026-10-28T23:30:15",
   "pagini": [
@@ -17,5 +16,6 @@
       "necesita_ocr": false,
       "tabele": []
     }
-  ]
+  ],
+  "tip_din_nume": "analiza_ciclu_viata"
 }

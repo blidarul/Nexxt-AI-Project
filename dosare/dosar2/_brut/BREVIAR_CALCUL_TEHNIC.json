@@ -1,7 +1,6 @@
 {
   "fisier": "BREVIAR_CALCUL_TEHNIC.pdf",
   "dosar": "dosar2",
-  "tip_document": "breviar_tehnic",
   "nr_pagini": 2,
   "extras_la": "2026-10-28T22:17:59",
   "pagini": [
@@ -17,5 +16,6 @@
       "necesita_ocr": false,
       "tabele": []
     }
-  ]
+  ],
+  "tip_din_nume": "nota_tehnica"
 }
