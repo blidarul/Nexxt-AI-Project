@@ -90,10 +90,22 @@ def _extrage(folder: str) -> DosarExtras:
 # ---------------------------------------------------------------------------
 
 def _creeaza_stare(folder: str, extras: DosarExtras) -> StareDosar:
-    """Construiește StareDosar din DosarExtras."""
+    """Construiește StareDosar din DosarExtras și încarcă raport_extractie.json dacă există."""
+    cale = Path(folder)
+    raport_extractie: dict[str, Any] = {}
+    fisier_raport = cale / "raport_extractie.json"
+    if fisier_raport.exists():
+        try:
+            import json
+            with open(fisier_raport, "r", encoding="utf-8") as f:
+                raport_extractie = json.load(f) or {}
+        except Exception as exc:
+            logger.warning("Nu s-a putut citi raport_extractie.json din %s: %s", cale, exc)
+
     return StareDosar(
         dosar_folder=folder,
         extras=extras,
+        raport_extractie=raport_extractie,
     )
 
 
@@ -168,10 +180,26 @@ def _executa_bucla(stare: StareDosar) -> None:
         stare.rezultate_tools[decizie.nume] = rezultat
         ultim_rezultat = rezultat
 
+        sumar_rezultat = ""
+        if rezultat.eroare:
+            sumar_rezultat = f"Eroare: {rezultat.eroare}"
+        elif rezultat.date:
+            if "rezultate" in rezultat.date:
+                sumar_rezultat = str(rezultat.date["rezultate"])
+            elif "rezultat_tco2_an" in rezultat.date:
+                sumar_rezultat = f"Impact: {rezultat.date['rezultat_tco2_an']} tCO2/an"
+            elif "cale_id" in rezultat.date:
+                sumar_rezultat = f"{rezultat.date['cale_id']}: {rezultat.date.get('rezultat')}"
+            elif "verificari" in rezultat.date:
+                sumar_rezultat = f"Verificări plauzibilitate: {rezultat.date.get('nr_semnale', 0)} semnale"
+            else:
+                sumar_rezultat = ", ".join(f"{k}={v}" for k, v in list(rezultat.date.items())[:3])
+
         intrare_trace["rezultat"] = {
             "tool": rezultat.tool,
             "gasit": rezultat.gasit,
             "eroare": rezultat.eroare,
+            "sumar": sumar_rezultat,
         }
         stare.trace.append(intrare_trace)
 

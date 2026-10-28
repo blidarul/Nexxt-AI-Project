@@ -1,0 +1,7 @@
+{
+  "dosar": "caz_transport_flota_eligibil",
+  "descriere": "Flotă curierat mixtă (10 EV + 5 PHEV), marcată verde în 2025 sub 50 gCO2/km (grandfathering)",
+  "verdict": "ELIGIBIL",
+  "cale_eligibilitate": "CT-03",
+  "impact_tco2_an": 19.7
+}

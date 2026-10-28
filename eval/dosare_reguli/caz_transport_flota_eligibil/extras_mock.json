@@ -1,0 +1,30 @@
+{
+  "dosar_id": "caz_transport_flota_eligibil",
+  "categorie": {"valoare": "clean_transportation", "sursa": "01_cerere_finantare.pdf, p.1", "incredere": 0.95},
+  "subcategorie": {"valoare": "autoturism_sau_utilitara", "sursa": "01_cerere_finantare.pdf, p.1", "incredere": 0.95},
+  "cui": {"valoare": "9900000088", "sursa": "01_cerere_finantare.pdf, p.1", "incredere": 0.98},
+  "tara": {"valoare": "România", "sursa": "01_cerere_finantare.pdf, p.1", "incredere": 0.98},
+  "data_aprobare": {"valoare": "2025-11-20", "sursa": "02_decizie_aprobare.pdf, p.1", "incredere": 0.98},
+  "data_marcare_verde": {"valoare": "2025-12-05", "sursa": "02_decizie_aprobare.pdf, p.2", "incredere": 0.95},
+  "suma_eur": {"valoare": 450000, "sursa": "05_contract_credit.pdf, p.1", "incredere": 0.98},
+  "cota_banca": {"valoare": 1.0, "sursa": "05_contract_credit.pdf, p.1", "incredere": 0.98},
+  "adresa_cladire": {"valoare": null, "sursa": ""},
+  "suprafata_m2": {"valoare": null, "sursa": ""},
+  "stadiu_cladire": {"valoare": null, "sursa": ""},
+  "nr_certificat_declarat": {"valoare": null, "sursa": ""},
+  "afirmatii_client": ["Flota noastră este 100% cu emisii zero."],
+  "indicatori": {
+    "descriere_proiect": {"valoare": "Achiziție flotă 15 vehicule (10 EV + 5 PHEV) curierat", "sursa": "01_cerere.pdf"},
+    "transporta_combustibili_fosili": {"valoare": false, "sursa": "CT-D3_declaratie_utilizare.pdf, p.1", "incredere": 0.95},
+    "vehicule": {
+      "valoare": [
+        {"marca": "Exemplu", "model": "EV-Van", "combustibil": "electric", "bucati": 10,
+         "emisii_wltp_gco2_km": 0, "consum_kwh_km": 0.16, "distanta_anuala_km": 17746, "data_marcare_verde": "2025-12-05"},
+        {"marca": "Exemplu", "model": "PHEV-Van", "combustibil": "hibrid plug-in", "bucati": 5,
+         "emisii_wltp_gco2_km": 45, "consum_kwh_km": 0.05, "distanta_anuala_km": 17746, "data_marcare_verde": "2025-12-05"}
+      ],
+      "sursa": "CT-D1_lista_vehicule.pdf, p.1-2; CT-D2_CoC_*.pdf",
+      "incredere": 0.9
+    }
+  }
+}

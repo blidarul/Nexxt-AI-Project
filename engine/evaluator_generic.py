@@ -254,6 +254,19 @@ def obtine_valoare_camp(
             caen = res_anaf.date.get("date_generale", {}).get("cod_CAEN") or res_anaf.date.get("cod_CAEN") or res_anaf.date.get("caen")
             if caen:
                 return str(caen).strip(), "ANAF API (verifica_firma)"
+        if stare.dosar_folder:
+            cale_anaf = Path(stare.dosar_folder) / "05_raspuns_anaf.json"
+            if cale_anaf.exists():
+                try:
+                    with open(cale_anaf, "r", encoding="utf-8") as f:
+                        d_anaf = json.load(f)
+                    found = d_anaf.get("found", [])
+                    if found:
+                        c_val = found[0].get("date_generale", {}).get("cod_CAEN")
+                        if c_val:
+                            return str(c_val).strip(), "05_raspuns_anaf.json"
+                except Exception:
+                    pass
 
     # Fallback pentru subcategorie/tehnologie/tip_proiect/tip_masura
     if camp_nume in ("tip", "tehnologie", "tip_proiect", "tip_masura", "subcategorie"):
@@ -273,6 +286,21 @@ def obtine_valoare_camp(
                 return res_cert.date.get("stage") or res_cert.date.get("stadiu"), "registru BREEAM (cauta_certificat)"
             if sub == "sistem":
                 return res_cert.date.get("sistem") or "BREEAM", "registru certificare"
+        if stare.dosar_folder:
+            cale_breeam = Path(stare.dosar_folder) / "02_registru_breeam.json"
+            if cale_breeam.exists():
+                try:
+                    with open(cale_breeam, "r", encoding="utf-8") as f:
+                        d_breeam = json.load(f)
+                    sub = camp_nume.replace("certificare_", "")
+                    if sub in ("nivel", "rating"):
+                        return d_breeam.get("rating"), "02_registru_breeam.json"
+                    if sub in ("stadiu", "stage"):
+                        return d_breeam.get("stage") or d_breeam.get("stadiu"), "02_registru_breeam.json"
+                    if sub == "sistem":
+                        return d_breeam.get("sistem") or "BREEAM", "02_registru_breeam.json"
+                except Exception:
+                    pass
 
     # 5. Câmpuri calculate
     derivate = calculeaza_campuri_derivate(stare)
@@ -400,6 +428,7 @@ def evalueaza_regula(
     nume = regula.get("nume", regula_id)
     sursa_fw = regula.get("sursa", "RBI Framework")
     tip = regula.get("tip")
+    camp = regula.get("camp")
     daca_lipseste: RezultatTip = regula.get("daca_lipseste", "NEEVALUABIL")
 
     # Deducere tip dacă nu este specificat explicit în sub-condiții
@@ -428,10 +457,20 @@ def evalueaza_regula(
 
     # 3. Caz monitorizare
     if tip == "monitorizare":
+        val_stadiu, _ = obtine_valoare_camp(stare, camp or "certificare_stadiu", context_item)
+        val_stadiu_str = str(val_stadiu or "").lower()
+        stadiu_clad = str(getattr(stare.extras, "stadiu_cladire", None) and stare.extras.stadiu_cladire.valoare or "").lower()
+        if "final" in val_stadiu_str or ("final" in stadiu_clad and not "interim" in val_stadiu_str):
+            return RezultatRegula(
+                regula_id=regula_id,
+                rezultat="OK",
+                dovada=f"{nume}: certificare/stadiu final confirmat ({val_stadiu or stadiu_clad})",
+                sursa_framework=sursa_fw,
+            )
         return RezultatRegula(
             regula_id=regula_id,
             rezultat="OK_CONDITIONAT",
-            dovada=f"{nume}: necesită monitorizare periodică",
+            dovada=f"{nume}: necesită monitorizare periodică (stadiu: {val_stadiu or 'în derulare'})",
             sursa_framework=sursa_fw,
         )
 
