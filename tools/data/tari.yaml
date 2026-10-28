@@ -1,0 +1,44 @@
+# Țările din Anexa B a Framework-ului (lista vine din rules/conditii_generale.yaml, G-01.in_lista).
+# Aici doar corespondența: numele din reguli (RO) -> cod ISO3 și numele din Our World in Data (EN),
+# plus alte denumiri acceptate la căutare (RO/EN, cu sau fără diacritice).
+# Testul tools/tests/test_tools_noi.py verifică faptul că fiecare țară din reguli are o intrare aici.
+
+tari:
+  Austria: {iso3: AUT, en: Austria}
+  Belgia: {iso3: BEL, en: Belgium}
+  Bulgaria: {iso3: BGR, en: Bulgaria}
+  Croatia: {iso3: HRV, en: Croatia, alias: ["Croația"]}
+  Cipru: {iso3: CYP, en: Cyprus}
+  Cehia: {iso3: CZE, en: Czechia, alias: ["Republica Cehă", "Czech Republic"]}
+  Danemarca: {iso3: DNK, en: Denmark}
+  Estonia: {iso3: EST, en: Estonia}
+  Finlanda: {iso3: FIN, en: Finland}
+  Franta: {iso3: FRA, en: France, alias: ["Franța"]}
+  Germania: {iso3: DEU, en: Germany}
+  Grecia: {iso3: GRC, en: Greece}
+  Ungaria: {iso3: HUN, en: Hungary}
+  Irlanda: {iso3: IRL, en: Ireland}
+  Italia: {iso3: ITA, en: Italy}
+  Letonia: {iso3: LVA, en: Latvia}
+  Lituania: {iso3: LTU, en: Lithuania}
+  Luxemburg: {iso3: LUX, en: Luxembourg}
+  Malta: {iso3: MLT, en: Malta}
+  Olanda: {iso3: NLD, en: Netherlands, alias: ["Țările de Jos", "Tarile de Jos", "Holland"]}
+  Polonia: {iso3: POL, en: Poland}
+  Portugalia: {iso3: PRT, en: Portugal}
+  Romania: {iso3: ROU, en: Romania, alias: ["România"]}
+  Slovacia: {iso3: SVK, en: Slovakia}
+  Slovenia: {iso3: SVN, en: Slovenia}
+  Spania: {iso3: ESP, en: Spain}
+  Suedia: {iso3: SWE, en: Sweden}
+  Albania: {iso3: ALB, en: Albania}
+  Bosnia si Hertegovina: {iso3: BIH, en: Bosnia and Herzegovina, alias: ["Bosnia și Herțegovina", "Bosnia"]}
+  Kosovo: {iso3: OWID_KOS, en: Kosovo}
+  Serbia: {iso3: SRB, en: Serbia}
+  Ucraina: {iso3: UKR, en: Ukraine}
+  China: {iso3: CHN, en: China}
+  India: {iso3: IND, en: India}
+  Japonia: {iso3: JPN, en: Japan}
+  Regatul Unit: {iso3: GBR, en: United Kingdom, alias: ["Marea Britanie", "UK", "Great Britain"]}
+  Statele Unite: {iso3: USA, en: United States, alias: ["Statele Unite ale Americii", "SUA", "USA", "United States of America"]}
+  Brazilia: {iso3: BRA, en: Brazil}

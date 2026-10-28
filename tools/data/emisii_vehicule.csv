@@ -1,0 +1,6 @@
+marca,model,combustibil,emisii_wltp_gco2_km,an_date,nr_inmatriculari,sursa
+Exemplu,EV-Van,electric,0,2025,,SINTETIC: fixture fx_transport_flota (CoC sintetic)
+Exemplu,PHEV-Van,hibrid plug-in,45,2025,,SINTETIC: fixture fx_transport_flota (CoC sintetic)
+Exemplu,City-EV,electric,0,2025,,SINTETIC: fixture fx_scanat (CoC sintetic)
+Exemplu,Cargo-PHEV,hibrid plug-in,48,2025,,SINTETIC: fixture fx_scanat (CoC sintetic)
+Exemplu,Urban-EV,electric,0,2025,,SINTETIC: fixture fx_incomplet (vehicul electric: 0 g/km WLTP la eșapament)
