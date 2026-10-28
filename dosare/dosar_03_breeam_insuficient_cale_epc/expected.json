@@ -1,0 +1,40 @@
+{
+  "dosar": "dosar_03_breeam_insuficient_cale_epc",
+  "descriere": "BREEAM doar 'Very Good' (pica GB-01), dar EPC clasa A (trece pe GB-03).",
+  "verdict": "ELIGIBIL",
+  "cale_eligibilitate": "GB-03 (EPC clasa A), dupa ce GB-01 a picat",
+  "reguli": [
+    {
+      "id": "GB-01",
+      "rezultat": "NU",
+      "dovada": "BREEAM 'Very Good' < pragul 'Excellent'"
+    },
+    {
+      "id": "GB-02",
+      "rezultat": "NEEVALUABIL",
+      "dovada": "Nu avem date nationale pentru top 15%"
+    },
+    {
+      "id": "GB-03",
+      "rezultat": "OK",
+      "dovada": "EPC clasa A, cod CPE-EXEMPLU-0002"
+    }
+  ],
+  "comportament_asteptat_agent": "Un pipeline simplu s-ar opri la GB-01 cu 'neeligibil'. Agentul trebuie sa observe ca regulile sunt legate prin SAU si sa incerce GB-02, apoi GB-03.",
+  "consistenta": [
+    "Client declara doar 'BREEAM', fara nivel -> agentul il afla din registru"
+  ],
+  "impact": {
+    "formula": "(baseline - energie_finala) x suprafata x cota_banca x factor_emisie",
+    "sursa": "Allocation & Impact Report 2025, p. 22",
+    "pasi": [
+      "1. Diferenta consum: 297 - 80 = 217 kWh/m2/an",
+      "2. x suprafata: 217 x 12000 = 2,604,000 kWh/an",
+      "3. x cota banca: 2,604,000 x 0.5 = 1,302,000 kWh/an",
+      "4. x factor emisie: 1,302,000 x 0.25 = 325,500 kgCO2/an"
+    ],
+    "rezultat_tco2_an": 325.5,
+    "atentie": "Factorul de emisie e valoare EXEMPLU (vezi reference/factori_referinta.yaml)."
+  },
+  "actiuni": []
+}

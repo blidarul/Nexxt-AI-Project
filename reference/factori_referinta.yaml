@@ -1,0 +1,32 @@
+# Date de referinta pentru calculul de impact (CO2)
+# Formula RBI (Allocation & Impact Report 2025, p. 22):
+#   CO2 economisit = (Baseline - Energie finala) x Factor emisie x Suprafata x Cota RBI
+# (RBI scrie "Final Energy Demand - Baseline"; noi luam diferenta inversa ca sa iasa pozitiv.)
+
+baseline_consum_kwh_m2_an:
+  valoare: 297
+  tip: PROXY
+  sursa: >
+    Allocation & Impact Report 2025, p. 18: "Weighted average energy consumption of baseline
+    portfolio = 297 kWh/m2 per year". E o medie ponderata pe tot portofoliul RBI (mai multe tari),
+    nu baseline-ul national al Romaniei. RBI foloseste Enerdata/Odyssee (platit).
+  de_imbunatatit: "Inlocuieste cu baseline national pentru Romania daca gasiti o sursa publica."
+
+factor_emisie_kgco2_kwh:
+  valoare: 0.25
+  tip: EXEMPLU - INLOCUIESTE
+  sursa: >
+    Valoare pusa doar ca exemplu. Inlocuiti-o cu intensitatea carbon a electricitatii din Romania,
+    ultimul an disponibil, din Ember / Our World in Data (gCO2e/kWh / 1000 = kgCO2/kWh).
+  atentie: >
+    Factorul de electricitate e o aproximare: cladirile consuma si gaz pentru incalzire.
+    Spuneti asta explicit in demo.
+
+verificare_plauzibilitate:
+  medie_tco2_per_cladire_nerezidentiala: 642     # raport p. 18
+  medie_tco2_per_mil_eur: 37                     # raport p. 18
+  regula: "Daca un dosar da de peste 3 ori media per mil. EUR, agentul semnaleaza pentru verificare."
+
+cladiri_in_constructie:
+  regula: "Pentru cladirile in faza de constructie nu se calculeaza economia de CO2"
+  sursa: "Allocation & Impact Report 2025, p. 18"

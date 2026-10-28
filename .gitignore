@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Secrete: NICIODATA in git
+.env
+
+# Cache local generat de tools
+tools/cache/*
+!tools/cache/.gitkeep
+
+# Sistem / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

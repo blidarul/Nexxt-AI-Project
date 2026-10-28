@@ -1,0 +1,19 @@
+{
+  "_nota": "SINTETIC. Structura simplificata - verificati numele reale ale campurilor in documentatia ANAF: static.anaf.ro/static/10/Anaf/Informatii_R/Servicii_web/doc_WS_V9.txt",
+  "found": [
+    {
+      "date_generale": {
+        "cui": 9900000070,
+        "denumire": "LACUL OFFICE TOWER SRL",
+        "adresa": "București, Sector 1, Str. Exemplului nr. 20",
+        "nrRegCom": "J40/0001/2024",
+        "cod_CAEN": "6820",
+        "stare_inregistrare": "INREGISTRAT"
+      },
+      "stare_inactiv": {
+        "statusInactivi": false
+      }
+    }
+  ],
+  "notFound": []
+}

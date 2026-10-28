@@ -1,0 +1,52 @@
+{
+  "dosar": "dosar_01_complet_eligibil",
+  "descriere": "Dosarul de referinta: totul e in regula.",
+  "verdict": "ELIGIBIL",
+  "cale_eligibilitate": "GB-01 (certificare BREEAM Excellent, Final)",
+  "reguli": [
+    {
+      "id": "G-01",
+      "rezultat": "OK",
+      "dovada": "Tara: Romania (Anexa B)"
+    },
+    {
+      "id": "G-02",
+      "rezultat": "OK",
+      "dovada": "CAEN imprumutat 6820 - imobiliare, nu e sector exclus"
+    },
+    {
+      "id": "G-04",
+      "rezultat": "OK",
+      "dovada": "Aprobat 2026-03-15, in fereastra de 24 luni"
+    },
+    {
+      "id": "GB-01",
+      "rezultat": "OK",
+      "dovada": "Registru BREEAM: Excellent, Final, nr. certificat identic cu cel declarat"
+    },
+    {
+      "id": "GB-X1",
+      "rezultat": "OK",
+      "dovada": "Niciun chirias cu CAEN din lista de semnal"
+    }
+  ],
+  "consistenta": [
+    "Suprafata din cerere (20.000) = suprafata din EPC (20.000)",
+    "Adresa din cerere = adresa din EPC; orasul din BREEAM = Bucuresti",
+    "Afirmatia '60% sub medie': (297-95)/297 = 68% -> afirmatie sustinuta de EPC"
+  ],
+  "impact": {
+    "formula": "(baseline - energie_finala) x suprafata x cota_banca x factor_emisie",
+    "sursa": "Allocation & Impact Report 2025, p. 22",
+    "pasi": [
+      "1. Diferenta consum: 297 - 95 = 202 kWh/m2/an",
+      "2. x suprafata: 202 x 20000 = 4,040,000 kWh/an",
+      "3. x cota banca: 4,040,000 x 0.6 = 2,424,000 kWh/an",
+      "4. x factor emisie: 2,424,000 x 0.25 = 606,000 kgCO2/an"
+    ],
+    "rezultat_tco2_an": 606.0,
+    "atentie": "Factorul de emisie e valoare EXEMPLU (vezi reference/factori_referinta.yaml)."
+  },
+  "verificare_plauzibilitate": "18 mil. EUR (cota banca) x 37 tCO2/mil. EUR = ~666 t; calculat 606.0 t -> plauzibil",
+  "actiuni": []
+}

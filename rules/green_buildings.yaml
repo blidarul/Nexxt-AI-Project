@@ -1,0 +1,72 @@
+# Reguli pentru categoria "Green Buildings"
+# Sursa: RBI Sustainability Bond Framework (Aug-2025), pagina 7-8 + Anexele A si B (p. 25-26)
+# Regulile sunt scrise cu cuvintele noastre, cu referinta la pagina, ca auditorul sa poata verifica.
+
+categorie: green_buildings
+sursa: "RBI Sustainability Bond Framework, Aug-2025"
+
+# --- Conditii generale (se aplica oricarui dosar) ---------------------------
+conditii_generale:
+  - id: G-01
+    descriere: "Proiectul este intr-o tara eligibila pentru utilizare verde"
+    sursa: "Anexa B, p. 26"
+    tari_eligibile: [Austria, Belgia, Bulgaria, Croatia, Cipru, Cehia, Danemarca, Estonia,
+                     Finlanda, Franta, Germania, Grecia, Ungaria, Irlanda, Italia, Letonia,
+                     Lituania, Luxemburg, Malta, Olanda, Polonia, Portugalia, Romania,
+                     Slovacia, Slovenia, Spania, Suedia,
+                     Albania, Bosnia si Hertegovina, Kosovo, Serbia, Ucraina,
+                     China, India, Japonia, Regatul Unit, Statele Unite, Brazilia]
+  - id: G-02
+    descriere: "Imprumutatul nu are activitatea principala intr-un sector exclus"
+    sursa: "Anexa A, p. 25"
+    sectoare_excluse: [aparare_si_arme, energie_nucleara, energie_fosila, minerit,
+                       alcool, tutun, jocuri_de_noroc]
+  - id: G-03
+    descriere: "Creditul a trecut prin procesul standard de credit (KYC, conformitate, risc)"
+    sursa: "p. 19"
+  - id: G-04
+    descriere: "Creditul a fost acordat in cele 24 de luni dinaintea deciziei de alocare"
+    sursa: "p. 6"
+    max_luni: 24
+
+# --- Cai de eligibilitate pentru cladiri (ajunge UNA) -----------------------
+# Framework p. 7: "Buildings which meet at least one of the following criteria"
+cai_eligibilitate:
+  - id: GB-01
+    nume: "Certificare internationala"
+    sursa: "p. 7 + nota 8 + nota 9"
+    praguri_minime:
+      LEED: Gold
+      BREEAM: Excellent
+      DGNB: Gold
+      OGNI: Gold
+      EDGE: Basic        # EDGE Basic doar cu economie de energie de minim 30% (nota 9)
+    ordinea_ratingurilor:
+      BREEAM: [Pass, Good, Very Good, Excellent, Outstanding]
+      LEED: [Certified, Silver, Gold, Platinum]
+    accepta_stadiu: [aplicat, pre-certificat, interim, final]   # "at least applied or pre-certified"
+    nota_monitorizare: >
+      Daca certificarea finala e refuzata sau insuficienta, creditul iese din portofoliu (nota 8).
+      Deci un certificat Interim e eligibil, dar trebuie marcat pentru monitorizare.
+  - id: GB-02
+    nume: "Top 15% cladiri cu emisii mici la nivel national"
+    sursa: "p. 7"
+    nota: "Necesita date nationale de referinta. Daca nu se poate evalua, se trece la GB-03."
+  - id: GB-03
+    nume: "Certificat energetic (EPC) minim clasa A"
+    sursa: "p. 7"
+    clasa_minima: A
+  - id: GB-04
+    nume: "Energie primara cu minim 10% sub pragul NZEB national"
+    sursa: "p. 7"
+    reducere_minima_fata_de_nzeb: 0.10
+
+# --- Excluderi specifice cladirilor ----------------------------------------
+excluderi:
+  - id: GB-X1
+    descriere: "Cladiri folosite pentru extractia sau fabricarea combustibililor fosili"
+    sursa: "p. 7, nota 6"
+    coduri_caen_semnal: ["0510", "0520", "0610", "0620", "0910", "1910", "1920"]
+    nota: >
+      Regula nu spune ce se intampla cand doar o parte a cladirii e ocupata de un astfel de chirias.
+      Acesta e un caz de judecata -> agentul NU decide singur, escaladeaza la comitet (SBC).
