@@ -1,0 +1,13 @@
+{
+  "categorie": "energy_efficiency",
+  "subcategorie": "data_center",
+  "campuri": {
+    "cui": "9900000099",
+    "tara": "România",
+    "suma_eur": 8000000,
+    "cota_banca": 0.8,
+    "indicatori.tip_proiect": "data_center",
+    "indicatori.pue_anualizat": 1.38
+  },
+  "liste": {}
+}

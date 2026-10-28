@@ -1,0 +1,49 @@
+{
+  "fisier": "01_cerere_finantare.pdf",
+  "dosar": "fx_transport_flota",
+  "tip_document": "cerere_finantare",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:11:24",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nCERERE DE FINANȚARE – PERSOANE JURIDICE\nSolicitant Exemplu Curierat Urban SRL\nCUI 9900000088\nȚara România\nAdresa sediului social Cluj-Napoca, Str. Fictivă nr. 7\nSuma solicitată de la bancă 450.000 EUR\nStructura finanțării Banca 100% (450.000 EUR)\nDurata 5 ani\nDescrierea proiectului\nAchiziția unei flote de 15 autoutilitare ușoare (categoria N1) pentru livrarea urbană de colete: 10\nautoutilitare electrice și 5 autoutilitare hibride plug-in. Lista vehiculelor este în anexa flotă.\nDeclarații ale solicitantului privind sustenabilitatea\n• Flota noastră este 100% cu emisii zero.",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Solicitant",
+              "Exemplu Curierat Urban SRL"
+            ],
+            [
+              "CUI",
+              "9900000088"
+            ],
+            [
+              "Țara",
+              "România"
+            ],
+            [
+              "Adresa sediului social",
+              "Cluj-Napoca, Str. Fictivă nr. 7"
+            ],
+            [
+              "Suma solicitată de la bancă",
+              "450.000 EUR"
+            ],
+            [
+              "Structura finanțării",
+              "Banca 100% (450.000 EUR)"
+            ],
+            [
+              "Durata",
+              "5 ani"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

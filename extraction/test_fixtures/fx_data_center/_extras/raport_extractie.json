@@ -1,0 +1,275 @@
+{
+  "dosar_id": "fx_data_center",
+  "categorie_candidati": [
+    {
+      "categorie": "energy_efficiency",
+      "subcategorie": "data_center",
+      "tip_nivel_3": null,
+      "incredere": 0.99,
+      "citat": "Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
+      "citat_verificat": true,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "camp_subcategorie": "tip_proiect",
+      "camp_nivel_3": null
+    }
+  ],
+  "categorie_ambigua": false,
+  "indicii_categorie": [
+    {
+      "categorie": "energy_efficiency",
+      "subcategorie": "data_center",
+      "forta": "puternic",
+      "fisier": "02_raport_pue.pdf",
+      "tip_document": "raport_pue"
+    }
+  ],
+  "documente_clasificate": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_detectat": "cerere_finantare",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o cerere de credit / finanțare depusă la bancă de solicitant (date firmă, suma solicitată, descrierea proiectului)",
+      "id_cerinte": [
+        "D-01"
+      ]
+    },
+    {
+      "fisier": "02_raport_pue.pdf",
+      "tip_detectat": "raport_pue",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține un raport de eficiență energetică al unui centru de date, cu valoare PUE anualizată și măsurători conform EN 50600-4-2.",
+      "id_cerinte": [
+        "EE-D3"
+      ]
+    }
+  ],
+  "campuri_selectate": [
+    "cui",
+    "tara",
+    "aprobat_proces_standard",
+    "data_aprobare",
+    "data_marcare_verde",
+    "suma_eur",
+    "cota_banca",
+    "categorie",
+    "subcategorie",
+    "descriere_proiect",
+    "afirmatii_client",
+    "tip_proiect",
+    "consum_inainte_mwh",
+    "consum_dupa_mwh",
+    "tehnologie_bat",
+    "industrie_beneficiar",
+    "echipament_combustibil_fosil",
+    "pue_anualizat"
+  ],
+  "campuri_extrase": {
+    "cui": {
+      "valoare": "9900000099",
+      "valoare_bruta": "9900000099",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "CUI 9900000099",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "tara": {
+      "valoare": "România",
+      "valoare_bruta": "România",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Țara România",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.97
+    },
+    "aprobat_proces_standard": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_aprobare": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_marcare_verde": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "suma_eur": {
+      "valoare": 8000000,
+      "valoare_bruta": "8.000.000 EUR",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suma solicitată de la bancă 8.000.000 EUR",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "cota_banca": {
+      "valoare": 0.8,
+      "valoare_bruta": "0.8",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Banca 80% (8.000.000 EUR), aport propriu 20%",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.96
+    },
+    "descriere_proiect": {
+      "valoare": "Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
+      "valoare_bruta": "Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Descrierea proiectului Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.94
+    },
+    "afirmatii_client": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "consum_inainte_mwh": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "consum_dupa_mwh": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "tehnologie_bat": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "industrie_beneficiar": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "echipament_combustibil_fosil": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "pue_anualizat": {
+      "valoare": 1.38,
+      "valoare_bruta": "1,38",
+      "sursa": "02_raport_pue.pdf, p.1",
+      "citat": "Annualised PUE 1,38",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    }
+  },
+  "campuri_lipsa": [
+    {
+      "camp": "aprobat_proces_standard",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-03"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "data_aprobare",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-04"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "consum_inainte_mwh",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "EE-D1"
+      ],
+      "pentru": [
+        "EE-01",
+        "impact"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "consum_dupa_mwh",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "EE-D2"
+      ],
+      "pentru": [
+        "EE-01",
+        "impact"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "industrie_beneficiar",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-03"
+      ],
+      "pentru": [
+        "EE-X1"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "echipament_combustibil_fosil",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "EE-D3"
+      ],
+      "pentru": [
+        "EE-X1"
+      ],
+      "obligatoriu": true
+    }
+  ],
+  "conflicte": [],
+  "conversii_unitati": [],
+  "valori_respinse": [],
+  "statistici_llm": {
+    "apeluri_reale": 0,
+    "apeluri_cache": 53,
+    "apeluri_offline": 0,
+    "total_apeluri": 53
+  }
+}

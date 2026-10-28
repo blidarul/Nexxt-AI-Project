@@ -1,0 +1,39 @@
+{
+  "categorie": "clean_transportation",
+  "subcategorie": "autoturism_sau_utilitara",
+  "campuri": {
+    "cui": "9900000088",
+    "tara": "România",
+    "suma_eur": 450000,
+    "cota_banca": 1.0,
+    "indicatori.tip": "autoturism_sau_utilitara",
+    "indicatori.transporta_combustibili_fosili": false
+  },
+  "liste": {
+    "indicatori.vehicule": {
+      "cheie": [
+        "marca",
+        "model"
+      ],
+      "randuri": [
+        {
+          "marca": "Exemplu",
+          "model": "EV-Van",
+          "bucati": 10,
+          "emisii_wltp_gco2_km": 0,
+          "consum_kwh_km": 0.16,
+          "distanta_anuala_km": 17746
+        },
+        {
+          "marca": "Exemplu",
+          "model": "PHEV-Van",
+          "bucati": 5,
+          "emisii_wltp_gco2_km": 45,
+          "consum_kwh_km": 0.05,
+          "distanta_anuala_km": 17746
+        }
+      ]
+    }
+  },
+  "_note": "PHEV-Van: lista spune 48 g/km, CoC 45 g/km -> câștigă CoC, conflict în raport."
+}

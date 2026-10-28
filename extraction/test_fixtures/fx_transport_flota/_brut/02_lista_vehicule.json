@@ -1,0 +1,83 @@
+{
+  "fisier": "02_lista_vehicule.pdf",
+  "dosar": "fx_transport_flota",
+  "tip_document": "necunoscut",
+  "nr_pagini": 2,
+  "extras_la": "2026-10-28T21:11:25",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nANEXA FLOTĂ – Lista vehiculelor finanțate\nBeneficiar: Exemplu Curierat Urban SRL, CUI 9900000088. Un rând pe lot de livrare.\nNr. crt. Marca Model Combustibil Nr. buc. CO2 WLTP Consum (kWh/100 Km/an\n(g/km) km)\n1 Exemplu EV-Van electric 6 0 16,0 17.746\n2 Exemplu PHEV-Van hibrid plug-in 3 48 5,0 17.746",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Nr. crt.",
+              "Marca",
+              "Model",
+              "Combustibil",
+              "Nr. buc.",
+              "CO2 WLTP (g/km)",
+              "Consum (kWh/100 km)",
+              "Km/an"
+            ],
+            [
+              "1",
+              "Exemplu",
+              "EV-Van",
+              "electric",
+              "6",
+              "0",
+              "16,0",
+              "17.746"
+            ],
+            [
+              "2",
+              "Exemplu",
+              "PHEV-Van",
+              "hibrid plug-in",
+              "3",
+              "48",
+              "5,0",
+              "17.746"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "pagina": 2,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\n3 Exemplu EV-Van electric 4 0 16,0 17.746\n4 Exemplu PHEV-Van hibrid plug-in 2 48 5,0 17.746\nTotal vehicule finanțate: 15.",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "3",
+              "Exemplu",
+              "EV-Van",
+              "electric",
+              "4",
+              "0",
+              "16,0",
+              "17.746"
+            ],
+            [
+              "4",
+              "Exemplu",
+              "PHEV-Van",
+              "hibrid plug-in",
+              "2",
+              "48",
+              "5,0",
+              "17.746"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
