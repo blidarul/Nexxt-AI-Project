@@ -212,3 +212,17 @@ def test_valoarea_convertita_de_llm_se_aliniaza_cu_citatul():
     assert aliniaza_valoare_cu_citatul("capacitate_mw", "4.8", "Putere instalată 4.800 kW") == "4.800 kW"
     assert aliniaza_valoare_cu_citatul("capacitate_mw", "4.800 kW", "Putere instalată 4.800 kW") == "4.800 kW"
     assert aliniaza_valoare_cu_citatul("pue_anualizat", "1,38", "annualised PUE: 1,38") == "1,38"
+
+
+def test_categoria_cade_pe_indicii_cand_llm_nu_da_candidati():
+    from extraction.categorie import stabileste_categoria
+
+    class _FaraRaspuns:
+        def apeleaza_cu_json(self, mesaje, **kwargs):
+            return None, "fără răspuns"
+
+    rez = stabileste_categoria([_doc("BREEAM.pdf", "certificat_sustenabilitate", ""),
+                                _doc("EPC.pdf", "certificat_energetic", "")], _FaraRaspuns())
+    assert rez["candidati"][0]["categorie"] == "green_buildings"
+    assert rez["ambiguu"] and rez["candidati"][0]["incredere"] < 0.7
+    assert stabileste_categoria([_doc("x.pdf", "alt_document", "")], _FaraRaspuns())["candidati"] == []

@@ -16,6 +16,9 @@ TIP_CERERE = "cerere_finantare"
 # Un al doilea candidat cu cel puțin această încredere (și citat verificat) face proiectul mixt
 PRAG_CANDIDAT_SECUNDAR = 0.5
 
+# Categoria dedusă doar din indicii slabe (fără LLM): sub prag, ca să rămână ambiguă
+INCREDERE_DOAR_INDICII = 0.5
+
 
 def indicii_deterministe(documente_clasificate: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Indiciile de categorie date de documentele găsite.
@@ -191,6 +194,25 @@ def stabileste_categoria(
                 existent["subcategorie"] = ind["subcategorie"]
     if candidati and puternice and candidati[0]["categorie"] not in {i["categorie"] for i in puternice}:
         candidati[0]["incredere"] = min(candidati[0]["incredere"], prag - 0.05)
+
+    # Niciun candidat (LLM fără răspuns valid, documente fără text): rămân indiciile slabe,
+    # cu încredere sub prag, deci categoria iese ambiguă și se verifică
+    if not candidati:
+        slabe = [i for i in indicii if i["categorie"] in categorii]
+        frecventa: dict[str, int] = {}
+        for ind in slabe:
+            frecventa[ind["categorie"]] = frecventa.get(ind["categorie"], 0) + 1
+        for cat in sorted(frecventa, key=frecventa.get, reverse=True):
+            ind = next(i for i in slabe if i["categorie"] == cat)
+            candidati.append({
+                "categorie": cat,
+                "subcategorie": next((i["subcategorie"] for i in slabe if i["categorie"] == cat and i.get("subcategorie")), None),
+                "tip_nivel_3": None,
+                "incredere": INCREDERE_DOAR_INDICII,
+                "citat": "",
+                "citat_verificat": False,
+                "sursa": f"{ind['fisier']} (tip {ind['tip_document']})",
+            })
 
     candidati.sort(key=lambda c: c["incredere"], reverse=True)
     for c in candidati:
