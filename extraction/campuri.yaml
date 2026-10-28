@@ -325,6 +325,7 @@ afirmatii_client:
   extras_din_document: true
   sursa_valoare: document
 aprobat_proces_standard:
+  descriere: "Creditul a fost aprobat prin procesul standard de creditare al băncii (da/nu)"
   tip: "da_nu"
   documente_probabile: ["D-02"]
   cuvinte_cheie:
@@ -338,6 +339,7 @@ aprobat_proces_standard:
   extras_din_document: true
   sursa_valoare: document
 data_marcare_verde:
+  descriere: "Data la care creditul a fost marcat ca verde (YYYY-MM-DD)"
   tip: "data"
   documente_probabile: ["D-02"]
   cuvinte_cheie:
@@ -351,6 +353,7 @@ data_marcare_verde:
   extras_din_document: true
   sursa_valoare: document
 descriere_proiect:
+  descriere: "Descrierea proiectului finanțat, așa cum apare în cererea de finanțare (scopul finanțării)"
   tip: "text"
   documente_probabile: ["D-01"]
   cuvinte_cheie:
@@ -365,6 +368,7 @@ descriere_proiect:
   extras_din_document: true
   sursa_valoare: document
 categorie:
+  descriere: "Categoria proiectului conform RBI Sustainability Bond Framework (stabilită separat)"
   tip: "categorie"
   documente_probabile: ["D-01"]
   cuvinte_cheie:
@@ -377,6 +381,7 @@ categorie:
   extras_din_document: true
   sursa_valoare: document
 subcategorie:
+  descriere: "Subcategoria proiectului (stabilită separat)"
   tip: "text"
   documente_probabile: ["D-01"]
   cuvinte_cheie:
@@ -391,6 +396,7 @@ subcategorie:
   extras_din_document: true
   sursa_valoare: document
 certificare_sistem:
+  descriere: "Sistemul de certificare a sustenabilității clădirii (BREEAM, LEED, DGNB, OGNI, EDGE)"
   tip: "text"
   documente_probabile: ["GB-D1"]
   cuvinte_cheie:
@@ -406,6 +412,7 @@ certificare_sistem:
   extras_din_document: true
   sursa_valoare: document
 certificare_nivel:
+  descriere: "Nivelul obținut în certificare (ex. Excellent, Very Good, Gold, Platinum)"
   tip: "text"
   documente_probabile: ["GB-D1"]
   cuvinte_cheie:
@@ -422,6 +429,7 @@ certificare_nivel:
   extras_din_document: true
   sursa_valoare: document
 certificare_stadiu:
+  descriere: "Stadiul certificării: finală / post-construcție sau interimară / de proiectare (design stage)"
   tip: "text"
   documente_probabile: ["GB-D1"]
   cuvinte_cheie:
@@ -437,6 +445,7 @@ certificare_stadiu:
   extras_din_document: true
   sursa_valoare: document
 ped_kwh_m2:
+  descriere: "Energia primară (PED) a clădirii din certificatul energetic, în kWh/m²·an"
   tip: "numar"
   unit: "kWh/m²/an"
   documente_probabile: ["GB-D2"]
@@ -452,6 +461,7 @@ ped_kwh_m2:
   extras_din_document: true
   sursa_valoare: document
 energie_finala_kwh_m2:
+  descriere: "Consumul anual specific de energie finală al clădirii, în kWh/m²·an"
   tip: "numar"
   unit: "kWh/m²/an"
   documente_probabile: ["GB-D2", "GB-D5"]
@@ -469,6 +479,7 @@ energie_finala_kwh_m2:
   extras_din_document: true
   sursa_valoare: document
 ped_inainte_kwh_m2:
+  descriere: "Energia primară (PED) a clădirii ÎNAINTE de renovare, în kWh/m²·an"
   tip: "numar"
   unit: "kWh/m²/an"
   documente_probabile: ["GB-D6"]
@@ -482,6 +493,7 @@ ped_inainte_kwh_m2:
   extras_din_document: true
   sursa_valoare: document
 ped_dupa_kwh_m2:
+  descriere: "Energia primară (PED) a clădirii DUPĂ renovare (realizată sau estimată), în kWh/m²·an"
   tip: "numar"
   unit: "kWh/m²/an"
   documente_probabile: ["GB-D7"]
@@ -495,6 +507,7 @@ ped_dupa_kwh_m2:
   extras_din_document: true
   sursa_valoare: document
 reducere_emisii_pct:
+  descriere: "Reducerea procentuală a emisiilor de CO2 după renovare (%)"
   tip: "procent"
   documente_probabile: ["GB-D7"]
   cuvinte_cheie:
@@ -507,6 +520,7 @@ reducere_emisii_pct:
   extras_din_document: true
   sursa_valoare: document
 ani_pana_la_reducere:
+  descriere: "Numărul de ani în care se atinge reducerea de energie/emisii după renovare"
   tip: "numar"
   documente_probabile: ["GB-D7"]
   cuvinte_cheie:
@@ -518,6 +532,7 @@ ani_pana_la_reducere:
   extras_din_document: true
   sursa_valoare: document
 pondere_suma_pentru_renovare:
+  descriere: "Ponderea din suma finanțată alocată lucrărilor de renovare energetică (%)"
   tip: "procent"
   documente_probabile: ["GB-D8"]
   cuvinte_cheie:
@@ -529,6 +544,7 @@ pondere_suma_pentru_renovare:
   extras_din_document: true
   sursa_valoare: document
 tip_masura:
+  descriere: "Tipul măsurii individuale (ex. pompă de căldură, stație de încărcare, stocare energie)"
   tip: "text"
   documente_probabile: ["GB-D9"]
   cuvinte_cheie:
@@ -544,6 +560,7 @@ tip_masura:
   extras_din_document: true
   sursa_valoare: document
 gwp_agent_frigorific:
+  descriere: "Potențialul de încălzire globală (GWP) al agentului frigorific al pompei de căldură"
   tip: "numar"
   documente_probabile: ["GB-D9"]
   cuvinte_cheie:
@@ -557,6 +574,7 @@ gwp_agent_frigorific:
   extras_din_document: true
   sursa_valoare: document
 sistem_management_agent_frigorific:
+  descriere: "Există un sistem de management / detecție a scurgerilor de agent frigorific (da/nu)"
   tip: "da_nu"
   documente_probabile: ["GB-D9"]
   cuvinte_cheie:
@@ -569,6 +587,7 @@ sistem_management_agent_frigorific:
   extras_din_document: true
   sursa_valoare: document
 statie_in_cladire:
+  descriere: "Stația de încărcare EV este amplasată în clădire / parcarea clădirii (da/nu)"
   tip: "da_nu"
   documente_probabile: ["GB-D9"]
   cuvinte_cheie:
@@ -581,6 +600,7 @@ statie_in_cladire:
   extras_din_document: true
   sursa_valoare: document
 integrat_cu_regenerabile:
+  descriere: "Echipamentul este integrat cu o sursă de energie regenerabilă (da/nu)"
   tip: "da_nu"
   documente_probabile: ["GB-D9", "RE-D1", "EE-D3"]
   cuvinte_cheie:
@@ -595,6 +615,7 @@ integrat_cu_regenerabile:
   extras_din_document: true
   sursa_valoare: document
 deserveste_sistem_fosil:
+  descriere: "Echipamentul (ex. recuperatorul de căldură) deservește un sistem pe combustibil fosil (da/nu)"
   tip: "da_nu"
   documente_probabile: ["GB-D9"]
   cuvinte_cheie:
@@ -609,6 +630,7 @@ deserveste_sistem_fosil:
   extras_din_document: true
   sursa_valoare: document
 tehnologie:
+  descriere: "Tehnologia de producere a energiei regenerabile (ex. eolian, fotovoltaic, hidro, biomasă)"
   tip: "text"
   documente_probabile: ["RE-D1"]
   cuvinte_cheie:
@@ -631,6 +653,7 @@ tehnologie:
   extras_din_document: true
   sursa_valoare: document
 capacitate_mw:
+  descriere: "Capacitatea / puterea instalată a centralei, în MW (convertește din kW sau GW)"
   tip: "numar"
   unit: "MW"
   documente_probabile: ["RE-D1", "RE-D2"]
@@ -648,6 +671,7 @@ capacitate_mw:
   extras_din_document: true
   sursa_valoare: document
 productie_anuala_mwh:
+  descriere: "Producția anuală de energie (reală sau estimată), în MWh/an"
   tip: "numar"
   unit: "MWh/an"
   documente_probabile: ["RE-D3"]
@@ -664,6 +688,7 @@ productie_anuala_mwh:
   extras_din_document: true
   sursa_valoare: document
 an_punere_functiune:
+  descriere: "Anul punerii în funcțiune a centralei"
   tip: "text"
   documente_probabile: ["RE-D2"]
   cuvinte_cheie:
@@ -677,6 +702,7 @@ an_punere_functiune:
   extras_din_document: true
   sursa_valoare: document
 fir_de_apa_fara_rezervor:
+  descriere: "Centrala hidro funcționează pe firul apei, fără lac de acumulare (da/nu)"
   tip: "da_nu"
   documente_probabile: ["RE-D1"]
   cuvinte_cheie:
@@ -690,6 +716,7 @@ fir_de_apa_fara_rezervor:
   extras_din_document: true
   sursa_valoare: document
 densitate_putere_w_m2:
+  descriere: "Densitatea de putere a centralei hidro (putere instalată / suprafața lacului), în W/m²"
   tip: "numar"
   unit: "W/m²"
   documente_probabile: ["RE-D1"]
@@ -704,6 +731,7 @@ densitate_putere_w_m2:
   extras_din_document: true
   sursa_valoare: document
 emisii_directe_gco2e_kwh:
+  descriere: "Emisiile directe pe ciclu de viață ale centralei hidro, în gCO2e/kWh"
   tip: "numar"
   unit: "gCO2e/kWh"
   documente_probabile: ["RE-D1", "RE-D5"]
@@ -717,6 +745,7 @@ emisii_directe_gco2e_kwh:
   extras_din_document: true
   sursa_valoare: document
 eia_risc_semnificativ:
+  descriere: "Studiul de impact asupra mediului (EIA) a identificat un risc semnificativ (da/nu)"
   tip: "da_nu"
   documente_probabile: ["RE-D4"]
   cuvinte_cheie:
@@ -730,6 +759,7 @@ eia_risc_semnificativ:
   extras_din_document: true
   sursa_valoare: document
 pondere_electricitate_solara:
+  descriere: "Ponderea electricității produse din energie solară în centrala CSP (%)"
   tip: "procent"
   documente_probabile: ["RE-D1"]
   cuvinte_cheie:
@@ -742,6 +772,7 @@ pondere_electricitate_solara:
   extras_din_document: true
   sursa_valoare: document
 emisii_ciclu_viata_gco2_kwh:
+  descriere: "Emisiile pe ciclu de viață (LCA), în gCO2e/kWh"
   tip: "numar"
   unit: "gCO2/kWh"
   documente_probabile: ["RE-D5"]
@@ -755,6 +786,7 @@ emisii_ciclu_viata_gco2_kwh:
   extras_din_document: true
   sursa_valoare: document
 materie_prima:
+  descriere: "Materia primă folosită de centrala pe biomasă / deșeuri"
   tip: "text"
   documente_probabile: ["RE-D6"]
   cuvinte_cheie:
@@ -768,6 +800,7 @@ materie_prima:
   extras_din_document: true
   sursa_valoare: document
 metoda_productie:
+  descriere: "Metoda de producție a hidrogenului (ex. electroliză)"
   tip: "text"
   documente_probabile: ["RE-D1"]
   cuvinte_cheie:
@@ -781,6 +814,7 @@ metoda_productie:
   extras_din_document: true
   sursa_valoare: document
 pondere_regenerabil_sau_reziduala:
+  descriere: "Ponderea energiei regenerabile sau a căldurii reziduale în termoficare (%)"
   tip: "procent"
   documente_probabile: ["RE-D1"]
   cuvinte_cheie:
@@ -795,6 +829,7 @@ pondere_regenerabil_sau_reziduala:
   extras_din_document: true
   sursa_valoare: document
 tip_proiect:
+  descriere: "Tipul proiectului de eficiență energetică (stabilit separat)"
   tip: "text"
   documente_probabile: ["D-01"]
   cuvinte_cheie:
@@ -810,6 +845,7 @@ tip_proiect:
   extras_din_document: true
   sursa_valoare: document
 consum_inainte_mwh:
+  descriere: "Consumul de energie ÎNAINTE de investiție, în MWh/an"
   tip: "numar"
   unit: "MWh/an"
   documente_probabile: ["EE-D1"]
@@ -824,6 +860,7 @@ consum_inainte_mwh:
   extras_din_document: true
   sursa_valoare: document
 consum_dupa_mwh:
+  descriere: "Consumul de energie DUPĂ investiție (măsurat sau estimat), în MWh/an"
   tip: "numar"
   unit: "MWh/an"
   documente_probabile: ["EE-D2"]
@@ -838,6 +875,7 @@ consum_dupa_mwh:
   extras_din_document: true
   sursa_valoare: document
 tehnologie_bat:
+  descriere: "Echipamentul folosește cea mai bună tehnologie disponibilă (BAT) (da/nu)"
   tip: "da_nu"
   documente_probabile: ["EE-D3"]
   cuvinte_cheie:
@@ -851,6 +889,7 @@ tehnologie_bat:
   extras_din_document: true
   sursa_valoare: document
 industrie_beneficiar:
+  descriere: "Industria / domeniul de activitate al beneficiarului (ex. din certificatul constatator)"
   tip: "text"
   documente_probabile: ["D-03"]
   cuvinte_cheie:
@@ -865,6 +904,7 @@ industrie_beneficiar:
   extras_din_document: true
   sursa_valoare: document
 echipament_combustibil_fosil:
+  descriere: "Echipamentul finanțat funcționează pe combustibil fosil (da/nu)"
   tip: "da_nu"
   documente_probabile: ["EE-D3"]
   cuvinte_cheie:
@@ -878,6 +918,7 @@ echipament_combustibil_fosil:
   extras_din_document: true
   sursa_valoare: document
 pue_anualizat:
+  descriere: "PUE anualizat (Power Usage Effectiveness) al centrului de date, număr ≥ 1 (ex. 1,38)"
   tip: "numar"
   documente_probabile: ["EE-D3"]
   cuvinte_cheie:
@@ -895,6 +936,7 @@ pue_anualizat:
   extras_din_document: true
   sursa_valoare: document
 nr_gospodarii_conectate:
+  descriere: "Numărul de gospodării conectate la rețeaua de fibră optică"
   tip: "numar"
   documente_probabile: ["EE-D2"]
   cuvinte_cheie:
@@ -907,6 +949,7 @@ nr_gospodarii_conectate:
   extras_din_document: true
   sursa_valoare: document
 nr_contoare:
+  descriere: "Numărul de contoare inteligente instalate"
   tip: "numar"
   documente_probabile: ["EE-D2"]
   cuvinte_cheie:
@@ -921,6 +964,7 @@ nr_contoare:
   extras_din_document: true
   sursa_valoare: document
 tip:
+  descriere: "Tipul proiectului în categoria sa (stabilit separat)"
   tip: "text"
   documente_probabile: ["D-01", "CT-D1"]
   cuvinte_cheie:
@@ -938,6 +982,7 @@ tip:
   extras_din_document: true
   sursa_valoare: document
 vehicule:
+  descriere: "Lista vehiculelor finanțate, câte un rând pe model"
   tip: "lista"
   documente_probabile: ["CT-D1", "CT-D2"]
   cuvinte_cheie:
@@ -951,28 +996,38 @@ vehicule:
   - "emission"
   - "consum"
   obligatoriu: false
+  # Sinonimele de antet se compară fără diacritice și fără majuscule. Sinonimele scurte (<= 4 caractere)
+  # se potrivesc doar ca cuvânt întreg. tip: text | numar | intreg | data. Unitatea din antet
+  # (ex. "kWh/100 km", "g/mi") se aplică valorilor din coloană.
   coloane:
-  - {cheie: marca, sinonime: ["marca", "brand", "manufacturer", "fabricant"]}
-  - {cheie: model, sinonime: ["model", "model auto", "vehicle model"]}
-  - {cheie: combustibil, sinonime: ["combustibil", "fuel type", "propulsie", "propulsion",
-      "fuel", "energie"]}
-  - {cheie: bucati, sinonime: ["bucati", "nr. buc.", "cantitate", "quantity", "units",
-      "nr."]}
-  - {cheie: emisii_wltp_gco2_km, sinonime: ["emisii wltp", "co2 wltp", "gco2/km",
-      "g/km", "co2 emissions", "emissions wltp"]}
-  - {cheie: consum_kwh_km, sinonime: ["consum electric", "consum kwh/km", "kwh/km",
-      "energy consumption", "consum energie"]}
-  - {cheie: distanta_anuala_km, sinonime: ["distanta anuala", "km/an", "annual mileage",
-      "km per year", "annual distance"]}
-  - {cheie: vin, sinonime: ["vin", "nr. inmatriculare", "serial number", "chassis
-        number", "vehicle id"]}
-  - {cheie: data_marcare_verde, sinonime: ["data marcare", "marking date", "data eligibilitate",
-      "green date"]}
-  - {cheie: utilizare, sinonime: ["utilizare", "use", "destinatie", "purpose", "application"]}
+  - {cheie: marca, tip: text, sinonime: ["marca", "marcă", "make", "brand", "manufacturer", "fabricant", "producator", "producător"]}
+  - {cheie: model, tip: text, sinonime: ["model", "model auto", "vehicle model", "tip vehicul"]}
+  - {cheie: combustibil, tip: text, sinonime: ["combustibil", "fuel type", "propulsie", "propulsion",
+      "fuel", "tip combustibil", "motorizare"]}
+  - {cheie: bucati, tip: intreg, sinonime: ["bucati", "bucăți", "buc.", "buc", "nr. buc.", "nr. bucati", "nr. bucăți",
+      "cantitate", "quantity", "qty", "units", "numar vehicule", "număr vehicule"]}
+  - {cheie: emisii_wltp_gco2_km, tip: numar, sinonime: ["emisii wltp", "co2 wltp", "emisii co2", "co2",
+      "gco2/km", "g co2/km", "g/km", "g/mi", "co2 emissions", "emissions wltp"]}
+  - {cheie: consum_kwh_km, tip: numar, sinonime: ["consum electric", "consum kwh/km", "consum", "kwh/km",
+      "kwh/100 km", "kwh/100km", "wh/km", "energy consumption", "consum energie"]}
+  - {cheie: distanta_anuala_km, tip: numar, sinonime: ["distanta anuala", "distanță anuală", "km/an",
+      "km / an", "annual mileage", "km per year", "annual distance", "rulaj anual"]}
+  - {cheie: vin, tip: text, sinonime: ["vin", "serie sasiu", "serie șasiu", "nr. inmatriculare", "nr. înmatriculare",
+      "serial number", "chassis number", "vehicle id"]}
+  - {cheie: data_marcare_verde, tip: data, sinonime: ["data marcare", "data marcării", "marking date",
+      "data eligibilitate", "green date"]}
+  - {cheie: utilizare, tip: text, sinonime: ["utilizare", "use", "destinatie", "destinație", "purpose", "application"]}
+  # Cheia unui model: rândurile cu aceleași valori aici se agregă (bucati se adună)
+  cheie_agregare: [marca, model, combustibil]
+  coloana_cantitate: bucati
+  # Valorile din documentul sursă de autoritate câștigă la conflict (CoC față de listă)
+  document_autoritate: certificat_conformitate_vehicul
+  coloane_autoritate: [emisii_wltp_gco2_km, consum_kwh_km]
 
   extras_din_document: true
   sursa_valoare: document
 transporta_combustibili_fosili:
+  descriere: "Vehiculele finanțate transportă combustibili fosili (da/nu)"
   tip: "da_nu"
   documente_probabile: ["CT-D3"]
   cuvinte_cheie:
@@ -986,6 +1041,7 @@ transporta_combustibili_fosili:
   extras_din_document: true
   sursa_valoare: document
 emisii_gco2e_pkm:
+  descriere: "Emisiile vehiculului pe pasager-km, în gCO2e/pkm"
   tip: "numar"
   unit: "gCO2e/pasager-km"
   documente_probabile: ["CT-D2"]
@@ -999,6 +1055,7 @@ emisii_gco2e_pkm:
   extras_din_document: true
   sursa_valoare: document
 emisii_gco2_tkm:
+  descriere: "Emisiile vehiculului pe tonă-km, în gCO2/tkm"
   tip: "numar"
   unit: "gCO2/tona-km"
   documente_probabile: ["CT-D2"]
@@ -1012,6 +1069,7 @@ emisii_gco2_tkm:
   extras_din_document: true
   sursa_valoare: document
 tip_infrastructura:
+  descriere: "Tipul infrastructurii de transport finanțate (ex. stații de încărcare, cale ferată)"
   tip: "text"
   documente_probabile: ["D-01"]
   cuvinte_cheie:
@@ -1027,6 +1085,7 @@ tip_infrastructura:
   extras_din_document: true
   sursa_valoare: document
 reciclare_chimica_plastic:
+  descriere: "Proiectul include reciclarea chimică a plasticului (da/nu)"
   tip: "da_nu"
   documente_probabile: ["PP-D1"]
   cuvinte_cheie:
@@ -1038,6 +1097,7 @@ reciclare_chimica_plastic:
   extras_din_document: true
   sursa_valoare: document
 segregare_la_sursa:
+  descriere: "Deșeurile sunt colectate separat, la sursă (da/nu)"
   tip: "da_nu"
   documente_probabile: ["PP-D1"]
   cuvinte_cheie:
@@ -1050,6 +1110,7 @@ segregare_la_sursa:
   extras_din_document: true
   sursa_valoare: document
 propulsie_vehicule_colectare:
+  descriere: "Propulsia vehiculelor de colectare a deșeurilor (ex. electric, hibrid, diesel)"
   tip: "text"
   documente_probabile: ["PP-D1"]
   cuvinte_cheie:
@@ -1064,6 +1125,7 @@ propulsie_vehicule_colectare:
   extras_din_document: true
   sursa_valoare: document
 eficienta_captare_pct:
+  descriere: "Eficiența de captare a gazului de depozit (%)"
   tip: "procent"
   documente_probabile: ["PP-D1"]
   cuvinte_cheie:
@@ -1077,6 +1139,7 @@ eficienta_captare_pct:
   extras_din_document: true
   sursa_valoare: document
 tone_deseuri_reciclate_an:
+  descriere: "Cantitatea de deșeuri reciclate, în tone/an"
   tip: "numar"
   unit: "t/an"
   documente_probabile: ["PP-D1"]
@@ -1093,6 +1156,7 @@ tone_deseuri_reciclate_an:
   extras_din_document: true
   sursa_valoare: document
 pondere_aluminiu_reciclat:
+  descriere: "Ponderea aluminiului reciclat în produs (%)"
   tip: "procent"
   documente_probabile: ["CE-D2"]
   cuvinte_cheie:
@@ -1106,6 +1170,7 @@ pondere_aluminiu_reciclat:
   extras_din_document: true
   sursa_valoare: document
 intensitate_carbon_aluminiu_primar_tco2e_t:
+  descriere: "Intensitatea de carbon a aluminiului primar folosit, în tCO2e/t"
   tip: "numar"
   unit: "tCO2e/t"
   documente_probabile: ["CE-D2"]
@@ -1119,6 +1184,7 @@ intensitate_carbon_aluminiu_primar_tco2e_t:
   extras_din_document: true
   sursa_valoare: document
 foloseste_plastic_virgin:
+  descriere: "Produsul / procesul folosește plastic virgin (da/nu)"
   tip: "da_nu"
   documente_probabile: ["CE-D1"]
   cuvinte_cheie:
@@ -1131,6 +1197,7 @@ foloseste_plastic_virgin:
   extras_din_document: true
   sursa_valoare: document
 economie_materie_prima_tone_an:
+  descriere: "Economia de materie primă, în tone/an"
   tip: "numar"
   unit: "t/an"
   documente_probabile: ["CE-D1"]

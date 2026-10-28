@@ -5,13 +5,13 @@
       "fisier": "01_cerere_finantare.pdf",
       "tip_detectat": "cerere_finantare",
       "incredere": 0.98,
-      "motiv": "Documentul conține antetul și datele unei cereri de finanțare persoane juridice."
+      "motiv": "Documentul conține o cerere de credit de investiții pentru construcția unui imobil, cu toate datele solicitantului, suma, durata, scopul finanțării și documente anexate, fiind clar un exemplu de cerere de finanțare depusă la bancă."
     },
     {
       "fisier": "04_contract_inchiriere_extras.pdf",
       "tip_detectat": "contract_inchiriere",
-      "incredere": 0.98,
-      "motiv": "Extras contracte de închiriere și situația chiriașilor în vigoare."
+      "incredere": 0.95,
+      "motiv": "Documentul conține informații despre contracte de închiriere în vigoare, chiriași, suprafețe închiriate și clauze contractuale, chiar dacă este un extras și menționează că clădirea este în construcție fără contracte semnate."
     }
   ],
   "campuri_extrase": {
@@ -34,12 +34,13 @@
       "incredere": 0.95
     },
     "cota_banca": {
-      "valoare": null,
-      "sursa": "",
-      "citat": null,
-      "citat_verificat": false,
-      "treapta_cautare": null,
-      "incredere": 0.0
+      "valoare": 1.0,
+      "valoare_bruta": "1.0",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Structura finanțării Banca 100% (40.000.000 EUR)",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.97
     },
     "data_aprobare": {
       "valoare": "2026-03-15",
@@ -48,25 +49,25 @@
       "citat": "Data aprobării creditului (procesul standard de credit): 2026-03-15",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.99
     },
     "tara": {
       "valoare": "România",
       "valoare_bruta": "România",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Țara România",
+      "citat": "România",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.99
+      "incredere": 0.98
     },
     "adresa_cladire": {
-      "valoare": "IBucurești, Sector 1, Str. Exemplului nr. 20",
-      "valoare_bruta": "IBucurești, Sector 1, Str. Exemplului nr. 20",
+      "valoare": "București, Sector 1, Str. Exemplului nr. 20",
+      "valoare_bruta": "București, Sector 1, Str. Exemplului nr. 20",
       "sursa": "01_cerere_finantare.pdf, p.1",
       "citat": "Adresă IBucurești, Sector 1, Str. Exemplului nr. 20",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.97
     },
     "suprafata_m2": {
       "valoare": 25000,
@@ -75,11 +76,11 @@
       "citat": "Suprafață utilă (declarată) 25.000 m²",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.95
+      "incredere": 0.96
     },
     "stadiu_cladire": {
-      "valoare": "În construcție, finalizare estimată 2027",
-      "valoare_bruta": "În construcție, finalizare estimată 2027",
+      "valoare": "În construcție",
+      "valoare_bruta": "În construcție",
       "sursa": "01_cerere_finantare.pdf, p.1",
       "citat": "Stadiu În construcție, finalizare estimată 2027",
       "citat_verificat": true,
@@ -93,7 +94,7 @@
       "citat": "Număr certificat de sustenabilitate comunicat: BREEAM-EXEMPLU-0003",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 0.98
+      "incredere": 0.99
     },
     "epc_clasa": {
       "valoare": null,
@@ -104,15 +105,13 @@
       "incredere": 0.0
     },
     "afirmatii_client": {
-      "valoare": [
-        "Clădirea va avea certificare BREEAM Excellent."
-      ],
-      "valoare_bruta": null,
+      "valoare": "Clădirea va avea certificare BREEAM Excellent.",
+      "valoare_bruta": "Clădirea va avea certificare BREEAM Excellent.",
       "sursa": "01_cerere_finantare.pdf, p.1",
-      "citat": "Declarații ale solicitantului privind sustenabilitatea",
+      "citat": "• Clădirea va avea certificare BREEAM Excellent.",
       "citat_verificat": true,
       "treapta_cautare": 1,
-      "incredere": 1.0
+      "incredere": 0.98
     },
     "aprobat_proces_standard": {
       "valoare": null,
@@ -579,14 +578,13 @@
       "incredere": 0.0
     }
   },
-  "campuri_lipsa": [
-    "cota_banca"
-  ],
+  "campuri_lipsa": [],
   "conflicte": [],
   "valori_respinse": [],
   "statistici_llm": {
-    "apeluri_reale": 0,
-    "apeluri_cache": 22,
-    "total_apeluri": 22
+    "apeluri_reale": 16,
+    "apeluri_cache": 2,
+    "apeluri_offline": 0,
+    "total_apeluri": 18
   }
 }

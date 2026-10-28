@@ -11,47 +11,45 @@
     "incredere": 0.95
   },
   "cota_banca": {
-    "valoare": null,
-    "sursa": "",
-    "incredere": 0.0
+    "valoare": 1.0,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.97
   },
   "data_aprobare": {
     "valoare": "2026-03-15",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.98
+    "incredere": 0.99
   },
   "tara": {
     "valoare": "România",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.99
+    "incredere": 0.98
   },
   "adresa_cladire": {
-    "valoare": "IBucurești, Sector 1, Str. Exemplului nr. 20",
+    "valoare": "București, Sector 1, Str. Exemplului nr. 20",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.97
   },
   "suprafata_m2": {
     "valoare": 25000,
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.96
   },
   "stadiu_cladire": {
-    "valoare": "În construcție, finalizare estimată 2027",
+    "valoare": "În construcție",
     "sursa": "01_cerere_finantare.pdf, p.1",
     "incredere": 0.95
   },
   "nr_certificat_declarat": {
     "valoare": "BREEAM-EXEMPLU-0003",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.98
+    "incredere": 0.99
   },
   "epc_clasa": null,
   "epc_energie_finala": null,
   "epc_suprafata_m2": null,
   "chiriasi": [],
-  "afirmatii_client": [
-    "Clădirea va avea certificare BREEAM Excellent."
-  ],
+  "afirmatii_client": [],
   "categorie": null,
   "subcategorie": null,
   "indicatori": {}

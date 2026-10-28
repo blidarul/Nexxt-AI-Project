@@ -32,7 +32,8 @@ class LLMClient:
 
     def __init__(self, cache_dir: Optional[Path] = None) -> None:
         self.base_url = os.getenv("LLM_BASE_URL", "https://api.featherless.ai/v1")
-        self.api_key = os.getenv("LLM_API_KEY", "")
+        # .env.example are ambele chei; LLM_BASE_URL implicit e Featherless.
+        self.api_key = os.getenv("LLM_API_KEY", "") or os.getenv("FEATHERLESS_API_KEY", "")
         self.model_text = os.getenv("LLM_MODEL_TEXT", "Qwen/Qwen3-32B")
         self.model_vision = os.getenv("LLM_MODEL_VISION", "google/gemma-3-27b-it")
 
@@ -42,6 +43,10 @@ class LLMClient:
             self.max_paralele = 1
 
         self.semaphore = threading.Semaphore(self.max_paralele)
+
+        # Simulatorul offline (regex) e DOAR pentru teste și trebuie cerut explicit.
+        # Nu citește și nu scrie niciodată în cache, ca să nu otrăvească răspunsurile reale.
+        self.offline = os.getenv("LLM_OFFLINE", "").strip().lower() in ("1", "true", "da", "yes")
 
         # Cache director
         if cache_dir is None:
@@ -53,6 +58,7 @@ class LLMClient:
         # Statistici apeluri
         self.apeluri_reale = 0
         self.apeluri_cache = 0
+        self.apeluri_offline = 0
         self._lock_stats = threading.Lock()
 
         # Client OpenAI instanțiat la cerere
@@ -72,6 +78,7 @@ class LLMClient:
         with self._lock_stats:
             self.apeluri_reale = 0
             self.apeluri_cache = 0
+            self.apeluri_offline = 0
 
     def get_statistici(self) -> dict[str, int]:
         """Returnează statisticile de apeluri."""
@@ -79,7 +86,8 @@ class LLMClient:
             return {
                 "apeluri_reale": self.apeluri_reale,
                 "apeluri_cache": self.apeluri_cache,
-                "total_apeluri": self.apeluri_reale + self.apeluri_cache,
+                "apeluri_offline": self.apeluri_offline,
+                "total_apeluri": self.apeluri_reale + self.apeluri_cache + self.apeluri_offline,
             }
 
     def _calculeaza_cheie_cache(self, model: str, mesaje: list[dict[str, Any]], temperature: float) -> str:
@@ -209,7 +217,7 @@ class LLMClient:
         return None
 
     def _genereaza_raspuns_offline(self, mesaje: list[dict[str, Any]], model: str) -> str:
-        """Generează un răspuns simulat realist atunci când LLM_API_KEY lipsește sau API-ul nu e accesibil."""
+        """Generează un răspuns simulat (doar cu LLM_OFFLINE=1, pentru teste)."""
         user_content = ""
         system_content = ""
         for m in mesaje:
@@ -272,7 +280,7 @@ class LLMClient:
             }
 
         # Cota bancă
-        m = re.search(r"banca[ \t]+([0-9]+%)[ \t]*\([^)]+\)", doc_text)
+        m = re.search(r"banca[ \t]+([0-9]+%)[ \t]*\([^)]+\)", doc_text, re.IGNORECASE)
         if m:
             rezultat["cota_banca"] = {
                 "valoare_text": m.group(1),
@@ -419,7 +427,10 @@ class LLMClient:
     ) -> str:
         """Execută apelul HTTP către API cu retry exponențial la HTTP 429."""
         if not self.api_key or self.api_key == "no-key-provided":
-            return self._genereaza_raspuns_offline(mesaje, model)
+            raise RuntimeError(
+                "LLM_API_KEY lipsește din .env și răspunsul nu e în cache. "
+                "Setează cheia sau, doar pentru teste, LLM_OFFLINE=1."
+            )
 
         timpi_asteptare = [2, 4, 8, 16]
 
@@ -473,6 +484,12 @@ class LLMClient:
     ) -> str:
         """Apelează modelul LLM cu verificare în cache și salvare ulterioară."""
         nume_model = model or self.model_text
+
+        if self.offline:
+            with self._lock_stats:
+                self.apeluri_offline += 1
+            return self._genereaza_raspuns_offline(mesaje, nume_model)
+
         cheie = self._calculeaza_cheie_cache(nume_model, mesaje, temperature)
 
         raspuns_cache = self._citeste_din_cache(cheie)

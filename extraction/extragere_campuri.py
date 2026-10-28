@@ -150,11 +150,23 @@ def extrage_campuri_document_llm(
         return {}
 
     descrieri = []
+    are_da_nu = False
     for c in campuri_cerute:
         info = catalog_campuri.get(c, {})
         desc = info.get("descriere", c)
-        descrieri.append(f"- {c}: {desc}")
+        tip = info.get("tip")
+        if tip == "da_nu":
+            are_da_nu = True
+            descrieri.append(f"- {c} (da/nu): {desc}")
+        else:
+            descrieri.append(f"- {c}: {desc}")
     descrieri_str = "\n".join(descrieri)
+    regula_da_nu = (
+        "\nPentru câmpurile (da/nu): 'valoare_text' este \"da\" sau \"nu\", iar 'citat' trebuie să conțină "
+        "afirmația sau negația explicită din document. Atenție la negații (\"nu\", \"fără\", \"not\"). "
+        "Dacă documentul nu spune explicit, întoarce null (NU \"nu\").\n"
+        if are_da_nu else ""
+    )
 
     prompt_sistem = (
         "Ești un asistent de extracție precisă a datelor din documente financiare și tehnice.\n"
@@ -166,7 +178,8 @@ def extrage_campuri_document_llm(
         "3. 'valoare_text': valoarea exact cum apare în document (curățarea și conversia o face codul).\n"
         "4. 'pagina': numărul paginii (ex: 1, 2) unde apare citatul.\n"
         "5. 'incredere': număr între 0.0 și 1.0 (nivelul de siguranță că fragmentul răspunde exact câmpului).\n\n"
-        "Pentru câmpul 'afirmatii_client', întoarce o listă de afirmații făcute de client privind sustenabilitatea.\n\n"
+        "Pentru câmpul 'afirmatii_client', întoarce o listă de afirmații făcute de client privind sustenabilitatea.\n"
+        f"{regula_da_nu}\n"
         "Formatul răspunsului trebuie să fie EXCLUSIV un JSON valid de forma:\n"
         "{\n"
         '  "cui": {"valoare_text": "9900000010", "citat": "CUI 9900000010", "pagina": 1, "incredere": 0.98},\n'

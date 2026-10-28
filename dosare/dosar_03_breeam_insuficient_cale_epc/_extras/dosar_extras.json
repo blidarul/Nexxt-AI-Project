@@ -6,29 +6,29 @@
     "incredere": 0.98
   },
   "suma_eur": {
-    "valoare": 15000000,
+    "valoare": 30000000,
     "sursa": "01_cerere_finantare.pdf, p.1",
     "incredere": 0.95
   },
   "cota_banca": {
-    "valoare": null,
-    "sursa": "",
-    "incredere": 0.0
+    "valoare": 0.5,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.96
   },
   "data_aprobare": {
     "valoare": "2026-03-15",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.98
+    "incredere": 0.97
   },
   "tara": {
     "valoare": "România",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.99
+    "incredere": 0.95
   },
   "adresa_cladire": {
-    "valoare": "ICluj-Napoca, Str. Exemplului nr. 5",
+    "valoare": "Cluj-Napoca, Str. Exemplului nr. 5",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.95
+    "incredere": 0.94
   },
   "suprafata_m2": {
     "valoare": 12000,
@@ -43,18 +43,14 @@
   "nr_certificat_declarat": {
     "valoare": "BREEAM-EXEMPLU-0002",
     "sursa": "01_cerere_finantare.pdf, p.1",
-    "incredere": 0.98
+    "incredere": 0.96
   },
   "epc_clasa": {
     "valoare": "A",
-    "sursa": "03_certificat_energetic.pdf, p.1",
-    "incredere": 0.98
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.76
   },
-  "epc_energie_finala": {
-    "valoare": 80,
-    "sursa": "03_certificat_energetic.pdf, p.1",
-    "incredere": 0.78
-  },
+  "epc_energie_finala": null,
   "epc_suprafata_m2": {
     "valoare": 12000,
     "sursa": "01_cerere_finantare.pdf, p.1",
@@ -77,16 +73,31 @@
       "m2": 1000.0
     }
   ],
-  "afirmatii_client": [
-    "Clădirea deține certificare BREEAM.",
-    "Clădirea are certificat energetic clasa A."
-  ],
-  "categorie": null,
-  "subcategorie": null,
+  "afirmatii_client": [],
+  "categorie": {
+    "valoare": "green_buildings",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.9
+  },
+  "subcategorie": {
+    "valoare": "cladire_noua_sau_existenta",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.9
+  },
   "indicatori": {
-    "energie_finala_kwh_m2": {
-      "valoare": 80,
-      "sursa": "03_certificat_energetic.pdf, p.1",
+    "descriere_proiect": {
+      "valoare": "Achiziția clădirii Nord Office – Clădirea 1",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.94
+    },
+    "certificare_sistem": {
+      "valoare": "BREEAM",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.78
+    },
+    "certificare_stadiu": {
+      "valoare": "finală",
+      "sursa": "01_cerere_finantare.pdf, p.1",
       "incredere": 0.78
     }
   }
