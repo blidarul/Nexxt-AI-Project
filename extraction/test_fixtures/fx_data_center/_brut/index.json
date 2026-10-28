@@ -1,0 +1,23 @@
+{
+  "dosar": "fx_data_center",
+  "documente": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_document": "cerere_finantare",
+      "json": "_brut/01_cerere_finantare.json",
+      "pagini": 1,
+      "tabele": 1,
+      "pagini_ocr": 0,
+      "eroare": null
+    },
+    {
+      "fisier": "02_raport_pue.pdf",
+      "tip_document": "necunoscut",
+      "json": "_brut/02_raport_pue.json",
+      "pagini": 1,
+      "tabele": 1,
+      "pagini_ocr": 0,
+      "eroare": null
+    }
+  ]
+}

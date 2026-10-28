@@ -1,0 +1,356 @@
+{
+  "dosar_id": "dosar_03_breeam_insuficient_cale_epc",
+  "categorie_candidati": [
+    {
+      "categorie": "green_buildings",
+      "subcategorie": "cladire_noua_sau_existenta",
+      "tip_nivel_3": null,
+      "incredere": 0.9,
+      "citat": "Clădirea deține certificare BREEAM. Clădirea are certificat energetic clasa A.",
+      "citat_verificat": true,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "camp_subcategorie": null,
+      "camp_nivel_3": null
+    }
+  ],
+  "categorie_ambigua": false,
+  "indicii_categorie": [
+    {
+      "categorie": "green_buildings",
+      "subcategorie": null,
+      "forta": "slab",
+      "fisier": "03_certificat_energetic.pdf",
+      "tip_document": "certificat_energetic"
+    },
+    {
+      "categorie": "green_buildings",
+      "subcategorie": null,
+      "forta": "slab",
+      "fisier": "04_contract_inchiriere_extras.pdf",
+      "tip_document": "contract_inchiriere"
+    }
+  ],
+  "documente_clasificate": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_detectat": "cerere_finantare",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o cerere de credit de investiții pentru achiziția unei clădiri de birouri, cu date despre solicitant, finanțarea solicitată, activul finanțat și declarații privind sustenabilitatea.",
+      "id_cerinte": [
+        "D-01"
+      ]
+    },
+    {
+      "fisier": "03_certificat_energetic.pdf",
+      "tip_detectat": "certificat_energetic",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține datele unui certificat de performanță energetică (CPE), cu informații despre clădire, aria utilă, clasa energetică, consum anual specific de energie primară și finală, indice de emisii CO2 echivalent și pondere surse regenerabile. Toate acestea sunt caracteristici specifice unui certificat energetic.",
+      "id_cerinte": [
+        "GB-D2"
+      ]
+    },
+    {
+      "fisier": "04_contract_inchiriere_extras.pdf",
+      "tip_detectat": "contract_inchiriere",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o listă cu chiriașii unei clădiri, informații despre contractele de închiriere (durată, suprafață închiriată, CAEN), și o clauză-tip prezentă în toate contractele, ceea ce corespunde definiției tipului 'contract_inchiriere'.",
+      "id_cerinte": [
+        "GB-D3"
+      ]
+    }
+  ],
+  "documente_gasite": [
+    {
+      "id": "D-01",
+      "nume": "Cerere de finantare",
+      "fisiere": [
+        "01_cerere_finantare.pdf"
+      ]
+    },
+    {
+      "id": "GB-D2",
+      "nume": "Certificat de performanta energetica (EPC)",
+      "fisiere": [
+        "03_certificat_energetic.pdf"
+      ]
+    },
+    {
+      "id": "GB-D3",
+      "nume": "Contracte de inchiriere / lista chiriasilor",
+      "fisiere": [
+        "04_contract_inchiriere_extras.pdf"
+      ]
+    }
+  ],
+  "documente_lipsa": [
+    {
+      "id": "D-02",
+      "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-04",
+      "nume": "Declaratia privind beneficiarul real",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-05",
+      "nume": "Contractul de credit / term sheet (structura finantarii)",
+      "obligatoriu": true
+    },
+    {
+      "id": "GB-D4",
+      "nume": "Extras de carte funciara",
+      "obligatoriu": true
+    }
+  ],
+  "documente_recomandate_lipsa": [],
+  "campuri_selectate": [
+    "cui",
+    "tara",
+    "aprobat_proces_standard",
+    "data_aprobare",
+    "data_marcare_verde",
+    "suma_eur",
+    "cota_banca",
+    "categorie",
+    "subcategorie",
+    "descriere_proiect",
+    "afirmatii_client",
+    "certificare_sistem",
+    "certificare_nivel",
+    "certificare_stadiu",
+    "nr_certificat_declarat",
+    "epc_clasa",
+    "ped_kwh_m2",
+    "energie_finala_kwh_m2",
+    "suprafata_m2",
+    "adresa_cladire",
+    "stadiu_cladire",
+    "chiriasi"
+  ],
+  "campuri_extrase": {
+    "cui": {
+      "valoare": "9900000061",
+      "valoare_bruta": "9900000061",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "CUI 9900000061",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "tara": {
+      "valoare": "România",
+      "valoare_bruta": "România",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Țara România",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "aprobat_proces_standard": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_aprobare": {
+      "valoare": "2026-03-15",
+      "valoare_bruta": "2026-03-15",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Data aprobării creditului (procesul standard de credit): 2026-03-15",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.99
+    },
+    "data_marcare_verde": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "suma_eur": {
+      "valoare": 15000000,
+      "valoare_bruta": "15.000.000 EUR",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suma solicitată de la bancă 15.000.000 EUR",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "cota_banca": {
+      "valoare": 0.5,
+      "valoare_bruta": "0.5",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Structura finanțării Banca 50% (15.000.000 EUR), aport propriu 50%",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "descriere_proiect": {
+      "valoare": "Achiziția clădirii Nord Office – Clădirea 1",
+      "valoare_bruta": "Achiziția clădirii Nord Office – Clădirea 1",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Scopul declarat Achiziția clădirii Nord Office – Clădirea 1",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "afirmatii_client": {
+      "valoare": [
+        "Clădirea deține certificare BREEAM.",
+        "Clădirea are certificat energetic clasa A."
+      ],
+      "valoare_bruta": null,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Clădirea deține certificare BREEAM.; Clădirea are certificat energetic clasa A.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 1.0,
+      "metoda": "determinist_afirmatii"
+    },
+    "certificare_sistem": {
+      "valoare": "BREEAM",
+      "valoare_bruta": "BREEAM",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Certificare de sustenabilitate (declarată) BREEAM (certificare finală)",
+      "citat_verificat": true,
+      "treapta_cautare": 2,
+      "incredere": 0.78
+    },
+    "certificare_nivel": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "certificare_stadiu": {
+      "valoare": "finală",
+      "valoare_bruta": "finală",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Certificare de sustenabilitate (declarată) BREEAM (certificare finală)",
+      "citat_verificat": true,
+      "treapta_cautare": 2,
+      "incredere": 0.78
+    },
+    "nr_certificat_declarat": {
+      "valoare": "BREEAM-EXEMPLU-0002",
+      "valoare_bruta": "BREEAM-EXEMPLU-0002",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Număr certificat de sustenabilitate comunicat: BREEAM-EXEMPLU-0002",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "epc_clasa": {
+      "valoare": "A",
+      "valoare_bruta": "A",
+      "sursa": "03_certificat_energetic.pdf, p.1",
+      "citat": "Clasa energetică A",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.99
+    },
+    "ped_kwh_m2": {
+      "valoare": 98,
+      "valoare_bruta": "98 kWh/m²·an",
+      "sursa": "03_certificat_energetic.pdf, p.1",
+      "citat": "Consum anual specific de energie primară 98 kWh/m²·an",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "energie_finala_kwh_m2": {
+      "valoare": 80,
+      "valoare_bruta": "80 kWh/m²·an",
+      "sursa": "03_certificat_energetic.pdf, p.1",
+      "citat": "Consum anual specific de energie finală 80 kWh/m²·an",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "suprafata_m2": {
+      "valoare": 12000,
+      "valoare_bruta": "12.000 m²",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suprafață utilă (declarată) 12.000 m²",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "adresa_cladire": {
+      "valoare": "Cluj-Napoca, Str. Exemplului nr. 5",
+      "valoare_bruta": "Cluj-Napoca, Str. Exemplului nr. 5",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Adresă ICluj-Napoca, Str. Exemplului nr. 5",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "stadiu_cladire": {
+      "valoare": "Finalizată, în exploatare",
+      "valoare_bruta": "Finalizată, în exploatare",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Stadiu Finalizată, în exploatare",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "chiriasi": {
+      "numar_chiriasi": 3,
+      "sursa": "04_contract_inchiriere_extras.pdf, p.1",
+      "citat": "Alfa Software SRL | 6201 – Activități de realizare a soft-ului la comandă | 10.000 m²; Beta Consulting SRL | 7022 – Activități de consultanță pentru afaceri și management | 6.000 m²; Gamma Café SRL | 5630 – Baruri și alte activități de servire a băuturilor | 1.000 m²",
+      "citat_verificat": true,
+      "metoda": "determinist_tabele",
+      "incredere": 1.0
+    }
+  },
+  "campuri_lipsa": [
+    {
+      "camp": "aprobat_proces_standard",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-03"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "certificare_nivel",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "GB-D1"
+      ],
+      "pentru": [
+        "GB-01"
+      ],
+      "obligatoriu": true
+    }
+  ],
+  "conflicte": [],
+  "conversii_unitati": [],
+  "valori_respinse": [],
+  "statistici_llm": {
+    "apeluri_reale": 0,
+    "apeluri_cache": 9,
+    "apeluri_offline": 0,
+    "total_apeluri": 9
+  },
+  "apeluri_llm_reale": []
+}

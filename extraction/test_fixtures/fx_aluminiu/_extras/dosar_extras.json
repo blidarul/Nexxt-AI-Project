@@ -1,0 +1,85 @@
+{
+  "dosar_id": "fx_aluminiu",
+  "cui": {
+    "valoare": "9900000133",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.98
+  },
+  "suma_eur": {
+    "valoare": 3000000,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "cota_banca": {
+    "valoare": 0.6,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.96
+  },
+  "data_aprobare": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "tara": {
+    "valoare": "România",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.97
+  },
+  "adresa_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "suprafata_m2": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "stadiu_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "epc_clasa": null,
+  "epc_energie_finala": null,
+  "epc_suprafata_m2": null,
+  "chiriasi": [],
+  "afirmatii_client": [],
+  "categorie": {
+    "valoare": "circular_economy",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.99
+  },
+  "subcategorie": {
+    "valoare": "produse_aluminiu",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.99
+  },
+  "indicatori": {
+    "descriere_proiect": {
+      "valoare": "Linie nouă de producție pentru profile din aluminiu pentru construcții, fabricate cu un conținut ridicat de aluminiu reciclat.",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.94
+    },
+    "pondere_aluminiu_reciclat": {
+      "valoare": 0.75,
+      "sursa": "02_declaratie_furnizor.pdf, p.1",
+      "incredere": 0.98
+    },
+    "intensitate_carbon_aluminiu_primar_tco2e_t": {
+      "valoare": 2.1,
+      "sursa": "02_declaratie_furnizor.pdf, p.1",
+      "incredere": 0.97
+    },
+    "tip": {
+      "valoare": "produse_aluminiu",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.99
+    }
+  }
+}

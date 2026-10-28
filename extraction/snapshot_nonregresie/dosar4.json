@@ -1,0 +1,75 @@
+{
+  "dosar_id": "dosar4",
+  "cui": {
+    "valoare": "9900000040",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.99
+  },
+  "suma_eur": {
+    "valoare": 18000000,
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.95
+  },
+  "cota_banca": {
+    "valoare": 0.64,
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.98
+  },
+  "data_aprobare": {
+    "valoare": "2026-02-18",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.98
+  },
+  "tara": {
+    "valoare": "România",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.95
+  },
+  "adresa_cladire": {
+    "valoare": "Mogoșoaia, Sos. București-Târgoviște nr. 88",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.98
+  },
+  "suprafata_m2": {
+    "valoare": 15000,
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.95
+  },
+  "stadiu_cladire": {
+    "valoare": "În construcție (Progres fizic: 40%)",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.95
+  },
+  "nr_certificat_declarat": {
+    "valoare": "BREEAM-EXEMPLU-0004",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.98
+  },
+  "epc_clasa": {
+    "valoare": "A",
+    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "incredere": 0.98
+  },
+  "epc_energie_finala": {
+    "valoare": 81.0,
+    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "incredere": 0.95
+  },
+  "epc_suprafata_m2": {
+    "valoare": 15000,
+    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "incredere": 0.95
+  },
+  "chiriasi": [
+    {
+      "nume": "Eco Market SRL",
+      "cui": "9900000301",
+      "caen": "4711",
+      "m2": 1200.0,
+      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
+      "incredere": 0.95
+    }
+  ],
+  "afirmatii_client": [],
+  "indicatori": {}
+}

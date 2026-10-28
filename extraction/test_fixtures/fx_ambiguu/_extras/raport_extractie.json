@@ -1,0 +1,623 @@
+{
+  "dosar_id": "fx_ambiguu",
+  "categorie_candidati": [
+    {
+      "categorie": "renewable_energy",
+      "subcategorie": "solar_fotovoltaic",
+      "tip_nivel_3": null,
+      "incredere": 0.65,
+      "citat": "panouri fotovoltaice pe hala de producție",
+      "citat_verificat": true,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "camp_subcategorie": "tehnologie",
+      "camp_nivel_3": null
+    },
+    {
+      "categorie": "green_buildings",
+      "subcategorie": "cladire_noua_sau_existenta",
+      "tip_nivel_3": null,
+      "incredere": 0.6,
+      "citat": "Modernizarea iluminatului și panouri fotovoltaice pe hala de producție",
+      "citat_verificat": true,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "camp_subcategorie": null,
+      "camp_nivel_3": null
+    }
+  ],
+  "categorie_ambigua": true,
+  "indicii_categorie": [],
+  "documente_clasificate": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_detectat": "cerere_finantare",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o cerere de finanțare depusă la bancă, cu datele firmei, suma solicitată și descrierea proiectului.",
+      "id_cerinte": [
+        "D-01"
+      ]
+    }
+  ],
+  "documente_gasite": [
+    {
+      "id": "D-01",
+      "nume": "Cerere de finantare",
+      "fisiere": [
+        "01_cerere_finantare.pdf"
+      ]
+    }
+  ],
+  "documente_lipsa": [
+    {
+      "id": "D-02",
+      "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-04",
+      "nume": "Declaratia privind beneficiarul real",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-05",
+      "nume": "Contractul de credit / term sheet (structura finantarii)",
+      "obligatoriu": true
+    },
+    {
+      "id": "RE-D1",
+      "nume": "Studiu de fezabilitate / fisa tehnica a centralei",
+      "obligatoriu": true
+    },
+    {
+      "id": "RE-D2",
+      "nume": "Autorizatie de producere / licenta ANRE (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "RE-D3",
+      "nume": "Date de productie (reale sau estimate)",
+      "obligatoriu": true
+    }
+  ],
+  "documente_recomandate_lipsa": [
+    {
+      "id": "RE-D4",
+      "nume": "Studiu de impact asupra mediului (EIA)",
+      "obligatoriu": "doar hidro nou",
+      "conditie": "doar hidro nou"
+    },
+    {
+      "id": "RE-D5",
+      "nume": "Analiza de ciclu de viata (LCA) a emisiilor",
+      "obligatoriu": "doar geotermal, biomasa",
+      "conditie": "doar geotermal, biomasa"
+    },
+    {
+      "id": "RE-D6",
+      "nume": "Contracte de aprovizionare cu materie prima",
+      "obligatoriu": "doar biomasa",
+      "conditie": "doar biomasa"
+    }
+  ],
+  "documente_per_candidat": [
+    {
+      "categorie": "renewable_energy",
+      "subcategorie": "solar_fotovoltaic",
+      "documente_gasite": [
+        {
+          "id": "D-01",
+          "nume": "Cerere de finantare",
+          "fisiere": [
+            "01_cerere_finantare.pdf"
+          ]
+        }
+      ],
+      "documente_lipsa": [
+        {
+          "id": "D-02",
+          "nume": "Decizia de aprobare a creditului (proces standard)",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-03",
+          "nume": "Certificat constatator ONRC (sau echivalent)",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-04",
+          "nume": "Declaratia privind beneficiarul real",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-05",
+          "nume": "Contractul de credit / term sheet (structura finantarii)",
+          "obligatoriu": true
+        },
+        {
+          "id": "RE-D1",
+          "nume": "Studiu de fezabilitate / fisa tehnica a centralei",
+          "obligatoriu": true
+        },
+        {
+          "id": "RE-D2",
+          "nume": "Autorizatie de producere / licenta ANRE (sau echivalent)",
+          "obligatoriu": true
+        },
+        {
+          "id": "RE-D3",
+          "nume": "Date de productie (reale sau estimate)",
+          "obligatoriu": true
+        }
+      ],
+      "documente_recomandate_lipsa": [
+        {
+          "id": "RE-D4",
+          "nume": "Studiu de impact asupra mediului (EIA)",
+          "obligatoriu": "doar hidro nou",
+          "conditie": "doar hidro nou"
+        },
+        {
+          "id": "RE-D5",
+          "nume": "Analiza de ciclu de viata (LCA) a emisiilor",
+          "obligatoriu": "doar geotermal, biomasa",
+          "conditie": "doar geotermal, biomasa"
+        },
+        {
+          "id": "RE-D6",
+          "nume": "Contracte de aprovizionare cu materie prima",
+          "obligatoriu": "doar biomasa",
+          "conditie": "doar biomasa"
+        }
+      ]
+    },
+    {
+      "categorie": "green_buildings",
+      "subcategorie": "cladire_noua_sau_existenta",
+      "documente_gasite": [
+        {
+          "id": "D-01",
+          "nume": "Cerere de finantare",
+          "fisiere": [
+            "01_cerere_finantare.pdf"
+          ]
+        }
+      ],
+      "documente_lipsa": [
+        {
+          "id": "D-02",
+          "nume": "Decizia de aprobare a creditului (proces standard)",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-03",
+          "nume": "Certificat constatator ONRC (sau echivalent)",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-04",
+          "nume": "Declaratia privind beneficiarul real",
+          "obligatoriu": true
+        },
+        {
+          "id": "D-05",
+          "nume": "Contractul de credit / term sheet (structura finantarii)",
+          "obligatoriu": true
+        },
+        {
+          "id": "GB-D1 sau GB-D2",
+          "nume": "Certificat de sustenabilitate (BREEAM/LEED/DGNB/OGNI/EDGE)",
+          "obligatoriu": "una_din: [GB-D1, GB-D2]",
+          "motiv": "niciunul din grup"
+        },
+        {
+          "id": "GB-D3",
+          "nume": "Contracte de inchiriere / lista chiriasilor",
+          "obligatoriu": true
+        },
+        {
+          "id": "GB-D4",
+          "nume": "Extras de carte funciara",
+          "obligatoriu": true
+        }
+      ],
+      "documente_recomandate_lipsa": []
+    }
+  ],
+  "campuri_selectate": [
+    "cui",
+    "tara",
+    "aprobat_proces_standard",
+    "data_aprobare",
+    "data_marcare_verde",
+    "suma_eur",
+    "cota_banca",
+    "categorie",
+    "subcategorie",
+    "descriere_proiect",
+    "afirmatii_client",
+    "tehnologie",
+    "capacitate_mw",
+    "productie_anuala_mwh",
+    "certificare_sistem",
+    "certificare_nivel",
+    "certificare_stadiu",
+    "nr_certificat_declarat",
+    "epc_clasa",
+    "ped_kwh_m2",
+    "energie_finala_kwh_m2",
+    "suprafata_m2",
+    "adresa_cladire",
+    "stadiu_cladire",
+    "chiriasi"
+  ],
+  "campuri_extrase": {
+    "cui": {
+      "valoare": "9900000166",
+      "valoare_bruta": "9900000166",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "CUI 9900000166",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "tara": {
+      "valoare": "România",
+      "valoare_bruta": "România",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Țara România",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.97
+    },
+    "aprobat_proces_standard": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_aprobare": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_marcare_verde": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "suma_eur": {
+      "valoare": 1200000,
+      "valoare_bruta": "1.200.000 EUR",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suma solicitată de la bancă 1.200.000 EUR",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "cota_banca": {
+      "valoare": 1.0,
+      "valoare_bruta": "1.0",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Banca 100% (1.200.000 EUR)",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.96
+    },
+    "descriere_proiect": {
+      "valoare": "Modernizarea iluminatului și panouri fotovoltaice pe hala de producție.",
+      "valoare_bruta": "Modernizarea iluminatului și panouri fotovoltaice pe hala de producție.",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Modernizarea iluminatului și panouri fotovoltaice pe hala de producție.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.99
+    },
+    "afirmatii_client": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "capacitate_mw": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "productie_anuala_mwh": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "certificare_sistem": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "certificare_nivel": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "certificare_stadiu": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "nr_certificat_declarat": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "epc_clasa": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "ped_kwh_m2": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "energie_finala_kwh_m2": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "suprafata_m2": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "adresa_cladire": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "stadiu_cladire": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    }
+  },
+  "campuri_lipsa": [
+    {
+      "camp": "aprobat_proces_standard",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-03"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "data_aprobare",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-04"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "capacitate_mw",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "RE-D1",
+        "RE-D2"
+      ],
+      "pentru": [
+        "impact",
+        "PL-20"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "productie_anuala_mwh",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "RE-D3"
+      ],
+      "pentru": [
+        "impact",
+        "PL-20"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "certificare_sistem",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "GB-D1"
+      ],
+      "pentru": [
+        "GB-01"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "certificare_nivel",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "GB-D1"
+      ],
+      "pentru": [
+        "GB-01"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "certificare_stadiu",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "GB-D1"
+      ],
+      "pentru": [
+        "GB-01",
+        "GB-X2"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "nr_certificat_declarat",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-01",
+        "GB-D1"
+      ],
+      "pentru": [
+        "GB-01",
+        "PL-02"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "epc_clasa",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "GB-D2"
+      ],
+      "pentru": [
+        "GB-03"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "ped_kwh_m2",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "GB-D2"
+      ],
+      "pentru": [
+        "GB-04",
+        "PL-10"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "energie_finala_kwh_m2",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "GB-D2",
+        "GB-D5"
+      ],
+      "pentru": [
+        "impact",
+        "PL-11"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "suprafata_m2",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "GB-D2",
+        "GB-D4"
+      ],
+      "pentru": [
+        "impact",
+        "GB-X1"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "adresa_cladire",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-01",
+        "GB-D2",
+        "GB-D4"
+      ],
+      "pentru": [
+        "PL-01"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "stadiu_cladire",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-01"
+      ],
+      "pentru": [
+        "impact"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "chiriasi",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "GB-D3"
+      ],
+      "pentru": [
+        "GB-X1"
+      ],
+      "obligatoriu": true
+    }
+  ],
+  "conflicte": [],
+  "conversii_unitati": [],
+  "valori_respinse": [],
+  "statistici_llm": {
+    "apeluri_reale": 0,
+    "apeluri_cache": 3,
+    "apeluri_offline": 0,
+    "total_apeluri": 3
+  },
+  "apeluri_llm_reale": []
+}

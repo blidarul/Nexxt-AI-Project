@@ -1,0 +1,85 @@
+{
+  "dosar_id": "dosar_01_complet_eligibil",
+  "cui": {
+    "valoare": "9900000010",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.98
+  },
+  "suma_eur": {
+    "valoare": 30000000,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "cota_banca": {
+    "valoare": 0.6,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "data_aprobare": {
+    "valoare": "2026-03-15",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.98
+  },
+  "tara": {
+    "valoare": "România",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.99
+  },
+  "adresa_cladire": {
+    "valoare": "București, Sector 2, Str. Exemplului nr. 10",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "suprafata_m2": {
+    "valoare": 20000,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "stadiu_cladire": {
+    "valoare": "Finalizată, în exploatare",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "nr_certificat_declarat": {
+    "valoare": "BREEAM-EXEMPLU-0001",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.98
+  },
+  "epc_clasa": {
+    "valoare": "A",
+    "sursa": "03_certificat_energetic.pdf, p.1",
+    "incredere": 0.98
+  },
+  "epc_energie_finala": {
+    "valoare": 95,
+    "sursa": "03_certificat_energetic.pdf, p.1",
+    "incredere": 0.98
+  },
+  "epc_suprafata_m2": {
+    "valoare": 20000,
+    "sursa": "03_certificat_energetic.pdf, p.1",
+    "incredere": 0.98
+  },
+  "chiriasi": [
+    {
+      "nume": "Alfa Software SRL",
+      "caen": "6201",
+      "m2": 10000.0
+    },
+    {
+      "nume": "Beta Consulting SRL",
+      "caen": "7022",
+      "m2": 6000.0
+    },
+    {
+      "nume": "Gamma Café SRL",
+      "caen": "5630",
+      "m2": 1000.0
+    }
+  ],
+  "afirmatii_client": [
+    "Clădirea deține certificare BREEAM Excellent.",
+    "Clădirea are certificat energetic clasa A.",
+    "Clădirea consumă cu peste 60% mai puțină energie decât media clădirilor de birouri din România."
+  ]
+}

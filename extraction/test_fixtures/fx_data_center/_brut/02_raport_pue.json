@@ -1,0 +1,37 @@
+{
+  "fisier": "02_raport_pue.pdf",
+  "dosar": "fx_data_center",
+  "tip_document": "necunoscut",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:58",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nDATA CENTRE ENERGY EFFICIENCY REPORT\n2025\nFacility: Exemplu Data Centre Ilfov. Operator: Exemplu Data Services SRL. Reporting period:\nJanuary 2025 – December 2025.\nIndicator Value\nTotal facility energy 12.420 MWh\nIT equipment energy 9.000 MWh\nAnnualised PUE 1,38\nResult: the annualised PUE: 1,38 was measured over the full reporting period according to EN\n50600-4-2, using sub-metering at the UPS output.",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Indicator",
+              "Value"
+            ],
+            [
+              "Total facility energy",
+              "12.420 MWh"
+            ],
+            [
+              "IT equipment energy",
+              "9.000 MWh"
+            ],
+            [
+              "Annualised PUE",
+              "1,38"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

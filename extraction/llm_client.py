@@ -32,7 +32,8 @@ class LLMClient:
 
     def __init__(self, cache_dir: Optional[Path] = None) -> None:
         self.base_url = os.getenv("LLM_BASE_URL", "https://api.featherless.ai/v1")
-        self.api_key = os.getenv("LLM_API_KEY", "")
+        # .env.example are ambele chei; LLM_BASE_URL implicit e Featherless.
+        self.api_key = os.getenv("LLM_API_KEY", "") or os.getenv("FEATHERLESS_API_KEY", "")
         self.model_text = os.getenv("LLM_MODEL_TEXT", "Qwen/Qwen3-32B")
         self.model_vision = os.getenv("LLM_MODEL_VISION", "google/gemma-3-27b-it")
 
@@ -42,6 +43,10 @@ class LLMClient:
             self.max_paralele = 1
 
         self.semaphore = threading.Semaphore(self.max_paralele)
+
+        # Simulatorul offline (regex) e DOAR pentru teste și trebuie cerut explicit.
+        # Nu citește și nu scrie niciodată în cache, ca să nu otrăvească răspunsurile reale.
+        self.offline = os.getenv("LLM_OFFLINE", "").strip().lower() in ("1", "true", "da", "yes")
 
         # Cache director
         if cache_dir is None:
@@ -53,6 +58,9 @@ class LLMClient:
         # Statistici apeluri
         self.apeluri_reale = 0
         self.apeluri_cache = 0
+        self.apeluri_offline = 0
+        # Un rând per apel real: modelul cerut și cel raportat de API (pentru raport)
+        self.apeluri_reale_detalii: list[dict[str, Any]] = []
         self._lock_stats = threading.Lock()
 
         # Client OpenAI instanțiat la cerere
@@ -72,6 +80,8 @@ class LLMClient:
         with self._lock_stats:
             self.apeluri_reale = 0
             self.apeluri_cache = 0
+            self.apeluri_offline = 0
+            self.apeluri_reale_detalii = []
 
     def get_statistici(self) -> dict[str, int]:
         """Returnează statisticile de apeluri."""
@@ -79,7 +89,8 @@ class LLMClient:
             return {
                 "apeluri_reale": self.apeluri_reale,
                 "apeluri_cache": self.apeluri_cache,
-                "total_apeluri": self.apeluri_reale + self.apeluri_cache,
+                "apeluri_offline": self.apeluri_offline,
+                "total_apeluri": self.apeluri_reale + self.apeluri_cache + self.apeluri_offline,
             }
 
     def _calculeaza_cheie_cache(self, model: str, mesaje: list[dict[str, Any]], temperature: float) -> str:
@@ -104,14 +115,22 @@ class LLMClient:
                 return None
         return None
 
-    def _salveaza_in_cache(self, cheie: str, raspuns: str, model: str, mesaje: list[dict[str, Any]]) -> None:
-        """Salvează răspunsul în cache."""
+    def _salveaza_in_cache(
+        self,
+        cheie: str,
+        raspuns: str,
+        model: str,
+        mesaje: list[dict[str, Any]],
+        model_raspuns: Optional[str] = None,
+    ) -> None:
+        """Salvează răspunsul în cache (cu modelul cerut și cel raportat de API)."""
         fisier_cache = self.cache_dir / f"{cheie}.json"
         try:
             with open(fisier_cache, "w", encoding="utf-8") as f:
                 json.dump({
                     "cheie": cheie,
                     "model": model,
+                    "model_raspuns": model_raspuns,
                     "mesaje": mesaje,
                     "raspuns": raspuns,
                 }, f, ensure_ascii=False, indent=2)
@@ -208,8 +227,21 @@ class LLMClient:
 
         return None
 
+    @classmethod
+    def despacheteaza_plic(cls, date: Any) -> Any:
+        """Qwen3 în JSON mode ambalează uneori răspunsul într-un plic inventat:
+        {"model": "gpt-4o-mini", "response": "<JSON-ul real, ca text>"}. Modelul real e cel din
+        metadatele API-ului; textul din plic e generat. Dacă plicul conține JSON valid, îl întoarce.
+        """
+        if (isinstance(date, dict) and isinstance(date.get("response"), str)
+                and set(date) <= {"model", "response"}):
+            interior = cls.extrage_json_din_text(date["response"])
+            if interior is not None:
+                return interior
+        return date
+
     def _genereaza_raspuns_offline(self, mesaje: list[dict[str, Any]], model: str) -> str:
-        """Generează un răspuns simulat realist atunci când LLM_API_KEY lipsește sau API-ul nu e accesibil."""
+        """Generează un răspuns simulat (doar cu LLM_OFFLINE=1, pentru teste)."""
         user_content = ""
         system_content = ""
         for m in mesaje:
@@ -272,7 +304,7 @@ class LLMClient:
             }
 
         # Cota bancă
-        m = re.search(r"banca[ \t]+([0-9]+%)[ \t]*\([^)]+\)", doc_text)
+        m = re.search(r"banca[ \t]+([0-9]+%)[ \t]*\([^)]+\)", doc_text, re.IGNORECASE)
         if m:
             rezultat["cota_banca"] = {
                 "valoare_text": m.group(1),
@@ -416,10 +448,16 @@ class LLMClient:
         mesaje: list[dict[str, Any]],
         temperature: float = 0.0,
         cere_json: bool = True,
-    ) -> str:
-        """Execută apelul HTTP către API cu retry exponențial la HTTP 429."""
+    ) -> tuple[str, str]:
+        """Execută apelul HTTP către API cu retry exponențial la HTTP 429.
+
+        Întoarce (conținut, modelul raportat de API în răspuns).
+        """
         if not self.api_key or self.api_key == "no-key-provided":
-            return self._genereaza_raspuns_offline(mesaje, model)
+            raise RuntimeError(
+                "LLM_API_KEY lipsește din .env și răspunsul nu e în cache. "
+                "Setează cheia sau, doar pentru teste, LLM_OFFLINE=1."
+            )
 
         timpi_asteptare = [2, 4, 8, 16]
 
@@ -445,7 +483,7 @@ class LLMClient:
                             raise err_json
 
                     continut = response.choices[0].message.content or ""
-                    return continut
+                    return continut, str(getattr(response, "model", "") or "")
 
                 except (RateLimitError, APIStatusError) as e:
                     # HTTP 429 sau rate limit
@@ -473,6 +511,12 @@ class LLMClient:
     ) -> str:
         """Apelează modelul LLM cu verificare în cache și salvare ulterioară."""
         nume_model = model or self.model_text
+
+        if self.offline:
+            with self._lock_stats:
+                self.apeluri_offline += 1
+            return self._genereaza_raspuns_offline(mesaje, nume_model)
+
         cheie = self._calculeaza_cheie_cache(nume_model, mesaje, temperature)
 
         raspuns_cache = self._citeste_din_cache(cheie)
@@ -482,7 +526,7 @@ class LLMClient:
             return raspuns_cache
 
         # Apel real
-        raspuns = self._executa_apel_api(
+        raspuns, model_raspuns = self._executa_apel_api(
             model=nume_model,
             mesaje=mesaje,
             temperature=temperature,
@@ -491,8 +535,14 @@ class LLMClient:
 
         with self._lock_stats:
             self.apeluri_reale += 1
+            self.apeluri_reale_detalii.append({
+                "model_cerut": nume_model,
+                "model_raspuns": model_raspuns,
+                "json_mode": cere_json,
+                "cheie_cache": cheie,
+            })
 
-        self._salveaza_in_cache(cheie, raspuns, nume_model, mesaje)
+        self._salveaza_in_cache(cheie, raspuns, nume_model, mesaje, model_raspuns)
         return raspuns
 
     def apeleaza_cu_json(
@@ -500,12 +550,29 @@ class LLMClient:
         mesaje: list[dict[str, Any]],
         model: Optional[str] = None,
         temperature: float = 0.0,
+        chei_asteptate: Optional[list[str]] = None,
+        chei_permise: Optional[set[str]] = None,
     ) -> tuple[Optional[Any], Optional[str]]:
         """Apelează LLM-ul și extrage un JSON valid.
 
-        În caz de eșec de parsare, face o singură reîncercare trimițând eroarea.
+        În caz de eșec de parsare, face până la două reîncercări.
+        Dacă se dau chei_permise, orice cheie din afara chei_asteptate ∪ chei_permise invalidează răspunsul.
+        Dacă se dau chei_asteptate, un obiect care nu conține niciuna dintre ele
+        (răspuns degenerat, ex. {"response": "{"}) e tratat tot ca eșec.
         Întoarce (obiect_json, eroare_str).
         """
+
+        def este_valid(date: Any) -> bool:
+            if date is None:
+                return False
+            if chei_asteptate and isinstance(date, dict):
+                if not any(k in date for k in chei_asteptate):
+                    return False
+                # chei stâlcite (ex. "sumaa_eur") = răspuns degenerat, chiar dacă alte chei sunt corecte
+                if chei_permise is not None and not set(date) <= (set(chei_asteptate) | chei_permise):
+                    return False
+            return True
+
         nume_model = model or self.model_text
         text_raspuns = self.apeleaza(
             mesaje=mesaje,
@@ -514,34 +581,32 @@ class LLMClient:
             cere_json=True,
         )
 
-        date_json = self.extrage_json_din_text(text_raspuns)
-        if date_json is not None:
+        date_json = self.despacheteaza_plic(self.extrage_json_din_text(text_raspuns))
+        if este_valid(date_json):
             return date_json, None
 
-        # Reîncercare unică pentru corectarea JSON-ului
-        mesaje_retry = list(mesaje)
-        mesaje_retry.append({"role": "assistant", "content": text_raspuns})
-        mesaje_retry.append({
-            "role": "user",
-            "content": (
-                "Răspunsul anterior nu este un JSON valid. "
-                "Te rog să întorci EXCLUSIV obiectul JSON valid cerut, "
-                "fără explicații, fără introducere, fără blocuri <think> și fără formatare markdown."
-            ),
-        })
-
-        text_retry = self.apeleaza(
-            mesaje=mesaje_retry,
-            model=nume_model,
-            temperature=temperature,
-            cere_json=True,
+        # Reîncercări: mesajele originale + o cerință explicită. Răspunsul greșit NU intră în istoric
+        # (modelul tinde să-l continue). A doua reîncercare e fără JSON mode, care la unii furnizori
+        # produce răspunsuri degenerate. Mesajele sunt deterministe, deci și reîncercările se cache-uiesc.
+        cerinta = (
+            "Întoarce EXCLUSIV obiectul JSON valid cerut"
+            + (f", cu cheile: {', '.join(chei_asteptate)}" if chei_asteptate else "")
+            + ". Fără explicații, fără introducere, fără blocuri <think> și fără formatare markdown."
         )
+        text_retry = text_raspuns
+        for incercare, cere_json in ((1, True), (2, False)):
+            mesaje_retry = list(mesaje) + [{"role": "user", "content": f"{cerinta} (reîncercarea {incercare})"}]
+            text_retry = self.apeleaza(
+                mesaje=mesaje_retry,
+                model=nume_model,
+                temperature=temperature,
+                cere_json=cere_json,
+            )
+            date_json_retry = self.despacheteaza_plic(self.extrage_json_din_text(text_retry))
+            if este_valid(date_json_retry):
+                return date_json_retry, None
 
-        date_json_retry = self.extrage_json_din_text(text_retry)
-        if date_json_retry is not None:
-            return date_json_retry, None
-
-        return None, f"Eșec parsare JSON chiar și după reîncercare. Răspuns brut: {text_retry[:200]}"
+        return None, f"Eșec parsare JSON chiar și după reîncercări. Răspuns brut: {text_retry[:200]}"
 
     def apeleaza_vision(
         self,

@@ -1,0 +1,87 @@
+{
+  "dosar_id": "fx_renovare",
+  "cui": {
+    "valoare": "9900000122",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.98
+  },
+  "suma_eur": {
+    "valoare": 5000000,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "cota_banca": {
+    "valoare": 1.0,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.93
+  },
+  "data_aprobare": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "tara": {
+    "valoare": "România",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.97
+  },
+  "adresa_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "suprafata_m2": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "stadiu_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "epc_clasa": null,
+  "epc_energie_finala": null,
+  "epc_suprafata_m2": null,
+  "chiriasi": [],
+  "afirmatii_client": [
+    "După renovare, clădirea va consuma cu 50% mai puțină energie."
+  ],
+  "categorie": {
+    "valoare": "green_buildings",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.9
+  },
+  "subcategorie": {
+    "valoare": "renovare",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.9
+  },
+  "indicatori": {
+    "descriere_proiect": {
+      "valoare": "Renovarea energetică majoră a unei clădiri de birouri existente: anvelopare termică, înlocuirea tâmplăriei și instalarea de pompe de căldură.",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.96
+    },
+    "ped_inainte_kwh_m2": {
+      "valoare": 245,
+      "sursa": "02_epc_inainte.pdf, p.1",
+      "incredere": 0.98
+    },
+    "ped_dupa_kwh_m2": {
+      "valoare": 120,
+      "sursa": "03_epc_dupa.pdf, p.1",
+      "incredere": 0.98
+    },
+    "pondere_suma_pentru_renovare": {
+      "valoare": 0.85,
+      "sursa": "04_deviz_lucrari.pdf, p.1",
+      "incredere": 0.98
+    }
+  }
+}

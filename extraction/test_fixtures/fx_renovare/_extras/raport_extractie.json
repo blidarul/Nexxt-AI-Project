@@ -1,0 +1,324 @@
+{
+  "dosar_id": "fx_renovare",
+  "categorie_candidati": [
+    {
+      "categorie": "green_buildings",
+      "subcategorie": "renovare",
+      "tip_nivel_3": null,
+      "incredere": 0.9,
+      "citat": "Renovarea energetică majoră a unei clădiri de birouri existente: anvelopare termică, înlocuirea tâmplăriei și instalarea de pompe de căldură.",
+      "citat_verificat": true,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "camp_subcategorie": null,
+      "camp_nivel_3": null
+    }
+  ],
+  "categorie_ambigua": false,
+  "indicii_categorie": [
+    {
+      "categorie": "green_buildings",
+      "subcategorie": null,
+      "forta": "slab",
+      "fisier": "02_epc_inainte.pdf",
+      "tip_document": "certificat_energetic"
+    },
+    {
+      "categorie": "green_buildings",
+      "subcategorie": null,
+      "forta": "slab",
+      "fisier": "03_epc_dupa.pdf",
+      "tip_document": "certificat_energetic"
+    },
+    {
+      "categorie": "green_buildings",
+      "subcategorie": "renovare",
+      "forta": "slab",
+      "fisier": "04_deviz_lucrari.pdf",
+      "tip_document": "deviz_lucrari"
+    }
+  ],
+  "documente_clasificate": [
+    {
+      "fisier": "01_cerere_finantare.pdf",
+      "tip_detectat": "cerere_finantare",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține o cerere de finanțare depusă la bancă de către solicitant, cu date despre firmă, suma solicitată și descrierea proiectului.",
+      "id_cerinte": [
+        "D-01"
+      ]
+    },
+    {
+      "fisier": "02_epc_inainte.pdf",
+      "tip_detectat": "certificat_energetic",
+      "rol": "inainte",
+      "incredere": 0.95,
+      "motiv": "Documentul conține mențiuni directe despre certificatul de performanță energetică, clasa energetică D, consum anual specific de energie primară și menționează clar că este pentru starea existentă înainte de renovare.",
+      "id_cerinte": [
+        "GB-D6"
+      ]
+    },
+    {
+      "fisier": "03_epc_dupa.pdf",
+      "tip_detectat": "certificat_energetic",
+      "rol": "dupa",
+      "incredere": 0.95,
+      "motiv": "Documentul conține mențiuni clare despre un certificat de performanță energetică pentru o clădire după renovare, cu mențiuni despre clasa energetică, consumul anual specific de energie primară și aria utilă.",
+      "id_cerinte": [
+        "GB-D7"
+      ]
+    },
+    {
+      "fisier": "04_deviz_lucrari.pdf",
+      "tip_detectat": "deviz_lucrari",
+      "rol": null,
+      "incredere": 0.95,
+      "motiv": "Documentul conține un deviz general al lucrărilor de renovare, cu detalii privind costurile pe capitole (anvelopare termică, pompe de căldură etc.) și totalul valorii, ceea ce corespunde definiției tipului 'deviz_lucrari'.",
+      "id_cerinte": [
+        "GB-D8"
+      ]
+    }
+  ],
+  "documente_gasite": [
+    {
+      "id": "D-01",
+      "nume": "Cerere de finantare",
+      "fisiere": [
+        "01_cerere_finantare.pdf"
+      ]
+    },
+    {
+      "id": "GB-D6",
+      "nume": "EPC sau audit energetic INAINTE de renovare",
+      "fisiere": [
+        "02_epc_inainte.pdf"
+      ]
+    },
+    {
+      "id": "GB-D7",
+      "nume": "EPC sau audit energetic DUPA renovare (sau estimat in proiect)",
+      "fisiere": [
+        "03_epc_dupa.pdf"
+      ]
+    },
+    {
+      "id": "GB-D8",
+      "nume": "Devizul lucrarilor (costuri de renovare)",
+      "fisiere": [
+        "04_deviz_lucrari.pdf"
+      ]
+    }
+  ],
+  "documente_lipsa": [
+    {
+      "id": "D-02",
+      "nume": "Decizia de aprobare a creditului (proces standard)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-03",
+      "nume": "Certificat constatator ONRC (sau echivalent)",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-04",
+      "nume": "Declaratia privind beneficiarul real",
+      "obligatoriu": true
+    },
+    {
+      "id": "D-05",
+      "nume": "Contractul de credit / term sheet (structura finantarii)",
+      "obligatoriu": true
+    }
+  ],
+  "documente_recomandate_lipsa": [],
+  "campuri_selectate": [
+    "cui",
+    "tara",
+    "aprobat_proces_standard",
+    "data_aprobare",
+    "data_marcare_verde",
+    "suma_eur",
+    "cota_banca",
+    "categorie",
+    "subcategorie",
+    "descriere_proiect",
+    "afirmatii_client",
+    "ped_inainte_kwh_m2",
+    "ped_dupa_kwh_m2",
+    "reducere_emisii_pct",
+    "ani_pana_la_reducere",
+    "pondere_suma_pentru_renovare"
+  ],
+  "campuri_extrase": {
+    "cui": {
+      "valoare": "9900000122",
+      "valoare_bruta": "9900000122",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "CUI 9900000122",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "tara": {
+      "valoare": "România",
+      "valoare_bruta": "România",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Țara România",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.97
+    },
+    "aprobat_proces_standard": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_aprobare": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "data_marcare_verde": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "suma_eur": {
+      "valoare": 5000000,
+      "valoare_bruta": "5.000.000 EUR",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Suma solicitată de la bancă 5.000.000 EUR",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.95
+    },
+    "cota_banca": {
+      "valoare": 1.0,
+      "valoare_bruta": "100%",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Banca 100% (5.000.000 EUR)",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.93
+    },
+    "descriere_proiect": {
+      "valoare": "Renovarea energetică majoră a unei clădiri de birouri existente: anvelopare termică, înlocuirea tâmplăriei și instalarea de pompe de căldură.",
+      "valoare_bruta": "Renovarea energetică majoră a unei clădiri de birouri existente: anvelopare termică, înlocuirea tâmplăriei și instalarea de pompe de căldură.",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "Renovarea energetică majoră a unei clădiri de birouri existente: anvelopare termică, înlocuirea tâmplăriei și instalarea de pompe de căldură.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.96
+    },
+    "afirmatii_client": {
+      "valoare": [
+        "După renovare, clădirea va consuma cu 50% mai puțină energie."
+      ],
+      "valoare_bruta": null,
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "citat": "După renovare, clădirea va consuma cu 50% mai puțină energie.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 1.0,
+      "metoda": "determinist_afirmatii"
+    },
+    "ped_inainte_kwh_m2": {
+      "valoare": 245,
+      "valoare_bruta": "245 kWh/m²·an",
+      "sursa": "02_epc_inainte.pdf, p.1",
+      "citat": "Consum anual specific de energie primară 245 kWh/m²·an",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "ped_dupa_kwh_m2": {
+      "valoare": 120,
+      "valoare_bruta": "120 kWh/m²·an",
+      "sursa": "03_epc_dupa.pdf, p.1",
+      "citat": "Consum anual specific de energie primară 120 kWh/m²·an",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    },
+    "reducere_emisii_pct": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "ani_pana_la_reducere": {
+      "valoare": null,
+      "sursa": "",
+      "citat": null,
+      "citat_verificat": false,
+      "treapta_cautare": null,
+      "incredere": 0.0
+    },
+    "pondere_suma_pentru_renovare": {
+      "valoare": 0.85,
+      "valoare_bruta": "85%",
+      "sursa": "04_deviz_lucrari.pdf, p.1",
+      "citat": "Ponderea lucrărilor de renovare energetică în valoarea totală a devizului: 85%.",
+      "citat_verificat": true,
+      "treapta_cautare": 1,
+      "incredere": 0.98
+    }
+  },
+  "campuri_lipsa": [
+    {
+      "camp": "aprobat_proces_standard",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-03"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "data_aprobare",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "D-02"
+      ],
+      "pentru": [
+        "G-04"
+      ],
+      "obligatoriu": true
+    },
+    {
+      "camp": "ani_pana_la_reducere",
+      "motiv": "negasit",
+      "documente_asteptate": [
+        "GB-D7"
+      ],
+      "pentru": [
+        "GB-R3"
+      ],
+      "obligatoriu": true
+    }
+  ],
+  "conflicte": [],
+  "conversii_unitati": [],
+  "valori_respinse": [],
+  "statistici_llm": {
+    "apeluri_reale": 0,
+    "apeluri_cache": 9,
+    "apeluri_offline": 0,
+    "total_apeluri": 9
+  },
+  "apeluri_llm_reale": []
+}

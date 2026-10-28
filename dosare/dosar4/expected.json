@@ -1,0 +1,45 @@
+{
+  "dosar": "dosar4",
+  "descriere": "Cladire in constructie: BREEAM Very Good (pica GB-01), dar EPC clasa A (trece GB-03).",
+  "verdict": "ELIGIBIL_CU_MONITORIZARE",
+  "cale_eligibilitate": "GB-03 (EPC clasa A), dupa ce GB-01 a picat",
+  "reguli": [
+    {
+      "id": "G-01",
+      "rezultat": "OK",
+      "dovada": "Tara: Romania (Anexa B)"
+    },
+    {
+      "id": "G-02",
+      "rezultat": "OK",
+      "dovada": "CAEN imprumutat 4110 - imobiliare, nu e sector exclus"
+    },
+    {
+      "id": "G-04",
+      "rezultat": "OK",
+      "dovada": "Aprobat 2026-02-18, in fereastra de 24 luni"
+    },
+    {
+      "id": "GB-01",
+      "rezultat": "NU",
+      "dovada": "BREEAM 'Very Good' < pragul 'Excellent'"
+    },
+    {
+      "id": "GB-02",
+      "rezultat": "NEEVALUABIL",
+      "dovada": "Nu avem date nationale pentru top 15%"
+    },
+    {
+      "id": "GB-03",
+      "rezultat": "OK",
+      "dovada": "EPC clasa A"
+    },
+    {
+      "id": "GB-X1",
+      "rezultat": "OK",
+      "dovada": "Niciun chirias cu CAEN din lista de semnal"
+    }
+  ],
+  "impact": "Nu se calculeaza (Impact Report p. 18: constructie noua in derulare fara consum real)"
+}
+

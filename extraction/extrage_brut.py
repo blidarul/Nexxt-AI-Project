@@ -13,17 +13,35 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     except Exception:
         pass
 
+from extraction.ocr import MIME_IMAGINI, aplica_ocr_pdf, pagina_ocr
 from extraction.pdf_text import extrage_pagini_pdf
 
 
 def determina_tip_document(nume_fisier: str) -> str:
-    """Deduce tipul documentului pe baza prefixului din numele fișierului."""
-    if nume_fisier.startswith("01_"):
+    """Deduce tipul documentului pe baza prefixului sau a numelui fișierului."""
+    nume = nume_fisier.lower()
+    if nume.startswith("01_") or "cerere" in nume:
         return "cerere_finantare"
-    elif nume_fisier.startswith("03_"):
+    elif nume.startswith("03_") or "performan" in nume or "energetic" in nume:
         return "certificat_energetic"
-    elif nume_fisier.startswith("04_"):
+    elif nume.startswith("04_") or "chirias" in nume or "contracte_chiriasi" in nume:
         return "contract_inchiriere"
+    elif "breeam" in nume or "sustenabilitate" in nume or "leed" in nume:
+        return "certificat_sustenabilitate"
+    elif "anaf" in nume:
+        return "raspuns_anaf"
+    elif "breviar" in nume:
+        return "breviar_tehnic"
+    elif "taxonomie" in nume:
+        return "raport_taxonomie"
+    elif "lca" in nume:
+        return "raport_lca"
+    elif "etanseitate" in nume:
+        return "raport_etanseitate_aer"
+    elif "ppa" in nume:
+        return "contract_ppa"
+    elif "declarati" in nume:
+        return "declaratii_mediu"
     return "necunoscut"
 
 
@@ -37,7 +55,12 @@ def proceseaza_pdf(cale_pdf: Path, nume_dosar: str, folder_brut: Path) -> dict[s
     cale_json_iesire = folder_brut / f"{cale_pdf.stem}.json"
 
     try:
-        pagini = extrage_pagini_pdf(cale_pdf)
+        if cale_pdf.suffix.lower() in MIME_IMAGINI:
+            pagini = [pagina_ocr(1, cale_pdf.read_bytes(), MIME_IMAGINI[cale_pdf.suffix.lower()])]
+            erori_ocr = []
+        else:
+            pagini = extrage_pagini_pdf(cale_pdf)
+            erori_ocr = aplica_ocr_pdf(cale_pdf, pagini)
         nr_pagini = len(pagini)
         nr_tabele = sum(len(p.get("tabele", [])) for p in pagini)
 
@@ -49,6 +72,8 @@ def proceseaza_pdf(cale_pdf: Path, nume_dosar: str, folder_brut: Path) -> dict[s
             "extras_la": datetime.now().isoformat(timespec="seconds"),
             "pagini": pagini,
         }
+        if erori_ocr:
+            continut_brut["erori_ocr"] = erori_ocr
 
         with open(cale_json_iesire, "w", encoding="utf-8") as f:
             json.dump(continut_brut, f, ensure_ascii=False, indent=2)
@@ -59,7 +84,8 @@ def proceseaza_pdf(cale_pdf: Path, nume_dosar: str, folder_brut: Path) -> dict[s
             "json": cale_json_relativa,
             "pagini": nr_pagini,
             "tabele": nr_tabele,
-            "eroare": None,
+            "pagini_ocr": sum(1 for p in pagini if p.get("ocr")),
+            "eroare": "; ".join(erori_ocr) or None,
         }
 
     except Exception as e:
@@ -79,9 +105,11 @@ def proceseaza_dosar(cale_dosar: Path) -> dict[str, int]:
     folder_brut = cale_dosar / "_brut"
     folder_brut.mkdir(parents=True, exist_ok=True)
 
+    # PDF-uri și imagini (.jpg/.png, transcrise prin OCR)
+    extensii = {".pdf"} | set(MIME_IMAGINI)
     fisiere_pdf = sorted([
-        p for p in cale_dosar.glob("*.pdf")
-        if not p.name.startswith("._")
+        p for p in cale_dosar.iterdir()
+        if p.is_file() and p.suffix.lower() in extensii and not p.name.startswith("._")
     ])
 
     documente_index = []

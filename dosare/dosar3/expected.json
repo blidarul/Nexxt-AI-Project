@@ -1,0 +1,46 @@
+{
+  "dosar": "dosar3",
+  "descriere": "Centru comercial cu BREEAM Outstanding Final si clasa A.",
+  "verdict": "ELIGIBIL",
+  "cale_eligibilitate": "GB-01 (certificare BREEAM Outstanding, Final)",
+  "reguli": [
+    {
+      "id": "G-01",
+      "rezultat": "OK",
+      "dovada": "Tara: Romania (Anexa B)"
+    },
+    {
+      "id": "G-02",
+      "rezultat": "OK",
+      "dovada": "CAEN imprumutat 6820 - imobiliare, nu e sector exclus"
+    },
+    {
+      "id": "G-04",
+      "rezultat": "OK",
+      "dovada": "Aprobat 2026-02-15, in fereastra de 24 luni"
+    },
+    {
+      "id": "GB-01",
+      "rezultat": "OK",
+      "dovada": "Registru BREEAM: Outstanding, Final, nr. certificat identic cu cel declarat"
+    },
+    {
+      "id": "GB-X1",
+      "rezultat": "OK",
+      "dovada": "Niciun chirias cu CAEN din lista de semnal"
+    }
+  ],
+  "impact": {
+    "formula": "(baseline - energie_finala) x suprafata x cota_banca x factor_emisie",
+    "sursa": "Allocation & Impact Report 2025, p. 22",
+    "pasi": [
+      "1. Diferenta consum: 297 - 58 = 239 kWh/m2/an",
+      "2. x suprafata: 239 x 18500 = 4.421.500 kWh/an",
+      "3. x cota banca: 4.421.500 x 0.58 = 2.564.470 kWh/an",
+      "4. x factor emisie: 2.564.470 x 0.25 = 641.117 kgCO2/an"
+    ],
+    "rezultat_tco2_an": 641.1,
+    "atentie": "Factorul de emisie e valoare EXEMPLU (vezi reference/factori_referinta.yaml)."
+  }
+}
+

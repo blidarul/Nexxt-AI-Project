@@ -1,0 +1,45 @@
+{
+  "fisier": "01_cerere_finantare.pdf",
+  "dosar": "fx_renovare",
+  "tip_document": "cerere_finantare",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:58",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nCERERE DE FINANȚARE – PERSOANE JURIDICE\nSolicitant Exemplu Imobiliare SRL\nCUI 9900000122\nȚara România\nAdresa clădirii Timișoara, Str. Fictivă nr. 3\nSuma solicitată de la bancă 5.000.000 EUR\nStructura finanțării Banca 100% (5.000.000 EUR)\nDescrierea proiectului\nRenovarea energetică majoră a unei clădiri de birouri existente: anvelopare termică, înlocuirea\ntâmplăriei și instalarea de pompe de căldură.\nDeclarații ale solicitantului privind sustenabilitatea\n• După renovare, clădirea va consuma cu 50% mai puțină energie.",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Solicitant",
+              "Exemplu Imobiliare SRL"
+            ],
+            [
+              "CUI",
+              "9900000122"
+            ],
+            [
+              "Țara",
+              "România"
+            ],
+            [
+              "Adresa clădirii",
+              "Timișoara, Str. Fictivă nr. 3"
+            ],
+            [
+              "Suma solicitată de la bancă",
+              "5.000.000 EUR"
+            ],
+            [
+              "Structura finanțării",
+              "Banca 100% (5.000.000 EUR)"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

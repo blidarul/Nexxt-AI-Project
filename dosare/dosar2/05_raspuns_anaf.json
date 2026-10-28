@@ -1,0 +1,20 @@
+{
+  "_nota": "SINTETIC. Raspuns ANAF pentru dosar2",
+  "found": [
+    {
+      "date_generale": {
+        "cui": 9900000020,
+        "denumire": "S.C. SOLAR LOGISTICS PARK C S.R.L.",
+        "adresa": "Com. Ștefăneștii de Jos, Str. Tineretului nr. 45, Jud. Ilfov",
+        "nrRegCom": "J23/1100/2023",
+        "cod_CAEN": "5210",
+        "stare_inregistrare": "INREGISTRAT"
+      },
+      "stare_inactiv": {
+        "statusInactivi": false
+      }
+    }
+  ],
+  "notFound": []
+}
+

@@ -18,4 +18,8 @@ extraction/.cache/
 Thumbs.db
 .vscode/
 .idea/
-test*
+
+# Artefacte de test (NU testele: tests/ și extraction/test_fixtures/ se urmăresc)
+.coverage
+.coverage.*
+htmlcov/

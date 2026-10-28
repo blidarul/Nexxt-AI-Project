@@ -1,0 +1,33 @@
+{
+  "fisier": "02_declaratie_furnizor.pdf",
+  "dosar": "fx_aluminiu",
+  "tip_document": "necunoscut",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:57",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nDECLARAȚIA FURNIZORULUI PRIVIND\nMATERIALUL LIVRAT\nFurnizor: Exemplu Aluminium Supply SRL. Beneficiar: Exemplu Profile Metalice SRL, CUI\n9900000133.\nIndicator Valoare\nConținut de aluminiu reciclat 75%\nIntensitatea de carbon a aluminiului primar utilizat 2,1 tCO2e/t\nValorile sunt calculate pentru loturile livrate în anul 2025.",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Indicator",
+              "Valoare"
+            ],
+            [
+              "Conținut de aluminiu reciclat",
+              "75%"
+            ],
+            [
+              "Intensitatea de carbon a aluminiului primar utilizat",
+              "2,1 tCO2e/t"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

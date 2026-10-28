@@ -1,0 +1,13 @@
+{
+  "categorie": "circular_economy",
+  "subcategorie": "produse_aluminiu",
+  "campuri": {
+    "cui": "9900000133",
+    "suma_eur": 3000000,
+    "cota_banca": 0.6,
+    "indicatori.tip": "produse_aluminiu",
+    "indicatori.pondere_aluminiu_reciclat": 0.75,
+    "indicatori.intensitate_carbon_aluminiu_primar_tco2e_t": 2.1
+  },
+  "liste": {}
+}

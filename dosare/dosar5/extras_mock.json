@@ -1,0 +1,83 @@
+{
+  "dosar_id": "dosar5",
+  "cui": {
+    "valoare": "9900000050",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 1.0
+  },
+  "suma_eur": {
+    "valoare": 35000000,
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 1.0
+  },
+  "cota_banca": {
+    "valoare": 0.58,
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 1.0
+  },
+  "data_aprobare": {
+    "valoare": "2026-02-20",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 1.0
+  },
+  "tara": {
+    "valoare": "România",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 1.0
+  },
+  "adresa_cladire": {
+    "valoare": "Timișoara, Jud. Timiș, Calea Aradului nr. 210",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 1.0
+  },
+  "suprafata_m2": {
+    "valoare": 40000,
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 1.0
+  },
+  "stadiu_cladire": {
+    "valoare": "Finalizată, în exploatare",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 1.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": "BREEAM-EXEMPLU-0005",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 1.0
+  },
+  "epc_clasa": {
+    "valoare": "A",
+    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "incredere": 1.0
+  },
+  "epc_energie_finala": {
+    "valoare": 76.0,
+    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "incredere": 1.0
+  },
+  "epc_suprafata_m2": {
+    "valoare": 40000,
+    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "incredere": 1.0
+  },
+  "chiriasi": [
+    {
+      "nume": "Continental Automotive SRL",
+      "cui": "9900000401",
+      "caen": "2931",
+      "m2": 22000.0,
+      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
+      "incredere": 1.0
+    },
+    {
+      "nume": "Flexronics Romania SRL",
+      "cui": "9900000402",
+      "caen": "2611",
+      "m2": 13200.0,
+      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
+      "incredere": 1.0
+    }
+  ],
+  "afirmatii_client": []
+}
+

@@ -1,0 +1,83 @@
+{
+  "dosar_id": "dosar2",
+  "cui": {
+    "valoare": "9900000020",
+    "sursa": "RASPUNS_ANAF.pdf, p.1",
+    "incredere": 0.99
+  },
+  "suma_eur": {
+    "valoare": 25000000,
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.95
+  },
+  "cota_banca": {
+    "valoare": 0.6,
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.98
+  },
+  "data_aprobare": {
+    "valoare": "2026-02-12",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.98
+  },
+  "tara": {
+    "valoare": "România",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.95
+  },
+  "adresa_cladire": {
+    "valoare": "Com. Ștefăneștii de Jos, Str. Tineretului nr. 45, Jud. Ilfov",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.98
+  },
+  "suprafata_m2": {
+    "valoare": 35000,
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.95
+  },
+  "stadiu_cladire": {
+    "valoare": "În curs de finalizare",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.95
+  },
+  "nr_certificat_declarat": {
+    "valoare": "BREEAM-EXEMPLU-0002",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.98
+  },
+  "epc_clasa": {
+    "valoare": "A",
+    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "incredere": 0.98
+  },
+  "epc_energie_finala": {
+    "valoare": 72.0,
+    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "incredere": 0.95
+  },
+  "epc_suprafata_m2": {
+    "valoare": 35000,
+    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "incredere": 0.95
+  },
+  "chiriasi": [
+    {
+      "nume": "DHL Logistics SRL",
+      "cui": "9900000101",
+      "caen": "5210",
+      "m2": 20000.0,
+      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
+      "incredere": 0.95
+    },
+    {
+      "nume": "Kuehne+Nagel SRL",
+      "cui": "9900000102",
+      "caen": "5224",
+      "m2": 11500.0,
+      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
+      "incredere": 0.95
+    }
+  ],
+  "afirmatii_client": [],
+  "indicatori": {}
+}

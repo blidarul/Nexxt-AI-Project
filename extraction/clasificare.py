@@ -1,20 +1,16 @@
-"""Modul pentru clasificarea documentelor pe baza conținutului primelor pagini."""
+"""Modul pentru clasificarea documentelor pe baza conținutului primelor pagini.
 
-import json
-from pathlib import Path
+Tipurile permise, descrierile și cuvintele-cheie vin din extraction/tipuri_documente.yaml.
+Numele fișierului NU se folosește: clasificarea e strict din conținut.
+"""
+
 from typing import Any, Optional
 
+from extraction.cautare import normalizeaza_text_cautare
+from extraction.cerinte import incarca_tipuri_documente
 from extraction.llm_client import LLMClient, get_llm_client
 
-TIPURI_DOCUMENTE_PERMISE = {
-    "cerere_finantare",
-    "certificat_energetic",
-    "contract_inchiriere",
-    "certificat_sustenabilitate",
-    "extras_carte_funciara",
-    "situatii_financiare",
-    "alt_document",
-}
+TIP_REZERVA = "alt_document"
 
 
 def construieste_text_clasificare(doc_brut: dict[str, Any], max_caractere: int = 3000) -> str:
@@ -35,6 +31,28 @@ def construieste_text_clasificare(doc_brut: dict[str, Any], max_caractere: int =
     return text_complet[:max_caractere]
 
 
+def calculeaza_pre_scor(text: str) -> list[tuple[str, int]]:
+    """Pre-scor determinist: câte cuvinte-cheie distincte ale fiecărui tip apar în text.
+
+    Întoarce tipurile cu scor > 0, ordonate descrescător.
+    """
+    text_norm = normalizeaza_text_cautare(text)
+    scoruri = []
+    for tip, info in incarca_tipuri_documente().items():
+        cuvinte = {normalizeaza_text_cautare(k) for k in info.get("cuvinte_cheie") or []}
+        scor = sum(1 for k in cuvinte if k and k in text_norm)
+        if scor > 0:
+            scoruri.append((tip, scor))
+    scoruri.sort(key=lambda x: x[1], reverse=True)
+    return scoruri
+
+
+def _rol_valid(tip: str, rol: Any) -> Optional[str]:
+    roluri = incarca_tipuri_documente().get(tip, {}).get("roluri") or {}
+    rol_str = str(rol).strip().lower() if rol else ""
+    return rol_str if rol_str in roluri else None
+
+
 def clasifica_document(
     doc_brut: dict[str, Any],
     llm_client: Optional[LLMClient] = None,
@@ -42,32 +60,36 @@ def clasifica_document(
     """Clasifică documentul în funcție de conținutul textului primelor 2 pagini.
 
     Întoarce un dicționar cu:
-        - tip_document: unul din TIPURI_DOCUMENTE_PERMISE
+        - tip_document: o cheie din tipuri_documente.yaml
+        - rol: "inainte" / "dupa" / None (doar pentru tipurile cu roluri)
         - incredere: float 0.0 - 1.0
         - motiv: explicație scurtă
+        - pre_scor: candidații deterministi [(tip, scor), ...]
     """
     client = llm_client or get_llm_client()
-    nume_fisier = doc_brut.get("fisier", "necunoscut.pdf")
+    tipuri = incarca_tipuri_documente()
     text_document = construieste_text_clasificare(doc_brut)
+    pre_scor = calculeaza_pre_scor(text_document)
+
+    lista_tipuri = "\n".join(f"- {tip}: {info.get('descriere', '')}" for tip, info in tipuri.items())
+    tipuri_cu_rol = [t for t, info in tipuri.items() if info.get("roluri")]
 
     prompt_sistem = (
         "Ești un asistent bancar expert în analiza documentelor pentru credite verzi.\n"
-        "Sarcina ta este să clasifici documentul primit într-unul din următoarele tipuri fixe:\n"
-        "- cerere_finantare (cerere de credit / finanțare depusă la bancă)\n"
-        "- certificat_energetic (certificat de performanță energetică, date EPC, consum kWh/m2)\n"
-        "- contract_inchiriere (contract de închiriere, extras chiriași, suprafețe închiriate)\n"
-        "- certificat_sustenabilitate (certificat BREEAM, LEED, DGNB etc.)\n"
-        "- extras_carte_funciara (carte funciară, cadastru)\n"
-        "- situatii_financiare (bilanț, cont de profit și pierdere)\n"
-        "- alt_document (orice altceva ce nu se încadrează în cele de mai sus)\n\n"
+        "Clasifică documentul primit într-unul din următoarele tipuri fixe:\n"
+        f"{lista_tipuri}\n\n"
         "Reguli:\n"
-        "1. Clasifică DOAR pe baza conținutului din text. Numele fișierului este doar un indiciu secundar.\n"
-        "2. Întoarce EXCLUSIV un obiect JSON de forma:\n"
-        '{"tip_document": "...", "incredere": 0.95, "motiv": "..."}'
+        "1. Clasifică DOAR pe baza conținutului din text.\n"
+        f"2. Pentru tipurile {', '.join(tipuri_cu_rol)} completează 'rol': \"inainte\" dacă documentul descrie "
+        "situația dinaintea investiției/renovării, \"dupa\" dacă descrie situația de după (realizată sau estimată), "
+        "altfel null. Pentru celelalte tipuri, 'rol' este null.\n"
+        "3. Întoarce EXCLUSIV un obiect JSON de forma:\n"
+        '{"tip_document": "...", "rol": null, "incredere": 0.95, "motiv": "..."}'
     )
 
+    indiciu = ", ".join(f"{t} ({s})" for t, s in pre_scor[:3]) or "niciunul"
     prompt_utilizator = (
-        f"Nume fișier (indiciu): {nume_fisier}\n\n"
+        f"Tipuri sugerate de potrivirea cuvintelor-cheie (doar indiciu): {indiciu}\n\n"
         f"Conținut primele pagini:\n"
         f"{text_document}\n\n"
         "Clasifică acest document."
@@ -82,25 +104,34 @@ def clasifica_document(
 
     if date_json and isinstance(date_json, dict):
         tip = date_json.get("tip_document")
-        if tip in TIPURI_DOCUMENTE_PERMISE:
-            incredere = float(date_json.get("incredere", 0.9))
+        if tip in tipuri:
+            try:
+                incredere = float(date_json.get("incredere", 0.9))
+            except (TypeError, ValueError):
+                incredere = 0.9
             return {
                 "tip_document": tip,
+                "rol": _rol_valid(tip, date_json.get("rol")),
                 "incredere": round(max(0.0, min(1.0, incredere)), 2),
                 "motiv": date_json.get("motiv", "Clasificare pe baza conținutului de către LLM"),
+                "pre_scor": pre_scor[:3],
             }
 
-    # Fallback euristic dacă LLM nu a întors un tip valid
-    text_lower = text_document.lower()
-    if "cerere de finanțare" in text_lower or "cerere de finantare" in text_lower or "solicitant" in text_lower:
-        return {"tip_document": "cerere_finantare", "incredere": 0.8, "motiv": "Fallback euristic: cerere de finanțare"}
-    elif "certificat de performanță energetică" in text_lower or "certificat de performanta energetica" in text_lower or "clasa energetică" in text_lower:
-        return {"tip_document": "certificat_energetic", "incredere": 0.8, "motiv": "Fallback euristic: certificat energetic"}
-    elif "chiriaș" in text_lower or "chirias" in text_lower or "contracte de închiriere" in text_lower or "contracte de inchiriere" in text_lower:
-        return {"tip_document": "contract_inchiriere", "incredere": 0.8, "motiv": "Fallback euristic: contract închiriere"}
+    # Fallback determinist: cel mai bun pre-scor, dacă e suficient de clar
+    if pre_scor and pre_scor[0][1] >= 2:
+        tip, scor = pre_scor[0]
+        return {
+            "tip_document": tip,
+            "rol": None,
+            "incredere": 0.6,
+            "motiv": f"Fallback pe cuvinte-cheie ({scor} potriviri). Eroare LLM: {eroare}",
+            "pre_scor": pre_scor[:3],
+        }
 
     return {
-        "tip_document": "alt_document",
+        "tip_document": TIP_REZERVA,
+        "rol": None,
         "incredere": 0.5,
         "motiv": f"Clasificare nedecisă. Eroare LLM: {eroare}",
+        "pre_scor": pre_scor[:3],
     }

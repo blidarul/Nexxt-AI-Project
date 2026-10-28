@@ -170,13 +170,12 @@ class PlanificatorLLM:
     TODO: Implementare completă a planificatorului LLM folosind tool calling
     prin schema_pentru_llm() și clientul LLM când mediul și dependențele
     de suport sunt configurate complet.
+    Până la finalizarea integrării LLM, se utilizează PlanificatorScriptat ca fallback.
     """
 
     def __init__(self) -> None:
-        pass
+        self._fallback = PlanificatorScriptat()
 
     def pas_urmator(self, stare: StareDosar, ultimul_rezultat: ToolResult | None = None) -> Decizie:
-        raise NotImplementedError(
-            "PlanificatorLLM nu este încă activat. "
-            "Folosiți MOD_AGENT=scriptat pentru fluxul deterministic funcțional."
-        )
+        logger.info("PlanificatorLLM: fallback la PlanificatorScriptat (integrare LLM în lucru)")
+        return self._fallback.pas_urmator(stare, ultimul_rezultat)

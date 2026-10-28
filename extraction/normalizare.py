@@ -43,6 +43,7 @@ def normalizeaza_numar(valoare: Any) -> Optional[int | float]:
 
     Exemple:
         - "30.000.000 EUR" -> 30000000
+        - "30.000.000,00 EUR" -> 30000000
         - "1.234,5" -> 1234.5
         - "1,234.5" -> 1234.5
         - "20.000 m²" -> 20000
@@ -50,6 +51,11 @@ def normalizeaza_numar(valoare: Any) -> Optional[int | float]:
         - "10.5 mil." -> 10500000
         - "12 milioane EUR" -> 12000000
         - "12 million" -> 12000000
+        - "16 kWh/100 km" -> 16
+        - "120 gCO2/km" -> 120
+        - "2,1 tCO2e/t" -> 2.1
+        - "PUE: 1,38" -> 1.38
+        - "CO2 emissions: 45 g/km" -> 45
     """
     if valoare is None:
         return None
@@ -68,73 +74,83 @@ def normalizeaza_numar(valoare: Any) -> Optional[int | float]:
     mil_pattern = r"(?:\bmil\.|\bmilioane\b|\bmilion\b|\bmillion\b|\bmil\b)"
     mii_pattern = r"(?:\bmii\b|\bthousand\b)"
 
+    text_fara_mult = text
     if re.search(mld_pattern, text_lower):
         multiplicator = 1_000_000_000.0
-        text = re.sub(mld_pattern, "", text, flags=re.IGNORECASE)
+        text_fara_mult = re.sub(mld_pattern, "", text_fara_mult, flags=re.IGNORECASE)
     elif re.search(mil_pattern, text_lower):
         multiplicator = 1_000_000.0
-        text = re.sub(mil_pattern, "", text, flags=re.IGNORECASE)
+        text_fara_mult = re.sub(mil_pattern, "", text_fara_mult, flags=re.IGNORECASE)
     elif re.search(mii_pattern, text_lower):
         multiplicator = 1_000.0
-        text = re.sub(mii_pattern, "", text, flags=re.IGNORECASE)
+        text_fara_mult = re.sub(mii_pattern, "", text_fara_mult, flags=re.IGNORECASE)
 
-    # Curăță monede, unități de măsură și alte caractere non-numerice
-    # Păstrează doar cifre, punct, virgulă și semnul minus
-    text_curat = re.sub(r"[^\d.,\-]", "", text).strip()
-    if not text_curat or text_curat == "-":
+    # Curățăm formule chimice și unități cu indici/puteri numerice (CO2, tCO2e, NOx, SO2, m2, m3 etc.)
+    # precum și prefixe/unități (n50, h⁻¹, etc.)
+    t_fara_n50 = re.sub(r"\bn[_-]?50\s*[:=]?\s*", "", text_fara_mult, flags=re.IGNORECASE)
+    text_curat = re.sub(
+        r"\b[a-z]*co2[a-z0-9]*\b|\b[a-z]*nox[a-z0-9]*\b|\b[a-z]*so2[a-z0-9]*\b|\bm[23]\b|m²|m³|h[\u207b\-]?[1\u00b9]|\b1/h\b",
+        "",
+        t_fara_n50,
+        flags=re.IGNORECASE,
+    )
+
+    # Extragem primul număr din text cu regex (suportă separatori de mii și zecimale RO/EN)
+    m = re.search(r"[-+]?\d+(?:[.,]\d+)*", text_curat)
+    if not m:
         return None
 
-    punct_count = text_curat.count(".")
-    virgula_count = text_curat.count(",")
+    num_str = m.group(0).strip()
+    punct_count = num_str.count(".")
+    virgula_count = num_str.count(",")
 
     if punct_count > 0 and virgula_count > 0:
         # Format mixt: ultimul separator este separatorul zecimal
-        ultimul_punct = text_curat.rfind(".")
-        ultima_virgula = text_curat.rfind(",")
+        ultimul_punct = num_str.rfind(".")
+        ultima_virgula = num_str.rfind(",")
         if ultima_virgula > ultimul_punct:
-            # Format european: 1.234,5 -> 1234.5
-            text_curat = text_curat.replace(".", "").replace(",", ".")
+            # Format european: 1.234,5 sau 30.000.000,00 -> 1234.5 / 30000000.00
+            num_str = num_str.replace(".", "").replace(",", ".")
         else:
-            # Format anglo-saxon: 1,234.5 -> 1234.5
-            text_curat = text_curat.replace(",", "")
+            # Format anglo-saxon: 1,234.5 sau 30,000,000.00 -> 1234.5 / 30000000.00
+            num_str = num_str.replace(",", "")
     elif punct_count > 1:
         # Puncte multiple ca separatori de mii: 30.000.000 -> 30000000
-        text_curat = text_curat.replace(".", "")
+        num_str = num_str.replace(".", "")
     elif virgula_count > 1:
         # Virgule multiple ca separatori de mii: 30,000,000 -> 30000000
-        text_curat = text_curat.replace(",", "")
+        num_str = num_str.replace(",", "")
     elif punct_count == 1:
         # Un singur punct: ex: 20.000 vs 1234.5 vs 10.5
-        parti = text_curat.split(".")
+        parti = num_str.split(".")
         parte_intreaga, parte_zecimala = parti[0], parti[1]
         # Dacă după punct sunt exact 3 cifre și partea întreagă nu e 0:
         # În context de EUR, m² etc., 20.000 este 20000 (separator de mii),
         # cu excepția cazului când există multiplicator (ex: 10.5 mil)
         if len(parte_zecimala) == 3 and parte_intreaga != "0" and multiplicator == 1.0:
-            text_curat = text_curat.replace(".", "")
+            num_str = num_str.replace(".", "")
         else:
             # Rămâne separator zecimal
             pass
     elif virgula_count == 1:
         # O singură virgulă:
-        parti = text_curat.split(",")
+        parti = num_str.split(",")
         parte_intreaga, parte_zecimala = parti[0], parti[1]
         if len(parte_zecimala) == 3 and parte_intreaga != "0" and multiplicator == 1.0:
             # 20,000 ca separator de mii
-            text_curat = text_curat.replace(",", "")
+            num_str = num_str.replace(",", "")
         else:
             # Virgulă zecimală: 0,6 -> 0.6 sau 1234,5 -> 1234.5
-            text_curat = text_curat.replace(",", ".")
+            num_str = num_str.replace(",", ".")
 
     try:
-        val = float(text_curat) * multiplicator
+        val = float(num_str) * multiplicator
         # Dacă numărul este întreg (fără fracție), întoarce int
         if val.is_integer():
             return int(val)
         return round(val, 4)
     except ValueError:
         return None
-
 
 def normalizeaza_procent(valoare: Any) -> Optional[float]:
     """Convertește o valoare procentuală la un număr între 0.0 și 1.0.
@@ -376,24 +392,25 @@ def normalizeaza_camp(
 # ---------------------------------------------------------------------------
 
 def normalizeaza_kwh_per_100km_la_km(valoare: Any) -> Optional[float]:
-    """Convertește kWh/100 km sau kWh/km în kWh/km."""
+    """Convertește consumul din kWh/100 km în kWh/km (împărțire la 100).
+
+    Exemple:
+        - "16 kWh/100 km" -> 0.16
+        - "21.0 kWh/100km" -> 0.21
+        - "0.16 kWh/km" -> 0.16
+    """
     if valoare is None:
         return None
 
     text = str(valoare).strip()
-
-    match = re.search(r"[-+]?\d+(?:[.,]\d+)?", text)
-    if not match:
-        return None
-
-    num = normalizeaza_numar(match.group(0))
+    num = normalizeaza_numar(text)
     if num is None:
         return None
 
     val = float(num)
-
-    if re.search(r"/\s*100\s*km\b|per\s*100\s*km\b", text, re.IGNORECASE):
-        val /= 100.0
+    # Dacă în text apare '100' sau '100km' / '100 km', se împarte la 100
+    if re.search(r"\b100\s*km\b|100km", text, re.IGNORECASE) or val >= 5.0:
+        val = val / 100.0
 
     return round(val, 4)
 

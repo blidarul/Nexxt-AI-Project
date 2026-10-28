@@ -1,7 +1,9 @@
 """Modul pentru extragerea valorilor câmpurilor folosind tabele markdown și apeluri LLM."""
 
 import json
+import re
 from typing import Any, Optional
+import unicodedata
 
 from contracts import Chirias
 from extraction.llm_client import LLMClient, get_llm_client
@@ -121,7 +123,145 @@ def extrage_chiriasi_determinist(
                         citat = "; ".join(citate_colectate[:3])
                         return chiriasi_gasiti, sursa, citat
 
+    # 2. Dacă nu s-au găsit chiriași în tabele, căutăm în format text cu marcaje / pipe (|)
+    for doc in documente_clasificate:
+        fisier = doc.get("fisier", "")
+        tip_doc = doc.get("tip_document", "")
+        nume_lower = fisier.lower()
+        if tip_doc != "contract_inchiriere" and "chirias" not in nume_lower and "contract" not in nume_lower:
+            continue
+
+        for pag in doc.get("pagini", []):
+            nr_pag = pag.get("pagina", 1)
+            text_p = pag.get("text", "")
+            if not text_p or ("|" not in text_p and "chiriaș" not in text_p.lower() and "chirias" not in text_p.lower()):
+                continue
+
+            blocks = re.split(r"\n?\s*\*\s*", text_p)
+            chiriasi_gasiti = []
+            citate_colectate = []
+
+            for b in blocks:
+                b_clean = " ".join(b.split())
+                if "|" not in b_clean or "grad ocupare" in b_clean.lower() or "pre-rezerv" in b_clean.lower():
+                    continue
+
+                parts = [p.strip() for p in b_clean.split("|")]
+                first = parts[0]
+                nume = re.sub(r"^(?:Chiria[șs]\s*\d+\s*:\s*|Pre-contracte[^:]*:\s*)", "", first).strip()
+                caen = ""
+                m2 = 0.0
+
+                for p in parts[1:]:
+                    if "caen" in p.lower():
+                        caen_norm = normalizeaza_caen(p)
+                        if caen_norm:
+                            caen = caen_norm
+                    elif any(s in p.lower() for s in ["suprafa", "m²", "mp", "m2"]):
+                        m_sup = re.search(r"([\d.,]+)\s*(?:m²|mp|m2)?", p)
+                        if m_sup:
+                            val = normalizeaza_numar(m_sup.group(1))
+                            if val:
+                                m2 = float(val)
+
+                if nume and m2 > 0:
+                    chiriasi_gasiti.append(
+                        Chirias(
+                            nume=nume,
+                            caen=caen,
+                            m2=m2,
+                        )
+                    )
+                    citate_colectate.append(b_clean[:120])
+
+            if chiriasi_gasiti:
+                sursa = f"{fisier}, p.{nr_pag}"
+                citat = "; ".join(citate_colectate[:3])
+                return chiriasi_gasiti, sursa, citat
+
     return [], None, None
+
+
+_BULLET = re.compile(r"^\s*[•\-\*–·▪]\s+")
+_TITLU_NUMEROTAT = re.compile(r"^\s*\d+[\.\)]\s+\S")
+
+
+def _norm(text: str) -> str:
+    nfkd = unicodedata.normalize("NFKD", text or "")
+    return "".join(c for c in nfkd if not unicodedata.combining(c)).lower()
+
+
+def extrage_afirmatii_determinist(
+    documente: list[dict[str, Any]],
+    info_camp: dict[str, Any],
+) -> tuple[list[str], Optional[str], list[str]]:
+    """Afirmațiile de sustenabilitate ale clientului, extrase determinist din text.
+
+    Se păstrează:
+    - toate bullet-urile/frazele din secțiunea de declarații (titluri_sectiune din campuri.yaml);
+    - în restul documentului, bullet-urile și frazele încheiate cu punct care conțin un cuvânt
+      din cuvinte_afirmatii (rândurile de formular din tabele se ignoră).
+    Bullet-urile continuate pe rândul următor se unesc. Întoarce (afirmatii, sursa, citate).
+    """
+    titluri = [_norm(t) for t in info_camp.get("titluri_sectiune") or []]
+    cuvinte = [_norm(c) for c in info_camp.get("cuvinte_afirmatii") or []]
+    afirmatii: list[str] = []
+    surse: list[str] = []
+
+    def adauga(text: str, fisier: str, pagina: int, in_sectiune: bool) -> None:
+        text = re.sub(r"\s+", " ", text).strip()
+        if len(text) < 8 or text in afirmatii:
+            return
+        if in_sectiune or any(c in _norm(text) for c in cuvinte):
+            afirmatii.append(text)
+            surse.append(f"{fisier}, p.{pagina}")
+
+    for doc in documente:
+        fisier = doc.get("fisier", "")
+        for pag in doc.get("pagini", []):
+            nr = pag.get("pagina", 1)
+            randuri_tabel = {
+                _norm(" ".join(str(c) for c in r)).strip()
+                for t in pag.get("tabele", []) for r in t.get("randuri", [])
+            }
+            in_sectiune = False
+            curent: Optional[str] = None
+
+            def inchide_bullet() -> None:
+                nonlocal curent
+                if curent is not None:
+                    adauga(curent, fisier, nr, in_sectiune)
+                    curent = None
+
+            for linie in (pag.get("text") or "").splitlines():
+                linie_norm = _norm(linie).strip()
+                if not linie_norm:
+                    inchide_bullet()
+                    continue
+                este_titlu = any(t in linie_norm for t in titluri)
+                if este_titlu or _TITLU_NUMEROTAT.match(linie):
+                    inchide_bullet()
+                    in_sectiune = este_titlu
+                    continue
+                if _BULLET.match(linie):
+                    inchide_bullet()
+                    curent = _BULLET.sub("", linie)
+                    continue
+                if curent is not None and not curent.rstrip().endswith("."):
+                    curent += " " + linie.strip()  # bullet continuat pe rândul următor
+                    continue
+                inchide_bullet()
+                if linie_norm in randuri_tabel:
+                    continue  # rând de formular (cheie | valoare), nu o afirmație
+                if in_sectiune:
+                    adauga(linie, fisier, nr, True)
+                elif linie.strip().endswith(".") and ":" not in linie and len(linie) <= 300:
+                    # în afara secțiunii: doar rânduri care sunt fraze complete, nu câmpuri de formular
+                    adauga(linie, fisier, nr, False)
+            inchide_bullet()
+
+    sursa = "; ".join(dict.fromkeys(surse)) or None
+    return afirmatii, sursa, afirmatii[:3]
 
 
 def extrage_campuri_document_llm(
@@ -141,12 +281,32 @@ def extrage_campuri_document_llm(
     client = llm_client or get_llm_client()
     text_document = formateaza_pagini_pentru_prompt(pagini)
 
+    # Filtrăm exclusiv câmpurile care trebuie extrase din documente (extras_din_document: True)
+    campuri_cerute = [
+        c for c in campuri
+        if catalog_campuri.get(c, {}).get("extras_din_document", True)
+    ]
+    if not campuri_cerute:
+        return {}
+
     descrieri = []
-    for c in campuri:
+    are_da_nu = False
+    for c in campuri_cerute:
         info = catalog_campuri.get(c, {})
         desc = info.get("descriere", c)
-        descrieri.append(f"- {c}: {desc}")
+        tip = info.get("tip")
+        if tip == "da_nu":
+            are_da_nu = True
+            descrieri.append(f"- {c} (da/nu): {desc}")
+        else:
+            descrieri.append(f"- {c}: {desc}")
     descrieri_str = "\n".join(descrieri)
+    regula_da_nu = (
+        "\nPentru câmpurile (da/nu): 'valoare_text' este \"da\" sau \"nu\", iar 'citat' trebuie să conțină "
+        "afirmația sau negația explicită din document. Atenție la negații (\"nu\", \"fără\", \"not\"). "
+        "Dacă documentul nu spune explicit, întoarce null (NU \"nu\").\n"
+        if are_da_nu else ""
+    )
 
     prompt_sistem = (
         "Ești un asistent de extracție precisă a datelor din documente financiare și tehnice.\n"
@@ -158,7 +318,8 @@ def extrage_campuri_document_llm(
         "3. 'valoare_text': valoarea exact cum apare în document (curățarea și conversia o face codul).\n"
         "4. 'pagina': numărul paginii (ex: 1, 2) unde apare citatul.\n"
         "5. 'incredere': număr între 0.0 și 1.0 (nivelul de siguranță că fragmentul răspunde exact câmpului).\n\n"
-        "Pentru câmpul 'afirmatii_client', întoarce o listă de afirmații făcute de client privind sustenabilitatea.\n\n"
+        "Pentru câmpul 'afirmatii_client', întoarce o listă de afirmații făcute de client privind sustenabilitatea.\n"
+        f"{regula_da_nu}\n"
         "Formatul răspunsului trebuie să fie EXCLUSIV un JSON valid de forma:\n"
         "{\n"
         '  "cui": {"valoare_text": "9900000010", "citat": "CUI 9900000010", "pagina": 1, "incredere": 0.98},\n'
@@ -178,7 +339,9 @@ def extrage_campuri_document_llm(
         {"role": "user", "content": prompt_utilizator},
     ]
 
-    date_json, eroare = client.apeleaza_cu_json(mesaje)
+    date_json, eroare = client.apeleaza_cu_json(
+        mesaje, chei_asteptate=campuri_cerute, chei_permise=set(catalog_campuri),
+    )
     if date_json and isinstance(date_json, dict):
         return date_json
 

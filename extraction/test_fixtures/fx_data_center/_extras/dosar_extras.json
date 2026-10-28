@@ -1,0 +1,80 @@
+{
+  "dosar_id": "fx_data_center",
+  "cui": {
+    "valoare": "9900000099",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.98
+  },
+  "suma_eur": {
+    "valoare": 8000000,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "cota_banca": {
+    "valoare": 0.8,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "data_aprobare": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "tara": {
+    "valoare": "România",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "adresa_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "suprafata_m2": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "stadiu_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "epc_clasa": null,
+  "epc_energie_finala": null,
+  "epc_suprafata_m2": null,
+  "chiriasi": [],
+  "afirmatii_client": [],
+  "categorie": {
+    "valoare": "energy_efficiency",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.99
+  },
+  "subcategorie": {
+    "valoare": "data_center",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.99
+  },
+  "indicatori": {
+    "descriere_proiect": {
+      "valoare": "Modernizarea centrului de date propriu din Ilfov: înlocuirea sistemelor de răcire și a UPS-urilor cu echipamente de înaltă eficiență energetică, cu scopul de a reduce PUE-ul anual al centrului de date.",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.95
+    },
+    "pue_anualizat": {
+      "valoare": 1.38,
+      "sursa": "02_raport_pue.pdf, p.1",
+      "incredere": 0.95
+    },
+    "tip_proiect": {
+      "valoare": "data_center",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.99
+    }
+  }
+}

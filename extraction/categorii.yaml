@@ -1,0 +1,13 @@
+# Cum citește extractorul categoriile din rules/*.yaml (fără liste scrise în cod).
+#
+# chei_subcategorii: cheile din antetul unui rules/<categorie>.yaml care listează valorile permise
+#   pentru subcategorie (fiecare fișier folosește una dintre ele).
+#   Câmpul care poartă subcategoria (tip, tehnologie, tip_proiect) se deduce din cheile
+#   aplica_daca ale regulilor. Al treilea nivel (ex. tip_masura) vine din `camp_tip` al unui bloc.
+chei_subcategorii: [subcategorii, tehnologii, tipuri, tipuri_proiect]
+
+# Fișiere din rules/ care nu descriu o categorie de proiect
+fisiere_ignorate: [cerinte_dosar.yaml, conditii_generale.yaml]
+
+# Sub acest prag de încredere, categoria rămâne cu 2 candidați
+prag_incredere: 0.7

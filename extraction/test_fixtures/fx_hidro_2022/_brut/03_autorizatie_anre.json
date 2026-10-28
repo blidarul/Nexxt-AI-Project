@@ -1,0 +1,33 @@
+{
+  "fisier": "03_autorizatie_anre.pdf",
+  "dosar": "fx_hidro_2022",
+  "tip_document": "certificat_energetic",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:42:58",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nLICENȚĂ PENTRU EXPLOATAREA COMERCIALĂ A\nCAPACITĂȚILOR DE PRODUCERE A ENERGIEI\nELECTRICE\nEmisă de ANRE pentru Exemplu Hidro Energie SRL, CUI 9900000111, pentru CHE Exemplu-Râu.\nCapacitate autorizată 4,8 MW\nData punerii în funcțiune 15.06.2022\nAnul punerii în funcțiune 2022",
+      "necesita_ocr": false,
+      "tabele": [
+        {
+          "index": 0,
+          "randuri": [
+            [
+              "Capacitate autorizată",
+              "4,8 MW"
+            ],
+            [
+              "Data punerii în funcțiune",
+              "15.06.2022"
+            ],
+            [
+              "Anul punerii în funcțiune",
+              "2022"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "dosar_id": "fx_transport_flota",
+  "cui": {
+    "valoare": "9900000088",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.98
+  },
+  "suma_eur": {
+    "valoare": 450000,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "cota_banca": {
+    "valoare": 1.0,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.96
+  },
+  "data_aprobare": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "tara": {
+    "valoare": "România",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.97
+  },
+  "adresa_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "suprafata_m2": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "stadiu_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "epc_clasa": null,
+  "epc_energie_finala": null,
+  "epc_suprafata_m2": null,
+  "chiriasi": [],
+  "afirmatii_client": [
+    "Flota noastră este 100% cu emisii zero."
+  ],
+  "categorie": {
+    "valoare": "clean_transportation",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.99
+  },
+  "subcategorie": {
+    "valoare": "autoturism_sau_utilitara",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.99
+  },
+  "indicatori": {
+    "descriere_proiect": {
+      "valoare": "Achiziția unei flote de 15 autoutilitare ușoare (categoria N1) pentru livrarea urbană de colete: 10 autoutilitare electrice și 5 autoutilitare hibride plug-in. Lista vehiculelor este în anexa flotă.",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.99
+    },
+    "transporta_combustibili_fosili": {
+      "valoare": false,
+      "sursa": "05_declaratie_utilizare.pdf, p.1",
+      "incredere": 0.98
+    },
+    "vehicule": {
+      "valoare": [
+        {
+          "marca": "Exemplu",
+          "model": "EV-Van",
+          "combustibil": "electric",
+          "bucati": 10,
+          "emisii_wltp_gco2_km": 0,
+          "consum_kwh_km": 0.16,
+          "distanta_anuala_km": 17746
+        },
+        {
+          "marca": "Exemplu",
+          "model": "PHEV-Van",
+          "combustibil": "hibrid plug-in",
+          "bucati": 5,
+          "emisii_wltp_gco2_km": 45,
+          "consum_kwh_km": 0.05,
+          "distanta_anuala_km": 17746
+        }
+      ],
+      "sursa": "02_lista_vehicule.pdf, p.1-2; 03_coc_ev_van.pdf, 04_coc_phev_van.pdf",
+      "incredere": 0.95
+    },
+    "tip": {
+      "valoare": "autoturism_sau_utilitara",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.99
+    }
+  }
+}

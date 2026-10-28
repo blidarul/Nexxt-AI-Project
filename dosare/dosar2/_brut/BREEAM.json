@@ -1,0 +1,15 @@
+{
+  "fisier": "BREEAM.pdf",
+  "dosar": "dosar2",
+  "tip_document": "certificat_sustenabilitate",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T22:17:59",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "BREEAM OFFICIAL ASSESSMENT REGISTRATION\n1. DATE GENERALĂ CLĂDIRE & DEZVOLTATOR\n- Denumire Clădire: Solar Logistics Park - Building A1\n- Client / Dezvoltator: Solar Logistics Park C SRL\n- Oraș / Cod Poștal: Ștefăneștii de Jos, 077175, România\n2. DETALII CERTIFICARE VERDE\n- Schema BREEAM: International V6 New Construction: Industrial\n- Etapa Evaluării: Final Certificate\n- Nivel Certificare (Rating): EXCELLENT\n- Punctaj Obținut: 78.2%\n- Nr. Certificat: BREEAM-EXEMPLU-0002\n- Auditat de: Green Assess SRL\n- Data Emiterii: 18.12.2025",
+      "necesita_ocr": false,
+      "tabele": []
+    }
+  ]
+}

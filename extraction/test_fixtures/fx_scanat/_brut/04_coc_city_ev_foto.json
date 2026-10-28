@@ -1,0 +1,16 @@
+{
+  "fisier": "04_coc_city_ev_foto.png",
+  "dosar": "fx_scanat",
+  "tip_document": "contract_inchiriere",
+  "nr_pagini": 1,
+  "extras_la": "2026-10-28T21:54:05",
+  "pagini": [
+    {
+      "pagina": 1,
+      "text": "DOCUMENT SINTETIC - generat pentru teste, date fictive\nCERTIFICAT DE CONFORMITATE CE / EC CERTIFICATE OF CONFORMITY\n0.1 Marca (Make): Exemplu\n0.2 Tip / Model: City-EV\n47. Emisii CO2 WLTP, combinat: 0 g/km\n49. Consum de energie electrică WLTP: 150 Wh/km",
+      "necesita_ocr": false,
+      "ocr": true,
+      "tabele": []
+    }
+  ]
+}

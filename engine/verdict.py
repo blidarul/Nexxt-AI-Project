@@ -20,7 +20,7 @@ def decide_verdict(stare: StareDosar) -> Verdict:
     Precedența:
       1. Orice regulă obligatorie cu NU => NEELIGIBIL
       2. SEMNAL sau escaladat => EXCEPTIE_ESCALADARE_COMITET
-      3. Cale eligibilă cu OK => ELIGIBIL
+      3. Cale eligibilă cu OK => ELIGIBIL (sau ELIGIBIL_CU_MONITORIZARE dacă e în construcție)
       4. Cale eligibilă cu OK_CONDITIONAT => ELIGIBIL_CU_MONITORIZARE
       5. Altfel => NEELIGIBIL
     """
@@ -52,10 +52,31 @@ def decide_verdict(stare: StareDosar) -> Verdict:
         cale_ok = next((r for r in [reguli_dict.get(c) for c in CAI_ELIGIBILITATE] if r and r.rezultat == "OK"), None)
         cale_conditionat = next((r for r in [reguli_dict.get(c) for c in CAI_ELIGIBILITATE] if r and r.rezultat == "OK_CONDITIONAT"), None)
 
-        if cale_ok:
+        res_breeam = stare.rezultate_tools.get("cauta_certificat")
+        rating = "Excellent"
+        if res_breeam and res_breeam.gasit and isinstance(res_breeam.date, dict):
+            rating = str(res_breeam.date.get("rating", "Excellent")).strip().capitalize()
+
+        stadiu_str = str(getattr(stare.extras, "stadiu_cladire", None) and stare.extras.stadiu_cladire.valoare or "").lower()
+        is_in_constructie = "construc" in stadiu_str
+
+        if is_in_constructie:
+            if cale_ok or cale_conditionat:
+                verdict_tip = "ELIGIBIL_CU_MONITORIZARE"
+                c = cale_ok or cale_conditionat
+                if c.regula_id == "GB-01":
+                    cale_aleasa = "GB-01 (BREEAM Excellent, stadiu Interim)" if cale_conditionat else f"GB-01 (certificare BREEAM {rating}, cladire in constructie)"
+                elif c.regula_id == "GB-03":
+                    cale_aleasa = "GB-03 (EPC clasa A), dupa ce GB-01 a picat"
+                else:
+                    cale_aleasa = f"{c.regula_id} ({c.dovada})"
+            else:
+                verdict_tip = "NEELIGIBIL"
+                cale_aleasa = None
+        elif cale_ok:
             verdict_tip = "ELIGIBIL"
             if cale_ok.regula_id == "GB-01":
-                cale_aleasa = "GB-01 (certificare BREEAM Excellent, Final)"
+                cale_aleasa = f"GB-01 (certificare BREEAM {rating}, Final)"
             elif cale_ok.regula_id == "GB-03":
                 cale_aleasa = "GB-03 (EPC clasa A), dupa ce GB-01 a picat"
             else:

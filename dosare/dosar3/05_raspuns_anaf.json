@@ -1,0 +1,20 @@
+{
+  "_nota": "SINTETIC. Raspuns ANAF pentru dosar3",
+  "found": [
+    {
+      "date_generale": {
+        "cui": 9900000030,
+        "denumire": "S.C. GREEN RETAIL TOWER S.R.L.",
+        "adresa": "Cluj-Napoca, Str. Republicii nr. 102, Jud. Cluj",
+        "nrRegCom": "J12/850/2022",
+        "cod_CAEN": "6820",
+        "stare_inregistrare": "INREGISTRAT"
+      },
+      "stare_inactiv": {
+        "statusInactivi": false
+      }
+    }
+  ],
+  "notFound": []
+}
+

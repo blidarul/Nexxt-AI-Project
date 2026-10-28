@@ -1,0 +1,84 @@
+{
+  "dosar_id": "dosar3",
+  "cui": {
+    "valoare": "9900000030",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.99
+  },
+  "suma_eur": {
+    "valoare": 22000000,
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.95
+  },
+  "cota_banca": {
+    "valoare": 0.58,
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.98
+  },
+  "data_aprobare": {
+    "valoare": "2026-02-15",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.98
+  },
+  "tara": {
+    "valoare": "România",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.95
+  },
+  "adresa_cladire": {
+    "valoare": "Cluj-Napoca, Jud. Cluj, Str. Republicii nr. 102",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.98
+  },
+  "suprafata_m2": {
+    "valoare": 18500,
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.95
+  },
+  "stadiu_cladire": {
+    "valoare": "Finalizată, în exploatare",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.95
+  },
+  "nr_certificat_declarat": {
+    "valoare": "BREEAM-EXEMPLU-0003",
+    "sursa": "CERERE_FINANTARE.pdf, p.1",
+    "incredere": 0.98
+  },
+  "epc_clasa": {
+    "valoare": "A",
+    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "incredere": 0.98
+  },
+  "epc_energie_finala": {
+    "valoare": 58.0,
+    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "incredere": 0.95
+  },
+  "epc_suprafata_m2": {
+    "valoare": 18500,
+    "sursa": "CERTIFICAT_PERFORMANTA.pdf, p.1",
+    "incredere": 0.95
+  },
+  "chiriasi": [
+    {
+      "nume": "Eco Supermarket SRL",
+      "cui": "9900000201",
+      "caen": "4711",
+      "m2": 8000.0,
+      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
+      "incredere": 0.95
+    },
+    {
+      "nume": "Fashion Green Retail SRL",
+      "cui": "9900000202",
+      "caen": "4771",
+      "m2": 9000.0,
+      "sursa": "CONTRACTE_CHIRIASI.pdf, p.1",
+      "incredere": 0.95
+    }
+  ],
+  "afirmatii_client": [],
+  "indicatori": {}
+}
+

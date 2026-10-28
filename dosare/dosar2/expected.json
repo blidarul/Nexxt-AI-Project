@@ -1,0 +1,46 @@
+{
+  "dosar": "dosar2",
+  "descriere": "Parc logistic verde cu BREEAM Excellent Final si clasa A.",
+  "verdict": "ELIGIBIL",
+  "cale_eligibilitate": "GB-01 (certificare BREEAM Excellent, Final)",
+  "reguli": [
+    {
+      "id": "G-01",
+      "rezultat": "OK",
+      "dovada": "Tara: Romania (Anexa B)"
+    },
+    {
+      "id": "G-02",
+      "rezultat": "OK",
+      "dovada": "CAEN imprumutat 5210 - imobiliare, nu e sector exclus"
+    },
+    {
+      "id": "G-04",
+      "rezultat": "OK",
+      "dovada": "Aprobat 2026-02-12, in fereastra de 24 luni"
+    },
+    {
+      "id": "GB-01",
+      "rezultat": "OK",
+      "dovada": "Registru BREEAM: Excellent, Final, nr. certificat identic cu cel declarat"
+    },
+    {
+      "id": "GB-X1",
+      "rezultat": "OK",
+      "dovada": "Niciun chirias cu CAEN din lista de semnal"
+    }
+  ],
+  "impact": {
+    "formula": "(baseline - energie_finala) x suprafata x cota_banca x factor_emisie",
+    "sursa": "Allocation & Impact Report 2025, p. 22",
+    "pasi": [
+      "1. Diferenta consum: 297 - 72 = 225 kWh/m2/an",
+      "2. x suprafata: 225 x 35000 = 7.875.000 kWh/an",
+      "3. x cota banca: 7.875.000 x 0.6 = 4.725.000 kWh/an",
+      "4. x factor emisie: 4.725.000 x 0.25 = 1.181.250 kgCO2/an"
+    ],
+    "rezultat_tco2_an": 1181.2,
+    "atentie": "Factorul de emisie e valoare EXEMPLU (vezi reference/factori_referinta.yaml)."
+  }
+}
+

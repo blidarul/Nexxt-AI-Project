@@ -1,0 +1,12 @@
+{
+  "categorie": "green_buildings",
+  "subcategorie": "renovare",
+  "campuri": {
+    "cui": "9900000122",
+    "suma_eur": 5000000,
+    "indicatori.ped_inainte_kwh_m2": 245,
+    "indicatori.ped_dupa_kwh_m2": 120,
+    "indicatori.pondere_suma_pentru_renovare": 0.85
+  },
+  "liste": {}
+}

@@ -1,0 +1,75 @@
+{
+  "dosar_id": "fx_ambiguu",
+  "cui": {
+    "valoare": "9900000166",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.98
+  },
+  "suma_eur": {
+    "valoare": 1200000,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.95
+  },
+  "cota_banca": {
+    "valoare": 1.0,
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.96
+  },
+  "data_aprobare": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "tara": {
+    "valoare": "România",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.97
+  },
+  "adresa_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "suprafata_m2": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "stadiu_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 0.0
+  },
+  "epc_clasa": null,
+  "epc_energie_finala": null,
+  "epc_suprafata_m2": null,
+  "chiriasi": [],
+  "afirmatii_client": [],
+  "categorie": {
+    "valoare": "renewable_energy",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.65
+  },
+  "subcategorie": {
+    "valoare": "solar_fotovoltaic",
+    "sursa": "01_cerere_finantare.pdf, p.1",
+    "incredere": 0.65
+  },
+  "indicatori": {
+    "descriere_proiect": {
+      "valoare": "Modernizarea iluminatului și panouri fotovoltaice pe hala de producție.",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.99
+    },
+    "tehnologie": {
+      "valoare": "solar_fotovoltaic",
+      "sursa": "01_cerere_finantare.pdf, p.1",
+      "incredere": 0.65
+    }
+  }
+}
