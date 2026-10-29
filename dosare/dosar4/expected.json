@@ -1,7 +1,7 @@
 {
   "dosar": "dosar4",
   "descriere": "Cladire in constructie: BREEAM Very Good (pica GB-01), dar EPC clasa A (trece GB-03).",
-  "verdict": "ELIGIBIL_CU_MONITORIZARE",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
   "cale_eligibilitate": "GB-03 (EPC clasa A), dupa ce GB-01 a picat",
   "reguli": [
     {
@@ -40,6 +40,9 @@
       "dovada": "Niciun chirias cu CAEN din lista de semnal"
     }
   ],
-  "impact": "Nu se calculeaza (Impact Report p. 18: constructie noua in derulare fara consum real)"
+  "impact": "Nu se calculeaza (Impact Report p. 18: constructie noua in derulare fara consum real)",
+  "actiuni": [
+    "Neevaluabil G-03"
+  ],
+  "nota_verdict_strict": "Era ELIGIBIL_CU_MONITORIZARE. Verdict strict: aprobare doar cu toate criteriile verificate; incertitudini: G-03."
 }
-

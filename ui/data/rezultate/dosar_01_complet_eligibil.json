@@ -1,55 +1,64 @@
 {
-  "salvat_la": "2026-10-29T02:52:01",
+  "salvat_la": "2026-10-29T04:10:47",
   "verdict": {
     "dosar_id": "dosar_01_complet_eligibil",
-    "verdict": "ELIGIBIL",
-    "cale_eligibilitate": "GB-01 (certificare BREEAM Excellent, Final)",
+    "verdict": "EXCEPTIE_ESCALADARE_COMITET",
+    "cale_eligibilitate": "GB-01 ar fi indeplinita, dar verificarea nu e completa",
     "reguli": [
       {
         "regula_id": "G-01",
         "rezultat": "OK",
-        "dovada": "Tara: Romania (Anexa B)",
+        "dovada": "Tara eligibila pentru utilizare verde: tara='România' este în lista permisă",
         "sursa_framework": "Anexa B, p. 26"
       },
       {
         "regula_id": "G-02",
         "rezultat": "OK",
-        "dovada": "CAEN imprumutat 6820 - imobiliare, nu e sector exclus",
+        "dovada": "Imprumutatul nu e intr-un sector exclus: CAEN 6820 nu este în sector exclus",
         "sursa_framework": "Anexa A, p. 25"
+      },
+      {
+        "regula_id": "G-03",
+        "rezultat": "NEEVALUABIL",
+        "dovada": "Creditul a trecut prin procesul standard de credit: valoarea booleană pentru aprobat_proces_standard nu a fost găsită",
+        "sursa_framework": "p. 19"
       },
       {
         "regula_id": "G-04",
         "rezultat": "OK",
-        "dovada": "Aprobat 2026-03-15, in fereastra de 24 luni",
+        "dovada": "Credit acordat in ultimele 24 de luni fata de decizia de alocare: luni_de_la_aprobare=-2 <= 24 (luni_de_la_aprobare = (2026-01-01 - 2026-03-15) în luni = -2 luni)",
         "sursa_framework": "p. 6"
+      },
+      {
+        "regula_id": "G-05",
+        "rezultat": "OK",
+        "dovada": "Criteriile se aplica la data marcarii ca eligibil (grandfathering): respectat conform cerințelor descriptive (Pragurile care se schimba in timp (ex. masini: 50 g/km pana in dec. 2025, 0 g/km din 2026) se evalueaza la data la care creditul a fost marcat ca eligibil, nu la data de azi. Daca data_marcare_verde lipseste, se foloseste data_aprobare si se semnaleaza.\n)",
+        "sursa_framework": "p. 23"
       },
       {
         "regula_id": "GB-01",
         "rezultat": "OK",
-        "dovada": "Registru BREEAM: Excellent, Final, nr. certificat identic cu cel declarat",
-        "sursa_framework": "Framework p.7"
+        "dovada": "Certificare internationala: certificare BREEAM Excellent (stadiu: finală) respectă cerințele",
+        "sursa_framework": "p. 7, notele 8 si 9"
       },
       {
         "regula_id": "GB-X1",
         "rezultat": "OK",
-        "dovada": "Niciun chirias cu CAEN din lista de semnal",
-        "sursa_framework": "Framework p.7, nota 6"
+        "dovada": "Cladiri folosite pentru extractia/fabricarea combustibililor fosili: niciun chiriaș nu are cod CAEN din lista de semnal",
+        "sursa_framework": "p. 7, nota 6"
       }
     ],
-    "impact_tco2_an": 606.0,
-    "impact_detalii": {
-      "formula": "(baseline - energie_finala) x suprafata x cota_banca x factor_emisie",
-      "sursa": "Allocation & Impact Report 2025, p. 22",
-      "pasi": [
-        "1. Diferenta consum: 297 - 95 = 202 kWh/m2/an",
-        "2. x suprafata: 202 x 20000 = 4.040.000 kWh/an",
-        "3. x cota banca: 4.040.000 x 0.6 = 2.424.000 kWh/an",
-        "4. x factor emisie: 2.424.000 x 0.25 = 606.000 kgCO2/an"
-      ],
-      "rezultat_tco2_an": 606.0,
-      "atentie": "Factorul de emisie e valoare EXEMPLU (vezi reference/factori_referinta.yaml)."
-    },
-    "actiuni": [],
+    "impact_tco2_an": null,
+    "impact_detalii": {},
+    "actiuni": [
+      "Motiv: Neevaluabil G-03 (Creditul a trecut prin procesul standard de credit): Creditul a trecut prin procesul standard de credit: valoarea booleană pentru aprobat_proces_standard nu a fost găsită. Se cer datele care lipsesc.",
+      "Motiv: Document obligatoriu lipsă: D-02 Decizia de aprobare a creditului (proces standard). De solicitat clientului.",
+      "Motiv: Document obligatoriu lipsă: D-03 Certificat constatator ONRC (sau echivalent). De solicitat clientului.",
+      "Motiv: Document obligatoriu lipsă: D-04 Declaratia privind beneficiarul real. De solicitat clientului.",
+      "Motiv: Document obligatoriu lipsă: D-05 Contractul de credit / term sheet (structura finantarii). De solicitat clientului.",
+      "Motiv: Document obligatoriu lipsă: GB-D4 Extras de carte funciara. De solicitat clientului.",
+      "Motiv: Câmp obligatoriu negăsit: aprobat_proces_standard (pentru G-03). De verificat în documente sau de cerut clientului."
+    ],
     "trace": [
       {
         "pas": 1,
@@ -59,11 +68,12 @@
           "cui": "9900000010"
         },
         "motiv": "Verificare date identificare firmă și cod CAEN pentru CUI 9900000010 în registrul ANAF",
-        "timestamp": "2026-10-29T02:52:01",
+        "timestamp": "2026-10-29T04:10:47",
         "rezultat": {
           "tool": "verifica_firma",
           "gasit": true,
-          "eroare": null
+          "eroare": null,
+          "sumar": "date_generale={'cui': 9900000010, 'denumire': 'VERDE BUSINESS PARK B SRL', 'adresa': 'București, Sector 2, Str. Exemplului nr. 10', 'nrRegCom': 'J40/0000/2023', 'cod_CAEN': '6820', 'stare_inregistrare': 'INREGISTRAT'}, stare_inactiv={'statusInactivi': False}"
         }
       },
       {
@@ -71,77 +81,110 @@
         "tip": "tool",
         "actiune": "evalueaza_conditii_generale",
         "argumente": {},
-        "motiv": "Evaluare condiții generale G-01 (țară), G-02 (sector exclus), G-04 (fereastră 24 luni)",
-        "timestamp": "2026-10-29T02:52:01",
+        "motiv": "Evaluare condiții generale G-01 (țară), G-02 (sector exclus), G-04 (fereastră 24 luni), G-05 (grandfathering)",
+        "timestamp": "2026-10-29T04:10:47",
         "rezultat": {
           "tool": "evalueaza_conditii_generale",
           "gasit": true,
-          "eroare": null
+          "eroare": null,
+          "sumar": "{'G-01': 'OK', 'G-02': 'OK', 'G-03': 'NEEVALUABIL', 'G-04': 'OK', 'G-05': 'OK'}"
         }
       },
       {
         "pas": 3,
+        "tip": "tool",
+        "actiune": "stabileste_categoria",
+        "argumente": {},
+        "motiv": "Stabilire categorie de finanțare verde și analiză candidați de clasificare",
+        "timestamp": "2026-10-29T04:10:47",
+        "rezultat": {
+          "tool": "stabileste_categoria",
+          "gasit": true,
+          "eroare": null,
+          "sumar": "categorie=green_buildings, subcategorie=cladire_noua_sau_existenta, incredere=0.9"
+        }
+      },
+      {
+        "pas": 4,
+        "tip": "tool",
+        "actiune": "verifica_completitudine",
+        "argumente": {},
+        "motiv": "Verificare completitudine dosar conform rules/cerinte_dosar.yaml",
+        "timestamp": "2026-10-29T04:10:47",
+        "rezultat": {
+          "tool": "verifica_completitudine",
+          "gasit": true,
+          "eroare": null,
+          "sumar": "complet=True, nr_lipsuri=0, lipsuri=[]"
+        }
+      },
+      {
+        "pas": 5,
         "tip": "tool",
         "actiune": "cauta_certificat",
         "argumente": {
           "nr_certificat": "BREEAM-EXEMPLU-0001"
         },
         "motiv": "Căutare certificat verde declarat 'BREEAM-EXEMPLU-0001' în registrul BREEAM",
-        "timestamp": "2026-10-29T02:52:01",
+        "timestamp": "2026-10-29T04:10:47",
         "rezultat": {
           "tool": "cauta_certificat",
           "gasit": true,
-          "eroare": null
+          "eroare": null,
+          "sumar": "_nota=SINTETIC. In realitate: randul din tools.breeam.com cautat dupa nr. certificat, building_name=Verde Business Park - Building B, client_developer=Verde Development Group"
         }
       },
       {
-        "pas": 4,
+        "pas": 6,
         "tip": "tool",
         "actiune": "evalueaza_cale",
         "argumente": {
           "cale_id": "GB-01"
         },
         "motiv": "Evaluare cale principală GB-01 (certificare verde internațională)",
-        "timestamp": "2026-10-29T02:52:01",
+        "timestamp": "2026-10-29T04:10:47",
         "rezultat": {
           "tool": "evalueaza_cale",
           "gasit": true,
-          "eroare": null
-        }
-      },
-      {
-        "pas": 5,
-        "tip": "tool",
-        "actiune": "verifica_chiriasi",
-        "argumente": {},
-        "motiv": "Verificare activități chiriași și listă de semnal (excludere GB-X1)",
-        "timestamp": "2026-10-29T02:52:01",
-        "rezultat": {
-          "tool": "verifica_chiriasi",
-          "gasit": true,
-          "eroare": null
-        }
-      },
-      {
-        "pas": 6,
-        "tip": "tool",
-        "actiune": "calculeaza_co2",
-        "argumente": {},
-        "motiv": "Calcul economie de emisii CO2 conform metodologiei RBI",
-        "timestamp": "2026-10-29T02:52:01",
-        "rezultat": {
-          "tool": "calculeaza_co2",
-          "gasit": true,
-          "eroare": null
+          "eroare": null,
+          "sumar": "GB-01: OK"
         }
       },
       {
         "pas": 7,
+        "tip": "tool",
+        "actiune": "verifica_chiriasi",
+        "argumente": {},
+        "motiv": "Verificare activități chiriași și listă de semnal (excludere GB-X1)",
+        "timestamp": "2026-10-29T04:10:47",
+        "rezultat": {
+          "tool": "verifica_chiriasi",
+          "gasit": true,
+          "eroare": null,
+          "sumar": "rezultat=OK, dovada=Cladiri folosite pentru extractia/fabricarea combustibililor fosili: niciun chiriaș nu are cod CAEN din lista de semnal"
+        }
+      },
+      {
+        "pas": 8,
+        "tip": "tool",
+        "actiune": "verifica_plauzibilitate",
+        "argumente": {},
+        "motiv": "Verificare plauzibilitate indicatori conform reference/plauzibilitate.yaml",
+        "timestamp": "2026-10-29T04:10:47",
+        "rezultat": {
+          "tool": "verifica_plauzibilitate",
+          "gasit": true,
+          "eroare": null,
+          "sumar": "Verificări plauzibilitate: 0 semnale"
+        }
+      },
+      {
+        "pas": 9,
         "tip": "final",
         "actiune": null,
         "argumente": {},
         "motiv": "Toate etapele de verificare și evaluare au fost finalizate cu succes",
-        "timestamp": "2026-10-29T02:52:01",
+        "timestamp": "2026-10-29T04:10:47",
         "rezultat": "final"
       }
     ]

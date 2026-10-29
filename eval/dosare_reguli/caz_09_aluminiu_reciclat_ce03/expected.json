@@ -1,12 +1,18 @@
 {
   "dosar": "caz_09_aluminiu_reciclat_ce03",
   "descriere": "Profile aluminiu 80% reciclat, primar 2.1 tCO2e/t (calea 2 CE-03)",
-  "verdict": "ELIGIBIL",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
   "cale_eligibilitate": "CE-03",
   "reguli": [
     {
       "id": "CE-03",
       "rezultat": "OK"
     }
-  ]
+  ],
+  "actiuni": [
+    "Neevaluabil G-02",
+    "Neevaluabil G-03",
+    "Neevaluabil CE-04"
+  ],
+  "nota_verdict_strict": "Era ELIGIBIL. Verdict strict: aprobare doar cu toate criteriile verificate; incertitudini: G-02, G-03, CE-04."
 }

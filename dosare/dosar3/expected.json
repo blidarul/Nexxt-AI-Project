@@ -1,7 +1,7 @@
 {
   "dosar": "dosar3",
   "descriere": "Centru comercial cu BREEAM Outstanding Final si clasa A.",
-  "verdict": "ELIGIBIL",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
   "cale_eligibilitate": "GB-01 (certificare BREEAM Outstanding, Final)",
   "reguli": [
     {
@@ -30,7 +30,8 @@
       "dovada": "Niciun chirias cu CAEN din lista de semnal"
     }
   ],
-  "impact": {
+  "impact": "Nu se calculeaza pana la verificarea completa (ca la dosarele trimise comitetului)",
+  "impact_daca_devine_eligibil": {
     "formula": "(baseline - energie_finala) x suprafata x cota_banca x factor_emisie",
     "sursa": "Allocation & Impact Report 2025, p. 22",
     "pasi": [
@@ -41,6 +42,9 @@
     ],
     "rezultat_tco2_an": 641.1,
     "atentie": "Factorul de emisie e valoare EXEMPLU (vezi reference/factori_referinta.yaml)."
-  }
+  },
+  "actiuni": [
+    "Neevaluabil G-03"
+  ],
+  "nota_verdict_strict": "Era ELIGIBIL. Verdict strict: aprobare doar cu toate criteriile verificate; incertitudini: G-03."
 }
-

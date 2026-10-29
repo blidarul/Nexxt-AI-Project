@@ -1,7 +1,7 @@
 {
   "dosar": "dosar_01_complet_eligibil",
   "descriere": "Dosarul de referinta: totul e in regula.",
-  "verdict": "ELIGIBIL",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
   "cale_eligibilitate": "GB-01 (certificare BREEAM Excellent, Final)",
   "reguli": [
     {
@@ -35,7 +35,8 @@
     "Adresa din cerere = adresa din EPC; orasul din BREEAM = Bucuresti",
     "Afirmatia '60% sub medie': (297-95)/297 = 68% -> afirmatie sustinuta de EPC"
   ],
-  "impact": {
+  "impact": "Nu se calculeaza pana la verificarea completa (ca la dosarele trimise comitetului)",
+  "impact_daca_devine_eligibil": {
     "formula": "(baseline - energie_finala) x suprafata x cota_banca x factor_emisie",
     "sursa": "Allocation & Impact Report 2025, p. 22",
     "pasi": [
@@ -48,5 +49,8 @@
     "atentie": "Factorul de emisie e valoare EXEMPLU (vezi reference/factori_referinta.yaml)."
   },
   "verificare_plauzibilitate": "18 mil. EUR (cota banca) x 37 tCO2/mil. EUR = ~666 t; calculat 606.0 t -> plauzibil",
-  "actiuni": []
+  "actiuni": [
+    "Neevaluabil G-03"
+  ],
+  "nota_verdict_strict": "Era ELIGIBIL. Verdict strict: aprobare doar cu toate criteriile verificate; incertitudini: G-03."
 }

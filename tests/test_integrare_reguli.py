@@ -82,15 +82,21 @@ def test_reguli_precedenta_si_alternative():
     v1 = decide_verdict(stare_g01)
     assert v1.verdict == "NEELIGIBIL"
 
-    # 2. Cale alternativă: GB-01 pică (BREEAM Very Good), GB-02 NEEVALUABIL, GB-03 trece (EPC A)
+    # 2. Cale alternativă: GB-01 pică (BREEAM Very Good), GB-02 NEEVALUABIL, GB-03 trece (EPC A).
+    # Dosar complet (CAEN de la ANAF, aprobare prin procesul standard), ca verdictul strict să poată fi ELIGIBIL.
     extras_alt = _creeaza_extras_complet(
         dosar_id="t2",
         epc_clasa=Camp(valoare="A"),
         epc_energie_finala=Camp(valoare=80.0),
+        indicatori={"aprobat_proces_standard": Camp(valoare=True)},
     )
-    stare_alt = StareDosar(dosar_folder="dosare/dosar_03_breeam_insuficient_cale_epc", extras=extras_alt)
+    stare_alt = StareDosar(dosar_folder="dosare/dosar_03_breeam_insuficient_cale_epc", extras=extras_alt,
+                           raport_extractie={"documente_lipsa": [], "campuri_lipsa": []})
     stare_alt.rezultate_tools["cauta_certificat"] = ToolResult(
         tool="cauta_certificat", gasit=True, date={"rating": "Very Good", "stage": "Final"}
+    )
+    stare_alt.rezultate_tools["verifica_firma"] = ToolResult(
+        tool="verifica_firma", gasit=True, date={"date_generale": {"cod_CAEN": "6820"}}
     )
     evalueaza_conditii_generale(ConditiiGeneraleInput(), stare_alt)
     evalueaza_cale(EvalueazaCaleInput(cale_id="GB-01"), stare_alt)

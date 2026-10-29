@@ -21,12 +21,13 @@ from pathlib import Path
 from typing import Any, Callable, Literal, Optional
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import yaml
 from pydantic import BaseModel
 
 from contracts import Verdict
+from ui.raport import ca_html, construieste_raport, recomandare
 
 RADACINA = Path(__file__).resolve().parent.parent
 FOLDER_DOSARE = RADACINA / "dosare"
@@ -34,10 +35,10 @@ FOLDER_DATE = Path(__file__).resolve().parent / "data"
 FOLDER_STATIC = Path(__file__).resolve().parent / "static"
 NUME_PRODUS = "Green Proof"
 
-# Verdictul agentului -> decizia pe care o recomandă analistului
+# Verdictul agentului -> recomandarea (doar ELIGIBIL e „Aprobare”); detaliile și plasa de siguranță în ui/raport.py
 RECOMANDARE_PENTRU_VERDICT = {
     "ELIGIBIL": "aprobat",
-    "ELIGIBIL_CU_MONITORIZARE": "aprobat",
+    "ELIGIBIL_CU_MONITORIZARE": "aprobat_conditionat",
     "NEELIGIBIL": "respins",
     "EXCEPTIE_ESCALADARE_COMITET": "interventie",
 }
@@ -224,6 +225,17 @@ def creeaza_app(
             "citat_verificat": camp.get("citat_verificat"),
         }
 
+    def raport_pentru(folder: Path, verdict: dict[str, Any]) -> dict[str, Any]:
+        date_extrase = extras(folder)
+        return construieste_raport(
+            verdict,
+            categorie=(date_extrase.get("categorie") or {}).get("valoare"),
+            documente_lipsa=raport(folder).get("documente_lipsa") or [],
+        )
+
+    def recomandare_pentru(folder: Path, verdict: dict[str, Any]) -> dict[str, Any]:
+        return recomandare(verdict, raport_pentru(folder, verdict))
+
     def rezultat_public(dosar_id: str, folder: Path, salvat: dict[str, Any]) -> dict[str, Any]:
         verdict = salvat["verdict"]
         campuri = raport(folder).get("campuri_extrase") or {}
@@ -242,7 +254,8 @@ def creeaza_app(
             "dosar": dosar_id,
             "salvat_la": salvat.get("salvat_la"),
             "verdict": verdict,
-            "recomandare": RECOMANDARE_PENTRU_VERDICT.get(verdict.get("verdict")),
+            "recomandare": (rec := recomandare_pentru(folder, verdict))["cheie"],
+            "recomandare_detalii": rec,
             "dovezi": dovezi,
             "nume_reguli": {r["regula_id"]: nume_reguli().get(r["regula_id"]) for r in verdict.get("reguli") or []},
         }
@@ -352,6 +365,27 @@ def creeaza_app(
             raise HTTPException(404, "Nu există un rezultat salvat pentru acest dosar.")
         return {**rezultat_public(dosar_id, folder, salvat), "din_salvare": True, "eroare": None}
 
+    def raport_structurat(dosar_id: str) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+        folder = folder_dosar(dosar_id)
+        salvat = rezultat_salvat(dosar_id)
+        if salvat is None:
+            raise HTTPException(404, "Raportul apare după ce agentul evaluează dosarul.")
+        construit = raport_pentru(folder, salvat["verdict"])
+        return construit, salvat, extras(folder)
+
+    @app.get("/api/dosare/{dosar_id}/raport")
+    def raport_dosar(dosar_id: str) -> dict[str, Any]:
+        """Raportul de la pasul 2, din ultimul rezultat al agentului (ui/raport.py)."""
+        construit, salvat, _ = raport_structurat(dosar_id)
+        return {**construit, "salvat_la": salvat.get("salvat_la"), "recomandare": recomandare(salvat["verdict"], construit)}
+
+    @app.get("/api/dosare/{dosar_id}/raport.html", response_class=HTMLResponse)
+    def raport_printabil(dosar_id: str) -> HTMLResponse:
+        construit, salvat, _ = raport_structurat(dosar_id)
+        campuri = raport(folder_dosare / dosar_id).get("campuri_extrase") or {}
+        titlu = (campuri.get("descriere_proiect") or {}).get("valoare") or dosar_id
+        return HTMLResponse(ca_html(construit, str(titlu), salvat.get("salvat_la") or ""))
+
     @app.get("/api/dosare/{dosar_id}/fisiere/{cale:path}")
     def fisier(dosar_id: str, cale: str) -> FileResponse:
         tinta = cale_sigura(folder_dosar(dosar_id), cale)
@@ -368,7 +402,7 @@ def creeaza_app(
 
     @app.post("/api/dosare/{dosar_id}/decizie")
     def decide(dosar_id: str, cerere: CerereDecizie) -> dict[str, Any]:
-        folder_dosar(dosar_id)
+        folder = folder_dosar(dosar_id)
         salvat = rezultat_salvat(dosar_id)
         if salvat is None:
             raise HTTPException(409, "Deschide soluția agentului înainte de a decide.")
@@ -376,19 +410,23 @@ def creeaza_app(
         if cerere.decizie in DECIZII_CU_COMENTARIU and not comentariu:
             raise HTTPException(422, "Pentru „Respinge” și „Intervenție umană” comentariul este obligatoriu.")
         verdict_agent = salvat["verdict"].get("verdict")
-        recomandare = RECOMANDARE_PENTRU_VERDICT.get(verdict_agent)
-        difera = recomandare is not None and cerere.decizie != recomandare
+        rec = recomandare_pentru(folder, salvat["verdict"])
+        recomandare_agent = rec["cheie"]
+        # doar „aprobat” se potrivește cu Aprobă; o aprobare condiționată aprobată se confirmă, cu motivele
+        difera = cerere.decizie != recomandare_agent
         if difera and not cerere.confirmat:
             raise HTTPException(409, {
                 "mesaj": "Decizia diferă de recomandarea agentului. Confirmă pentru a o înregistra.",
                 "necesita_confirmare": True,
-                "recomandare_agent": recomandare,
+                "recomandare_agent": recomandare_agent,
+                "recomandare_eticheta": rec["eticheta"],
+                "motive": rec["toate_motivele"],
             })
         inregistrare = {
             "dosar": dosar_id,
             "decizie": cerere.decizie,
             "comentariu": comentariu,
-            "recomandare_agent": recomandare,
+            "recomandare_agent": recomandare_agent,
             "verdict_agent": verdict_agent,
             "difera_de_agent": difera,
             "data": _acum(),
@@ -396,6 +434,19 @@ def creeaza_app(
         with blocare:
             _scrie_json(fisier_decizii, [*decizii(), inregistrare])
         return inregistrare
+
+    @app.delete("/api/dosare/{dosar_id}/decizie")
+    def anuleaza_decizia(dosar_id: str) -> dict[str, Any]:
+        """Anulează ultima decizie a dosarului (statusul revine la decizia de dinainte sau la „în așteptare”)."""
+        folder_dosar(dosar_id)
+        with blocare:
+            toate = decizii()
+            index = next((i for i in range(len(toate) - 1, -1, -1) if toate[i].get("dosar") == dosar_id), None)
+            if index is None:
+                raise HTTPException(404, "Dosarul nu are nicio decizie de anulat.")
+            anulata = toate.pop(index)
+            _scrie_json(fisier_decizii, toate)
+        return {"anulata": anulata, "status": status(dosar_id)}
 
     @app.delete("/api/decizii")
     def reseteaza_decizii() -> dict[str, Any]:

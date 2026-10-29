@@ -10,35 +10,45 @@
 </head>
 <body>
   <h1 class="sr-only">Green Proof: dosare de credit verde</h1>
-  <!-- trei coloane: filtre | dosare (apare după alegerea unui filtru) | dosarul selectat -->
-  <div class="app" id="app" data-stare="start">
-    <aside class="filtre">
-      <p class="brand"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><use href="#marca"/></svg>Green Proof</p>
-      <nav id="nav" aria-label="Filtre"></nav>
-      <div class="meniu">
-        <button class="icon-btn" type="button" id="meniu-btn" aria-expanded="false" aria-controls="meniu" aria-label="Mai multe">⋯</button>
-        <div class="meniu-panou" id="meniu" hidden>
-          <dl class="moduri" id="moduri"></dl>
-          <button class="btn" type="button" id="reset">Resetează deciziile</button>
-          <p class="credit">Construit pentru challenge-ul Raiffeisen</p>
+  <!-- filtre (negru) | dosare (gri, apare după un filtru) | dosarul (alb, ridicat) -->
+  <div class="app" id="app" data-stare="start" data-concentrare="false">
+    <aside class="filtre" aria-label="Status">
+      <div class="filtre-interior">
+        <p class="brand"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><use href="#marca"/></svg><span class="txt">Green Proof</span></p>
+        <p class="eticheta-col"><span class="txt">Status</span></p>
+        <nav id="nav" aria-label="Filtre"></nav>
+        <div class="meniu">
+          <button class="icon-btn" type="button" id="meniu-btn" aria-expanded="false" aria-controls="meniu" aria-label="Mai multe">⋯</button>
+          <div class="meniu-panou" id="meniu" hidden>
+            <dl class="moduri" id="moduri"></dl>
+            <button class="btn" type="button" id="reset">Resetează deciziile</button>
+            <p class="credit">Construit pentru challenge-ul Raiffeisen</p>
+          </div>
         </div>
       </div>
     </aside>
 
     <section class="lista" aria-labelledby="lista-titlu">
-      <h2 id="lista-titlu"></h2>
-      <div id="lista" role="listbox" aria-labelledby="lista-titlu"></div>
+      <div class="lista-interior" id="lista-interior">
+        <p class="eticheta-col">Dosare</p>
+        <h2 id="lista-titlu" class="lista-titlu"></h2>
+        <div id="lista" class="lista-randuri" role="listbox" aria-labelledby="lista-titlu"></div>
+      </div>
     </section>
 
-    <main class="panou" id="panou" aria-live="polite"></main>
+    <main class="zona">
+      <div class="panou" id="panou" aria-live="polite"></div>
+    </main>
   </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
 
   <dialog class="confirm" id="confirm-reset" aria-labelledby="reset-titlu">
     <h2 id="reset-titlu">Resetezi deciziile?</h2>
     <p id="reset-text"></p>
     <div class="confirm-actions">
       <button class="btn" type="button" data-raspuns="nu">Renunță</button>
-      <button class="btn primary" type="button" data-raspuns="da">Șterge deciziile</button>
+      <button class="btn ink" type="button" data-raspuns="da">Șterge deciziile</button>
     </div>
   </dialog>
 

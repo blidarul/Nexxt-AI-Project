@@ -1,7 +1,7 @@
 {
   "dosar": "dosar_04_constructie_certificat_interim",
   "descriere": "Cladire noua, in constructie, cu BREEAM Excellent dar doar 'Interim'.",
-  "verdict": "ELIGIBIL_CU_MONITORIZARE",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
   "cale_eligibilitate": "GB-01 (BREEAM Excellent, stadiu Interim)",
   "reguli": [
     {
@@ -14,6 +14,8 @@
   "impact": "Nu se calculeaza: cladire in constructie (Impact Report p. 18). Lipsa EPC e normala in acest stadiu.",
   "actiuni": [
     "Marcare pentru monitorizare: verificare stadiu 'Final' in registrul BREEAM dupa finalizare (2027)",
-    "Cerere catre client: certificat energetic dupa receptie"
-  ]
+    "Cerere catre client: certificat energetic dupa receptie",
+    "Neevaluabil G-03"
+  ],
+  "nota_verdict_strict": "Era ELIGIBIL_CU_MONITORIZARE. Verdict strict: aprobare doar cu toate criteriile verificate; incertitudini: G-03."
 }

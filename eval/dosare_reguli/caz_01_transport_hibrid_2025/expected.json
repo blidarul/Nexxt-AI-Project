@@ -1,7 +1,7 @@
 {
   "dosar": "caz_01_transport_hibrid_2025",
   "descriere": "Flot\u0103 10 hibride la 45 g/km marcat\u0103 \u00een 2025 (grandfathering <= 50 g/km)",
-  "verdict": "ELIGIBIL",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
   "cale_eligibilitate": "CT-03",
   "reguli": [
     {
@@ -9,7 +9,13 @@
       "rezultat": "OK"
     }
   ],
-  "impact": {
+  "impact": "Nu se calculeaza pana la verificarea completa (ca la dosarele trimise comitetului)",
+  "impact_daca_devine_eligibil": {
     "rezultat_tco2_an": 5.6
-  }
+  },
+  "actiuni": [
+    "Neevaluabil G-02",
+    "Neevaluabil G-03"
+  ],
+  "nota_verdict_strict": "Era ELIGIBIL. Verdict strict: aprobare doar cu toate criteriile verificate; incertitudini: G-02, G-03."
 }
