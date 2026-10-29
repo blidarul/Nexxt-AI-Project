@@ -294,7 +294,7 @@ class PlanificatorLLM:
     - Fast-path extins și eliminarea apelurilor inutile de calcul impact pe dosare neeligibile/escaladate
     - În caz de eroare de conectare sau răspuns invalid, face fallback automat la PlanificatorScriptat.
     """
-    _lock_shared_cache = threading.Lock()
+    _lock_shared_cache = threading.RLock()
     _shared_cache: Optional[dict[str, Any]] = None
     _cache_file = Path(__file__).resolve().parent / ".cache" / "planner_cache.json"
 
@@ -426,6 +426,30 @@ class PlanificatorLLM:
             if "evalueaza_conditii_generale" in stare.rezultate_tools and (
                 "stabileste_categoria" in stare.rezultate_tools or "evalueaza_categoria" in stare.rezultate_tools
             ):
+                # Dacă mai sunt acțiuni necesare pentru clarificare chiriași sau construcție, nu finalizăm direct
+                gb_x1 = stare.reguli.get("GB-X1")
+                if gb_x1 and gb_x1.rezultat == "SEMNAL" and not any("operational" in a.lower() or "chirias" in a.lower() for a in stare.actiuni):
+                    return Decizie(
+                        tip="tool",
+                        nume="cere_date_client",
+                        argumente={
+                            "ce_lipseste": "Intrebare catre client: spatiul chiriasului e folosit operational pentru extractie sau doar ca birou administrativ?",
+                            "motiv": "Clarificare utilizare spatiu chirias combustibili fosili",
+                        },
+                        motiv="Solicitare clarificări activitate chiriaș combustibili fosili",
+                    )
+                stadiu = str(getattr(stare.extras, "stadiu_cladire", None) and stare.extras.stadiu_cladire.valoare or "").lower()
+                if "construc" in stadiu and not any("receptie" in a.lower() or "energetic" in a.lower() for a in stare.actiuni):
+                    return Decizie(
+                        tip="tool",
+                        nume="cere_date_client",
+                        argumente={
+                            "ce_lipseste": "Cerere catre client: certificat energetic dupa receptie",
+                            "motiv": "Clădire în construcție – certificat intermediar",
+                        },
+                        motiv="Solicitare certificat energetic după recepție",
+                    )
+
                 semnal_blocant = next((r for r in stare.reguli.values() if r.regula_id.startswith("PL-") and r.rezultat == "SEMNAL"), None)
                 if semnal_blocant or stare.escaladat:
                     return Decizie(
@@ -596,6 +620,19 @@ class PlanificatorLLM:
                         args["cui"] = str(stare.extras.cui.valoare).strip()
                 elif nume_tool in ("evalueaza_categoria", "calculeaza_impact") and not args.get("categorie"):
                     args["categorie"] = str((getattr(stare.extras, "categorie", None) and stare.extras.categorie.valoare) or "green_buildings").strip()
+                elif nume_tool == "cere_date_client" and not args.get("ce_lipseste"):
+                    gb_x1 = stare.reguli.get("GB-X1")
+                    stadiu = str(getattr(stare.extras, "stadiu_cladire", None) and stare.extras.stadiu_cladire.valoare or "").lower()
+                    if gb_x1 and gb_x1.rezultat == "SEMNAL":
+                        args["ce_lipseste"] = "Intrebare catre client: spatiul chiriasului e folosit operational pentru extractie sau doar ca birou administrativ?"
+                        args["motiv"] = "Clarificare utilizare spatiu chirias combustibili fosili"
+                    elif "construc" in stadiu or "interim" in str(getattr(stare.extras, "nr_certificat_declarat", None) and stare.extras.nr_certificat_declarat.valoare or "").lower():
+                        args["ce_lipseste"] = "Cerere catre client: certificat energetic dupa receptie"
+                        args["motiv"] = "Clădire în construcție – certificat intermediar"
+                    else:
+                        args["ce_lipseste"] = "Clarificări necesare pentru dosar"
+                elif nume_tool == "escaladeaza" and not args.get("motiv"):
+                    args["motiv"] = "Escaladare la Sustainability Bond Committee cu dovezile de mai sus"
 
                 motiv = text_curatat or f"Apel unealtă {nume_tool} determinat de LLM"
                 decizie_tool = Decizie(tip="tool", nume=nume_tool, argumente=args, motiv=motiv)
