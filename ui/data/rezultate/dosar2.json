@@ -1,5 +1,5 @@
 {
-  "salvat_la": "2026-10-29T02:23:23",
+  "salvat_la": "2026-10-29T02:56:58",
   "verdict": {
     "dosar_id": "dosar2",
     "verdict": "ELIGIBIL",
@@ -59,7 +59,7 @@
           "cui": "9900000020"
         },
         "motiv": "Verificare date identificare firmă și cod CAEN pentru CUI 9900000020 în registrul ANAF",
-        "timestamp": "2026-10-29T02:23:23",
+        "timestamp": "2026-10-29T02:56:58",
         "rezultat": {
           "tool": "verifica_firma",
           "gasit": true,
@@ -72,7 +72,7 @@
         "actiune": "evalueaza_conditii_generale",
         "argumente": {},
         "motiv": "Evaluare condiții generale G-01 (țară), G-02 (sector exclus), G-04 (fereastră 24 luni)",
-        "timestamp": "2026-10-29T02:23:23",
+        "timestamp": "2026-10-29T02:56:58",
         "rezultat": {
           "tool": "evalueaza_conditii_generale",
           "gasit": true,
@@ -87,7 +87,7 @@
           "nr_certificat": "BREEAM-EXEMPLU-0002"
         },
         "motiv": "Căutare certificat verde declarat 'BREEAM-EXEMPLU-0002' în registrul BREEAM",
-        "timestamp": "2026-10-29T02:23:23",
+        "timestamp": "2026-10-29T02:56:58",
         "rezultat": {
           "tool": "cauta_certificat",
           "gasit": true,
@@ -102,7 +102,7 @@
           "cale_id": "GB-01"
         },
         "motiv": "Evaluare cale principală GB-01 (certificare verde internațională)",
-        "timestamp": "2026-10-29T02:23:23",
+        "timestamp": "2026-10-29T02:56:58",
         "rezultat": {
           "tool": "evalueaza_cale",
           "gasit": true,
@@ -115,7 +115,7 @@
         "actiune": "verifica_chiriasi",
         "argumente": {},
         "motiv": "Verificare activități chiriași și listă de semnal (excludere GB-X1)",
-        "timestamp": "2026-10-29T02:23:23",
+        "timestamp": "2026-10-29T02:56:58",
         "rezultat": {
           "tool": "verifica_chiriasi",
           "gasit": true,
@@ -128,7 +128,7 @@
         "actiune": "calculeaza_co2",
         "argumente": {},
         "motiv": "Calcul economie de emisii CO2 conform metodologiei RBI",
-        "timestamp": "2026-10-29T02:23:23",
+        "timestamp": "2026-10-29T02:56:58",
         "rezultat": {
           "tool": "calculeaza_co2",
           "gasit": true,
@@ -141,7 +141,7 @@
         "actiune": null,
         "argumente": {},
         "motiv": "Toate etapele de verificare și evaluare au fost finalizate cu succes",
-        "timestamp": "2026-10-29T02:23:23",
+        "timestamp": "2026-10-29T02:56:58",
         "rezultat": "final"
       }
     ]
