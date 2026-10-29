@@ -136,6 +136,13 @@ def _din_pdf(cale_pdf: Path, nr: str) -> ToolResult:
 
 def _offline(nr: str, stare: Optional[StareDosar]) -> ToolResult:
     folder = Path(getattr(stare, "dosar_folder", "") or ".")
+    cale_brut = folder / "_brut" / "02_registru_breeam.json"
+    if cale_brut.exists():
+        with open(cale_brut, "r", encoding="utf-8") as f:
+            d = json.load(f)
+            data = d.get("date") or d.get("continut_json") or d
+            intrari = data if isinstance(data, list) else [data]
+            return _alege(intrari, nr, SURSA_OFFLINE)
     cale = folder / "02_registru_breeam.json"
     if cale.exists():
         with open(cale, "r", encoding="utf-8") as f:

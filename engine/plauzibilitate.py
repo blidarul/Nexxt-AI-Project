@@ -56,16 +56,23 @@ def evalueaza_plauzibilitate(stare: StareDosar) -> list[RezultatRegula]:
         emisii_oficial = _val("emisii_registru_eea")
         combustibil_oficial = str(_val("combustibil_registru_eea") or "diesel").lower()
     elif stare.dosar_folder:
-        cale_eea = Path(stare.dosar_folder) / "03_registru_eea.json"
-        if cale_eea.exists():
-            try:
-                import json
-                with open(cale_eea, "r", encoding="utf-8") as f:
-                    d_eea = json.load(f)
-                emisii_oficial = d_eea.get("emisii_wltp_gco2_km") or d_eea.get("emisii_oficiale")
-                combustibil_oficial = str(d_eea.get("combustibil", "")).lower()
-            except Exception:
-                pass
+        # Caută exclusiv în _brut sau în foldere generate de extracție
+        folder_brut = Path(stare.dosar_folder) / "_brut"
+        if folder_brut.is_dir():
+            candidati_eea = [folder_brut / "03_registru_eea.json"] + [p for p in folder_brut.glob("*eea*.json") if p.name != "03_registru_eea.json"]
+            for cale_eea in candidati_eea:
+                if cale_eea.exists():
+                    try:
+                        import json
+                        with open(cale_eea, "r", encoding="utf-8") as f:
+                            d_eea = json.load(f)
+                        date_eea = d_eea.get("date") or d_eea.get("continut_json") or d_eea
+                        emisii_oficial = date_eea.get("emisii_wltp_gco2_km") or date_eea.get("emisii_oficiale")
+                        combustibil_oficial = str(date_eea.get("combustibil", "")).lower()
+                        if emisii_oficial is not None:
+                            break
+                    except Exception:
+                        pass
 
     if emisii_decl is not None and emisii_oficial is not None:
         try:

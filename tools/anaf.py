@@ -124,6 +124,12 @@ def _din_pdf(cale_pdf: Path, cui: str) -> ToolResult:
 
 def _offline(cui: str, stare: Optional[StareDosar]) -> ToolResult:
     folder = Path(getattr(stare, "dosar_folder", "") or ".")
+    cale_brut = folder / "_brut" / "05_raspuns_anaf.json"
+    if cale_brut.exists():
+        with open(cale_brut, "r", encoding="utf-8") as f:
+            d = json.load(f)
+            data = d.get("date") or d.get("continut_json") or d
+            return _din_raspuns_anaf(data, cui, SURSA_OFFLINE)
     cale = folder / "05_raspuns_anaf.json"
     if cale.exists():
         with open(cale, "r", encoding="utf-8") as f:

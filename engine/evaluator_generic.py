@@ -21,7 +21,9 @@ Suportă de asemenea:
 
 from __future__ import annotations
 
+import json
 import logging
+import re
 import unicodedata
 from datetime import date, datetime
 from pathlib import Path
@@ -255,18 +257,28 @@ def obtine_valoare_camp(
             if caen:
                 return str(caen).strip(), "ANAF API (verifica_firma)"
         if stare.dosar_folder:
-            cale_anaf = Path(stare.dosar_folder) / "05_raspuns_anaf.json"
-            if cale_anaf.exists():
-                try:
-                    with open(cale_anaf, "r", encoding="utf-8") as f:
-                        d_anaf = json.load(f)
-                    found = d_anaf.get("found", [])
-                    if found:
-                        c_val = found[0].get("date_generale", {}).get("cod_CAEN")
-                        if c_val:
-                            return str(c_val).strip(), "05_raspuns_anaf.json"
-                except Exception:
-                    pass
+            # Caută exclusiv în _brut sau în foldere generate de extracție
+            folder_brut = Path(stare.dosar_folder) / "_brut"
+            if folder_brut.is_dir():
+                candidati_anaf = [folder_brut / "05_raspuns_anaf.json", folder_brut / "RASPUNS_ANAF.json"]
+                candidati_anaf += [p for p in folder_brut.glob("*anaf*.json") if p not in candidati_anaf]
+                for cale_anaf in candidati_anaf:
+                    if cale_anaf.exists():
+                        try:
+                            with open(cale_anaf, "r", encoding="utf-8") as f:
+                                d_anaf = json.load(f)
+                            date_a = d_anaf.get("date") or d_anaf.get("continut_json") or d_anaf
+                            found = date_a.get("found", []) if isinstance(date_a, dict) else []
+                            if found:
+                                c_val = found[0].get("date_generale", {}).get("cod_CAEN") or found[0].get("cod_CAEN")
+                                if c_val:
+                                    return str(c_val).strip(), f"_brut/{cale_anaf.name}"
+                            for pag in d_anaf.get("pagini", []):
+                                m = re.search(r"Activitate Principal[aă] \(CAEN\):\s*([0-9]{4})", pag.get("text", ""))
+                                if m:
+                                    return m.group(1).strip(), f"_brut/{cale_anaf.name}"
+                        except Exception:
+                            pass
 
     # Fallback pentru subcategorie/tehnologie/tip_proiect/tip_masura
     if camp_nume in ("tip", "tehnologie", "tip_proiect", "tip_masura", "subcategorie"):
@@ -287,20 +299,39 @@ def obtine_valoare_camp(
             if sub == "sistem":
                 return res_cert.date.get("sistem") or "BREEAM", "registru certificare"
         if stare.dosar_folder:
-            cale_breeam = Path(stare.dosar_folder) / "02_registru_breeam.json"
-            if cale_breeam.exists():
-                try:
-                    with open(cale_breeam, "r", encoding="utf-8") as f:
-                        d_breeam = json.load(f)
-                    sub = camp_nume.replace("certificare_", "")
-                    if sub in ("nivel", "rating"):
-                        return d_breeam.get("rating"), "02_registru_breeam.json"
-                    if sub in ("stadiu", "stage"):
-                        return d_breeam.get("stage") or d_breeam.get("stadiu"), "02_registru_breeam.json"
-                    if sub == "sistem":
-                        return d_breeam.get("sistem") or "BREEAM", "02_registru_breeam.json"
-                except Exception:
-                    pass
+            # Caută exclusiv în _brut sau în foldere generate de extracție
+            folder_brut = Path(stare.dosar_folder) / "_brut"
+            if folder_brut.is_dir():
+                candidati_breeam = [folder_brut / "02_registru_breeam.json", folder_brut / "BREEAM.json"]
+                candidati_breeam += [p for p in folder_brut.glob("*breeam*.json") if p not in candidati_breeam]
+                for cale_breeam in candidati_breeam:
+                    if cale_breeam.exists():
+                        try:
+                            with open(cale_breeam, "r", encoding="utf-8") as f:
+                                d_breeam = json.load(f)
+                            date_b = d_breeam.get("date") or d_breeam.get("continut_json") or d_breeam
+                            sub = camp_nume.replace("certificare_", "")
+                            if sub in ("nivel", "rating"):
+                                val = date_b.get("rating")
+                                if val:
+                                    return val, f"_brut/{cale_breeam.name}"
+                                for pag in d_breeam.get("pagini", []):
+                                    m = re.search(r"Nivel Certificare \(Rating\):\s*([^\n]+)", pag.get("text", ""))
+                                    if m:
+                                        return m.group(1).strip().capitalize(), f"_brut/{cale_breeam.name}"
+                            if sub in ("stadiu", "stage"):
+                                val = date_b.get("stage") or date_b.get("stadiu")
+                                if val:
+                                    return val, f"_brut/{cale_breeam.name}"
+                                for pag in d_breeam.get("pagini", []):
+                                    m = re.search(r"Etapa Evalu[aă]rii:\s*([^\n]+)", pag.get("text", ""))
+                                    if m:
+                                        return m.group(1).strip(), f"_brut/{cale_breeam.name}"
+                            if sub == "sistem":
+                                val = date_b.get("sistem") or "BREEAM"
+                                return val, f"_brut/{cale_breeam.name}"
+                        except Exception:
+                            pass
 
     # 5. Câmpuri calculate
     derivate = calculeaza_campuri_derivate(stare)
