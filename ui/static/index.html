@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Green Proof</title>
+  <meta name="description" content="Agentul verifică dosarele de credit față de cadrul obligațiunilor verzi și recomandă; analistul decide.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23ffd60a'/%3E%3Cpath d='M6.5 17.5C6.5 10.5 10.5 6.5 17.5 6.5c0 7-4 11-11 11Z' fill='none' stroke='%230a0a0a' stroke-width='1.6'/%3E%3Cpath d='m9.2 12.4 2.1 2.1 3.9-4.3' fill='none' stroke='%230a0a0a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h1 class="sr-only">Green Proof: dosare de credit verde</h1>
+  <!-- filtre (negru) | dosare (gri, apare după un filtru) | dosarul (alb, ridicat) -->
+  <div class="app" id="app" data-stare="start" data-concentrare="false">
+    <aside class="filtre" aria-label="Status">
+      <div class="filtre-interior">
+        <p class="brand"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><use href="#marca"/></svg><span class="txt">Green Proof</span></p>
+        <p class="eticheta-col"><span class="txt">Status</span></p>
+        <nav id="nav" aria-label="Filtre"></nav>
+        <div class="meniu">
+          <button class="icon-btn" type="button" id="meniu-btn" aria-expanded="false" aria-controls="meniu" aria-label="Mai multe">⋯</button>
+          <div class="meniu-panou" id="meniu" hidden>
+            <dl class="moduri" id="moduri"></dl>
+            <button class="btn" type="button" id="reset">Resetează deciziile</button>
+            <p class="credit">Construit pentru challenge-ul Raiffeisen</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="lista" aria-labelledby="lista-titlu">
+      <div class="lista-interior" id="lista-interior">
+        <p class="eticheta-col">Dosare</p>
+        <h2 id="lista-titlu" class="lista-titlu"></h2>
+        <div id="lista" class="lista-randuri" role="listbox" aria-labelledby="lista-titlu"></div>
+      </div>
+    </section>
+
+    <main class="zona">
+      <div class="panou" id="panou" aria-live="polite"></div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <dialog class="confirm" id="confirm-reset" aria-labelledby="reset-titlu">
+    <h2 id="reset-titlu">Resetezi deciziile?</h2>
+    <p id="reset-text"></p>
+    <div class="confirm-actions">
+      <button class="btn" type="button" data-raspuns="nu">Renunță</button>
+      <button class="btn ink" type="button" data-raspuns="da">Șterge deciziile</button>
+    </div>
+  </dialog>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="marca" viewBox="0 0 24 24">
+      <rect width="24" height="24" rx="6" fill="#ffd60a"/>
+      <path d="M6.5 17.5C6.5 10.5 10.5 6.5 17.5 6.5c0 7-4 11-11 11Z" fill="none" stroke="#0a0a0a" stroke-width="1.6"/>
+      <path d="m9.2 12.4 2.1 2.1 3.9-4.3" fill="none" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

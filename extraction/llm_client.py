@@ -13,18 +13,88 @@ Include:
 import base64
 import hashlib
 import json
+import logging
 import os
 from pathlib import Path
 import re
 import threading
 import time
-from typing import Any, Optional
+from typing import Any, Callable, Optional, TypeVar
 
 from dotenv import load_dotenv
 from openai import OpenAI, RateLimitError, APIStatusError
 
 # Încarcă variabilele de mediu din .env
 load_dotenv()
+
+logger = logging.getLogger("llm_client")
+
+T = TypeVar("T")
+
+
+class _SingleFlightCall:
+    def __init__(self) -> None:
+        self.event = threading.Event()
+        self.val: Any = None
+        self.exc: Optional[Exception] = None
+
+
+class SingleFlight:
+    """Mecanism de coalescing / deduplicare pentru cereri simultane identice (in-flight request deduplication).
+
+    Dacă mai multe thread-uri cer aceeași cheie în același timp, doar primul thread (liderul)
+    execută apelul extern; celelalte așteaptă rezultatul liderului și îl refolosesc fără request suplimentar.
+    """
+
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._calls: dict[str, _SingleFlightCall] = {}
+
+    def execute(self, key: str, fn: Callable[[], T]) -> tuple[T, bool]:
+        """Execută fn() pentru key sau așteaptă rezultatul apelului în curs.
+
+        Returnează: (rezultat, este_lider).
+        Dacă este_lider este False, cererea a fost deduplicată din zbor (coalesced).
+        """
+        with self._lock:
+            if key in self._calls:
+                call = self._calls[key]
+                is_leader = False
+            else:
+                call = _SingleFlightCall()
+                self._calls[key] = call
+                is_leader = True
+
+        if not is_leader:
+            call.event.wait(timeout=60)
+            if call.exc is not None:
+                raise call.exc
+            return call.val, False
+
+        try:
+            call.val = fn()
+            return call.val, True
+        except Exception as e:
+            call.exc = e
+            raise e
+        finally:
+            call.event.set()
+            with self._lock:
+                self._calls.pop(key, None)
+
+
+# Client partajat global pentru connection pooling eficient și evitarea socket-urilor orfane
+_shared_openai_client: Optional[OpenAI] = None
+_shared_client_lock = threading.Lock()
+
+
+def _get_shared_openai_client(base_url: str, api_key: str) -> OpenAI:
+    global _shared_openai_client
+    with _shared_client_lock:
+        if _shared_openai_client is None:
+            cheie = api_key if api_key else "no-key-provided"
+            _shared_openai_client = OpenAI(base_url=base_url, api_key=cheie, timeout=25.0)
+        return _shared_openai_client
 
 
 class LLMClient:
@@ -33,7 +103,8 @@ class LLMClient:
     def __init__(self, cache_dir: Optional[Path] = None) -> None:
         self.base_url = os.getenv("LLM_BASE_URL", "https://api.featherless.ai/v1")
         # .env.example are ambele chei; LLM_BASE_URL implicit e Featherless.
-        self.api_key = os.getenv("LLM_API_KEY", "") or os.getenv("FEATHERLESS_API_KEY", "")
+        cheie_raw = os.getenv("LLM_API_KEY", "") or os.getenv("FEATHERLESS_API_KEY", "")
+        self.api_key = cheie_raw.strip().strip('"').strip("'")
         self.model_text = os.getenv("LLM_MODEL_TEXT", "Qwen/Qwen3-32B")
         self.model_vision = os.getenv("LLM_MODEL_VISION", "google/gemma-3-27b-it")
 
@@ -43,48 +114,102 @@ class LLMClient:
             self.max_paralele = 1
 
         self.semaphore = threading.Semaphore(self.max_paralele)
+        self._singleflight = SingleFlight()
 
         # Simulatorul offline (regex) e DOAR pentru teste și trebuie cerut explicit.
         # Nu citește și nu scrie niciodată în cache, ca să nu otrăvească răspunsurile reale.
         self.offline = os.getenv("LLM_OFFLINE", "").strip().lower() in ("1", "true", "da", "yes")
 
-        # Cache director
+        # Cache director (L2 disc)
         if cache_dir is None:
             self.cache_dir = Path(__file__).resolve().parent / ".cache"
         else:
             self.cache_dir = Path(cache_dir)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
-        # Statistici apeluri
+        # Cache L1 în memorie (RAM) pentru acces instant (0ms) în același proces
+        self._cache_l1: dict[str, dict[str, Any]] = {}
+        self._lock_cache = threading.RLock()
+
+        # Statistici și metrice detaliate
         self.apeluri_reale = 0
         self.apeluri_cache = 0
+        self.apeluri_cache_l1 = 0
+        self.apeluri_cache_l2 = 0
+        self.apeluri_singleflight = 0
         self.apeluri_offline = 0
-        # Un rând per apel real: modelul cerut și cel raportat de API (pentru raport)
         self.apeluri_reale_detalii: list[dict[str, Any]] = []
-        self._lock_stats = threading.Lock()
+        self.apeluri_per_motiv: dict[str, dict[str, Any]] = {}
+        self.istoric_apeluri: list[dict[str, Any]] = []
+        self._lock_stats = threading.RLock()
 
-        # Client OpenAI instanțiat la cerere
+        # Client OpenAI instanțiat la cerere (refolosește clientul partajat)
         self._client: Optional[OpenAI] = None
 
     @property
     def client(self) -> OpenAI:
-        """Instanțiază sau returnează clientul OpenAI existent."""
+        """Instanțiază sau returnează clientul OpenAI partajat."""
         if self._client is None:
-            # Folosește un dummy key dacă nu este setat, pentru a preveni eroare la init când se folosește doar cache
             cheie = self.api_key if self.api_key else "no-key-provided"
-            self._client = OpenAI(base_url=self.base_url, api_key=cheie)
+            self._client = _get_shared_openai_client(self.base_url, cheie)
         return self._client
 
     def reseteaza_statistici(self) -> None:
-        """Resetează contorizarea apelurilor."""
+        """Resetează contorizarea apelurilor și istoricul metricilor."""
         with self._lock_stats:
             self.apeluri_reale = 0
             self.apeluri_cache = 0
+            self.apeluri_cache_l1 = 0
+            self.apeluri_cache_l2 = 0
+            self.apeluri_singleflight = 0
             self.apeluri_offline = 0
             self.apeluri_reale_detalii = []
+            self.apeluri_per_motiv = {}
+            self.istoric_apeluri = []
+
+    def _inregistreaza_apel(
+        self,
+        motiv: str,
+        model: str,
+        sursa: str,
+        durata_ms: float = 0.0,
+        status: str = "ok",
+        tokens: Optional[dict[str, int]] = None,
+    ) -> None:
+        """Înregistrează un apel în statisticile detaliate per operațiune."""
+        with self._lock_stats:
+            if motiv not in self.apeluri_per_motiv:
+                self.apeluri_per_motiv[motiv] = {
+                    "total": 0,
+                    "real": 0,
+                    "cache_l1": 0,
+                    "cache_l2": 0,
+                    "singleflight": 0,
+                    "offline": 0,
+                    "durata_ms_total": 0.0,
+                    "erori": 0,
+                }
+            entry = self.apeluri_per_motiv[motiv]
+            entry["total"] += 1
+            if sursa in entry:
+                entry[sursa] += 1
+            entry["durata_ms_total"] += durata_ms
+            if status != "ok":
+                entry["erori"] += 1
+
+            if len(self.istoric_apeluri) < 300:
+                self.istoric_apeluri.append({
+                    "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "motiv": motiv,
+                    "model": model,
+                    "sursa": sursa,
+                    "durata_ms": round(durata_ms, 2),
+                    "status": status,
+                    "tokens": tokens,
+                })
 
     def get_statistici(self) -> dict[str, int]:
-        """Returnează statisticile de apeluri."""
+        """Returnează statisticile esențiale de apeluri (100% compatibil cu testele existente)."""
         with self._lock_stats:
             return {
                 "apeluri_reale": self.apeluri_reale,
@@ -93,27 +218,114 @@ class LLMClient:
                 "total_apeluri": self.apeluri_reale + self.apeluri_cache + self.apeluri_offline,
             }
 
-    def _calculeaza_cheie_cache(self, model: str, mesaje: list[dict[str, Any]], temperature: float) -> str:
-        """Generează un hash unic SHA256 bazat pe model, mesaje și temperatură."""
-        payload = {
+    def get_statistici_detaliate(self) -> dict[str, Any]:
+        """Returnează metrice complete privind economiile, latența și motivele apelurilor."""
+        with self._lock_stats:
+            total_cereri = self.apeluri_reale + self.apeluri_cache + self.apeluri_offline
+            economisite = self.apeluri_cache + self.apeluri_singleflight
+            rata_economisire = round((economisite / total_cereri * 100), 1) if total_cereri else 100.0
+
+            return {
+                "sumar": {
+                    "total_cereri": total_cereri,
+                    "apeluri_reale": self.apeluri_reale,
+                    "apeluri_cache_total": self.apeluri_cache,
+                    "apeluri_cache_l1_memorie": self.apeluri_cache_l1,
+                    "apeluri_cache_l2_disc": self.apeluri_cache_l2,
+                    "apeluri_singleflight_coalesced": self.apeluri_singleflight,
+                    "apeluri_offline_simulat": self.apeluri_offline,
+                    "rata_economisire_pct": rata_economisire,
+                },
+                "pe_operatiuni": dict(self.apeluri_per_motiv),
+                "economii_estimate": {
+                    "apeluri_api_evitate": economisite,
+                    "timp_economisit_est_secunde": round(economisite * 2.5, 1),
+                    "cost_economisit_est_usd": round(economisite * 0.003, 4),
+                },
+                "apeluri_reale_detalii": list(self.apeluri_reale_detalii),
+            }
+
+    def raport_metrici(self) -> str:
+        """Generează un raport lizibil sub formă de tabel text."""
+        detalii = self.get_statistici_detaliate()
+        sumar = detalii["sumar"]
+        econ = detalii["economii_estimate"]
+        linii = [
+            "===========================================================",
+            "                  RAPORT METRICI APELURI LLM                ",
+            "===========================================================",
+            f"Total cereri procesate:          {sumar['total_cereri']}",
+            f"  - Apeluri REALE către API:     {sumar['apeluri_reale']}",
+            f"  - Cache Hit L1 (Memorie RAM):  {sumar['apeluri_cache_l1_memorie']}",
+            f"  - Cache Hit L2 (Disc SHA256):  {sumar['apeluri_cache_l2_disc']}",
+            f"  - Deduplicare SingleFlight:    {sumar['apeluri_singleflight_coalesced']}",
+            f"  - Mod Simulat Offline:         {sumar['apeluri_offline_simulat']}",
+            f"Rata de economisire apeluri:     {sumar['rata_economisire_pct']}%",
+            f"Timp economisit estimat:         ~{econ['timp_economisit_est_secunde']} secunde",
+            f"Cost API economisit estimat:     ~${econ['cost_economisit_est_usd']} USD",
+            "-----------------------------------------------------------",
+            "Defalcare pe operațiuni:",
+        ]
+        for motiv, date in detalii["pe_operatiuni"].items():
+            linii.append(
+                f"  • {motiv:<26}: {date['total']} cereri "
+                f"({date.get('real', 0)} reale, {date.get('cache_l1', 0) + date.get('cache_l2', 0)} cache, "
+                f"{date.get('singleflight', 0)} dedup)"
+            )
+        linii.append("===========================================================")
+        return "\n".join(linii)
+
+    def _calculeaza_cheie_cache(
+        self,
+        model: str,
+        mesaje: list[dict[str, Any]],
+        temperature: float = 0.0,
+        cere_json: bool = False,
+        tools: Optional[list[dict[str, Any]]] = None,
+        tool_choice: Optional[str] = None,
+    ) -> str:
+        """Generează un hash unic SHA256 bazat pe toți parametrii semantici ai apelului."""
+        payload: dict[str, Any] = {
             "model": model,
             "mesaje": mesaje,
             "temperature": temperature,
         }
+        if cere_json:
+            payload["cere_json"] = True
+        if tools:
+            payload["tools"] = tools
+        if tool_choice:
+            payload["tool_choice"] = tool_choice
         sir = json.dumps(payload, sort_keys=True, ensure_ascii=True)
         return hashlib.sha256(sir.encode("utf-8")).hexdigest()
 
-    def _citeste_din_cache(self, cheie: str) -> Optional[str]:
-        """Citește răspunsul din cache dacă există."""
+    def _citeste_din_cache_cu_sursa(self, cheie: str) -> tuple[Optional[str], Optional[str]]:
+        """Citește răspunsul din cache L1 (RAM) sau L2 (disc persistent).
+
+        Întoarce (raspuns, 'l1'|'l2') sau (None, None).
+        """
+        # 1. Verificare cache L1 (memorie RAM) - latență 0ms
+        with self._lock_cache:
+            if cheie in self._cache_l1:
+                return self._cache_l1[cheie].get("raspuns"), "l1"
+
+        # 2. Verificare cache L2 (disc persistent)
         fisier_cache = self.cache_dir / f"{cheie}.json"
         if fisier_cache.exists():
             try:
                 with open(fisier_cache, "r", encoding="utf-8") as f:
                     date = json.load(f)
-                    return date.get("raspuns")
+                    with self._lock_cache:
+                        self._cache_l1[cheie] = date
+                    return date.get("raspuns"), "l2"
             except Exception:
-                return None
-        return None
+                return None, None
+        return None, None
+
+    def _citeste_din_cache(self, cheie: str) -> Optional[str]:
+        """Citește răspunsul din cache dacă există (păstrează compatibilitatea directă)."""
+        raspuns, _ = self._citeste_din_cache_cu_sursa(cheie)
+        return raspuns
 
     def _salveaza_in_cache(
         self,
@@ -122,20 +334,52 @@ class LLMClient:
         model: str,
         mesaje: list[dict[str, Any]],
         model_raspuns: Optional[str] = None,
+        tools: Optional[list[dict[str, Any]]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> None:
-        """Salvează răspunsul în cache (cu modelul cerut și cel raportat de API)."""
+        """Salvează răspunsul în cache-ul L1 (memorie) și L2 (disc) în mod atomic și Windows-safe."""
+        payload: dict[str, Any] = {
+            "cheie": cheie,
+            "model": model,
+            "model_raspuns": model_raspuns,
+            "mesaje": mesaje,
+            "raspuns": raspuns,
+        }
+        if tools is not None:
+            payload["tools"] = tools
+        if metadata:
+            payload.update(metadata)
+
+        # 1. Salvare L1 în memorie (instantaneu pentru firele aceluiași proces)
+        with self._lock_cache:
+            self._cache_l1[cheie] = payload
+
+        # 2. Salvare atomică pe disc L2 (fișier temporar unic per proces și thread)
+        tmp_name = f".tmp_{os.getpid()}_{threading.get_ident()}_{cheie[:8]}.tmp"
+        tmp_file = self.cache_dir / tmp_name
         fisier_cache = self.cache_dir / f"{cheie}.json"
         try:
-            with open(fisier_cache, "w", encoding="utf-8") as f:
-                json.dump({
-                    "cheie": cheie,
-                    "model": model,
-                    "model_raspuns": model_raspuns,
-                    "mesaje": mesaje,
-                    "raspuns": raspuns,
-                }, f, ensure_ascii=False, indent=2)
+            with open(tmp_file, "w", encoding="utf-8") as f:
+                json.dump(payload, f, ensure_ascii=False, indent=2)
+            for _ in range(5):
+                try:
+                    os.replace(tmp_file, fisier_cache)
+                    break
+                except PermissionError:
+                    time.sleep(0.04)
+            else:
+                try:
+                    os.replace(tmp_file, fisier_cache)
+                except Exception:
+                    pass
         except Exception:
             pass
+        finally:
+            if tmp_file.exists():
+                try:
+                    tmp_file.unlink()
+                except Exception:
+                    pass
 
     @staticmethod
     def curata_text_raspuns(text: str) -> str:
@@ -499,41 +743,68 @@ class LLMClient:
         model: Optional[str] = None,
         temperature: float = 0.0,
         cere_json: bool = True,
+        motiv: str = "general",
     ) -> str:
-        """Apelează modelul LLM cu verificare în cache și salvare ulterioară."""
+        """Apelează modelul LLM cu verificare în cache L1/L2, deduplicare SingleFlight și salvare ulterioară."""
         nume_model = model or self.model_text
 
         if self.offline:
             with self._lock_stats:
                 self.apeluri_offline += 1
+            self._inregistreaza_apel(motiv, nume_model, "offline", 0.0)
             return self._genereaza_raspuns_offline(mesaje, nume_model)
 
-        cheie = self._calculeaza_cheie_cache(nume_model, mesaje, temperature)
+        cheie = self._calculeaza_cheie_cache(nume_model, mesaje, temperature, cere_json=cere_json)
 
-        raspuns_cache = self._citeste_din_cache(cheie)
+        # 1. Verificare cache tiered (L1 RAM -> L2 Disc)
+        t_start = time.perf_counter()
+        raspuns_cache, sursa_cache = self._citeste_din_cache_cu_sursa(cheie)
         if raspuns_cache is not None:
+            durata_ms = (time.perf_counter() - t_start) * 1000
             with self._lock_stats:
                 self.apeluri_cache += 1
+                if sursa_cache == "l1":
+                    self.apeluri_cache_l1 += 1
+                else:
+                    self.apeluri_cache_l2 += 1
+            self._inregistreaza_apel(motiv, nume_model, f"cache_{sursa_cache}", durata_ms)
+            logger.info("LLMClient [%s HIT] (%s) Model: %s", sursa_cache.upper() if sursa_cache else "CACHE", motiv, nume_model)
             return raspuns_cache
 
-        # Apel real
-        raspuns, model_raspuns = self._executa_apel_api(
-            model=nume_model,
-            mesaje=mesaje,
-            temperature=temperature,
-            cere_json=cere_json,
-        )
+        # 2. Apel real via SingleFlight (coalescing: deduplicare apeluri simultane pe același context)
+        def _executa() -> tuple[str, str, float]:
+            t_exec = time.perf_counter()
+            resp, model_resp = self._executa_apel_api(
+                model=nume_model,
+                mesaje=mesaje,
+                temperature=temperature,
+                cere_json=cere_json,
+            )
+            d_ms = (time.perf_counter() - t_exec) * 1000
+            self._salveaza_in_cache(cheie, resp, nume_model, mesaje, model_resp)
+            return resp, model_resp, d_ms
+
+        (raspuns, model_raspuns, durata_ms), is_leader = self._singleflight.execute(cheie, _executa)
 
         with self._lock_stats:
-            self.apeluri_reale += 1
-            self.apeluri_reale_detalii.append({
-                "model_cerut": nume_model,
-                "model_raspuns": model_raspuns,
-                "json_mode": cere_json,
-                "cheie_cache": cheie,
-            })
+            if is_leader:
+                self.apeluri_reale += 1
+                self.apeluri_reale_detalii.append({
+                    "model_cerut": nume_model,
+                    "model_raspuns": model_raspuns,
+                    "json_mode": cere_json,
+                    "cheie_cache": cheie,
+                    "motiv": motiv,
+                    "durata_ms": round(durata_ms, 2),
+                })
+                self._inregistreaza_apel(motiv, nume_model, "real", durata_ms)
+                logger.info("LLMClient [REAL CALL] (%s) Model: %s -> %s (%.1f ms)", motiv, nume_model, model_raspuns, durata_ms)
+            else:
+                self.apeluri_singleflight += 1
+                self.apeluri_cache += 1
+                self._inregistreaza_apel(motiv, nume_model, "singleflight", durata_ms)
+                logger.info("LLMClient [SINGLEFLIGHT DEDUP] (%s) Model: %s (economisit 1 apel real)", motiv, nume_model)
 
-        self._salveaza_in_cache(cheie, raspuns, nume_model, mesaje, model_raspuns)
         return raspuns
 
     def apeleaza_cu_json(
@@ -543,8 +814,9 @@ class LLMClient:
         temperature: float = 0.0,
         chei_asteptate: Optional[list[str]] = None,
         chei_permise: Optional[set[str]] = None,
+        motiv: str = "json",
     ) -> tuple[Optional[Any], Optional[str]]:
-        """Apelează LLM-ul și extrage un JSON valid.
+        """Apelează LLM-ul și extrage un JSON valid cu retry controlat.
 
         În caz de eșec de parsare, face până la două reîncercări.
         Dacă se dau chei_permise, orice cheie din afara chei_asteptate ∪ chei_permise invalidează răspunsul.
@@ -570,6 +842,7 @@ class LLMClient:
             model=nume_model,
             temperature=temperature,
             cere_json=True,
+            motiv=motiv,
         )
 
         date_json = self.despacheteaza_plic(self.extrage_json_din_text(text_raspuns))
@@ -592,6 +865,7 @@ class LLMClient:
                 model=nume_model,
                 temperature=temperature,
                 cere_json=cere_json,
+                motiv=f"{motiv}_retry_{incercare}",
             )
             date_json_retry = self.despacheteaza_plic(self.extrage_json_din_text(text_retry))
             if este_valid(date_json_retry):
@@ -605,6 +879,7 @@ class LLMClient:
         imagine_bytes: bytes,
         mime_type: str = "image/jpeg",
         temperature: float = 0.0,
+        motiv: str = "vision_ocr",
     ) -> str:
         """Apelează modelul de Vision pentru OCR pe imagini."""
         b64_str = base64.b64encode(imagine_bytes).decode("utf-8")
@@ -628,7 +903,131 @@ class LLMClient:
             model=self.model_vision,
             temperature=temperature,
             cere_json=False,
+            motiv=motiv,
         )
+
+    def apeleaza_cu_tools(
+        self,
+        mesaje: list[dict[str, Any]],
+        tools: list[dict[str, Any]],
+        model: Optional[str] = None,
+        temperature: float = 0.0,
+        tool_choice: str = "auto",
+        max_tokens: int = 400,
+        motiv: str = "planificator",
+    ) -> tuple[str, list[dict[str, Any]], str]:
+        """Apelează modelul LLM cu unelte (tool calling) nativ.
+
+        Include:
+        - Caching persistent L1/L2 pe schemele de tools și mesaje
+        - Deduplicare concurentă SingleFlight
+        - Eliminare taguri <think>...</think>
+        - Concurrency control și exponential backoff
+        - Înregistrare automată metrici și latență
+
+        Întoarce (text_curatat, lista_tool_calls, model_raportat).
+        """
+        nume_model = model or self.model_text
+        cheie = self._calculeaza_cheie_cache(
+            nume_model, mesaje, temperature, cere_json=False, tools=tools, tool_choice=tool_choice
+        )
+
+        t_start = time.perf_counter()
+        raspuns_cache, sursa_cache = self._citeste_din_cache_cu_sursa(cheie)
+        if raspuns_cache is not None:
+            durata_ms = (time.perf_counter() - t_start) * 1000
+            with self._lock_stats:
+                self.apeluri_cache += 1
+                if sursa_cache == "l1":
+                    self.apeluri_cache_l1 += 1
+                else:
+                    self.apeluri_cache_l2 += 1
+            self._inregistreaza_apel(motiv, nume_model, f"cache_{sursa_cache}", durata_ms)
+            logger.info("LLMClient [%s HIT TOOLS] (%s) Model: %s", (sursa_cache or "CACHE").upper(), motiv, nume_model)
+            try:
+                date = json.loads(raspuns_cache)
+                return date.get("content", ""), date.get("tool_calls", []), date.get("model_raspuns", nume_model)
+            except Exception:
+                return raspuns_cache, [], nume_model
+
+        # Apel real via SingleFlight
+        def _executa() -> tuple[str, list[dict[str, Any]], str, float]:
+            t_exec = time.perf_counter()
+            if not self.api_key or self.api_key == "no-key-provided":
+                raise RuntimeError("LLM_API_KEY lipsește din .env și răspunsul nu e în cache.")
+
+            timpi_asteptare = [2, 4, 8, 16]
+            with self.semaphore:
+                for incercare, pauza in enumerate(timpi_asteptare):
+                    try:
+                        kwargs: dict[str, Any] = {
+                            "model": nume_model,
+                            "messages": mesaje,
+                            "tools": tools,
+                            "tool_choice": tool_choice,
+                            "temperature": temperature,
+                            "max_tokens": max_tokens,
+                            "timeout": 20,
+                        }
+                        response = self.client.chat.completions.create(**kwargs)
+                        alegere = response.choices[0]
+                        mesaj = alegere.message
+                        text_curatat = self.curata_text_raspuns(mesaj.content or "")
+                        tool_calls_list: list[dict[str, Any]] = []
+                        if mesaj.tool_calls:
+                            for tc in mesaj.tool_calls:
+                                tool_calls_list.append({
+                                    "id": tc.id,
+                                    "type": tc.type,
+                                    "function": {
+                                        "name": tc.function.name,
+                                        "arguments": tc.function.arguments,
+                                    }
+                                })
+                        model_resp = str(getattr(response, "model", "") or nume_model)
+                        payload_cache = json.dumps({
+                            "content": text_curatat,
+                            "tool_calls": tool_calls_list,
+                            "model_raspuns": model_resp,
+                        }, ensure_ascii=False)
+                        d_ms = (time.perf_counter() - t_exec) * 1000
+                        self._salveaza_in_cache(cheie, payload_cache, nume_model, mesaje, model_resp, tools=tools)
+                        return text_curatat, tool_calls_list, model_resp, d_ms
+                    except (RateLimitError, APIStatusError) as e:
+                        cod = getattr(e, "status_code", None)
+                        if (cod == 429 or isinstance(e, RateLimitError)) and incercare < len(timpi_asteptare) - 1:
+                            time.sleep(pauza)
+                            continue
+                        raise e
+                    except Exception as e:
+                        if incercare < len(timpi_asteptare) - 1 and ("connection" in str(e).lower() or "timeout" in str(e).lower()):
+                            time.sleep(pauza)
+                            continue
+                        raise e
+                raise RuntimeError("Numărul maxim de reîncercări la API-ul LLM cu unelte a fost depășit.")
+
+        (text_curatat, tool_calls_list, model_resp, durata_ms), is_leader = self._singleflight.execute(cheie, _executa)
+
+        with self._lock_stats:
+            if is_leader:
+                self.apeluri_reale += 1
+                self.apeluri_reale_detalii.append({
+                    "model_cerut": nume_model,
+                    "model_raspuns": model_resp,
+                    "tool_calling": True,
+                    "cheie_cache": cheie,
+                    "motiv": motiv,
+                    "durata_ms": round(durata_ms, 2),
+                })
+                self._inregistreaza_apel(motiv, nume_model, "real", durata_ms)
+                logger.info("LLMClient [REAL TOOLS CALL] (%s) Model: %s -> %s (%.1f ms)", motiv, nume_model, model_resp, durata_ms)
+            else:
+                self.apeluri_singleflight += 1
+                self.apeluri_cache += 1
+                self._inregistreaza_apel(motiv, nume_model, "singleflight", durata_ms)
+                logger.info("LLMClient [SINGLEFLIGHT TOOLS DEDUP] (%s) Model: %s (economisit 1 apel real)", motiv, nume_model)
+
+        return text_curatat, tool_calls_list, model_resp
 
 
 # Instanță globală singleton pentru utilizare facilă în întregul modul

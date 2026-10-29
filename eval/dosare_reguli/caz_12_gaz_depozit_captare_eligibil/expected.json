@@ -1,0 +1,18 @@
+{
+  "dosar": "caz_12_gaz_depozit_captare_eligibil",
+  "descriere": "Captare gaz de depozit 80% (>= 75%) f\u0103r\u0103 ardere la flac\u0103r\u0103 (PP-06)",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
+  "cale_eligibilitate": "PP-06",
+  "reguli": [
+    {
+      "id": "PP-06",
+      "rezultat": "OK"
+    }
+  ],
+  "actiuni": [
+    "Neevaluabil G-02",
+    "Neevaluabil G-03",
+    "Neevaluabil PP-X1"
+  ],
+  "nota_verdict_strict": "Era ELIGIBIL. Verdict strict: aprobare doar cu toate criteriile verificate; incertitudini: G-02, G-03, PP-X1."
+}

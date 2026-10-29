@@ -6,7 +6,6 @@ Offline: 02_registru_breeam.json din dosar, apoi certificatul în PDF din dosar 
 
 from __future__ import annotations
 
-import html
 import json
 import logging
 import re
@@ -49,20 +48,58 @@ def _acelasi_certificat(a: Any, b: Any) -> bool:
     return bool(a) and normalizeaza_cheie(a) == normalizeaza_cheie(b)
 
 
-def _text_celula(celula: str) -> list[str]:
-    """Bucățile de text dintr-o celulă HTML (separate de <br>)."""
-    bucati = re.split(r"<br\s*/?>", celula, flags=re.IGNORECASE)
-    return [re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", b))).strip() for b in bucati]
+from html.parser import HTMLParser
+
+
+class _TabelBREEAMParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.randuri: list[list[list[str]]] = []
+        self._in_td = False
+        self._celule_curente: list[list[str]] = []
+        self._bucati_celula: list[str] = []
+        self._text_curent: list[str] = []
+
+    def handle_starttag(self, tag, attrs):
+        t = tag.lower()
+        if t == "tr":
+            self._celule_curente = []
+        elif t == "td":
+            self._in_td = True
+            self._bucati_celula = []
+            self._text_curent = []
+        elif t == "br" and self._in_td:
+            text = "".join(self._text_curent).strip()
+            if text:
+                self._bucati_celula.append(re.sub(r"\s+", " ", text))
+            self._text_curent = []
+
+    def handle_endtag(self, tag):
+        t = tag.lower()
+        if t == "td" and self._in_td:
+            text = "".join(self._text_curent).strip()
+            if text:
+                self._bucati_celula.append(re.sub(r"\s+", " ", text))
+            self._celule_curente.append(self._bucati_celula)
+            self._in_td = False
+        elif t == "tr":
+            if self._celule_curente:
+                self.randuri.append(self._celule_curente)
+
+    def handle_data(self, data):
+        if self._in_td:
+            self._text_curent.append(data)
 
 
 def parseaza_rezultate(pagina_html: str) -> list[dict[str, Any]]:
     """Rândurile tabelului de rezultate, în formatul fișierelor offline (02_registru_breeam.json)."""
+    parser = _TabelBREEAMParser()
+    parser.feed(pagina_html)
     rezultate = []
-    for rand in re.findall(r"<tr>\s*<td>(.*?)</tr>", pagina_html, flags=re.S | re.IGNORECASE):
-        celule = re.findall(r"(.*?)</td>\s*(?:<td>|$)", rand, flags=re.S)
+    for celule in parser.randuri:
         if len(celule) < len(COLOANE_REGISTRU):
             continue
-        val = dict(zip(COLOANE_REGISTRU, (_text_celula(c) for c in celule)))
+        val = dict(zip(COLOANE_REGISTRU, celule))
         rating_score = [x for x in val["rating_score"] if x]
         town = [x for x in val["town_postcode"] if x]
         scor = re.search(r"([\d.]+)\s*%", " ".join(rating_score))
@@ -136,6 +173,13 @@ def _din_pdf(cale_pdf: Path, nr: str) -> ToolResult:
 
 def _offline(nr: str, stare: Optional[StareDosar]) -> ToolResult:
     folder = Path(getattr(stare, "dosar_folder", "") or ".")
+    cale_brut = folder / "_brut" / "02_registru_breeam.json"
+    if cale_brut.exists():
+        with open(cale_brut, "r", encoding="utf-8") as f:
+            d = json.load(f)
+            data = d.get("date") or d.get("continut_json") or d
+            intrari = data if isinstance(data, list) else [data]
+            return _alege(intrari, nr, SURSA_OFFLINE)
     cale = folder / "02_registru_breeam.json"
     if cale.exists():
         with open(cale, "r", encoding="utf-8") as f:

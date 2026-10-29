@@ -1,0 +1,11 @@
+{
+  "dosar": "caz_04_hidro_2022_densitate_mica",
+  "descriere": "Hidrocentral\u0103 2022 cu densitate 7 W/m2 (< 10 W/m2) \u0219i emisii necunoscute",
+  "verdict": "NEELIGIBIL",
+  "reguli": [
+    {
+      "id": "RE-03",
+      "rezultat": "NU"
+    }
+  ]
+}

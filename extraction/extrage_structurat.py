@@ -44,6 +44,7 @@ from extraction.cerinte import (
 )
 from extraction.clasificare import clasifica_document
 from extraction.extrage_brut import determina_tip_din_nume, proceseaza_dosar as ruleaza_etapa_1
+from extraction.ocr import MIME_IMAGINI
 from extraction.extragere_campuri import (
     extrage_afirmatii_determinist,
     extrage_campuri_document_llm,
@@ -99,7 +100,21 @@ MOTIV_CAEN_LIPSA_CHIRIAS = "caen_lipsa_chirias"
 def incarca_documente_brute(folder_dosar: Path) -> list[dict[str, Any]]:
     """Încarcă toate fișierele JSON brute generate în Etapa 1."""
     folder_brut = folder_dosar / "_brut"
-    if not folder_brut.exists():
+    necesita_rulare = not folder_brut.exists()
+    if not necesita_rulare:
+        extensii = {".pdf", ".json"} | set(MIME_IMAGINI)
+        fisiere_dosar = [
+            p for p in folder_dosar.iterdir()
+            if p.is_file() and not p.name.startswith((".", "_"))
+            and p.suffix.lower() in extensii
+            and p.name not in ("expected.json", "extras_mock.json", "index.json")
+        ]
+        fisiere_brut = {p.name for p in folder_brut.glob("*.json") if p.name != "index.json"}
+        fisiere_brut |= {f"{p.stem}.json" for p in folder_brut.glob("*.json")}
+        if any(f"{f.stem}.json" not in fisiere_brut for f in fisiere_dosar):
+            necesita_rulare = True
+
+    if necesita_rulare:
         ruleaza_etapa_1(folder_dosar)
 
     documente = []

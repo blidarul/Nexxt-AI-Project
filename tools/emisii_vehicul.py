@@ -53,6 +53,9 @@ def _citeste_online(marca: str, model: str) -> list[dict[str, Any]]:
 
     from tools.data.descarca_eea import EXPR_PLUG_IN, TABEL_IMPLICIT, URL_DISCODATA, agrega
 
+    # Validare de securitate: prevenire caractere speciale malitioase
+    if not re.match(r"^[\w\s\-\.\'\&]+$", marca, flags=re.UNICODE):
+        raise ValueError(f"Numele marcii contine caractere nepermise: {marca!r}")
     marca_sql = marca.replace("'", "''")
     interogare = (
         f"SELECT Mk, Cn, Ft, {EXPR_PLUG_IN} AS PlugIn, [Ewltp (g/km)] AS Ewltp, MAX(Year) AS Year, COUNT(*) AS Nr "

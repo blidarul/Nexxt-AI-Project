@@ -1,0 +1,17 @@
+{
+  "dosar": "caz_06_data_center_pue_1_38",
+  "descriere": "Data center cu PUE 1.38 (< 1.5)",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
+  "cale_eligibilitate": "EE-07",
+  "reguli": [
+    {
+      "id": "EE-07",
+      "rezultat": "OK"
+    }
+  ],
+  "actiuni": [
+    "Neevaluabil G-02",
+    "Neevaluabil G-03"
+  ],
+  "nota_verdict_strict": "Era ELIGIBIL. Verdict strict: aprobare doar cu toate criteriile verificate; incertitudini: G-02, G-03."
+}

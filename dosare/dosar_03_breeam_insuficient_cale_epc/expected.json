@@ -1,7 +1,7 @@
 {
   "dosar": "dosar_03_breeam_insuficient_cale_epc",
   "descriere": "BREEAM doar 'Very Good' (pica GB-01), dar EPC clasa A (trece pe GB-03).",
-  "verdict": "ELIGIBIL",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
   "cale_eligibilitate": "GB-03 (EPC clasa A), dupa ce GB-01 a picat",
   "reguli": [
     {
@@ -24,7 +24,8 @@
   "consistenta": [
     "Client declara doar 'BREEAM', fara nivel -> agentul il afla din registru"
   ],
-  "impact": {
+  "impact": "Nu se calculeaza pana la verificarea completa (ca la dosarele trimise comitetului)",
+  "impact_daca_devine_eligibil": {
     "formula": "(baseline - energie_finala) x suprafata x cota_banca x factor_emisie",
     "sursa": "Allocation & Impact Report 2025, p. 22",
     "pasi": [
@@ -36,5 +37,8 @@
     "rezultat_tco2_an": 325.5,
     "atentie": "Factorul de emisie e valoare EXEMPLU (vezi reference/factori_referinta.yaml)."
   },
-  "actiuni": []
+  "actiuni": [
+    "Neevaluabil G-03"
+  ],
+  "nota_verdict_strict": "Era ELIGIBIL. Verdict strict: aprobare doar cu toate criteriile verificate; incertitudini: G-03."
 }

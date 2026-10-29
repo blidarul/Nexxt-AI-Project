@@ -1,15 +1,3 @@
-# PROPRIETAR: D
-# SCOP: Bucla agentului: leaga toate modulele.
-#
-# INTERFATA (ce folosesc ceilalti):
-#   proceseaza_dosar(folder) -> Verdict
-#
-# IMPLEMENTARE:
-#   [x] extrage() -> StareDosar
-#   [x] bucla: planificator.pas_urmator -> registry.apeleaza -> trace
-#   [x] limita de pasi (daca e atinsa: escaladare)
-#   [x] decide_verdict() la final
-
 """Orchestratorul agentului: leagă extracția, planificatorul, registry-ul și verdictul.
 
 Fluxul:
@@ -62,14 +50,15 @@ def _get_mod_agent() -> str:
 def _extrage(folder: str) -> DosarExtras:
     """Apelează modulul de extracție (A) și întoarce DosarExtras.
 
-    În modul mock citește extras_mock.json direct; în modul real apelează
-    extraction.extractor.extrage(folder).
+    În modul mock sau pentru dosare sintetice fără PDF-uri citește extras_mock.json;
+    în modul real apelează extraction.extractor.extrage(folder).
     """
     cale = Path(folder)
+    fisier_mock = cale / "extras_mock.json"
 
     mod = _get_mod_extractie()
-    if mod == "mock":
-        fisier_mock = cale / "extras_mock.json"
+    # Dacă este modul mock sau dacă dosarul este sintetic (fără fișiere PDF)
+    if mod == "mock" or (fisier_mock.exists() and not any(cale.glob("*.pdf"))):
         if not fisier_mock.exists():
             raise FileNotFoundError(
                 f"Fișierul extras_mock.json nu există în {cale}. "
@@ -90,10 +79,22 @@ def _extrage(folder: str) -> DosarExtras:
 # ---------------------------------------------------------------------------
 
 def _creeaza_stare(folder: str, extras: DosarExtras) -> StareDosar:
-    """Construiește StareDosar din DosarExtras."""
+    """Construiește StareDosar din DosarExtras și încarcă raport_extractie.json dacă există."""
+    cale = Path(folder)
+    raport_extractie: dict[str, Any] = {}
+    fisier_raport = cale / "raport_extractie.json"
+    if fisier_raport.exists():
+        try:
+            import json
+            with open(fisier_raport, "r", encoding="utf-8") as f:
+                raport_extractie = json.load(f) or {}
+        except Exception as exc:
+            logger.warning("Nu s-a putut citi raport_extractie.json din %s: %s", cale, exc)
+
     return StareDosar(
         dosar_folder=folder,
         extras=extras,
+        raport_extractie=raport_extractie,
     )
 
 
@@ -168,10 +169,26 @@ def _executa_bucla(stare: StareDosar) -> None:
         stare.rezultate_tools[decizie.nume] = rezultat
         ultim_rezultat = rezultat
 
+        sumar_rezultat = ""
+        if rezultat.eroare:
+            sumar_rezultat = f"Eroare: {rezultat.eroare}"
+        elif rezultat.date:
+            if "rezultate" in rezultat.date:
+                sumar_rezultat = str(rezultat.date["rezultate"])
+            elif "rezultat_tco2_an" in rezultat.date:
+                sumar_rezultat = f"Impact: {rezultat.date['rezultat_tco2_an']} tCO2/an"
+            elif "cale_id" in rezultat.date:
+                sumar_rezultat = f"{rezultat.date['cale_id']}: {rezultat.date.get('rezultat')}"
+            elif "verificari" in rezultat.date:
+                sumar_rezultat = f"Verificări plauzibilitate: {rezultat.date.get('nr_semnale', 0)} semnale"
+            else:
+                sumar_rezultat = ", ".join(f"{k}={v}" for k, v in list(rezultat.date.items())[:3])
+
         intrare_trace["rezultat"] = {
             "tool": rezultat.tool,
             "gasit": rezultat.gasit,
             "eroare": rezultat.eroare,
+            "sumar": sumar_rezultat,
         }
         stare.trace.append(intrare_trace)
 

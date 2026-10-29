@@ -100,7 +100,7 @@ def clasifica_document(
         {"role": "user", "content": prompt_utilizator},
     ]
 
-    date_json, eroare = client.apeleaza_cu_json(mesaje)
+    date_json, eroare = client.apeleaza_cu_json(mesaje, motiv="clasificare_document")
 
     if date_json and isinstance(date_json, dict):
         tip = date_json.get("tip_document")

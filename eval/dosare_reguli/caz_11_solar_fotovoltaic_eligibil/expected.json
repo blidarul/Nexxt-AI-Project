@@ -1,0 +1,21 @@
+{
+  "dosar": "caz_11_solar_fotovoltaic_eligibil",
+  "descriere": "Parc fotovoltaic 10 MW, 14.000 MWh/an (RE-01)",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
+  "cale_eligibilitate": "RE-01",
+  "reguli": [
+    {
+      "id": "RE-01",
+      "rezultat": "OK"
+    }
+  ],
+  "impact": "Nu se calculeaza pana la verificarea completa (ca la dosarele trimise comitetului)",
+  "impact_daca_devine_eligibil": {
+    "rezultat_tco2_an": 3500.0
+  },
+  "actiuni": [
+    "Neevaluabil G-02",
+    "Neevaluabil G-03"
+  ],
+  "nota_verdict_strict": "Era ELIGIBIL. Verdict strict: aprobare doar cu toate criteriile verificate; incertitudini: G-02, G-03."
+}

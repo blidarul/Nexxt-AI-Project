@@ -1,0 +1,11 @@
+{
+  "dosar": "caz_05_solar_factor_capacitate_anomal",
+  "descriere": "Parc solar 10 MW care declar\u0103 40.000 MWh/an (factor capacitate 46% imposibil)",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
+  "reguli": [
+    {
+      "id": "PL-20",
+      "rezultat": "SEMNAL"
+    }
+  ]
+}

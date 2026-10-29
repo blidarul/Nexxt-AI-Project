@@ -1,0 +1,17 @@
+{
+  "dosar": "caz_13_cladire_breeam_final_eligibil",
+  "descriere": "Cl\u0103dire verde BREEAM Excellent Final (GB-01)",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
+  "cale_eligibilitate": "GB-01",
+  "reguli": [
+    {
+      "id": "GB-01",
+      "rezultat": "OK"
+    }
+  ],
+  "actiuni": [
+    "Neevaluabil G-02",
+    "Neevaluabil G-03"
+  ],
+  "nota_verdict_strict": "Era ELIGIBIL. Verdict strict: aprobare doar cu toate criteriile verificate; incertitudini: G-02, G-03."
+}

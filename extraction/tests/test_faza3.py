@@ -100,7 +100,7 @@ def test_ocr_completeaza_doar_paginile_fara_text():
         def __init__(self):
             self.apeluri = 0
 
-        def apeleaza_vision(self, prompt, imagine, mime_type="image/png"):
+        def apeleaza_vision(self, prompt, imagine, mime_type="image/png", **kwargs):
             self.apeluri += 1
             assert imagine[:8] == b"\x89PNG\r\n\x1a\n"
             return "47. Emisii CO2 WLTP, combinat: 48 g/km"

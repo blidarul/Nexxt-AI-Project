@@ -1,0 +1,331 @@
+/* Green Proof: filtre (negru) | dosare (gri) | dosarul (alb, ridicat); pașii Fișiere -> Raport -> Decizie.
+   Stilul „achromatic ledger” (tasteskill) în negru + galben. Animațiile sunt reacții scurte (150-250 ms, ease-out)
+   și se opresc la prefers-reduced-motion. */
+
+@font-face { font-family: "Geist"; font-style: normal; font-display: swap; font-weight: 100 900;
+  src: url("fonts/geist-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Geist"; font-style: normal; font-display: swap; font-weight: 100 900;
+  src: url("fonts/geist-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Geist Mono"; font-style: normal; font-display: swap; font-weight: 100 900;
+  src: url("fonts/geist-mono-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Geist Mono"; font-style: normal; font-display: swap; font-weight: 100 900;
+  src: url("fonts/geist-mono-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+
+:root {
+  --negru: #0a0a0a;           /* coloana de navigare */
+  --negru-2: #1c1c1c;
+  --pe-negru: #a8a8a8;        /* text gri pe negru (peste 7:1) */
+  --gri: #f4f3f1;             /* coloana de dosare și fundalul zonei de lucru */
+  --surface: #ffffff;
+  --raised: #f7f6f4;
+  --active: #ecebe8;
+  --border: #e3e2de;
+  --rule: #efeeeb;
+  --control: #cfcdc8;
+  --text: #0a0a0a;
+  --muted: #5c5b58;
+  --yellow: #ffd60a;          /* accentul: întotdeauna cu text negru */
+  --yellow-edge: #d9b400;
+  --pos: #247b50; --neg: #c4242a; --warn: #92400e;
+  --pos-bg: #dcfae5; --neg-bg: #ffedea; --warn-bg: #fffbeb; --warn-edge: #fde68a;
+  /* punctele de status, aceleași peste tot */
+  --st-toate: #ffffff; --st-asteptare: #ffd60a; --st-aprobat: #2f9e5b; --st-respins: #e5484d; --st-interventie: #0a0a0a;
+
+  --font: "Geist", "Inter", system-ui, sans-serif;
+  --mono: "Geist Mono", ui-monospace, Consolas, monospace;
+  --radius: 8px; --radius-control: 6px;
+  --t: 220ms; --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--gri); color: var(--text); font: 14px/20px var(--font); -webkit-font-smoothing: antialiased; }
+h1, h2, h3, p, dl, dd, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+button, textarea { font: inherit; color: inherit; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; border-radius: 4px; }
+.filtre :focus-visible { outline-color: var(--yellow); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.muted { color: var(--muted); }
+.num { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--mono); font-size: 13px; }
+/* eticheta rolului fiecărei coloane */
+.eticheta-col { font-size: 11px; line-height: 16px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+/* ---------------------------------------------------------------- grila
+   1440: 220 filtre + 280 dosare + 940 lucru; cu un dosar ales: 64 + 180 + 1196; concentrare: 0 + 0 + 1440 */
+.app { display: grid; grid-template-columns: 220px 0px minmax(0, 1fr); height: 100svh; transition: grid-template-columns var(--t) var(--ease); }
+.app[data-stare="lista"] { grid-template-columns: 220px 280px minmax(0, 1fr); }
+.app[data-stare="dosar"] { grid-template-columns: 64px 180px minmax(0, 1fr); }
+.app[data-concentrare="true"] { grid-template-columns: 0px 0px minmax(0, 1fr); }
+
+/* ---------------------------------------------------------------- filtre: negru */
+.filtre { position: relative; z-index: 10; min-width: 0; background: var(--negru); }
+.filtre-interior { position: absolute; inset: 0 auto 0 0; width: 100%; display: flex; flex-direction: column; padding: 20px 10px 14px; overflow: hidden; background: var(--negru); color: var(--pe-negru); transition: width var(--t) var(--ease), box-shadow var(--t) var(--ease); }
+.brand { display: flex; align-items: center; gap: 10px; height: 28px; padding: 0 9px; color: #fff; font-weight: 600; white-space: nowrap; }
+.mark { width: 24px; height: 24px; flex: none; }
+.filtre .eticheta-col { height: 16px; margin: 28px 12px 8px; color: #8f8f8f; white-space: nowrap; }
+#nav { display: grid; gap: 2px; }
+.filtru { position: relative; display: flex; align-items: center; gap: 12px; width: 100%; height: 36px; padding: 0 12px 0 16px; border: 0; border-radius: var(--radius-control); background: none; color: var(--pe-negru); text-align: left; white-space: nowrap; cursor: pointer; transition: background-color 150ms ease, color 150ms ease; }
+.filtru:hover { background: var(--negru-2); color: #fff; }
+.filtru[aria-current="true"] { color: #fff; font-weight: 500; }
+.filtru[aria-current="true"]::before { content: ""; position: absolute; left: 0; top: 7px; bottom: 7px; width: 3px; border-radius: 2px; background: var(--yellow); }
+.filtru .nr { margin-left: auto; min-width: 22px; height: 20px; padding: 0 7px; border-radius: 999px; background: var(--negru-2); color: #e5e5e5; font-size: 12px; line-height: 20px; text-align: center; font-variant-numeric: tabular-nums; transition: background-color 250ms ease, color 250ms ease; }
+.filtru .nr.schimbat { background: var(--yellow); color: var(--negru); }
+.meniu { position: relative; margin-top: auto; padding-left: 6px; }
+.icon-btn { display: inline-grid; place-items: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: var(--radius-control); background: none; color: var(--muted); font-size: 17px; line-height: 1; cursor: pointer; }
+.icon-btn:hover { background: var(--raised); color: var(--text); }
+.filtre .icon-btn { color: var(--pe-negru); }
+.filtre .icon-btn:hover { background: var(--negru-2); color: #fff; }
+.meniu-panou { position: absolute; left: 0; bottom: 40px; z-index: 30; display: grid; gap: 12px; width: 240px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18); }
+.meniu-panou[hidden] { display: none; }
+.moduri { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; font-size: 13px; }
+.moduri dt { color: var(--muted); }
+.moduri dd { text-align: right; }
+.credit { color: var(--muted); font-size: 13px; }
+
+/* strânsă: doar punctele; se lărgește peste listă la hover sau focus */
+@media (min-width: 861px) {
+  .app[data-stare="dosar"] .filtre:not(:hover):not(:focus-within) .txt,
+  .app[data-stare="dosar"] .filtre:not(:hover):not(:focus-within) .filtru .nr,
+  .app[data-stare="dosar"] .filtre:not(:hover):not(:focus-within) .filtru .et { display: none; }
+  .app[data-stare="dosar"] .filtre:not(:hover):not(:focus-within) .filtru { justify-content: center; padding: 0; }
+  .app[data-stare="dosar"] .filtre:not(:hover):not(:focus-within) .brand { padding: 0 10px; }
+  .app[data-stare="dosar"] .filtre:hover .filtre-interior,
+  .app[data-stare="dosar"] .filtre:focus-within .filtre-interior { width: 220px; box-shadow: 12px 0 32px rgba(0, 0, 0, 0.22); }
+}
+
+.punct { width: 10px; height: 10px; flex: none; border-radius: 50%; }
+.punct.toate { background: var(--st-toate); }
+.punct.in_asteptare { background: var(--st-asteptare); box-shadow: inset 0 0 0 1px var(--yellow-edge); }
+.punct.aprobat { background: var(--st-aprobat); }
+.punct.respins { background: var(--st-respins); }
+.punct.interventie { background: var(--st-interventie); }
+.filtre .punct.interventie { box-shadow: 0 0 0 1.5px #ffffff; }
+.filtre .punct.in_asteptare { box-shadow: none; }
+
+/* ---------------------------------------------------------------- dosare: gri, rânduri pe alb */
+.lista { min-width: 0; min-height: 0; overflow: hidden auto; background: var(--gri); border-right: 1px solid var(--border); }
+.app[data-concentrare="true"] .lista, .app[data-concentrare="true"] .filtre { visibility: hidden; }
+.app[data-stare="start"] .lista, .app[data-concentrare="true"] .lista { border-right: 0; }
+.lista-interior { padding: 20px 12px 16px; }
+.lista-interior.intra { animation: glisare var(--t) var(--ease) both; }
+.lista .eticheta-col { padding: 6px 4px 0; }
+.lista-titlu { margin: 10px 4px 12px; font-size: 15px; line-height: 20px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lista-randuri { overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.dosar { position: relative; display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 12px 11px 14px; border: 0; background: var(--surface); font-size: 13px; line-height: 18px; text-align: left; cursor: pointer; }
+.dosar + .dosar { border-top: 1px solid var(--rule); }
+.dosar:hover { background: var(--raised); }
+.dosar[aria-selected="true"] { background: var(--surface); font-weight: 500; }
+.dosar[aria-selected="true"]::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--yellow); }
+.dosar:focus-visible { outline-offset: -2px; }
+.dosar .nume { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dosar .sufix { flex: none; margin-left: -6px; color: var(--muted); }
+.gol-lista { padding: 16px 14px; color: var(--muted); font-size: 13px; }
+
+/* ---------------------------------------------------------------- lucru: alb, ridicat */
+.zona { min-width: 0; min-height: 0; overflow: hidden auto; padding: 12px; }
+.panou { min-height: 100%; padding: 20px 40px 40px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06); }
+.panou-cap { display: flex; align-items: center; justify-content: space-between; height: 32px; }
+.gol { display: grid; place-items: center; min-height: calc(100svh - 120px); color: var(--muted); }
+.continut { max-width: 1120px; }
+.continut.apare { animation: apare var(--t) var(--ease) both; }
+.antet { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-top: 8px; }
+.antet h2 { min-width: 0; font-size: 22px; line-height: 30px; font-weight: 600; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.status { display: inline-flex; flex: none; align-items: center; gap: 8px; color: var(--muted); white-space: nowrap; }
+.btn.inapoi { display: none; }
+
+/* pașii, cu progresul umplut cu galben */
+.pasi-nav { position: relative; display: flex; justify-content: space-between; max-width: 420px; margin: 24px 0 32px; }
+.pasi-nav .pista, .pasi-nav .umplere { position: absolute; left: 12px; top: 12px; height: 2px; border-radius: 1px; }
+.pasi-nav .pista { right: 12px; background: var(--border); }
+.pasi-nav .umplere { width: calc((100% - 24px) * var(--progres, 0)); background: var(--yellow); transition: width 250ms var(--ease); }
+.pas-btn { position: relative; z-index: 1; display: inline-flex; flex-direction: column; align-items: center; gap: 6px; padding: 0; border: 0; background: none; color: var(--muted); font-size: 13px; cursor: pointer; }
+.pas-btn:first-child { align-items: flex-start; }
+.pas-btn:last-child { align-items: flex-end; }
+.pas-btn .cerc { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--surface); box-shadow: inset 0 0 0 1.5px var(--control); font-variant-numeric: tabular-nums; transition: background-color var(--t) ease, box-shadow var(--t) ease; }
+.pas-btn.gata .cerc { background: var(--yellow); box-shadow: inset 0 0 0 1px var(--yellow-edge); color: var(--negru); }
+.pas-btn[aria-current="step"] { color: var(--text); font-weight: 500; }
+.pas-btn[aria-current="step"] .cerc { background: var(--negru); color: #fff; box-shadow: none; }
+.pas-btn:disabled { cursor: not-allowed; opacity: 0.5; }
+.pas-btn:not(:disabled):hover { color: var(--text); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 38px; padding: 0 16px; border-radius: var(--radius-control); border: 1px solid var(--control); background: var(--surface); color: var(--text); font-weight: 500; white-space: nowrap; text-decoration: none; cursor: pointer; transition: background-color 150ms ease, transform 120ms ease; }
+.btn:hover { background: var(--raised); }
+.btn:active { transform: translateY(1px); }
+.btn.primary { background: var(--yellow); border-color: var(--yellow-edge); }
+.btn.primary:hover { background: #f5cc00; }
+.btn.ink { background: var(--negru); border-color: var(--negru); color: #fff; }
+.btn[aria-pressed="true"] { border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); }
+.btn:disabled { cursor: not-allowed; background: var(--raised); border-color: var(--border); color: var(--muted); transform: none; }
+.actiuni-pas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 32px; }
+.link { padding: 0; border: 0; background: none; color: var(--text); text-decoration: underline; text-decoration-color: var(--control); text-underline-offset: 3px; cursor: pointer; overflow-wrap: anywhere; text-align: left; }
+.link:hover { text-decoration-color: currentColor; }
+.rotita { width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: roteste 700ms linear infinite; }
+.progres { position: relative; height: 2px; max-width: 420px; margin-top: 16px; overflow: hidden; border-radius: 1px; background: var(--border); }
+.progres::after { content: ""; position: absolute; inset: 0 auto 0 0; width: 30%; background: var(--negru); animation: progres 1.1s ease-in-out infinite; }
+
+/* pasul 1 */
+.randuri > li + li { border-top: 1px solid var(--rule); }
+.fisier { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; width: 100%; padding: 12px 0; border: 0; background: none; text-align: left; cursor: pointer; }
+.fisier:hover .nume-f { text-decoration: underline; text-underline-offset: 3px; }
+.nume-f { min-width: 0; overflow-wrap: anywhere; }
+.fisier .tip { flex: none; color: var(--muted); }
+.lipsa-lista li { display: flex; gap: 16px; padding: 8px 0 8px 28px; color: var(--muted); }
+.lipsa-lista .mono { flex: none; width: 56px; }
+
+/* pasul 2: raportul */
+.bloc { margin-top: 28px; }
+.bloc:first-child { margin-top: 0; }
+.raport .bloc.intra { animation: apare var(--t) var(--ease) both; animation-delay: calc(var(--i, 0) * 60ms); }
+.titlu-bloc { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 16px; line-height: 22px; font-weight: 600; }
+.titlu-bloc .nr { color: var(--muted); font-weight: 400; font-size: 14px; }
+.semn { display: inline-grid; place-items: center; width: 22px; height: 22px; flex: none; border-radius: 50%; font-size: 13px; font-weight: 700; }
+.semn.indeplinite { background: var(--pos-bg); color: var(--pos); }
+.semn.neindeplinite { background: var(--neg-bg); color: var(--neg); }
+.semn.de_verificat { background: var(--warn-bg); color: var(--warn); box-shadow: inset 0 0 0 1px var(--warn-edge); }
+.concluzie { max-width: 72ch; font-size: 15px; line-height: 24px; }
+.concluzie p + p { margin-top: 4px; }
+.salvat { margin-top: 8px; color: var(--warn); }
+.grup { margin: 14px 0 2px 32px; color: var(--muted); font-size: 13px; }
+.elemente { margin-left: 32px; }
+
+.rand { border-top: 1px solid var(--rule); }
+.rand:first-child { border-top: 0; }
+.rand-cap { display: grid; grid-template-columns: 12px auto minmax(0, 1fr) auto; align-items: baseline; gap: 12px; width: 100%; padding: 9px 0; border: 0; background: none; text-align: left; cursor: pointer; }
+.rand-cap:hover .scurt { color: var(--text); }
+.rand-cap .id { font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+.rand-cap .scurt { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rand-cap[aria-expanded="true"] .scurt { white-space: normal; overflow-wrap: anywhere; }
+.rand-cap .dreapta { display: inline-flex; align-items: baseline; gap: 10px; white-space: nowrap; }
+.pag { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.rand-corp { display: grid; gap: 6px; padding: 0 0 12px 24px; overflow-wrap: anywhere; }
+.rand-corp .muted { overflow-wrap: anywhere; }
+.sageata { display: inline-block; width: 12px; flex: none; color: var(--muted); font-size: 11px; transition: transform 150ms ease; }
+[aria-expanded="true"] > .sageata { transform: rotate(90deg); }
+.rezultat { font-weight: 500; }
+.rezultat.pos { color: var(--pos); }
+.rezultat.neg { color: var(--neg); }
+.rezultat.warn { color: var(--warn); }
+.rezultat.neutru { color: var(--muted); }
+
+.impact { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 16px; margin-left: 32px; }
+.impact .valoare { font-size: 22px; line-height: 30px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.impact .valoare small { margin-left: 4px; font-size: 14px; font-weight: 400; color: var(--muted); }
+.metoda { margin: 4px 0 0 32px; color: var(--muted); overflow-wrap: anywhere; }
+.proxy { margin: 4px 0 0 32px; color: var(--warn); }
+.referinte { display: flex; flex-wrap: wrap; gap: 6px; margin-left: 32px; }
+.referinte li { padding: 2px 8px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: 13px; }
+
+.sectiuni { margin-top: 32px; border-top: 1px solid var(--border); }
+.sectiune { border-bottom: 1px solid var(--border); }
+.cap { display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px 0; border: 0; background: none; font-weight: 500; text-align: left; cursor: pointer; }
+.cap .nr { margin-left: auto; color: var(--muted); font-weight: 400; }
+.corp { padding: 0 0 12px 22px; }
+.date { display: grid; grid-template-columns: minmax(120px, max-content) minmax(0, 1fr) minmax(0, max-content); gap: 0 24px; }
+.date > * { padding: 10px 0; border-top: 1px solid var(--rule); min-width: 0; overflow-wrap: anywhere; }
+.date > :nth-child(-n + 3) { border-top: 0; }
+.date dt { color: var(--muted); }
+
+/* pasul 3 */
+.recomandat { color: var(--muted); }
+.recomandat b { color: var(--text); font-weight: 600; }
+.butoane { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.formular { display: grid; gap: 8px; max-width: 560px; margin-top: 20px; }
+.formular label { font-weight: 500; }
+.formular textarea { width: 100%; min-height: 76px; padding: 8px 12px; border: 1px solid var(--control); border-radius: var(--radius-control); background: var(--surface); resize: vertical; }
+.formular .trimite { justify-self: start; margin-top: 4px; }
+.avertizare { padding: 10px 14px; border-radius: var(--radius-control); background: var(--warn-bg); color: var(--warn); box-shadow: inset 0 0 0 1px var(--warn-edge); }
+.eroare { margin-top: 12px; color: var(--neg); }
+.decizia-ta { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); }
+.decizia-ta b { color: var(--text); font-weight: 600; }
+
+/* previzualizarea, în panou */
+.vizualizare { display: grid; grid-template-rows: auto minmax(0, 1fr); height: calc(100svh - 200px); min-height: 360px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.viz-cap { display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 16px; border-bottom: 1px solid var(--border); }
+.viz-cap .nume-f { margin-right: auto; font-weight: 500; }
+.viz-corp { min-height: 0; overflow: auto; }
+.viz-corp iframe { display: block; width: 100%; height: 100%; border: 0; }
+.viz-corp pre { margin: 0; padding: 16px 20px; font: 13px/20px var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+.viz-corp .k { color: var(--muted); }
+.viz-corp .s { color: #1f5e3a; }
+.viz-corp .n { color: #7a3e00; }
+
+/* notificarea după o decizie */
+.toast { position: fixed; left: 50%; bottom: 24px; z-index: 50; display: flex; align-items: center; gap: 16px; padding: 10px 12px 10px 16px; border-radius: var(--radius); background: var(--negru); color: #fff; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25); transform: translateX(-50%); animation: apare-jos var(--t) var(--ease) both; }
+.toast[hidden] { display: none; }
+.toast button { padding: 4px 8px; border: 0; border-radius: 4px; background: none; color: var(--yellow); font-weight: 600; cursor: pointer; }
+.toast button:hover { background: var(--negru-2); }
+
+dialog { padding: 24px; width: min(420px, calc(100vw - 32px)); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18); }
+dialog::backdrop { background: rgba(10, 10, 10, 0.45); }
+dialog h2 { font-size: 18px; line-height: 24px; font-weight: 600; }
+dialog p { margin-top: 8px; color: var(--muted); }
+.confirm-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+
+@keyframes glisare { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: none; } }
+@keyframes apare { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes apare-jos { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes roteste { to { transform: rotate(360deg); } }
+@keyframes progres { from { transform: translateX(-100%); } to { transform: translateX(340%); } }
+
+/* ---------------------------------------------------------------- telefon: o coloană odată */
+@media (max-width: 860px) {
+  .app, .app[data-stare], .app[data-concentrare] { display: block; height: auto; }
+  .filtre-interior { position: static; width: auto; padding: 12px 16px 8px; }
+  .filtre .eticheta-col { display: none; }
+  #nav { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+  .filtru { padding: 0 12px; }
+  .filtru { flex: none; width: auto; }
+  .meniu { position: absolute; top: 10px; right: 8px; margin: 0; }
+  .meniu-panou { left: auto; right: 0; top: 40px; bottom: auto; }
+  .lista { border-right: 0; }
+  .app[data-stare="start"] .lista, .app[data-stare="dosar"] .lista { display: none; }
+  .app[data-stare="start"] .zona, .app[data-stare="lista"] .zona { display: none; }
+  .dosar { padding: 13px 14px; font-size: 14px; }
+  .zona { padding: 8px; overflow: visible; }
+  .panou { padding: 16px; }
+  .btn.inapoi { display: inline-flex; }
+  .concentrare { display: none; }
+  .antet { flex-direction: column; gap: 4px; }
+  .grup, .elemente, .impact, .metoda, .proxy, .referinte { margin-left: 0; }
+  .date { grid-template-columns: minmax(0, 1fr); }
+  .date > * { padding: 2px 0; border-top: 0; }
+  .date dt { padding-top: 12px; border-top: 1px solid var(--rule); }
+  .vizualizare { height: 70svh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+  .progres::after { left: 35%; }
+}
+
+/* ---------------------------------------------------------------- recomandarea agentului (doar din verdict)
+   Aprobare verde · Aprobare condiționată chihlimbar · Intervenție umană neutru, cu marcaj · Respingere roșu */
+.rec { --rec-culoare: var(--muted); --rec-fond: var(--raised); max-width: 720px; padding: 14px 16px 14px 18px; border-left: 4px solid var(--rec-culoare); border-radius: var(--radius-control); background: var(--rec-fond); }
+.rec-aprobat { --rec-culoare: var(--pos); --rec-fond: var(--pos-bg); }
+.rec-aprobat_conditionat { --rec-culoare: #b45309; --rec-fond: var(--warn-bg); }
+.rec-interventie { --rec-culoare: var(--negru); --rec-fond: var(--gri); }
+.rec-respins { --rec-culoare: var(--neg); --rec-fond: var(--neg-bg); }
+.rec-cap { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; }
+.rec-eticheta { font-size: 18px; line-height: 24px; font-weight: 600; color: var(--rec-culoare); }
+.rec-interventie .rec-eticheta { color: var(--text); }
+.rec-sub { color: var(--muted); }
+.rec-marcaj { display: inline-block; width: 10px; height: 10px; flex: none; border-radius: 50%; background: var(--rec-culoare); align-self: center; }
+.rec-interventie .rec-marcaj { background: var(--surface); box-shadow: inset 0 0 0 3px var(--negru); }
+.rec .avertizare { margin-top: 10px; }
+.de-ce { margin-top: 10px; font-weight: 600; }
+.motive { margin-top: 4px; padding-left: 18px; list-style: disc; }
+.motive li { overflow-wrap: anywhere; }
+.motive li + li { margin-top: 2px; }
+.avertizare .motive { margin-top: 6px; }
+.rec-pastila { --rec-culoare: var(--muted); --rec-fond: var(--raised); display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; background: var(--rec-fond); color: var(--rec-culoare); font-size: 13px; font-weight: 600; white-space: nowrap; }
+.rec-pastila.rec-aprobat { --rec-culoare: var(--pos); --rec-fond: var(--pos-bg); }
+.rec-pastila.rec-aprobat_conditionat { --rec-culoare: #92400e; --rec-fond: var(--warn-bg); }
+.rec-pastila.rec-interventie { --rec-culoare: var(--negru); --rec-fond: var(--gri); }
+.rec-pastila.rec-respins { --rec-culoare: var(--neg); --rec-fond: var(--neg-bg); }

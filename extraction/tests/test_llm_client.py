@@ -44,7 +44,7 @@ def test_cache_llm():
     with tempfile.TemporaryDirectory() as tmp_dir:
         client = LLMClient(cache_dir=Path(tmp_dir))
         mesaje = [{"role": "user", "content": "ping"}]
-        cheie = client._calculeaza_cheie_cache("model-test", mesaje, 0.0)
+        cheie = client._calculeaza_cheie_cache("model-test", mesaje, 0.0, cere_json=True)
 
         # La început nu este în cache
         assert client._citeste_din_cache(cheie) is None
@@ -57,7 +57,7 @@ def test_cache_llm():
         assert citit == '{"raspuns": "pong"}'
 
         # Apelul prin apeleaza() trebuie să returneze valoarea din cache fără a face request HTTP real
-        rezultat = client.apeleaza(mesaje, model="model-test", temperature=0.0)
+        rezultat = client.apeleaza(mesaje, model="model-test", temperature=0.0, cere_json=True)
         assert rezultat == '{"raspuns": "pong"}'
         stats = client.get_statistici()
         assert stats["apeluri_cache"] == 1
@@ -90,7 +90,7 @@ def test_simulator_offline_nu_citeste_cache(monkeypatch):
     with tempfile.TemporaryDirectory() as tmp_dir:
         client = LLMClient(cache_dir=Path(tmp_dir))
         mesaje = [{"role": "user", "content": "ping"}]
-        cheie = client._calculeaza_cheie_cache(client.model_text, mesaje, 0.0)
+        cheie = client._calculeaza_cheie_cache(client.model_text, mesaje, 0.0, cere_json=True)
         client._salveaza_in_cache(cheie, '{"real": true}', client.model_text, mesaje)
         assert client.apeleaza(mesaje) != '{"real": true}'
 
@@ -101,7 +101,7 @@ def test_raspuns_fara_cheile_asteptate_declanseaza_reincercare():
             super().__init__(cache_dir=Path(tempfile.mkdtemp()))
             self.raspunsuri = ['{"model": "x", "response": "{"}', '{"pue_anualizat": {"valoare_text": "1,38"}}']
 
-        def apeleaza(self, mesaje, model=None, temperature=0.0, cere_json=True):
+        def apeleaza(self, mesaje, model=None, temperature=0.0, cere_json=True, **kwargs):
             return self.raspunsuri.pop(0)
 
     date, eroare = Client().apeleaza_cu_json([{"role": "user", "content": "x"}], chei_asteptate=["pue_anualizat"])

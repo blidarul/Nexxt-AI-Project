@@ -8,10 +8,14 @@ venv/
 # Secrete: NICIODATA in git
 .env
 
-# Cache local generat de tools si extraction
+# Cache local generat de tools, extraction si agent
 tools/cache/*
 !tools/cache/.gitkeep
 extraction/.cache/
+agent/.cache/
+.cache/
+*/.cache/
+**/.cache/
 
 # Sistem / editor
 .DS_Store
@@ -23,3 +27,38 @@ Thumbs.db
 .coverage
 .coverage.*
 htmlcov/
+
+# Ieșiri generate de extractor și procesarea documentelor
+**/_brut/
+**/_extras/
+_brut/
+_extras/
+raport_extractie.json
+dosar_extras.json
+
+# Păstrăm fixturile statice pentru teste de unitate din extraction/test_fixtures
+!extraction/test_fixtures/**/_brut/
+!extraction/test_fixtures/**/_brut/**
+!extraction/test_fixtures/**/_extras/
+!extraction/test_fixtures/**/_extras/**
+
+# Regula de pycache trebuie aplicată inclusiv în test_fixtures
+**/__pycache__/
+
+# Date și rezultate de rulare UI / decizii / evaluare (absențe la început când nu sunt documente)
+ui/data/rezultate/
+ui/data/rezultate/*
+ui/data/decizii.json
+ui/data/*.tmp
+ui/data/*.temp
+
+# Fișiere temporare, rapoarte și loguri generate la rulare
+*.log
+*.tmp
+*.temp
+raport_*.json
+raport_*.html
+output/
+outputs/
+rezultate/
+reports/
