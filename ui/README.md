@@ -12,13 +12,18 @@ python -m ui --mod-extractie mock # extras_mock.json în loc de datele extrase d
 
 ## Pagina
 
-Lista dosarelor (cu statusul deciziei și recomandarea agentului) lângă dosarul deschis: cifrele cererii,
-recomandarea agentului, decizia analistului și tab-urile „Reguli și dovezi”, „Traseul agentului”, „Documente”,
-„Date extrase”. Fiecare regulă trimite la pagina din documentul care o susține; un clic deschide PDF-ul la acea
-pagină (sau JSON-ul formatat), cu buton „Deschide în tab nou”. Butoanele de decizie se activează după
-„Vezi soluția agentului” (rulează agentul pe dosar). Stilul: „achromatic ledger” din skill-ul
-`design-taste-frontend`, în negru + galben; fonturile Geist sunt locale (`static/fonts`, licență OFL),
-deci pagina merge și fără internet.
+Trei coloane: filtrele (cu numărul de dosare) | lista dosarelor (apare după alegerea unui filtru și se strânge
+după selectarea unui dosar) | dosarul, parcurs în 3 pași:
+1. **Fișiere**: documentele dosarului și cele lipsă; un clic deschide fișierul în panou (✕ sau Esc îl închide).
+2. **Raport** („Generează raportul” rulează agentul): recomandarea, motivul, impactul și trei secțiuni pliabile,
+   „Reguli verificate”, „Date extrase”, „Pașii agentului”. Fiecare regulă se desfășoară cu dovada completă și
+   trimiterea la pagina din document.
+3. **Decizie** („Ia decizia”): Aprobă / Respinge / Intervenție umană; comentariul apare doar unde e obligatoriu,
+   iar o decizie diferită de recomandarea agentului se confirmă.
+
+Resetarea deciziilor și modurile de rulare sunt în meniul ⋯ din stânga jos. Stilul: „achromatic ledger” din
+skill-ul `design-taste-frontend`, în negru + galben (galben doar pe butonul principal al pasului curent);
+fonturile Geist sunt locale (`static/fonts`, licență OFL), deci pagina merge și fără internet.
 
 ## API
 
