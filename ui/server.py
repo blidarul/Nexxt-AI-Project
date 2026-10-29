@@ -27,6 +27,7 @@ import yaml
 from pydantic import BaseModel
 
 from contracts import Verdict
+from ui import profilare
 from ui.pasi import stare_pas
 from ui.raport import ca_html, construieste_raport, recomandare
 
@@ -362,11 +363,12 @@ def creeaza_app(
         """Rulează agentul. Dacă agentul nu poate rula, întoarce ultimul rezultat salvat."""
         folder = folder_dosar(dosar_id)
         try:
-            with blocare:
+            # PROFILARE=1: timpul pe etape, apelurile LLM și tool-urile acestei generări, în ui/data/profil/
+            with blocare, profilare.sesiune(dosar_id, folder_profil=folder_date / "profil"):
                 verdict = evalueaza(str(folder))
-            salvat = {"salvat_la": _acum(), "verdict": Verdict.model_validate(verdict).model_dump(mode="json")}
-            _scrie_json(folder_rezultate / f"{dosar_id}.json", salvat)
-            return {**rezultat_public(dosar_id, folder, salvat), "din_salvare": False, "eroare": None}
+                salvat = {"salvat_la": _acum(), "verdict": Verdict.model_validate(verdict).model_dump(mode="json")}
+                _scrie_json(folder_rezultate / f"{dosar_id}.json", salvat)
+                return {**rezultat_public(dosar_id, folder, salvat), "din_salvare": False, "eroare": None}
         except Exception as exc:
             salvat = rezultat_salvat(dosar_id)
             if salvat is None:
