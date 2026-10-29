@@ -98,23 +98,24 @@ MOTIV_CAEN_LIPSA_CHIRIAS = "caen_lipsa_chirias"
 
 
 def incarca_documente_brute(folder_dosar: Path) -> list[dict[str, Any]]:
-    """Încarcă toate fișierele JSON brute generate în Etapa 1."""
-    folder_brut = folder_dosar / "_brut"
-    necesita_rulare = not folder_brut.exists()
-    if not necesita_rulare:
-        extensii = {".pdf", ".json"} | set(MIME_IMAGINI)
-        fisiere_dosar = [
-            p for p in folder_dosar.iterdir()
-            if p.is_file() and not p.name.startswith((".", "_"))
-            and p.suffix.lower() in extensii
-            and p.name not in ("expected.json", "extras_mock.json", "index.json")
-        ]
-        fisiere_brut = {p.name for p in folder_brut.glob("*.json") if p.name != "index.json"}
-        fisiere_brut |= {f"{p.stem}.json" for p in folder_brut.glob("*.json")}
-        if any(f"{f.stem}.json" not in fisiere_brut for f in fisiere_dosar):
-            necesita_rulare = True
+    """Încarcă toate fișierele JSON brute generate în Etapa 1.
 
-    if necesita_rulare:
+    Nu refolosește niciodată fișiere din _brut generate anterior dacă există documente sursă
+    în dosar; re-extrage de fiecare dată de la zero.
+    """
+    folder_brut = folder_dosar / "_brut"
+    extensii = {".pdf", ".json"} | set(MIME_IMAGINI)
+    fisiere_dosar = [
+        p for p in folder_dosar.iterdir()
+        if p.is_file() and not p.name.startswith((".", "_"))
+        and p.suffix.lower() in extensii
+        and p.name not in ("expected.json", "extras_mock.json", "index.json")
+    ]
+
+    # Nu refolosi niciodată _brut existent când sunt documente sursă în dosar
+    if fisiere_dosar:
+        ruleaza_etapa_1(folder_dosar)
+    elif not folder_brut.exists():
         ruleaza_etapa_1(folder_dosar)
 
     documente = []
@@ -804,8 +805,14 @@ def proceseaza_dosar_structurat(folder_dosar: Path) -> tuple[DosarExtras, dict[s
         "apeluri_llm_reale": llm_client.apeluri_reale_detalii[index_apeluri_start:],
     }
 
-    # Salvare în folderul _extras
+    # Salvare în folderul _extras (curățat înainte pentru a nu păstra fișiere vechi)
     folder_extras = folder_dosar / "_extras"
+    if folder_extras.exists():
+        for p in folder_extras.glob("*.json"):
+            try:
+                p.unlink()
+            except OSError:
+                pass
     folder_extras.mkdir(parents=True, exist_ok=True)
 
     with open(folder_extras / "dosar_extras.json", "w", encoding="utf-8") as f:

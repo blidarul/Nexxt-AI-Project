@@ -228,10 +228,14 @@ a { color: inherit; }
 .cap { display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px 0; border: 0; background: none; font-weight: 500; text-align: left; cursor: pointer; }
 .cap .nr { margin-left: auto; color: var(--muted); font-weight: 400; }
 .corp { padding: 0 0 12px 22px; }
-.date { display: grid; grid-template-columns: minmax(120px, max-content) minmax(0, 1fr) minmax(0, max-content); gap: 0 24px; }
-.date > * { padding: 10px 0; border-top: 1px solid var(--rule); min-width: 0; overflow-wrap: anywhere; }
+.date { display: grid; grid-template-columns: minmax(140px, 200px) minmax(180px, 1fr) minmax(200px, 1.2fr); gap: 0 24px; align-items: baseline; }
+.date > * { padding: 10px 0; border-top: 1px solid var(--rule); min-width: 0; }
 .date > :nth-child(-n + 3) { border-top: 0; }
 .date dt { color: var(--muted); }
+.date .val,
+.date dd:nth-of-type(2n + 1) { word-break: normal; overflow-wrap: break-word; color: var(--text); }
+.date .sursa,
+.date dd:nth-of-type(2n) { color: var(--muted); font-size: 13px; overflow-wrap: break-word; }
 
 /* pasul 3 */
 .recomandat { color: var(--muted); }

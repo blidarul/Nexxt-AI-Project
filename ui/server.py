@@ -204,11 +204,27 @@ def creeaza_app(
         with open(cale, encoding="utf-8", newline="") as f:
             return {r["dosar"]: r.get("descriere") or "" for r in csv.DictReader(f) if r.get("dosar")}
 
-    def raport(folder: Path) -> dict[str, Any]:
-        return _citeste_json(folder / "_extras" / "raport_extractie.json") or {}
-
     def extras(folder: Path) -> dict[str, Any]:
-        return _citeste_json(folder / "_extras" / "dosar_extras.json") or {}
+        date = _citeste_json(folder / "_extras" / "dosar_extras.json")
+        if not date:
+            mock_f = folder / "extras_mock.json"
+            if mock_f.exists():
+                date = _citeste_json(mock_f)
+        return date or {}
+
+    def raport(folder: Path) -> dict[str, Any]:
+        date = _citeste_json(folder / "_extras" / "raport_extractie.json")
+        if not date:
+            ext = extras(folder)
+            campuri = {}
+            for k, v in ext.items():
+                if isinstance(v, dict) and "valoare" in v and "sursa" in v:
+                    campuri[k] = v
+            for k, v in (ext.get("indicatori") or {}).items():
+                if isinstance(v, dict) and "valoare" in v and "sursa" in v:
+                    campuri[k] = v
+            return {"campuri_extrase": campuri} if campuri else {}
+        return date or {}
 
     def decizii() -> list[dict[str, Any]]:
         date = _citeste_json(fisier_decizii)

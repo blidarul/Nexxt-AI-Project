@@ -47,11 +47,11 @@ def _get_mod_agent() -> str:
 # Etapa 1: Extracție
 # ---------------------------------------------------------------------------
 
-def _extrage(folder: str) -> DosarExtras:
-    """Apelează modulul de extracție (A) și întoarce DosarExtras.
+def _extrage(folder: str) -> tuple[DosarExtras, dict[str, Any]]:
+    """Apelează modulul de extracție (A) și întoarce (DosarExtras, raport_extractie).
 
     În modul mock sau pentru dosare sintetice fără PDF-uri citește extras_mock.json;
-    în modul real apelează extraction.extractor.extrage(folder).
+    în modul real apelează pipeline-ul complet fără a refolosi date vechi din _extras sau _brut.
     """
     cale = Path(folder)
     fisier_mock = cale / "extras_mock.json"
@@ -67,34 +67,28 @@ def _extrage(folder: str) -> DosarExtras:
         import json
         with open(fisier_mock, "r", encoding="utf-8") as f:
             date = json.load(f)
-        return DosarExtras(**date)
+        return DosarExtras(**date), {}
 
-    # Modul real – delegat la modulul A
-    from extraction.extractor import extrage  # type: ignore[import-untyped]
-    return extrage(folder)
+    # Modul real – delegat la pipeline-ul complet de extracție (fără cache/refolosire)
+    from extraction.extrage_structurat import proceseaza_dosar_structurat
+
+    return proceseaza_dosar_structurat(cale)
 
 
 # ---------------------------------------------------------------------------
 # Etapa 2: Construirea stării inițiale
 # ---------------------------------------------------------------------------
 
-def _creeaza_stare(folder: str, extras: DosarExtras) -> StareDosar:
-    """Construiește StareDosar din DosarExtras și încarcă raport_extractie.json dacă există."""
-    cale = Path(folder)
-    raport_extractie: dict[str, Any] = {}
-    fisier_raport = cale / "raport_extractie.json"
-    if fisier_raport.exists():
-        try:
-            import json
-            with open(fisier_raport, "r", encoding="utf-8") as f:
-                raport_extractie = json.load(f) or {}
-        except Exception as exc:
-            logger.warning("Nu s-a putut citi raport_extractie.json din %s: %s", cale, exc)
-
+def _creeaza_stare(
+    folder: str,
+    extras: DosarExtras,
+    raport_extractie: Optional[dict[str, Any]] = None,
+) -> StareDosar:
+    """Construiește StareDosar din DosarExtras și raport_extractie."""
     return StareDosar(
         dosar_folder=folder,
         extras=extras,
-        raport_extractie=raport_extractie,
+        raport_extractie=raport_extractie if raport_extractie is not None else {},
     )
 
 
@@ -266,7 +260,7 @@ def proceseaza_dosar(folder: str) -> Verdict:
 
     # 1. Extracție
     try:
-        extras = _extrage(folder)
+        extras, raport_extractie = _extrage(folder)
     except Exception as e:
         logger.error("Eroare la extracție pentru %s: %s", folder, e)
         raise
@@ -278,7 +272,7 @@ def proceseaza_dosar(folder: str) -> Verdict:
     )
 
     # 2. Stare inițială
-    stare = _creeaza_stare(folder, extras)
+    stare = _creeaza_stare(folder, extras, raport_extractie=raport_extractie)
 
     # 3. Bucla agentului
     _executa_bucla(stare)

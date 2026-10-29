@@ -484,7 +484,7 @@ function pasRaport(id) {
   }
 
   const date = () => `<dl class="date">${d.campuri.map((c) =>
-    `<dt>${esc(numeCamp(c.camp))}</dt><dd>${valoareCamp(c.camp, c.valoare)}</dd><dd>${c.valoare === null || c.valoare === undefined ? "" : legaturaSursa(c)}</dd>`,
+    `<dt>${esc(numeCamp(c.camp))}</dt><dd class="val">${valoareCamp(c.camp, c.valoare)}</dd><dd class="sursa">${c.valoare === null || c.valoare === undefined ? "" : legaturaSursa(c)}</dd>`,
   ).join("")}</dl>`;
   const pasiAgent = () => v.trace.map((p) => {
     const rez = p.rezultat && typeof p.rezultat === "object" ? p.rezultat : null;
