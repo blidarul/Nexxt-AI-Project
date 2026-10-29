@@ -1,0 +1,77 @@
+{
+  "dosar_id": "caz_13_cladire_breeam_final_eligibil",
+  "cui": {
+    "valoare": "9900000001",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "suma_eur": {
+    "valoare": 1000000.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "cota_banca": {
+    "valoare": 1.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "data_aprobare": {
+    "valoare": "2025-06-01",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "tara": {
+    "valoare": "Rom\u00e2nia",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "adresa_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "suprafata_m2": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "stadiu_cladire": {
+    "valoare": "Finalizat\u0103",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": "BREEAM-SYNTH-999",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "categorie": {
+    "valoare": "green_buildings",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "subcategorie": {
+    "valoare": "cladire_noua_sau_existenta",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "chiriasi": [],
+  "afirmatii_client": [],
+  "indicatori": {
+    "certificare_sistem": {
+      "valoare": "BREEAM",
+      "sursa": "indicator:certificare_sistem",
+      "incredere": 1.0
+    },
+    "certificare_nivel": {
+      "valoare": "Excellent",
+      "sursa": "indicator:certificare_nivel",
+      "incredere": 1.0
+    },
+    "certificare_stadiu": {
+      "valoare": "Final",
+      "sursa": "indicator:certificare_stadiu",
+      "incredere": 1.0
+    }
+  }
+}

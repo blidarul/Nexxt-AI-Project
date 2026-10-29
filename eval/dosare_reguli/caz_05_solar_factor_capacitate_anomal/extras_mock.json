@@ -1,0 +1,72 @@
+{
+  "dosar_id": "caz_05_solar_factor_capacitate_anomal",
+  "cui": {
+    "valoare": "9900000001",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "suma_eur": {
+    "valoare": 1000000.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "cota_banca": {
+    "valoare": 1.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "data_aprobare": {
+    "valoare": "2025-06-01",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "tara": {
+    "valoare": "Rom\u00e2nia",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "adresa_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "suprafata_m2": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "stadiu_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "categorie": {
+    "valoare": "renewable_energy",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "subcategorie": {
+    "valoare": "solar_fotovoltaic",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "chiriasi": [],
+  "afirmatii_client": [],
+  "indicatori": {
+    "capacitate_mw": {
+      "valoare": 10,
+      "sursa": "indicator:capacitate_mw",
+      "incredere": 1.0
+    },
+    "productie_anuala_mwh": {
+      "valoare": 40000,
+      "sursa": "indicator:productie_anuala_mwh",
+      "incredere": 1.0
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "dosar": "caz_06_data_center_pue_1_38",
+  "descriere": "Data center cu PUE 1.38 (< 1.5)",
+  "verdict": "ELIGIBIL",
+  "cale_eligibilitate": "EE-07",
+  "reguli": [
+    {
+      "id": "EE-07",
+      "rezultat": "OK"
+    }
+  ]
+}

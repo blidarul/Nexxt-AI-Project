@@ -1,0 +1,77 @@
+{
+  "dosar_id": "caz_06_data_center_pue_1_38",
+  "cui": {
+    "valoare": "9900000001",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "suma_eur": {
+    "valoare": 1000000.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "cota_banca": {
+    "valoare": 1.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "data_aprobare": {
+    "valoare": "2025-06-01",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "tara": {
+    "valoare": "Rom\u00e2nia",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "adresa_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "suprafata_m2": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "stadiu_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "categorie": {
+    "valoare": "energy_efficiency",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "subcategorie": {
+    "valoare": "data_center",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "chiriasi": [],
+  "afirmatii_client": [],
+  "indicatori": {
+    "pue_anualizat": {
+      "valoare": 1.38,
+      "sursa": "indicator:pue_anualizat",
+      "incredere": 1.0
+    },
+    "consum_inainte_mwh": {
+      "valoare": 50000,
+      "sursa": "indicator:consum_inainte_mwh",
+      "incredere": 1.0
+    },
+    "consum_dupa_mwh": {
+      "valoare": 35000,
+      "sursa": "indicator:consum_dupa_mwh",
+      "incredere": 1.0
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "dosar": "caz_08_renovare_epc_24_pct",
+  "descriere": "Renovare: reducere de 24% (< pragul minim de 30%)",
+  "verdict": "NEELIGIBIL",
+  "reguli": [
+    {
+      "id": "GB-R1",
+      "rezultat": "NU"
+    }
+  ]
+}

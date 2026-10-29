@@ -1,0 +1,106 @@
+{
+  "dosar_id": "caz_02_transport_hibrid_2026",
+  "cui": {
+    "valoare": "9900000001",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "suma_eur": {
+    "valoare": 1000000.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "cota_banca": {
+    "valoare": 1.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "data_aprobare": {
+    "valoare": "2026-02-15",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "tara": {
+    "valoare": "Rom\u00e2nia",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "adresa_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "suprafata_m2": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "stadiu_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "categorie": {
+    "valoare": "clean_transportation",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "subcategorie": {
+    "valoare": "autoturism_sau_utilitara",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "chiriasi": [],
+  "afirmatii_client": [],
+  "indicatori": {
+    "vehicule": {
+      "valoare": [
+        {
+          "model": "Hibrid Model A",
+          "nr": 10,
+          "emisii_wltp_gco2_km": 45,
+          "combustibil": "hibrid",
+          "distanta_anuala_km": 15000,
+          "consum_kwh_km": 0.15
+        }
+      ],
+      "sursa": "indicator:vehicule",
+      "incredere": 1.0
+    },
+    "emisii_wltp_gco2_km": {
+      "valoare": 45,
+      "sursa": "indicator:emisii_wltp_gco2_km",
+      "incredere": 1.0
+    },
+    "nr_vehicule": {
+      "valoare": 10,
+      "sursa": "indicator:nr_vehicule",
+      "incredere": 1.0
+    },
+    "distanta_anuala_km": {
+      "valoare": 15000,
+      "sursa": "indicator:distanta_anuala_km",
+      "incredere": 1.0
+    },
+    "consum_kwh_km": {
+      "valoare": 0.15,
+      "sursa": "indicator:consum_kwh_km",
+      "incredere": 1.0
+    },
+    "data_marcare_verde": {
+      "valoare": "2026-02-15",
+      "sursa": "indicator:data_marcare_verde",
+      "incredere": 1.0
+    },
+    "transporta_combustibili_fosili": {
+      "valoare": false,
+      "sursa": "indicator:transporta_combustibili_fosili",
+      "incredere": 1.0
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "dosar": "caz_03_camion_conflict_eea",
+  "descriere": "Camion declarat electric 0 g/km, \u00een registrul EEA apare ca diesel 720 g/km",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
+  "reguli": [
+    {
+      "id": "PL-02",
+      "rezultat": "SEMNAL"
+    }
+  ]
+}

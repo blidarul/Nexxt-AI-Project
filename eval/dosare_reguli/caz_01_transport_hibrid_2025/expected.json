@@ -1,0 +1,15 @@
+{
+  "dosar": "caz_01_transport_hibrid_2025",
+  "descriere": "Flot\u0103 10 hibride la 45 g/km marcat\u0103 \u00een 2025 (grandfathering <= 50 g/km)",
+  "verdict": "ELIGIBIL",
+  "cale_eligibilitate": "CT-03",
+  "reguli": [
+    {
+      "id": "CT-03",
+      "rezultat": "OK"
+    }
+  ],
+  "impact": {
+    "rezultat_tco2_an": 5.6
+  }
+}
