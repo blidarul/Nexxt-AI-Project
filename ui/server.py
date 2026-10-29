@@ -27,6 +27,7 @@ import yaml
 from pydantic import BaseModel
 
 from contracts import Verdict
+from ui.pasi import stare_pas
 from ui.raport import ca_html, construieste_raport, recomandare
 
 RADACINA = Path(__file__).resolve().parent.parent
@@ -236,6 +237,22 @@ def creeaza_app(
     def recomandare_pentru(folder: Path, verdict: dict[str, Any]) -> dict[str, Any]:
         return recomandare(verdict, raport_pentru(folder, verdict))
 
+    def campuri_din_documente(folder: Path) -> dict[str, dict[str, Any]]:
+        """Valorile extrase din documentele dosarului: raportul de extracție, apoi extrasul și indicatorii lui."""
+        date_extrase = extras(folder)
+        campuri = {k: v for k, v in (date_extrase.get("indicatori") or {}).items() if isinstance(v, dict)}
+        campuri.update({k: v for k, v in date_extrase.items() if isinstance(v, dict) and "valoare" in v})
+        campuri.update(raport(folder).get("campuri_extrase") or {})
+        return campuri
+
+    def stari_pasi(dosar_id: str, folder: Path, verdict: dict[str, Any]) -> list[Optional[dict[str, Any]]]:
+        reguli = {r["regula_id"]: r["rezultat"] for r in verdict.get("reguli") or []}
+        campuri = campuri_din_documente(folder)
+        return [
+            stare_pas(p, reguli, campuri, lambda nume, camp: camp_public(dosar_id, folder, nume, camp))
+            for p in verdict.get("trace") or []
+        ]
+
     def rezultat_public(dosar_id: str, folder: Path, salvat: dict[str, Any]) -> dict[str, Any]:
         verdict = salvat["verdict"]
         campuri = raport(folder).get("campuri_extrase") or {}
@@ -257,6 +274,7 @@ def creeaza_app(
             "recomandare": (rec := recomandare_pentru(folder, verdict))["cheie"],
             "recomandare_detalii": rec,
             "dovezi": dovezi,
+            "pasi": stari_pasi(dosar_id, folder, verdict),
             "nume_reguli": {r["regula_id"]: nume_reguli().get(r["regula_id"]) for r in verdict.get("reguli") or []},
         }
 

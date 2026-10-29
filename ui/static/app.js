@@ -449,6 +449,19 @@ function elementRaport(id, sectiuneCheie, x, k) {
   return randPliabil(`r:${id}:act:${k}`, "", esc(x.text), "", () => `<p>${esc(x.text)}</p>`);
 }
 
+// eticheta din dreapta rândului: statusul pasului sau, la evaluări, rezultatele regulilor
+function etichetaPas(st) {
+  if (st.reguli && st.reguli.length) {
+    if (st.reguli.length === 1) return `<span class="rezultat ${CLASA_REZULTAT[st.reguli[0].rezultat] || "neutru"}">${esc(st.reguli[0].id)} ${esc(st.reguli[0].eticheta)}</span>`;
+    const pe = {};
+    for (const x of st.reguli) (pe[x.rezultat] = pe[x.rezultat] || []).push(x);
+    return Object.entries(pe).map(([rz, xs]) => `<span class="rezultat ${CLASA_REZULTAT[rz] || "neutru"}">${xs.length} ${esc(xs[0].eticheta)}</span>`).join("");
+  }
+  if (st.cheie === "efectuat") return "";
+  const icon = st.cheie === "eroare" ? `<span class="icon-eroare" aria-hidden="true">!</span>` : "";
+  return `<span class="rezultat ${st.clasa}">${icon}${esc(st.eticheta)}</span>`;
+}
+
 function pasRaport(id) {
   const r = S.rezultate[id];
   const raport = S.rapoarte[id];
@@ -491,14 +504,17 @@ function pasRaport(id) {
   const date = () => `<dl class="date">${d.campuri.map((c) =>
     `<dt>${esc(numeCamp(c.camp))}</dt><dd>${valoareCamp(c.camp, c.valoare)}</dd><dd class="sursa">${c.valoare === null || c.valoare === undefined ? "" : legaturaSursa(c)}</dd>`,
   ).join("")}</dl>`;
-  const pasiAgent = () => v.trace.map((p) => {
-    const rez = p.rezultat && typeof p.rezultat === "object" ? p.rezultat : null;
+  // starea fiecărui pas vine calculată de server din câmpurile structurate (ui/pasi.py), nu din textul rezumatului
+  const pasiAgent = () => v.trace.map((p, i) => {
+    const st = (r.pasi || [])[i];
     const actiune = p.actiune ? (UNEALTA[p.actiune] || p.actiune.replace(/_/g, " ")) : "Concluzie";
-    return randPliabil(`pas:${id}:${p.pas}`, p.pas, esc(actiune), "", () => {
+    return randPliabil(`pas:${id}:${p.pas}`, p.pas, esc(actiune), st ? etichetaPas(st) : "", () => {
       const argumente = Object.entries(p.argumente || {}).map(([k, x]) => `${k}: ${typeof x === "object" ? JSON.stringify(x) : x}`).join(" · ");
-      const stare = rez ? (rez.eroare ? `<span class="rezultat neg">Eroare: ${esc(rez.eroare)}</span>`
-        : rez.gasit ? `<span class="rezultat pos">Găsit</span>` : `<span class="rezultat neg">Negăsit</span>`) : "";
-      return `<p>${esc(p.motiv || "")}</p>${argumente ? `<p class="muted mono">${esc(argumente)}</p>` : ""}${stare ? `<p>${stare}</p>` : ""}`;
+      const reguli = st && st.reguli && st.reguli.length
+        ? `<p>${st.reguli.map((x) => `<span class="mono">${esc(x.id)}</span> <span class="rezultat ${CLASA_REZULTAT[x.rezultat] || "neutru"}">${esc(x.eticheta)}</span>`).join(" · ")}</p>` : "";
+      const sursa = st && st.sursa ? `<p class="muted">Valoarea din dosar: ${valoareCamp(st.sursa.camp, st.sursa.valoare)} · ${legaturaSursa(st.sursa)}</p>` : "";
+      const detaliu = st && st.detaliu ? `<p class="muted">${esc(st.detaliu)}</p>` : "";
+      return `<p>${esc(p.motiv || "")}</p>${argumente ? `<p class="muted mono">${esc(argumente)}</p>` : ""}${reguli}${sursa}${detaliu}`;
     });
   }).join("");
 

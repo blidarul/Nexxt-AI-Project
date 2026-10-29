@@ -165,6 +165,42 @@ def test_recomandare_dupa_verdict(radacina, verdict, recomandare):
     assert raspuns.json()["recomandare"] == recomandare
 
 
+def test_starea_pasilor_din_campuri_structurate(radacina):
+    v = _verdict()
+    v.trace = [
+        {"pas": 1, "actiune": "evalueaza_conditii_generale", "argumente": {},
+         "rezultat": {"tool": "evalueaza_conditii_generale", "gasit": True, "eroare": None, "sumar": "{}"}},
+        # țara e în documentele dosarului (01_cerere.pdf, p.2), dar registrul nu a confirmat
+        {"pas": 2, "actiune": "factor_emisie_tara", "argumente": {"tara": "România"},
+         "rezultat": {"tool": "factor_emisie_tara", "gasit": True, "eroare": None, "verificat_in_registru": None}},
+        {"pas": 3, "actiune": "verifica_firma", "argumente": {"cui": "1"},
+         "rezultat": {"tool": "verifica_firma", "gasit": False, "eroare": "API indisponibil", "eroare_tehnica": True}},
+        {"pas": 4, "actiune": "cauta_certificat", "argumente": {"nr_certificat": "X"},
+         "rezultat": {"tool": "cauta_certificat", "gasit": False, "eroare": "nu există", "eroare_tehnica": False}},
+        {"pas": 5, "tip": "final", "actiune": None, "rezultat": "final"},
+    ]
+    pasi = _client(radacina, evalueaza=lambda folder: v).post("/api/dosare/dosar_a/evaluare").json()["pasi"]
+    assert len(pasi) == 5 and pasi[4] is None
+    assert pasi[0]["reguli"] == [{"id": "G-01", "rezultat": "OK", "eticheta": "OK"}]
+    assert pasi[1]["cheie"] == "efectuat"
+    assert pasi[2]["eticheta"] == "Eroare la verificare"
+    assert pasi[3]["eticheta"] == "Negăsit"
+
+
+def test_gasit_in_dosar_are_sursa_din_document(radacina):
+    a = radacina / "dosare" / "dosar_a" / "_extras" / "raport_extractie.json"
+    raport = json.loads(a.read_text(encoding="utf-8"))
+    raport["campuri_extrase"]["cui"] = {"valoare": "9900000020", "sursa": "01_cerere.pdf, p.1", "incredere": 0.9}
+    a.write_text(json.dumps(raport, ensure_ascii=False), encoding="utf-8")
+    v = _verdict()
+    v.trace = [{"pas": 1, "actiune": "verifica_firma", "argumente": {"cui": "9900000020"},
+                "rezultat": {"tool": "verifica_firma", "gasit": True, "eroare": None, "verificat_in_registru": False}}]
+    pas = _client(radacina, evalueaza=lambda folder: v).post("/api/dosare/dosar_a/evaluare").json()["pasi"][0]
+    assert pas["eticheta"] == "Găsit în dosar, neverificat în registru"
+    assert (pas["sursa"]["fisier"], pas["sursa"]["pagina"]) == ("01_cerere.pdf", 1)
+    assert pas["sursa"]["url"] == "/api/dosare/dosar_a/fisiere/01_cerere.pdf"
+
+
 def test_evaluare_esuata_foloseste_rezultatul_salvat(radacina):
     _client(radacina).post("/api/dosare/dosar_a/evaluare")
     raspuns = _client(radacina, _esueaza).post("/api/dosare/dosar_a/evaluare")

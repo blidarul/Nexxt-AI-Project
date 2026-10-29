@@ -214,6 +214,9 @@ a { color: inherit; }
 .rezultat.neg { color: var(--neg); }
 .rezultat.warn { color: var(--warn); }
 .rezultat.neutru { color: var(--muted); }
+/* eroare tehnică la verificare: gri, cu iconiță (nu e un „nu”, verificarea nu a rulat) */
+.rezultat.eroare { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
+.icon-eroare { display: inline-grid; place-items: center; width: 15px; height: 15px; border: 1.5px solid currentColor; border-radius: 50%; font-size: 10px; line-height: 1; font-weight: 700; }
 
 .impact { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 16px; margin-left: 32px; }
 .impact .valoare { font-size: 22px; line-height: 30px; font-weight: 600; font-variant-numeric: tabular-nums; }
