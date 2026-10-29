@@ -1,0 +1,186 @@
+{
+  "salvat_la": "2026-10-29T02:08:56",
+  "verdict": {
+    "dosar_id": "dosar4",
+    "verdict": "ELIGIBIL_CU_MONITORIZARE",
+    "cale_eligibilitate": "GB-03 (EPC clasa A), dupa ce GB-01 a picat",
+    "reguli": [
+      {
+        "regula_id": "G-01",
+        "rezultat": "OK",
+        "dovada": "Tara: Romania (Anexa B)",
+        "sursa_framework": "Anexa B, p. 26"
+      },
+      {
+        "regula_id": "G-02",
+        "rezultat": "OK",
+        "dovada": "CAEN imprumutat 4110 - imobiliare, nu e sector exclus",
+        "sursa_framework": "Anexa A, p. 25"
+      },
+      {
+        "regula_id": "G-04",
+        "rezultat": "NEEVALUABIL",
+        "dovada": "Eroare calcul dată aprobare (): time data '' does not match format '%Y-%m-%d'",
+        "sursa_framework": "p. 6"
+      },
+      {
+        "regula_id": "GB-01",
+        "rezultat": "NU",
+        "dovada": "BREEAM 'Very Good' < pragul 'Excellent'",
+        "sursa_framework": "Framework p.7"
+      },
+      {
+        "regula_id": "GB-02",
+        "rezultat": "NEEVALUABIL",
+        "dovada": "Nu avem date nationale pentru top 15%",
+        "sursa_framework": "Framework p.7"
+      },
+      {
+        "regula_id": "GB-03",
+        "rezultat": "OK",
+        "dovada": "EPC clasa A",
+        "sursa_framework": "Framework p.7"
+      },
+      {
+        "regula_id": "GB-X1",
+        "rezultat": "OK",
+        "dovada": "Niciun chirias cu CAEN din lista de semnal",
+        "sursa_framework": "Framework p.7, nota 6"
+      }
+    ],
+    "impact_tco2_an": null,
+    "impact_detalii": {},
+    "actiuni": [
+      "Marcare pentru monitorizare: verificare stadiu 'Final' in registrul BREEAM dupa finalizare (2027)",
+      "Cerere catre client: certificat energetic dupa receptie (motiv: Clădire în construcție – certificat intermediar)"
+    ],
+    "trace": [
+      {
+        "pas": 1,
+        "tip": "tool",
+        "actiune": "verifica_firma",
+        "argumente": {
+          "cui": "9900000040"
+        },
+        "motiv": "Verificare date identificare firmă și cod CAEN pentru CUI 9900000040 în registrul ANAF",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "verifica_firma",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 2,
+        "tip": "tool",
+        "actiune": "evalueaza_conditii_generale",
+        "argumente": {},
+        "motiv": "Evaluare condiții generale G-01 (țară), G-02 (sector exclus), G-04 (fereastră 24 luni)",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "evalueaza_conditii_generale",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 3,
+        "tip": "tool",
+        "actiune": "cauta_certificat",
+        "argumente": {
+          "nr_certificat": "BREEAM-EXEMPLU-0004"
+        },
+        "motiv": "Căutare certificat verde declarat 'BREEAM-EXEMPLU-0004' în registrul BREEAM",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "cauta_certificat",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 4,
+        "tip": "tool",
+        "actiune": "evalueaza_cale",
+        "argumente": {
+          "cale_id": "GB-01"
+        },
+        "motiv": "Evaluare cale principală GB-01 (certificare verde internațională)",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "evalueaza_cale",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 5,
+        "tip": "tool",
+        "actiune": "evalueaza_cale",
+        "argumente": {
+          "cale_id": "GB-02"
+        },
+        "motiv": "Calea GB-01 nu a fost îndeplinită; încercare cale alternativă GB-02 (top 15% național)",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "evalueaza_cale",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 6,
+        "tip": "tool",
+        "actiune": "evalueaza_cale",
+        "argumente": {
+          "cale_id": "GB-03"
+        },
+        "motiv": "Calea GB-02 este neevaluabilă; încercare cale alternativă GB-03 (EPC clasa A)",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "evalueaza_cale",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 7,
+        "tip": "tool",
+        "actiune": "verifica_chiriasi",
+        "argumente": {},
+        "motiv": "Verificare activități chiriași și listă de semnal (excludere GB-X1)",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "verifica_chiriasi",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 8,
+        "tip": "tool",
+        "actiune": "cere_date_client",
+        "argumente": {
+          "ce_lipseste": "Cerere catre client: certificat energetic dupa receptie",
+          "motiv": "Clădire în construcție – certificat intermediar"
+        },
+        "motiv": "Solicitare certificat energetic după recepție",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "cere_date_client",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 9,
+        "tip": "final",
+        "actiune": null,
+        "argumente": {},
+        "motiv": "Verificări complete: clădire în construcție aprobată condiționat cu monitorizare",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": "final"
+      }
+    ]
+  }
+}

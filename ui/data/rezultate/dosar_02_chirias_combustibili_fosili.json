@@ -1,0 +1,159 @@
+{
+  "salvat_la": "2026-10-29T02:08:56",
+  "verdict": {
+    "dosar_id": "dosar_02_chirias_combustibili_fosili",
+    "verdict": "EXCEPTIE_ESCALADARE_COMITET",
+    "cale_eligibilitate": "GB-01 ar fi indeplinita, dar exista un posibil motiv de excludere",
+    "reguli": [
+      {
+        "regula_id": "G-01",
+        "rezultat": "OK",
+        "dovada": "Tara: Romania (Anexa B)",
+        "sursa_framework": "Anexa B, p. 26"
+      },
+      {
+        "regula_id": "G-02",
+        "rezultat": "OK",
+        "dovada": "CAEN imprumutat 6820 - imobiliare, nu e sector exclus",
+        "sursa_framework": "Anexa A, p. 25"
+      },
+      {
+        "regula_id": "G-04",
+        "rezultat": "OK",
+        "dovada": "Aprobat 2026-03-15, in fereastra de 24 luni",
+        "sursa_framework": "p. 6"
+      },
+      {
+        "regula_id": "GB-01",
+        "rezultat": "OK",
+        "dovada": "Registru BREEAM: Excellent, Final, nr. certificat identic cu cel declarat",
+        "sursa_framework": "Framework p.7"
+      },
+      {
+        "regula_id": "GB-X1",
+        "rezultat": "SEMNAL",
+        "dovada": "Chirias 'Carpați Petrol Upstream SA', CAEN 0610, 7.000 m2 = 35% din cladire",
+        "sursa_framework": "Framework p.7, nota 6"
+      }
+    ],
+    "impact_tco2_an": null,
+    "impact_detalii": {},
+    "actiuni": [
+      "Escaladare la Sustainability Bond Committee cu dovezile de mai sus",
+      "Intrebare catre client: spatiul chiriasului e folosit operational pentru extractie sau doar ca birou administrativ? (motiv: Clarificare utilizare spatiu chirias combustibili fosili)"
+    ],
+    "trace": [
+      {
+        "pas": 1,
+        "tip": "tool",
+        "actiune": "verifica_firma",
+        "argumente": {
+          "cui": "9900000010"
+        },
+        "motiv": "Verificare date identificare firmă și cod CAEN pentru CUI 9900000010 în registrul ANAF",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "verifica_firma",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 2,
+        "tip": "tool",
+        "actiune": "evalueaza_conditii_generale",
+        "argumente": {},
+        "motiv": "Evaluare condiții generale G-01 (țară), G-02 (sector exclus), G-04 (fereastră 24 luni)",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "evalueaza_conditii_generale",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 3,
+        "tip": "tool",
+        "actiune": "cauta_certificat",
+        "argumente": {
+          "nr_certificat": "BREEAM-EXEMPLU-0001"
+        },
+        "motiv": "Căutare certificat verde declarat 'BREEAM-EXEMPLU-0001' în registrul BREEAM",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "cauta_certificat",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 4,
+        "tip": "tool",
+        "actiune": "evalueaza_cale",
+        "argumente": {
+          "cale_id": "GB-01"
+        },
+        "motiv": "Evaluare cale principală GB-01 (certificare verde internațională)",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "evalueaza_cale",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 5,
+        "tip": "tool",
+        "actiune": "verifica_chiriasi",
+        "argumente": {},
+        "motiv": "Verificare activități chiriași și listă de semnal (excludere GB-X1)",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "verifica_chiriasi",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 6,
+        "tip": "tool",
+        "actiune": "escaladeaza",
+        "argumente": {
+          "motiv": "Escaladare la Sustainability Bond Committee cu dovezile de mai sus"
+        },
+        "motiv": "Semnal de excludere conform GB-X1 – necesită escaladare către comitet",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "escaladeaza",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 7,
+        "tip": "tool",
+        "actiune": "cere_date_client",
+        "argumente": {
+          "ce_lipseste": "Intrebare catre client: spatiul chiriasului e folosit operational pentru extractie sau doar ca birou administrativ?",
+          "motiv": "Clarificare utilizare spatiu chirias combustibili fosili"
+        },
+        "motiv": "Solicitare clarificări suplimentare de la client privind activitatea chiriașului",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "cere_date_client",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 8,
+        "tip": "final",
+        "actiune": null,
+        "argumente": {},
+        "motiv": "Verificări complete: dosarul prezintă semnal de excludere și a fost escaladat către comitet",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": "final"
+      }
+    ]
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "salvat_la": "2026-10-29T02:08:56",
+  "verdict": {
+    "dosar_id": "dosar2",
+    "verdict": "ELIGIBIL",
+    "cale_eligibilitate": "GB-01 (certificare BREEAM Excellent, Final)",
+    "reguli": [
+      {
+        "regula_id": "G-01",
+        "rezultat": "OK",
+        "dovada": "Tara: Romania (Anexa B)",
+        "sursa_framework": "Anexa B, p. 26"
+      },
+      {
+        "regula_id": "G-02",
+        "rezultat": "OK",
+        "dovada": "CAEN imprumutat 5210 - imobiliare, nu e sector exclus",
+        "sursa_framework": "Anexa A, p. 25"
+      },
+      {
+        "regula_id": "G-04",
+        "rezultat": "NEEVALUABIL",
+        "dovada": "Eroare calcul dată aprobare (): time data '' does not match format '%Y-%m-%d'",
+        "sursa_framework": "p. 6"
+      },
+      {
+        "regula_id": "GB-01",
+        "rezultat": "OK",
+        "dovada": "Registru BREEAM: Excellent, Final, nr. certificat identic cu cel declarat",
+        "sursa_framework": "Framework p.7"
+      },
+      {
+        "regula_id": "GB-X1",
+        "rezultat": "OK",
+        "dovada": "Niciun chirias cu CAEN din lista de semnal",
+        "sursa_framework": "Framework p.7, nota 6"
+      }
+    ],
+    "impact_tco2_an": 1181.2,
+    "impact_detalii": {
+      "formula": "(baseline - energie_finala) x suprafata x cota_banca x factor_emisie",
+      "sursa": "Allocation & Impact Report 2025, p. 22",
+      "pasi": [
+        "1. Diferenta consum: 297 - 72 = 225 kWh/m2/an",
+        "2. x suprafata: 225 x 35000 = 7.875.000 kWh/an",
+        "3. x cota banca: 7.875.000 x 0.6 = 4.725.000 kWh/an",
+        "4. x factor emisie: 4.725.000 x 0.25 = 1.181.250 kgCO2/an"
+      ],
+      "rezultat_tco2_an": 1181.2,
+      "atentie": "Factorul de emisie e valoare EXEMPLU (vezi reference/factori_referinta.yaml)."
+    },
+    "actiuni": [],
+    "trace": [
+      {
+        "pas": 1,
+        "tip": "tool",
+        "actiune": "verifica_firma",
+        "argumente": {
+          "cui": "9900000020"
+        },
+        "motiv": "Verificare date identificare firmă și cod CAEN pentru CUI 9900000020 în registrul ANAF",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "verifica_firma",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 2,
+        "tip": "tool",
+        "actiune": "evalueaza_conditii_generale",
+        "argumente": {},
+        "motiv": "Evaluare condiții generale G-01 (țară), G-02 (sector exclus), G-04 (fereastră 24 luni)",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "evalueaza_conditii_generale",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 3,
+        "tip": "tool",
+        "actiune": "cauta_certificat",
+        "argumente": {
+          "nr_certificat": "BREEAM-EXEMPLU-0002"
+        },
+        "motiv": "Căutare certificat verde declarat 'BREEAM-EXEMPLU-0002' în registrul BREEAM",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "cauta_certificat",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 4,
+        "tip": "tool",
+        "actiune": "evalueaza_cale",
+        "argumente": {
+          "cale_id": "GB-01"
+        },
+        "motiv": "Evaluare cale principală GB-01 (certificare verde internațională)",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "evalueaza_cale",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 5,
+        "tip": "tool",
+        "actiune": "verifica_chiriasi",
+        "argumente": {},
+        "motiv": "Verificare activități chiriași și listă de semnal (excludere GB-X1)",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "verifica_chiriasi",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 6,
+        "tip": "tool",
+        "actiune": "calculeaza_co2",
+        "argumente": {},
+        "motiv": "Calcul economie de emisii CO2 conform metodologiei RBI",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": {
+          "tool": "calculeaza_co2",
+          "gasit": true,
+          "eroare": null
+        }
+      },
+      {
+        "pas": 7,
+        "tip": "final",
+        "actiune": null,
+        "argumente": {},
+        "motiv": "Toate etapele de verificare și evaluare au fost finalizate cu succes",
+        "timestamp": "2026-10-29T02:08:56",
+        "rezultat": "final"
+      }
+    ]
+  }
+}
