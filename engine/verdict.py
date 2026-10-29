@@ -196,12 +196,12 @@ def _in_constructie(stare: StareDosar) -> bool:
 def _text_cale(cale: RezultatRegula, stare: StareDosar, monitorizare: bool) -> str:
     if cale.regula_id == "GB-01":
         if cale.rezultat == "OK_CONDITIONAT":
-            return "GB-01 (BREEAM Excellent, stadiu Interim)"
+            return f"GB-01 (BREEAM {_rating_breeam(stare)}, stadiu Interim)"
         if _in_constructie(stare):
             return f"GB-01 (certificare BREEAM {_rating_breeam(stare)}, cladire in constructie)"
         return f"GB-01 (certificare BREEAM {_rating_breeam(stare)}, Final)"
     if cale.regula_id == "GB-03":
-        return "GB-03 (EPC clasa A), dupa ce GB-01 a picat"
+        return "GB-03 (EPC clasa A)"
     return f"{cale.regula_id} ({cale.dovada})"
 
 

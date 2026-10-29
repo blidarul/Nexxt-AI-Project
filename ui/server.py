@@ -162,7 +162,15 @@ def creeaza_app(
     evalueaza = evalueaza or _evaluare_implicita
     fisier_decizii = folder_date / "decizii.json"
     folder_rezultate = folder_date / "rezultate"
-    blocare = threading.Lock()
+    blocare_decizii = threading.Lock()
+    blocari_dosare: dict[str, threading.Lock] = {}
+    blocare_mapa_dosare = threading.Lock()
+
+    def _lock_pentru_dosar(d_id: str) -> threading.Lock:
+        with blocare_mapa_dosare:
+            if d_id not in blocari_dosare:
+                blocari_dosare[d_id] = threading.Lock()
+            return blocari_dosare[d_id]
     app = FastAPI(title=NUME_PRODUS, docs_url=None, redoc_url=None)
 
     app.add_middleware(
@@ -352,8 +360,9 @@ def creeaza_app(
     def evaluare(dosar_id: str) -> dict[str, Any]:
         """Rulează agentul. Dacă agentul nu poate rula, întoarce ultimul rezultat salvat."""
         folder = folder_dosar(dosar_id)
+        lock_dosar = _lock_pentru_dosar(dosar_id)
         try:
-            with blocare:
+            with lock_dosar:
                 verdict = evalueaza(str(folder))
             salvat = {"salvat_la": _acum(), "verdict": Verdict.model_validate(verdict).model_dump(mode="json")}
             _scrie_json(folder_rezultate / f"{dosar_id}.json", salvat)
@@ -461,7 +470,7 @@ def creeaza_app(
             "difera_de_agent": difera,
             "data": _acum(),
         }
-        with blocare:
+        with blocare_decizii:
             _scrie_json(fisier_decizii, [*decizii(), inregistrare])
         return inregistrare
 
@@ -469,7 +478,7 @@ def creeaza_app(
     def anuleaza_decizia(dosar_id: str) -> dict[str, Any]:
         """Anulează ultima decizie a dosarului (statusul revine la decizia de dinainte sau la „în așteptare”)."""
         folder_dosar(dosar_id)
-        with blocare:
+        with blocare_decizii:
             toate = decizii()
             index = next((i for i in range(len(toate) - 1, -1, -1) if toate[i].get("dosar") == dosar_id), None)
             if index is None:
@@ -480,7 +489,7 @@ def creeaza_app(
 
     @app.delete("/api/decizii")
     def reseteaza_decizii() -> dict[str, Any]:
-        with blocare:
+        with blocare_decizii:
             _scrie_json(fisier_decizii, [])
         return {"sterse": True}
 

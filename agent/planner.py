@@ -216,7 +216,7 @@ class PlanificatorScriptat:
         if (reg_gb01 and reg_gb01.rezultat == "OK_CONDITIONAT") or ("construc" in stadiu):
             if not any("monitorizare" in a.lower() for a in stare.actiuni):
                 stare.actiuni.append(
-                    "Marcare pentru monitorizare: verificare stadiu 'Final' in registrul BREEAM dupa finalizare (2027)"
+                    "Marcare pentru monitorizare: verificare stadiu 'Final' in registrul BREEAM dupa finalizarea lucrarilor"
                 )
             if not any("receptie" in a.lower() or "energetic" in a.lower() for a in stare.actiuni):
                 return Decizie(
