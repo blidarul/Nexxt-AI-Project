@@ -6,7 +6,6 @@ Offline: 02_registru_breeam.json din dosar, apoi certificatul în PDF din dosar 
 
 from __future__ import annotations
 
-import html
 import json
 import logging
 import re

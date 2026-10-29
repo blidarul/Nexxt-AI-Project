@@ -1,12 +1,10 @@
-"""
-CONTRACTELE dintre module. Acesta e singurul fisier pe care TOTI il importa.
+"""Contractele de date dintre modulele sistemului.
 
-Regula de aur: nu schimbati acest fisier fara sa anuntati toata echipa.
-
-    A (extraction)  ->  DosarExtras
-    B (tools)       ->  ToolResult
-    C (engine)      ->  RezultatRegula, Verdict
-    D (agent)       ->  foloseste toate de mai sus + StareDosar
+Definește modelele Pydantic partajate între extracție, unelte, motorul de reguli și agent:
+    - Extracție: DosarExtras, Camp, Chirias
+    - Unelte: ToolResult
+    - Motor de Reguli: RezultatRegula, Verdict
+    - Agent & Memorie: StareDosar
 """
 from typing import Literal, Optional, Union
 

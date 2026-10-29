@@ -1,6 +1,5 @@
 """Modul pentru extragerea valorilor câmpurilor folosind tabele markdown și apeluri LLM."""
 
-import json
 import re
 from typing import Any, Optional
 import unicodedata

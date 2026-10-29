@@ -1,14 +1,10 @@
 """Teste pentru procesarea fișierelor .json în _brut și căutarea engine-ului exclusiv în _brut."""
 
 import json
-from pathlib import Path
-import tempfile
-import pytest
 
 from contracts import Camp, DosarExtras, StareDosar
-from extraction.extrage_brut import proceseaza_dosar, proceseaza_json
 from engine.evaluator_generic import obtine_valoare_camp
-from engine.plauzibilitate import evalueaza_plauzibilitate
+from extraction.extrage_brut import proceseaza_dosar
 
 
 def test_extragere_adapteaza_json_in_sablon_brut(tmp_path):

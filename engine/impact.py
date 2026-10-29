@@ -9,7 +9,7 @@ Conform metodologiei din reference/metodologie_impact.yaml:
 from __future__ import annotations
 
 import logging
-from typing import Any, Optional
+from typing import Any
 
 from contracts import StareDosar
 from engine.evaluator_generic import obtine_valoare_camp

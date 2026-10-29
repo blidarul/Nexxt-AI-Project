@@ -1,15 +1,3 @@
-# PROPRIETAR: D
-# SCOP: Bucla agentului: leaga toate modulele.
-#
-# INTERFATA (ce folosesc ceilalti):
-#   proceseaza_dosar(folder) -> Verdict
-#
-# IMPLEMENTARE:
-#   [x] extrage() -> StareDosar
-#   [x] bucla: planificator.pas_urmator -> registry.apeleaza -> trace
-#   [x] limita de pasi (daca e atinsa: escaladare)
-#   [x] decide_verdict() la final
-
 """Orchestratorul agentului: leagă extracția, planificatorul, registry-ul și verdictul.
 
 Fluxul:

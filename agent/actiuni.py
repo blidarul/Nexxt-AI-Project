@@ -4,12 +4,12 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import yaml
 from pydantic import BaseModel, Field
 
-from contracts import Camp, StareDosar, ToolResult
+from contracts import StareDosar, ToolResult
 from engine.evaluator_generic import obtine_valoare_camp
 from registry import tool
 

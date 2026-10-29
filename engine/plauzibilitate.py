@@ -9,11 +9,11 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import yaml
 
-from contracts import Camp, RezultatRegula, StareDosar
+from contracts import RezultatRegula, StareDosar
 from engine.evaluator_generic import calculeaza_campuri_derivate, obtine_valoare_camp
 
 logger = logging.getLogger(__name__)
