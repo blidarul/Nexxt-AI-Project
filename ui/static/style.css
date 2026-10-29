@@ -228,10 +228,23 @@ a { color: inherit; }
 .cap { display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px 0; border: 0; background: none; font-weight: 500; text-align: left; cursor: pointer; }
 .cap .nr { margin-left: auto; color: var(--muted); font-weight: 400; }
 .corp { padding: 0 0 12px 22px; }
-.date { display: grid; grid-template-columns: minmax(120px, max-content) minmax(0, 1fr) minmax(0, max-content); gap: 0 24px; }
-.date > * { padding: 10px 0; border-top: 1px solid var(--rule); min-width: 0; overflow-wrap: anywhere; }
+/* Câmp și Sursă au lățimi limitate, Valoare ia restul. `break-word` (nu `anywhere`) rupe doar șirurile lungi
+   fără spații (fișiere, ID-uri) și nu micșorează lățimea minimă a coloanei, deci textul obișnuit nu ajunge pe verticală. */
+.sectiune .corp { container-type: inline-size; }
+.date { display: grid; grid-template-columns: minmax(9rem, 13rem) minmax(14rem, 1fr) minmax(8rem, 15rem); gap: 0 24px; }
+.date > * { padding: 10px 0; border-top: 1px solid var(--rule); min-width: 0; overflow-wrap: break-word; }
 .date > :nth-child(-n + 3) { border-top: 0; }
 .date dt { color: var(--muted); }
+.date .link { overflow-wrap: break-word; }
+.date .lista-valori { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+/* panou îngust: câmpul deasupra, valoarea și sursa dedesubt */
+@container (max-width: 640px) {
+  .date { grid-template-columns: minmax(0, 1fr); }
+  .date > * { padding: 2px 0; border-top: 0; }
+  .date dt { padding-top: 12px; border-top: 1px solid var(--rule); }
+  .date dt:first-child { padding-top: 0; border-top: 0; }
+  .date .sursa:not(:empty) { padding-bottom: 10px; font-size: 13px; }
+}
 
 /* pasul 3 */
 .recomandat { color: var(--muted); }
@@ -295,9 +308,6 @@ dialog p { margin-top: 8px; color: var(--muted); }
   .concentrare { display: none; }
   .antet { flex-direction: column; gap: 4px; }
   .grup, .elemente, .impact, .metoda, .proxy, .referinte { margin-left: 0; }
-  .date { grid-template-columns: minmax(0, 1fr); }
-  .date > * { padding: 2px 0; border-top: 0; }
-  .date dt { padding-top: 12px; border-top: 1px solid var(--rule); }
   .vizualizare { height: 70svh; }
 }
 @media (prefers-reduced-motion: reduce) {

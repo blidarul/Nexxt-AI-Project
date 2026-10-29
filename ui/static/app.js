@@ -43,7 +43,7 @@ const CAMP = {
   stadiu_cladire: "Stadiul clădirii", chiriasi: "Chiriași", "chiriasi.caen": "CAEN chiriași", capacitate_mw: "Capacitate",
   productie_anuala_mwh: "Producție anuală", consum_inainte_mwh: "Consum înainte", consum_dupa_mwh: "Consum după",
   tehnologie_bat: "Tehnologie BAT", industrie_beneficiar: "Industria beneficiarului",
-  echipament_combustibil_fosil: "Echipament pe combustibil fosil",
+  echipament_combustibil_fosil: "Echipament pe combustibil fosil", vehicule: "Vehicule",
 };
 const UNITATE = {
   suma_eur: "EUR", ped_kwh_m2: "kWh/m²/an", energie_finala_kwh_m2: "kWh/m²/an", suprafata_m2: "m²",
@@ -83,18 +83,23 @@ function valoareCamp(camp, v) {
     const u = UNITATE[camp];
     return `<span class="num">${nrRo(v, Number.isInteger(v) ? 0 : 1)}</span>${u ? ` ${u}` : ""}`;
   }
+  // listele (chiriași, vehicule, afirmații): câte un element pe rând
   if (Array.isArray(v)) {
-    return v.map((x) => {
+    return `<ul class="lista-valori">${v.map((x) => {
       if (x && typeof x === "object" && "nume" in x) {
         const parti = [x.caen ? `CAEN ${x.caen}` : null, typeof x.m2 === "number" ? `${nrRo(x.m2)} m²` : null].filter(Boolean);
-        return `${esc(x.nume)}${parti.length ? ` <span class="muted">(${parti.join(", ")})</span>` : ""}`;
+        return `<li>${esc(x.nume)}${parti.length ? ` <span class="muted">(${parti.join(", ")})</span>` : ""}</li>`;
       }
-      return esc(typeof x === "object" ? JSON.stringify(x) : x);
-    }).join("<br>");
+      return `<li>${x && typeof x === "object" ? perechi(x) : esc(x)}</li>`;
+    }).join("")}</ul>`;
   }
-  if (typeof v === "object") return esc(JSON.stringify(v));
+  if (typeof v === "object") return perechi(v);
   return esc(v);
 }
+// un obiect fără nume (ex. un vehicul) se citește ca „cheie: valoare · …”, nu ca JSON lipit
+const perechi = (o) => Object.entries(o).filter(([, x]) => x !== null && x !== undefined && x !== "")
+  .map(([k, x]) => `<span class="muted">${esc(k.replace(/_/g, " "))}:</span> ${esc(typeof x === "number" ? nrRo(x, Number.isInteger(x) ? 0 : 1)
+    : typeof x === "object" ? JSON.stringify(x) : x)}`).join(" · ");
 const numeCamp = (c) => CAMP[c] || c.replace(/_/g, " ");
 function tipScurt(doc) {
   if (doc.provenienta === "client") return TIP_SCURT[doc.tip_detectat] || (doc.tip_detectat || "").replace(/_/g, " ");
@@ -484,7 +489,7 @@ function pasRaport(id) {
   }
 
   const date = () => `<dl class="date">${d.campuri.map((c) =>
-    `<dt>${esc(numeCamp(c.camp))}</dt><dd>${valoareCamp(c.camp, c.valoare)}</dd><dd>${c.valoare === null || c.valoare === undefined ? "" : legaturaSursa(c)}</dd>`,
+    `<dt>${esc(numeCamp(c.camp))}</dt><dd>${valoareCamp(c.camp, c.valoare)}</dd><dd class="sursa">${c.valoare === null || c.valoare === undefined ? "" : legaturaSursa(c)}</dd>`,
   ).join("")}</dl>`;
   const pasiAgent = () => v.trace.map((p) => {
     const rez = p.rezultat && typeof p.rezultat === "object" ? p.rezultat : null;
