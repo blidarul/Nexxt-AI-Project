@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from ui.raport import ca_html, construieste_raport, eticheta_pagina, reguli_cunoscute
+import pytest
+
+from ui.raport import MESAJ_INCONSISTENTA, ca_html, construieste_raport, eticheta_pagina, recomandare, reguli_cunoscute
 
 
 def _regula(regula_id: str, rezultat: str, dovada: str, sursa: str) -> dict:
@@ -114,6 +116,7 @@ def test_exceptie_cu_lipsuri():
     assert r["concluzie"] == [
         "Dosarul nu poate fi decis automat: GB-X1 „Cladiri folosite pentru extractia/fabricarea combustibililor "
         "fosili” (p. 7, nota 6) a ridicat un semnal care cere evaluarea comitetului.",
+        "În plus, lipsesc 2 documente obligatorii.",
         "Criteriile categoriei Green Buildings sunt îndeplinite pe calea GB-01 (p. 7).",
     ]
     assert [s["cheie"] for s in r["sectiuni"]] == ["indeplinite", "de_verificat"]
@@ -177,3 +180,59 @@ def test_html_are_aceeasi_structura():
         assert text in pagina
     assert "Ce nu îndeplinește" not in pagina and "<h2>Impact</h2>" not in pagina
     assert "<script" not in pagina.replace("onclick", "")
+
+
+# ------------------------------------------------------------------ recomandarea (doar din câmpul verdict)
+
+def test_concluzie_exceptie_fara_semnal():
+    verdict = {**ELIGIBIL, "verdict": "EXCEPTIE_ESCALADARE_COMITET", "impact_tco2_an": None,
+               "reguli": [*GENERALE_OK, _regula("G-03", "NEEVALUABIL", "lipsește decizia de aprobare", "p. 19"),
+                          _regula("GB-01", "OK", "Registru BREEAM: Excellent, Final", "Framework p.7")]}
+    r = construieste_raport(verdict, "green_buildings", LIPSA)
+    assert r["concluzie"][0] == ("Verificarea nu e completă: 1 criteriu nu a putut fi verificat (G-03); "
+                                 "lipsesc 2 documente obligatorii.")
+
+
+@pytest.mark.parametrize("verdict,cheie,eticheta", [
+    ("ELIGIBIL", "aprobat", "Aprobare"),
+    ("ELIGIBIL_CU_MONITORIZARE", "aprobat_conditionat", "Aprobare condiționată"),
+    ("EXCEPTIE_ESCALADARE_COMITET", "interventie", "Intervenție umană"),
+    ("NEELIGIBIL", "respins", "Respingere"),
+])
+def test_recomandare_pentru_fiecare_verdict(verdict, cheie, eticheta):
+    v = {**ELIGIBIL, "verdict": verdict, "actiuni": ["Motiv: Neevaluabil G-03 (x): lipsește D-02"]}
+    if verdict == "ELIGIBIL":
+        v["actiuni"] = []
+    rec = recomandare(v, construieste_raport(v, "green_buildings"))
+    assert (rec["cheie"], rec["eticheta"]) == (cheie, eticheta)
+    assert rec["inconsistenta"] is None
+    if verdict == "ELIGIBIL":
+        assert rec["motive"] == ["Toate cele 5 criterii aplicabile sunt îndeplinite."]
+    else:
+        assert rec["motive"] == ["Neevaluabil G-03 (x): lipsește D-02"]
+
+
+def test_recomandare_de_ce_maxim_trei_motive():
+    v = {**EXCEPTIE, "actiuni": [f"Motiv: motivul {i}" for i in range(5)] + ["Escaladare la comitet"]}
+    rec = recomandare(v, construieste_raport(v, "green_buildings"))
+    assert rec["motive"] == ["motivul 0", "motivul 1", "motivul 2"] and len(rec["toate_motivele"]) == 5
+
+
+def test_inconsistenta_eligibil_cu_de_verificat():
+    """ELIGIBIL, dar raportul are o regulă neevaluabilă -> nu „Aprobare”, ci avertisment."""
+    v = {**ELIGIBIL, "reguli": [*ELIGIBIL["reguli"], _regula("G-03", "NEEVALUABIL", "lipsește D-02", "p. 19")]}
+    rec = recomandare(v, construieste_raport(v, "green_buildings"))
+    assert rec["cheie"] == "interventie" and rec["inconsistenta"] == MESAJ_INCONSISTENTA
+    assert any(m.startswith("G-03") for m in rec["motive"])
+    # un semnal de plauzibilitate informativ nu face inconsistență
+    v = {**ELIGIBIL, "reguli": [*ELIGIBIL["reguli"], _regula("PL-03", "SEMNAL", "afirmație nesusținută", "")]}
+    assert recomandare(v, construieste_raport(v, "green_buildings"))["cheie"] == "aprobat"
+
+
+def test_motivele_cu_rand_propriu_nu_se_repeta():
+    v = {**EXCEPTIE, "actiuni": ["Motiv: Semnal GB-X1 (Cladiri...): chirias", "Motiv: Câmp obligatoriu negăsit: x",
+                                  "Motiv: Document obligatoriu lipsă: D-02", "Escaladare la comitet"]}
+    de_verificat = _sectiune(construieste_raport(v, "green_buildings", LIPSA), "de_verificat")
+    texte = {g["cheie"]: [e.get("text") for e in g["elemente"]] for g in de_verificat["grupuri"]}
+    assert texte["actiuni"] == ["Escaladare la comitet"]
+    assert texte["alte_motive"] == ["Câmp obligatoriu negăsit: x"]

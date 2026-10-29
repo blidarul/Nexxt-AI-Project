@@ -14,7 +14,9 @@ const GOL_FILTRU = {
   respins: "Niciun dosar respins", interventie: "Niciun dosar la intervenție umană",
 };
 const BUTON = { aprobat: "Aprobă", respins: "Respinge", interventie: "Intervenție umană" };
-const RECOMANDARE = { aprobat: "Aprobare", respins: "Respingere", interventie: "Intervenție umană" };
+const RECOMANDARE = {
+  aprobat: "Aprobare", aprobat_conditionat: "Aprobare condiționată", respins: "Respingere", interventie: "Intervenție umană",
+};
 const DUPA_DECIZIE = { aprobat: "Dosar aprobat", respins: "Dosar respins", interventie: "Dosar trimis la intervenție umană" };
 const CLASA_REZULTAT = { OK: "pos", NU: "neg", SEMNAL: "warn", NEEVALUABIL: "neutru", OK_CONDITIONAT: "warn" };
 const TIP_SCURT = {
@@ -232,7 +234,10 @@ async function trimiteDecizia(id) {
     reusit = true;
   } catch (e) {
     if (e.status === 409 && e.detaliu && e.detaliu.necesita_confirmare) {
-      S.confirmare = { id, decizie, recomandare: e.detaliu.recomandare_agent };
+      S.confirmare = {
+        id, decizie, recomandare: e.detaliu.recomandare_agent,
+        eticheta: e.detaliu.recomandare_eticheta, motive: e.detaliu.motive || [],
+      };
     } else {
       S.mesaj[id] = { tip: "eroare", text: e.message };
     }
@@ -449,7 +454,9 @@ function pasRaport(id) {
   let i = 0;
   const bloc = (continut) => `<div class="bloc ${nou ? "intra" : ""}" style="--i:${i++}">${continut}</div>`;
 
-  const parti = [bloc(`<h3 class="titlu-bloc">Concluzie</h3>
+  const rec = raport.recomandare;
+  const eticheta = rec ? `<span class="rec-pastila rec-${esc(rec.cheie)}"><span class="rec-marcaj" aria-hidden="true"></span>${esc(rec.eticheta)}</span>` : "";
+  const parti = [bloc(`<h3 class="titlu-bloc">Concluzie ${eticheta}</h3>
     <div class="concluzie">${raport.concluzie.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
     ${r.din_salvare ? `<p class="salvat">Rezultat salvat la ${dataRo(r.salvat_la)}</p>` : ""}`)];
 
@@ -512,8 +519,12 @@ function pasDecizie(id, d) {
     // comentariul apare doar unde e obligatoriu
     const comentariu = alegere !== "aprobat"
       ? `<label for="comentariu">Comentariu</label><textarea id="comentariu" rows="3"></textarea>` : "";
+    // la confirmare se văd motivele nerezolvate (mai ales când analistul aprobă fără recomandarea „Aprobare”)
+    const motiveConfirmare = confirm && S.confirmare.motive && S.confirmare.motive.length
+      ? `<ul class="motive">${S.confirmare.motive.map((m) => `<li>${esc(m)}</li>`).join("")}</ul>` : "";
     const avertizare = confirm
-      ? `<p class="avertizare" role="alert">Agentul recomandă ${RECOMANDARE[S.confirmare.recomandare] || "altceva"}. Decizia ta va fi marcată ca diferită.</p>` : "";
+      ? `<div class="avertizare" role="alert"><p>Agentul recomandă ${esc(S.confirmare.eticheta || RECOMANDARE[S.confirmare.recomandare] || "altceva")}.
+          Decizia ta va fi marcată ca diferită${motiveConfirmare ? ". Rămân nerezolvate:" : "."}</p>${motiveConfirmare}</div>` : "";
     formular = `<div class="formular">${comentariu}${avertizare}
       <button class="btn primary trimite" type="button" data-act="trimite" ${S.lucreaza ? "disabled" : ""}>${confirm ? `Confirmă: ${BUTON[alegere]}` : "Trimite"}</button></div>`;
   }
@@ -521,8 +532,22 @@ function pasDecizie(id, d) {
   const x = d.decizie;
   const decizia = x ? `<p class="decizia-ta">Decizia ta: <b>${STATUS[x.decizie]}</b> · ${dataRo(x.data)}${x.difera_de_agent ? " · diferă de agent" : ""}
       ${x.comentariu ? `<br>„${esc(x.comentariu)}”` : ""}</p>` : "";
-  return `<p class="recomandat">Agentul recomandă: <b>${RECOMANDARE[r && r.recomandare] || "—"}</b></p>
+  return `${blocRecomandare(r && r.recomandare_detalii)}
     <div class="butoane">${butoane}</div>${formular}${mesaj}${decizia}`;
+}
+
+// Recomandarea agentului, doar din verdict (ui/raport.py): eticheta, subtitlul și „De ce?” cu 1-3 motive
+function blocRecomandare(rec) {
+  if (!rec) return `<p class="recomandat">Agentul recomandă: <b>—</b></p>`;
+  const rest = rec.toate_motivele.length - rec.motive.length;
+  return `<section class="rec rec-${esc(rec.cheie)}" aria-label="Recomandarea agentului">
+    <p class="rec-cap"><span class="rec-marcaj" aria-hidden="true"></span><span class="rec-eticheta">${esc(rec.eticheta)}</span>
+      <span class="rec-sub">${esc(rec.subtitlu)}</span></p>
+    ${rec.inconsistenta ? `<p class="avertizare" role="alert">${esc(rec.inconsistenta)}.</p>` : ""}
+    <p class="de-ce">De ce?</p>
+    <ul class="motive">${rec.motive.map((m) => `<li>${esc(m)}</li>`).join("")}</ul>
+    ${rest > 0 ? `<p class="muted">Încă ${rest} în raport, la „De verificat”.</p>` : ""}
+  </section>`;
 }
 
 function randeazaVizualizare() {

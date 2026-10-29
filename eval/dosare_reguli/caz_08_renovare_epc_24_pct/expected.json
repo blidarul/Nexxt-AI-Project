@@ -1,11 +1,16 @@
 {
   "dosar": "caz_08_renovare_epc_24_pct",
   "descriere": "Renovare: reducere de 24% (< pragul minim de 30%)",
-  "verdict": "NEELIGIBIL",
+  "verdict": "EXCEPTIE_ESCALADARE_COMITET",
   "reguli": [
     {
       "id": "GB-R1",
       "rezultat": "NU"
     }
-  ]
+  ],
+  "actiuni": [
+    "Neevaluabil GB-R2",
+    "Semnal GB-R4"
+  ],
+  "nota_verdict_strict": "Era NEELIGIBIL. Verdict strict: aprobare doar cu toate criteriile verificate; incertitudini: GB-R2, GB-R4."
 }

@@ -22,7 +22,7 @@ Acoperă:
    5. Parc solar 10 MW care declară 40.000 MWh/an -> EXCEPTIE (PL-20)
    6. Data center cu PUE 1.38 -> ELIGIBIL (EE-07)
    7. Fabrică de ciment modernizată (-35% energie) -> NEELIGIBIL (EE-X1)
-   8. Renovare EPC 210 -> 160 kWh/m2 (-24%) -> NEELIGIBIL (GB-R1)
+   8. Renovare EPC 210 -> 160 kWh/m2 (-24%) -> GB-R1 pică; cu GB-R2 neevaluabil -> EXCEPTIE (verdict strict)
    9. Profile aluminiu 80% reciclat, primar 2.1 tCO2e/t -> ELIGIBIL (CE-03)
    10. Pompe de căldură cu R410A (GWP = 2088) -> NEELIGIBIL (GB-M2)
 3. Calculul de impact pentru toate categoriile.
@@ -51,7 +51,11 @@ def _creeaza_stare_test(
     indicatori: dict[str, Any] | None = None,
     **kwargs,
 ) -> StareDosar:
-    """Helper pentru instanțierea rapidă a unui StareDosar de test."""
+    """Helper pentru instanțierea rapidă a unui StareDosar de test.
+
+    Creditul e considerat aprobat prin procesul standard (G-03), ca verdictul strict să poată fi ELIGIBIL.
+    """
+    indicatori = {"aprobat_proces_standard": True, **(indicatori or {})}
     indic_camps: dict[str, Camp] = {}
     if indicatori:
         for k, v in indicatori.items():
@@ -318,6 +322,7 @@ def test_caz_01_flota_hibrid_marcat_2025():
             "data_marcare_verde": "2025-06-15",
             "emisii_wltp_gco2_km": 45,
             "nr_vehicule": 10,
+            "transporta_combustibili_fosili": False,
         },
     )
     evalueaza_fisier_reguli("conditii_generale", stare)
@@ -435,20 +440,26 @@ def test_caz_07_fabrica_ciment_excludere_industrie():
 
 
 def test_caz_08_renovare_epc_24_pct():
-    """Renovare: EPC 210 → 160 kWh/m² (−24%) -> prag 30% -> NEELIGIBIL (GB-R1)."""
-    stare = _creeaza_stare_test(
-        categorie="green_buildings",
-        subcategorie="renovare",
-        indicatori={
-            "ped_inainte_kwh_m2": 210,
-            "ped_dupa_kwh_m2": 160,
-        },
-    )
+    """Renovare: EPC 210 → 160 kWh/m² (−24%) -> GB-R1 pică.
+
+    Cealaltă cale (GB-R2, renovare majoră) e neevaluabilă -> se cer datele (EXCEPȚIE), nu NEELIGIBIL.
+    Când și GB-R2 pică, toate căile sunt NU -> NEELIGIBIL.
+    """
+    indicatori = {"ped_inainte_kwh_m2": 210, "ped_dupa_kwh_m2": 160}
+    stare = _creeaza_stare_test(categorie="green_buildings", subcategorie="renovare", indicatori=indicatori)
     evalueaza_fisier_reguli("conditii_generale", stare)
     evalueaza_fisier_reguli("green_buildings", stare)
     v = decide_verdict(stare)
     assert stare.reguli["GB-R1"].rezultat == "NU"
-    assert v.verdict == "NEELIGIBIL"
+    assert stare.reguli["GB-R2"].rezultat == "NEEVALUABIL"
+    assert v.verdict == "EXCEPTIE_ESCALADARE_COMITET"
+
+    stare = _creeaza_stare_test(categorie="green_buildings", subcategorie="renovare",
+                                indicatori={**indicatori, "conform_renovare_majora": False})
+    evalueaza_fisier_reguli("conditii_generale", stare)
+    evalueaza_fisier_reguli("green_buildings", stare)
+    assert stare.reguli["GB-R2"].rezultat == "NU"
+    assert decide_verdict(stare).verdict == "NEELIGIBIL"
 
 
 def test_caz_09_aluminiu_calea_a_doua():
@@ -460,6 +471,7 @@ def test_caz_09_aluminiu_calea_a_doua():
             "pondere_aluminiu_reciclat": 0.80,
             "intensitate_carbon_aluminiu_primar_tco2e_t": 2.1,
             "foloseste_plastic_virgin": False,
+            "plan_gestionare_deseuri": True,
         },
     )
     evalueaza_fisier_reguli("conditii_generale", stare)

@@ -35,6 +35,13 @@ def _creeaza_stare_test(dosar_id: str = "test_dosar") -> StareDosar:
     )
 
 
+def _generale_ok(stare: StareDosar) -> None:
+    """Toate condițiile generale verificate și îndeplinite, fără documente lipsă (verdictul strict le cere)."""
+    stare.raport_extractie = {"documente_lipsa": [], "campuri_lipsa": []}
+    for regula_id in ("G-01", "G-02", "G-03", "G-04", "G-05"):
+        stare.reguli[regula_id] = RezultatRegula(regula_id=regula_id, rezultat="OK", dovada="", sursa_framework="")
+
+
 # ---------------------------------------------------------------------------
 # Teste de contract comune
 # ---------------------------------------------------------------------------
@@ -105,10 +112,13 @@ def test_successful_orchestration():
     verdict = proceseaza_dosar(dosar_path)
 
     assert isinstance(verdict, Verdict)
-    assert verdict.verdict == "ELIGIBIL"
+    # Verdict strict: GB-01 e îndeplinită, dar G-03 (aprobarea prin procesul standard) nu poate fi verificată
+    # fără decizia de aprobare (D-02) -> intervenție umană, cu motivul în acțiuni; impactul se calculează după.
+    assert verdict.verdict == "EXCEPTIE_ESCALADARE_COMITET"
     assert verdict.cale_eligibilitate is not None
     assert "GB-01" in verdict.cale_eligibilitate
-    assert verdict.impact_tco2_an == 606.0
+    assert any(a.startswith("Motiv: Neevaluabil G-03") for a in verdict.actiuni)
+    assert verdict.impact_tco2_an is None
     assert len(verdict.trace) > 0
 
     for intrare in verdict.trace:
@@ -271,24 +281,27 @@ def test_verdict_precedence():
 
     # Precedență 3: Cale OK => ELIGIBIL
     stare_ok = _creeaza_stare_test()
-    stare_ok.reguli["G-01"] = RezultatRegula(regula_id="G-01", rezultat="OK", dovada="", sursa_framework="")
+    _generale_ok(stare_ok)
     stare_ok.reguli["GB-01"] = RezultatRegula(regula_id="GB-01", rezultat="OK", dovada="BREEAM", sursa_framework="")
     v_ok = decide_verdict(stare_ok)
     assert v_ok.verdict == "ELIGIBIL"
 
     # Precedență 4: Cale OK_CONDITIONAT => ELIGIBIL_CU_MONITORIZARE
     stare_cond = _creeaza_stare_test()
-    stare_cond.reguli["G-01"] = RezultatRegula(regula_id="G-01", rezultat="OK", dovada="", sursa_framework="")
+    _generale_ok(stare_cond)
     stare_cond.reguli["GB-01"] = RezultatRegula(regula_id="GB-01", rezultat="OK_CONDITIONAT", dovada="Interim", sursa_framework="")
     v_cond = decide_verdict(stare_cond)
     assert v_cond.verdict == "ELIGIBIL_CU_MONITORIZARE"
 
     # Precedență 5: Fără cale eligibilă => NEELIGIBIL
     stare_fara_cale = _creeaza_stare_test()
-    stare_fara_cale.reguli["G-01"] = RezultatRegula(regula_id="G-01", rezultat="OK", dovada="", sursa_framework="")
+    _generale_ok(stare_fara_cale)
     stare_fara_cale.reguli["GB-01"] = RezultatRegula(regula_id="GB-01", rezultat="NU", dovada="", sursa_framework="")
     stare_fara_cale.reguli["GB-02"] = RezultatRegula(regula_id="GB-02", rezultat="NEEVALUABIL", dovada="", sursa_framework="")
     stare_fara_cale.reguli["GB-03"] = RezultatRegula(regula_id="GB-03", rezultat="NU", dovada="", sursa_framework="")
+    # nicio cale OK, dar GB-02 neevaluabilă -> se cer datele (EXCEPȚIE), nu NEELIGIBIL
+    assert decide_verdict(stare_fara_cale).verdict == "EXCEPTIE_ESCALADARE_COMITET"
+    stare_fara_cale.reguli["GB-02"] = RezultatRegula(regula_id="GB-02", rezultat="NU", dovada="", sursa_framework="")
     v_fara = decide_verdict(stare_fara_cale)
     assert v_fara.verdict == "NEELIGIBIL"
 

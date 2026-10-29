@@ -966,8 +966,11 @@ def evalueaza_regula_pe_lista(
     regula: dict,
     lista_elemente: list[dict],
     stare: StareDosar,
-) -> RezultatRegula:
+) -> Optional[RezultatRegula]:
     """Evaluează o regulă pe fiecare element dintr-o listă (ex. flotă vehicule).
+
+    Elementele cărora regula nu li se aplică (aplica_daca) sunt sărite; dacă nu se aplică niciunuia,
+    regula nu se aplică dosarului (None), nu pică.
     
     Dacă doar o parte trec:
     - rezultatul regulii conține lista celor care trec și a celor care pică
@@ -983,14 +986,16 @@ def evalueaza_regula_pe_lista(
 
     for item in lista_elemente:
         res = evalueaza_regula(regula, stare, context_item=item)
-        nume_item = item.get("model") or item.get("nume") or str(item)
-        if res and res.rezultat in ("OK", "OK_CONDITIONAT"):
+        if res is None:
+            continue
+        if res.rezultat in ("OK", "OK_CONDITIONAT"):
             trecute.append(item)
         else:
-            motiv = res.dovada if res else "condiție neîndeplinită"
-            picate.append((item, motiv))
+            picate.append((item, res.dovada))
 
-    total = len(lista_elemente)
+    total = len(trecute) + len(picate)
+    if total == 0:
+        return None
     nr_trecute = len(trecute)
     pondere = nr_trecute / total if total > 0 else 0.0
 

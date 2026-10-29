@@ -40,7 +40,8 @@ def radacina(tmp_path: Path) -> Path:
         "documente_clasificate": [
             {"fisier": "01_cerere.pdf", "tip_detectat": "cerere_finantare", "incredere": 0.95, "id_cerinte": ["D-01"]},
         ],
-        "documente_lipsa": [{"id": "D-02", "nume": "Decizia de aprobare", "obligatoriu": True}],
+        # recomandat, nu obligatoriu: dosarul de test e complet, deci un ELIGIBIL e recomandat ca „Aprobare”
+        "documente_lipsa": [{"id": "D-02", "nume": "Decizia de aprobare", "obligatoriu": False}],
         "campuri_extrase": {
             "tara": {"valoare": "România", "sursa": "01_cerere.pdf, p.2", "incredere": 0.95,
                      "citat": "Țara: România", "citat_verificat": True},
@@ -156,7 +157,8 @@ def test_evaluare_salveaza_rezultatul(radacina):
 
 
 @pytest.mark.parametrize("verdict,recomandare", [
-    ("ELIGIBIL_CU_MONITORIZARE", "aprobat"), ("NEELIGIBIL", "respins"), ("EXCEPTIE_ESCALADARE_COMITET", "interventie"),
+    ("ELIGIBIL_CU_MONITORIZARE", "aprobat_conditionat"), ("NEELIGIBIL", "respins"),
+    ("EXCEPTIE_ESCALADARE_COMITET", "interventie"),
 ])
 def test_recomandare_dupa_verdict(radacina, verdict, recomandare):
     raspuns = _client(radacina, lambda folder: _verdict(verdict)).post("/api/dosare/dosar_a/evaluare")
@@ -410,3 +412,48 @@ def test_anuleaza_decizia(radacina):
     client.delete("/api/dosare/dosar_a/decizie")
     assert client.get("/api/dosare").json()[0]["status"] == "in_asteptare"
     assert client.delete("/api/dosare/nu_exista/decizie").status_code == 404
+
+
+# ------------------------------------------------------------------ recomandarea strictă
+
+def test_recomandare_detalii_si_de_ce(radacina):
+    r = _client(radacina).post("/api/dosare/dosar_a/evaluare").json()
+    detalii = r["recomandare_detalii"]
+    assert (detalii["cheie"], detalii["eticheta"]) == ("aprobat", "Aprobare")
+    assert detalii["motive"] == ["Toate cele 1 criterii aplicabile sunt îndeplinite."]
+    assert detalii["inconsistenta"] is None
+
+
+def test_inconsistenta_eligibil_cu_document_obligatoriu_lipsa(radacina):
+    """Plasa de siguranță: ELIGIBIL, dar raportul are un document obligatoriu lipsă -> nu „Aprobare”."""
+    cale = radacina / "dosare" / "dosar_a" / "_extras" / "raport_extractie.json"
+    date = json.loads(cale.read_text(encoding="utf-8"))
+    date["documente_lipsa"][0]["obligatoriu"] = True
+    cale.write_text(json.dumps(date), encoding="utf-8")
+    client = _client(radacina)
+    r = client.post("/api/dosare/dosar_a/evaluare").json()
+    assert r["recomandare"] == "interventie"
+    assert r["recomandare_detalii"]["inconsistenta"].startswith("Inconsistență între verdict și raport")
+    assert any("D-02" in m for m in r["recomandare_detalii"]["motive"])
+    # aprobarea cere confirmare, cu motivele nerezolvate
+    raspuns = client.post("/api/dosare/dosar_a/decizie", json={"decizie": "aprobat"})
+    assert raspuns.status_code == 409
+    assert any("D-02" in m for m in raspuns.json()["detail"]["motive"])
+
+
+def test_aprobare_conditionata_cere_confirmare_cu_motive(radacina):
+    def monitorizare(folder: str) -> Verdict:
+        v = _verdict("ELIGIBIL_CU_MONITORIZARE")
+        v.actiuni = ["Motiv: Monitorizare GB-01 (Certificare internationala): certificare Interim"]
+        return v
+
+    client = _client(radacina, monitorizare)
+    r = client.post("/api/dosare/dosar_a/evaluare").json()
+    assert (r["recomandare"], r["recomandare_detalii"]["eticheta"]) == ("aprobat_conditionat", "Aprobare condiționată")
+    raspuns = client.post("/api/dosare/dosar_a/decizie", json={"decizie": "aprobat"})
+    assert raspuns.status_code == 409
+    detaliu = raspuns.json()["detail"]
+    assert detaliu["recomandare_eticheta"] == "Aprobare condiționată"
+    assert detaliu["motive"] == ["Monitorizare GB-01 (Certificare internationala): certificare Interim"]
+    confirmat = client.post("/api/dosare/dosar_a/decizie", json={"decizie": "aprobat", "confirmat": True}).json()
+    assert confirmat["difera_de_agent"] is True and confirmat["recomandare_agent"] == "aprobat_conditionat"

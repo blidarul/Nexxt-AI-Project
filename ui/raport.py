@@ -4,17 +4,26 @@ Nu recalculează verdictul și nu adaugă afirmații proprii: fiecare rând vine
 dintr-o acțiune a agentului, din impactul calculat de agent sau dintr-un document lipsă din extracție.
 Din rules/*.yaml (și reference/plauzibilitate.yaml) se iau doar numele lizibil al regulii, pagina din
 Framework și grupul ei (condiții generale, criteriile categoriei, excluderi, plauzibilitate).
+
+Tot aici se traduce verdictul în recomandarea afișată (recomandare()), din aceleași rezultate de reguli,
+cu o plasă de siguranță: un ELIGIBIL care are totuși elemente nerezolvate în raport nu devine „Aprobare”.
 """
 
 from __future__ import annotations
 
 import html
+import logging
 import re
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Optional
 
 import yaml
+
+from contracts import RezultatRegula
+from engine.verdict import PREFIX_MOTIV, semnal_blocant
+
+logger = logging.getLogger(__name__)
 
 RADACINA = Path(__file__).resolve().parent.parent
 
@@ -137,7 +146,8 @@ def _format_numar(valoare: float, zecimale: int = 1) -> str:
     return text.replace(",", "§").replace(".", ",").replace("§", ".")
 
 
-def _concluzie(verdict: dict[str, Any], elemente: list[dict[str, Any]], categorie: str) -> list[str]:
+def _concluzie(verdict: dict[str, Any], elemente: list[dict[str, Any]], categorie: str,
+               documente_lipsa: Optional[list[dict[str, Any]]] = None) -> list[str]:
     tip = verdict.get("verdict")
     pe_id = {e["id"]: e for e in elemente}
     cat = [e for e in elemente if e["grup"] == "categorie"]
@@ -183,7 +193,19 @@ def _concluzie(verdict: dict[str, Any], elemente: list[dict[str, Any]], categori
             verb = "a ridicat" if len(semnale) == 1 else "au ridicat"
             propozitii.append(f"Dosarul nu poate fi decis automat: {_lista_nume(semnale)} {verb} un semnal "
                               "care cere evaluarea comitetului.")
-        else:
+        neverificate = [e for e in elemente if e["rezultat"] == "NEEVALUABIL" and not (
+            e["grup"] == "categorie" and cale and cale["rezultat"] in ("OK", "OK_CONDITIONAT"))]
+        obligatorii = [d for d in documente_lipsa or [] if d.get("obligatoriu", True) is not False]
+        parti = []
+        if neverificate:
+            fraza = "criteriu nu a putut fi verificat" if len(neverificate) == 1 else "criterii nu au putut fi verificate"
+            parti.append(f"{len(neverificate)} {fraza} ({', '.join(e['id'] for e in neverificate)})")
+        if obligatorii:
+            parti.append("lipsește un document obligatoriu" if len(obligatorii) == 1
+                         else f"lipsesc {len(obligatorii)} documente obligatorii")
+        if parti:
+            propozitii.append(("În plus, " if semnale else "Verificarea nu e completă: ") + "; ".join(parti) + ".")
+        elif not semnale:
             propozitii.append("Dosarul nu poate fi decis automat și cere evaluarea comitetului.")
         if cale and cale["rezultat"] in ("OK", "OK_CONDITIONAT"):
             propozitii.append(f"Criteriile categoriei {categorie} sunt îndeplinite pe calea "
@@ -235,9 +257,12 @@ def construieste_raport(
     ):
         grupuri = _grupeaza([e for e in elemente if e["rezultat"] in rezultate])
         if cheie == "de_verificat":
-            actiuni = [{"tip": "actiune", "text": a} for a in verdict.get("actiuni") or []]
+            actiuni = [{"tip": "actiune", "text": a} for a in verdict.get("actiuni") or [] if not a.startswith(PREFIX_MOTIV)]
             if actiuni:
                 grupuri.append({"cheie": "actiuni", "titlu": "Acțiuni propuse de agent", "elemente": actiuni})
+            alte = [{"tip": "actiune", "text": m} for m in _motive_fara_rand(verdict)]
+            if alte:
+                grupuri.append({"cheie": "alte_motive", "titlu": "Alte motive", "elemente": alte})
             lipsa = [{"tip": "document", "id": d.get("id", ""), "nume": d.get("nume", ""),
                       "obligatoriu": bool(d.get("obligatoriu", True)), "actiune": "de solicitat clientului"}
                      for d in documente_lipsa or []]
@@ -258,10 +283,94 @@ def construieste_raport(
         "dosar": verdict.get("dosar_id"),
         "verdict": verdict.get("verdict"),
         "categorie": nume_categorie,
-        "concluzie": _concluzie(verdict, elemente, nume_categorie),
+        "concluzie": _concluzie(verdict, elemente, nume_categorie, documente_lipsa),
         "sectiuni": sectiuni,
         "impact": impact,
         "referinte": referinte,
+    }
+
+
+def _motive_fara_rand(verdict: dict[str, Any]) -> list[str]:
+    """Motivele verdictului care nu au deja un rând în raport (o regulă sau un document lipsă)."""
+    ids = {r.get("regula_id") for r in verdict.get("reguli") or []}
+    rezultat = []
+    for a in verdict.get("actiuni") or []:
+        if not a.startswith(PREFIX_MOTIV):
+            continue
+        motiv = a[len(PREFIX_MOTIV):]
+        cuvinte = motiv.split(" ", 2)
+        if motiv.startswith("Document obligatoriu lipsă"):
+            continue
+        are_rand = len(cuvinte) > 1 and cuvinte[1] in ids
+        if are_rand and cuvinte[0] in ("Neevaluabil", "Semnal", "Neîndeplinit", "Monitorizare", "Informativ"):
+            continue
+        rezultat.append(motiv)
+    return rezultat
+
+
+# ------------------------------------------------------------------ recomandarea
+
+RECOMANDARI = {
+    "ELIGIBIL": ("aprobat", "Aprobare", "Toate criteriile Framework-ului sunt îndeplinite"),
+    "ELIGIBIL_CU_MONITORIZARE": ("aprobat_conditionat", "Aprobare condiționată", "Eligibil, cu monitorizare"),
+    "EXCEPTIE_ESCALADARE_COMITET": ("interventie", "Intervenție umană", "Verificarea nu e completă"),
+    "NEELIGIBIL": ("respins", "Respingere", "Criteriu neîndeplinit"),
+}
+MESAJ_INCONSISTENTA = "Inconsistență între verdict și raport. Verificare manuală necesară"
+GRUPURI_FARA_CRITERII = {"plauzibilitate"}
+
+
+def _nerezolvate(raport: dict[str, Any]) -> list[str]:
+    """Elementele din „De verificat” care nu sunt doar informative: reguli și documente obligatorii lipsă."""
+    rezultat = []
+    for s in raport.get("sectiuni") or []:
+        if s["cheie"] != "de_verificat":
+            continue
+        for g in s["grupuri"]:
+            for e in g["elemente"]:
+                if e["tip"] == "document" and e.get("obligatoriu", True):
+                    rezultat.append(f"Document obligatoriu lipsă: {e['id']} {e['nume']}")
+                elif e["tip"] == "regula":
+                    regula = RezultatRegula(regula_id=e["id"], rezultat=e["rezultat"], dovada=e["dovada"], sursa_framework="")
+                    if e["rezultat"] == "SEMNAL" and not semnal_blocant(regula):
+                        continue
+                    rezultat.append(f"{e['id']} ({e['nume']}): {e['eticheta_rezultat']}, {e['dovada']}")
+    return rezultat
+
+
+def recomandare(verdict: dict[str, Any], raport: dict[str, Any]) -> dict[str, Any]:
+    """Recomandarea afișată, doar din câmpul verdict; motivele (pentru „De ce?”) din acțiuni și reguli.
+
+    Plasa de siguranță: un ELIGIBIL cu elemente nerezolvate în raport devine intervenție umană, cu avertisment.
+    """
+    tip = verdict.get("verdict")
+    cheie, eticheta, subtitlu = RECOMANDARI.get(tip, ("interventie", "Intervenție umană", "Verdict necunoscut"))
+    inconsistenta = None
+    if cheie == "aprobat":
+        nerezolvate = _nerezolvate(raport)
+        if nerezolvate:
+            logger.warning("Inconsistență verdict/raport la %s: ELIGIBIL, dar %d elemente de verificat: %s",
+                           verdict.get("dosar_id"), len(nerezolvate), "; ".join(nerezolvate))
+            cheie, eticheta, subtitlu = "interventie", "Intervenție umană", MESAJ_INCONSISTENTA
+            inconsistenta = MESAJ_INCONSISTENTA
+            motive = nerezolvate
+        else:
+            criterii = sum(1 for s in raport.get("sectiuni") or [] for g in s["grupuri"] for e in g["elemente"]
+                           if e["tip"] == "regula" and e["grup"] not in GRUPURI_FARA_CRITERII)
+            motive = [f"Toate cele {criterii} criterii aplicabile sunt îndeplinite."]
+    else:
+        motive = [a[len(PREFIX_MOTIV):] for a in verdict.get("actiuni") or []
+                  if a.startswith(PREFIX_MOTIV) and not a[len(PREFIX_MOTIV):].startswith("Informativ")]
+        if not motive:
+            motive = [f"{r['regula_id']}: {r['dovada']}" for r in verdict.get("reguli") or []
+                      if r.get("rezultat") in ("NU", "NEEVALUABIL", "SEMNAL", "OK_CONDITIONAT")]
+    return {
+        "cheie": cheie,
+        "eticheta": eticheta,
+        "subtitlu": subtitlu,
+        "motive": motive[:3],
+        "toate_motivele": motive,
+        "inconsistenta": inconsistenta,
     }
 
 
