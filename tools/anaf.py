@@ -92,24 +92,48 @@ def _din_pdf(cale_pdf: Path, cui: str) -> ToolResult:
         m = re.search(tipar, text, flags=re.IGNORECASE)
         return m.group(1).strip() if m else None
 
-    cui_doc = cauta(r"Cod Unic de [IÎ]nregistrare \(CUI\):\s*(?:RO\s*)?([0-9]+)")
+    cui_doc = (
+        cauta(r"Cod Unic de [IÎ]nregistrare \(CUI\):\s*(?:RO\s*)?([0-9]+)")
+        or cauta(r"CUI\s*/\s*Cod Fiscal\s*([0-9]+)")
+        or cauta(r"CUI:\s*(?:RO\s*)?([0-9]+)")
+    )
     if cui_doc and cui_doc != cui:
         return eroare(NUME, f"CUI-ul {cui} nu corespunde cu cel din {cale_pdf.name} ({cui_doc}).", SURSA_PDF)
 
-    stare_fiscala = cauta(r"Stare [IÎ]nregistrare Fiscal[aă]:\s*([^\n(]+)")
-    inactiv_text = cauta(r"Status Inactivitate Fiscal[aă]:\s*([^\n]+)")
+    stare_fiscala = (
+        cauta(r"Stare [IÎ]nregistrare Fiscal[aă]:\s*([^\n(]+)")
+        or cauta(r"Stare [IÎ]nregistrare\s*([^\n]+)")
+    )
+    inactiv_text = (
+        cauta(r"Status Inactivitate Fiscal[aă]:\s*([^\n]+)")
+        or cauta(r"Inactiv Fiscal\s*([^\n]+)")
+    )
     status_inactiv = None
     if inactiv_text:
         status_inactiv = not inactiv_text.upper().startswith("NU")
 
     date_generale = {
         "cui": int(cui_doc) if cui_doc else int(cui),
-        "denumire": cauta(r"Denumire Contribuabil:\s*(.*)"),
-        "adresa": cauta(r"Sediu Social:\s*(.*)"),
-        "nrRegCom": cauta(r"Registrul Comer[tț]ului:\s*(.*)"),
-        "cod_CAEN": cauta(r"Activitate Principal[aă] \(CAEN\):\s*([0-9]{4})"),
+        "denumire": (
+            cauta(r"Denumire Contribuabil:\s*(.*)")
+            or cauta(r"Denumire Company\s*(.*)")
+            or cauta(r"Denumire:\s*(.*)")
+        ),
+        "adresa": (
+            cauta(r"Sediu Social:\s*(.*)")
+            or cauta(r"Adres[aămn]+ Sediu Social\s*(.*)")
+        ),
+        "nrRegCom": (
+            cauta(r"Registrul Comer[tț]ului:\s*(.*)")
+            or cauta(r"Nr\.\s*Reg\.\s*Comer[tțn]+ului\s*(.*)")
+        ),
+        "cod_CAEN": (
+            cauta(r"Activitate Principal[aă] \(CAEN\):\s*([0-9]{4})")
+            or cauta(r"Cod CAEN Principal\s*([0-9]{4})")
+        ),
         "stare_inregistrare": stare_fiscala,
     }
+
     return ToolResult(
         tool=NUME,
         gasit=True,
@@ -129,17 +153,19 @@ def _offline(cui: str, stare: Optional[StareDosar]) -> ToolResult:
         with open(cale_brut, "r", encoding="utf-8") as f:
             d = json.load(f)
             data = d.get("date") or d.get("continut_json") or d
-            return _din_raspuns_anaf(data, cui, SURSA_OFFLINE)
+            if isinstance(data, dict) and "found" in data:
+                return _din_raspuns_anaf(data, cui, SURSA_OFFLINE)
     cale = folder / "05_raspuns_anaf.json"
     if cale.exists():
         with open(cale, "r", encoding="utf-8") as f:
             return _din_raspuns_anaf(json.load(f), cui, SURSA_OFFLINE)
 
-    cale_pdf = document_din_dosar(stare, "raspuns_anaf", "RASPUNS_ANAF.pdf")
-    if cale_pdf:
-        return _din_pdf(cale_pdf, cui)
+    for nume_candidat in ["05_raspuns_anaf.pdf", "RASPUNS_ANAF.pdf"]:
+        cale_pdf = document_din_dosar(stare, "raspuns_anaf", nume_candidat)
+        if cale_pdf and cale_pdf.is_file():
+            return _din_pdf(cale_pdf, cui)
 
-    return eroare(NUME, f"Mod offline: dosarul nu are nici {cale.name}, nici fișa ANAF în PDF.", SURSA_OFFLINE)
+    return eroare(NUME, f"Mod offline: dosarul nu are nici 05_raspuns_anaf.pdf/json, nici fișa ANAF în PDF.", SURSA_OFFLINE)
 
 
 @tool(

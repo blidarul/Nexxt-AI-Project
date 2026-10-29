@@ -5,5 +5,5 @@ dosar_03_breeam_insuficient_cale_epc,"BREEAM doar 'Very Good' (pica GB-01), dar 
 dosar_04_constructie_certificat_interim,"Cladire noua, in constructie, cu BREEAM Excellent dar doar 'Interim'.",ELIGIBIL_CU_MONITORIZARE
 dosar2,"Parc logistic verde cu BREEAM Excellent Final si clasa A.",ELIGIBIL
 dosar3,"Centru comercial cu BREEAM Outstanding Final si clasa A.",ELIGIBIL
-dosar4,"Cladire in constructie: BREEAM Very Good (pica GB-01), dar EPC clasa A (trece GB-03).",ELIGIBIL_CU_MONITORIZARE
+dosar4,"Cladire in constructie: BREEAM Excellent (trece GB-01), EPC clasa A (trece GB-03).",ELIGIBIL_CU_MONITORIZARE
 dosar5,"Parc industrial verde cu BREEAM Excellent Final si clasa A.",ELIGIBIL

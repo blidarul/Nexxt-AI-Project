@@ -136,38 +136,65 @@ def _alege(intrari: list[dict[str, Any]], nr: str, sursa: str) -> ToolResult:
 
 
 def _din_pdf(cale_pdf: Path, nr: str) -> ToolResult:
-    """Certificatul atașat de client. Doar ce scrie în document: nicio valoare implicită."""
+    """Certificatul atașat de client sau extrasul din registru BREEAM."""
     import pdfplumber
 
     with pdfplumber.open(cale_pdf) as pdf:
         text = "\n".join(p.extract_text() or "" for p in pdf.pages)
 
     def cauta(tipar: str) -> Optional[str]:
-        m = re.search(tipar, text)
+        m = re.search(tipar, text, flags=re.IGNORECASE)
         return m.group(1).strip() if m else None
 
-    nr_doc = cauta(r"Nr\.\s*Certificat:\s*(.*)")
+    nr_doc = (
+        cauta(r"Nr\.\s*Certificat:\s*([^\n]+)")
+        or cauta(r"Num[aămn]+r\s*Certificat\s*[:\s]\s*([^\n]+)")
+    )
     if nr_doc and not _acelasi_certificat(nr_doc, nr):
         return eroare(NUME, f"Certificatul {nr} nu corespunde cu cel din {cale_pdf.name} ({nr_doc}).")
-    etapa = cauta(r"Etapa Evalu[aă]rii:\s*(.*)")
-    scor = cauta(r"Punctaj Ob[tț]inut:\s*([0-9.]+)%")
-    rating = cauta(r"Nivel Certificare \(Rating\):\s*(.*)")
+    etapa = (
+        cauta(r"Etapa Evalu[aă]rii:\s*([^\n]+)")
+        or cauta(r"Stadiu Certificat\s*[:\s]\s*([^\n]+)")
+    )
+    scor = (
+        cauta(r"Punctaj Ob[tțn]+ut\s*(?:\(%\))?\s*[:\s]?\s*([0-9.]+)")
+    )
+    rating = (
+        cauta(r"Nivel Certificare \(Rating\):\s*([^\n]+)")
+        or cauta(r"Nivel Rating BREEAM\s*[:\s]\s*([^\n]+)")
+    )
+    este_registru = "registru" in cale_pdf.name.lower() or "official registry" in text.lower()
     return ToolResult(
         tool=NUME,
         gasit=True,
         date={
-            "building_name": cauta(r"Denumire Cl[aă]dire:\s*(.*)"),
-            "client_developer": cauta(r"Client\s*/\s*Dezvoltator:\s*(.*)"),
-            "scheme": cauta(r"Schema BREEAM:\s*(.*)"),
+            "building_name": (
+                cauta(r"Denumire Cl[aă]dire:\s*([^\n]+)")
+                or cauta(r"Nume Cl[aămn]+ire\s*[:\s]\s*([^\n]+)")
+            ),
+            "client_developer": (
+                cauta(r"Client\s*/\s*Dezvoltator:\s*([^\n]+)")
+                or cauta(r"Client\s*/\s*Dezvoltator\s*[:\s]\s*([^\n]+)")
+            ),
+            "scheme": (
+                cauta(r"Schema BREEAM:\s*([^\n]+)")
+                or cauta(r"Schem[aămn]+\s*Certificare\s*[:\s]\s*([^\n]+)")
+            ),
             "rating": rating.capitalize() if rating else None,
             "score_pct": float(scor) if scor else None,
             "stage": etapa,
-            "certificate_no": nr_doc,
-            "assessor": cauta(r"Auditat de:\s*(.*)"),
-            "town": cauta(r"Ora[sș]\s*/\s*Cod Po[sș]tal:\s*([^,]+)"),
-            "verificat_in_registru": False,
+            "certificate_no": nr_doc or nr,
+            "assessor": (
+                cauta(r"Auditat de:\s*([^\n]+)")
+                or cauta(r"Evaluator\s*/\s*Auditor\s*[:\s]\s*([^\n]+)")
+            ),
+            "town": (
+                cauta(r"Ora[sș]\s*/\s*Cod Po[sș]tal:\s*([^,\n]+)")
+                or cauta(r"Ora[sșn]+\s*[:\s]\s*([^\n]+)")
+            ),
+            "verificat_in_registru": este_registru,
         },
-        sursa=f"{cale_pdf.name} (extras direct din document, nu din registrul BREEAM)",
+        sursa=f"{cale_pdf.name} (extras din registru BREEAM)" if este_registru else f"{cale_pdf.name} (extras direct din document, nu din registrul BREEAM)",
     )
 
 
@@ -178,8 +205,9 @@ def _offline(nr: str, stare: Optional[StareDosar]) -> ToolResult:
         with open(cale_brut, "r", encoding="utf-8") as f:
             d = json.load(f)
             data = d.get("date") or d.get("continut_json") or d
-            intrari = data if isinstance(data, list) else [data]
-            return _alege(intrari, nr, SURSA_OFFLINE)
+            if isinstance(data, list) or (isinstance(data, dict) and "building_name" in data):
+                intrari = data if isinstance(data, list) else [data]
+                return _alege(intrari, nr, SURSA_OFFLINE)
     cale = folder / "02_registru_breeam.json"
     if cale.exists():
         with open(cale, "r", encoding="utf-8") as f:
@@ -187,11 +215,12 @@ def _offline(nr: str, stare: Optional[StareDosar]) -> ToolResult:
         intrari = date if isinstance(date, list) else [date]
         return _alege(intrari, nr, SURSA_OFFLINE)
 
-    cale_pdf = document_din_dosar(stare, "certificat_sustenabilitate", "BREEAM.pdf")
-    if cale_pdf:
-        return _din_pdf(cale_pdf, nr)
+    for nume_candidat in ["02_registru_breeam.pdf", "BREEAM.pdf"]:
+        cale_pdf = document_din_dosar(stare, "certificat_sustenabilitate", nume_candidat)
+        if cale_pdf and cale_pdf.is_file():
+            return _din_pdf(cale_pdf, nr)
 
-    return eroare(NUME, f"Mod offline: dosarul nu are nici {cale.name}, nici certificatul în PDF.", SURSA_OFFLINE)
+    return eroare(NUME, f"Mod offline: dosarul nu are nici 02_registru_breeam.pdf/json, nici certificatul în PDF.", SURSA_OFFLINE)
 
 
 @tool(
