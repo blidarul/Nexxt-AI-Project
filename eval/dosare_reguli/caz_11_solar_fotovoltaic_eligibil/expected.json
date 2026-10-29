@@ -1,0 +1,15 @@
+{
+  "dosar": "caz_11_solar_fotovoltaic_eligibil",
+  "descriere": "Parc fotovoltaic 10 MW, 14.000 MWh/an (RE-01)",
+  "verdict": "ELIGIBIL",
+  "cale_eligibilitate": "RE-01",
+  "reguli": [
+    {
+      "id": "RE-01",
+      "rezultat": "OK"
+    }
+  ],
+  "impact": {
+    "rezultat_tco2_an": 3500.0
+  }
+}

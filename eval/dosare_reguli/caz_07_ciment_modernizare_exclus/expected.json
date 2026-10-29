@@ -1,0 +1,15 @@
+{
+  "dosar": "caz_07_ciment_modernizare_exclus",
+  "descriere": "Fabric\u0103 de ciment: modernizare cuptor (-35%), dar exclus de EE-X1",
+  "verdict": "NEELIGIBIL",
+  "reguli": [
+    {
+      "id": "EE-01",
+      "rezultat": "OK"
+    },
+    {
+      "id": "EE-X1",
+      "rezultat": "NU"
+    }
+  ]
+}

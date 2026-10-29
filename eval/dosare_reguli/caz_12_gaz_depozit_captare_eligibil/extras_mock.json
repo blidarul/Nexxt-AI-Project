@@ -1,0 +1,87 @@
+{
+  "dosar_id": "caz_12_gaz_depozit_captare_eligibil",
+  "cui": {
+    "valoare": "9900000001",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "suma_eur": {
+    "valoare": 1000000.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "cota_banca": {
+    "valoare": 1.0,
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "data_aprobare": {
+    "valoare": "2025-06-01",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "tara": {
+    "valoare": "Rom\u00e2nia",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "adresa_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "suprafata_m2": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "stadiu_cladire": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "nr_certificat_declarat": {
+    "valoare": null,
+    "sursa": "",
+    "incredere": 1.0
+  },
+  "categorie": {
+    "valoare": "pollution_prevention",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "subcategorie": {
+    "valoare": "captare_gaz_depozit",
+    "sursa": "cerere_finantare.pdf, p.1",
+    "incredere": 1.0
+  },
+  "chiriasi": [],
+  "afirmatii_client": [],
+  "indicatori": {
+    "eficienta_captare_pct": {
+      "valoare": 0.8,
+      "sursa": "indicator:eficienta_captare_pct",
+      "incredere": 1.0
+    },
+    "depozit_inchis_sau_dezafectat": {
+      "valoare": true,
+      "sursa": "indicator:depozit_inchis_sau_dezafectat",
+      "incredere": 1.0
+    },
+    "utilizare": {
+      "valoare": "energie_electrica",
+      "sursa": "indicator:utilizare",
+      "incredere": 1.0
+    },
+    "reciclare_chimica_plastic": {
+      "valoare": false,
+      "sursa": "indicator:reciclare_chimica_plastic",
+      "incredere": 1.0
+    },
+    "volum_captat_nm3_an": {
+      "valoare": 500000,
+      "sursa": "indicator:volum_captat_nm3_an",
+      "incredere": 1.0
+    }
+  }
+}

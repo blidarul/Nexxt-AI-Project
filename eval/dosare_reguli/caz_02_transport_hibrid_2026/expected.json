@@ -1,0 +1,13 @@
+{
+  "dosar": "caz_02_transport_hibrid_2026",
+  "descriere": "Aceea\u0219i flot\u0103 marcat\u0103 \u00een 2026 dep\u0103\u0219e\u0219te pragul de 0 g/km",
+  "verdict": "NEELIGIBIL",
+  "cale_eligibilitate": null,
+  "reguli": [
+    {
+      "id": "CT-03",
+      "rezultat": "NU"
+    }
+  ],
+  "impact": "nu se calculeaza"
+}
