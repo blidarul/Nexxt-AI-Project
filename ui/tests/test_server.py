@@ -374,3 +374,39 @@ def test_agentul_real_pe_un_dosar(tmp_path):
     detalii = client.get("/api/dosare/dosar_01_complet_eligibil").json()
     assert all(d["fisier"] not in {"expected.json", "extras_mock.json"} for d in detalii["documente"])
     assert client.get(detalii["documente"][0]["url"]).status_code == 200
+
+
+# ------------------------------------------------------------------ raport și anularea deciziei
+
+def test_raport_cere_evaluare(radacina):
+    client = _client(radacina)
+    assert client.get("/api/dosare/dosar_a/raport").status_code == 404
+    assert client.get("/api/dosare/dosar_a/raport.html").status_code == 404
+    assert client.get("/api/dosare/nu_exista/raport").status_code == 404
+
+
+def test_raport_structurat_si_printabil(radacina):
+    client = _client(radacina)
+    client.post("/api/dosare/dosar_a/evaluare")
+    r = client.get("/api/dosare/dosar_a/raport").json()
+    assert r["verdict"] == "ELIGIBIL" and r["categorie"] == "Green Buildings" and r["salvat_la"]
+    assert [s["cheie"] for s in r["sectiuni"]] == ["indeplinite", "de_verificat"]
+    lipsa = r["sectiuni"][1]["grupuri"][-1]
+    assert lipsa["cheie"] == "documente_lipsa" and lipsa["elemente"][0]["id"] == "D-02"
+    pagina = client.get("/api/dosare/dosar_a/raport.html")
+    assert pagina.status_code == 200 and pagina.headers["content-type"].startswith("text/html")
+    assert "Clădire de birouri A" in pagina.text and "✓ Ce îndeplinește" in pagina.text
+
+
+def test_anuleaza_decizia(radacina):
+    client = _client(radacina)
+    assert client.delete("/api/dosare/dosar_a/decizie").status_code == 404
+    client.post("/api/dosare/dosar_a/evaluare")
+    client.post("/api/dosare/dosar_a/decizie", json={"decizie": "aprobat"})
+    client.post("/api/dosare/dosar_a/decizie", json={"decizie": "interventie", "comentariu": "Verific.", "confirmat": True})
+    raspuns = client.delete("/api/dosare/dosar_a/decizie")
+    assert raspuns.status_code == 200
+    assert raspuns.json()["anulata"]["decizie"] == "interventie" and raspuns.json()["status"] == "aprobat"
+    client.delete("/api/dosare/dosar_a/decizie")
+    assert client.get("/api/dosare").json()[0]["status"] == "in_asteptare"
+    assert client.delete("/api/dosare/nu_exista/decizie").status_code == 404

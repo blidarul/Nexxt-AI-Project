@@ -12,18 +12,25 @@ python -m ui --mod-extractie mock # extras_mock.json în loc de datele extrase d
 
 ## Pagina
 
-Trei coloane: filtrele (cu numărul de dosare) | lista dosarelor (apare după alegerea unui filtru și se strânge
-după selectarea unui dosar) | dosarul, parcurs în 3 pași:
-1. **Fișiere**: documentele dosarului și cele lipsă; un clic deschide fișierul în panou (✕ sau Esc îl închide).
-2. **Raport** („Generează raportul” rulează agentul): recomandarea, motivul, impactul și trei secțiuni pliabile,
-   „Reguli verificate”, „Date extrase”, „Pașii agentului”. Fiecare regulă se desfășoară cu dovada completă și
-   trimiterea la pagina din document.
-3. **Decizie** („Ia decizia”): Aprobă / Respinge / Intervenție umană; comentariul apare doar unde e obligatoriu,
-   iar o decizie diferită de recomandarea agentului se confirmă.
+Trei coloane cu roluri diferite: **Status** (negru, filtrele cu numărul de dosare), **Dosare** (gri, apare după
+alegerea unui filtru) și **Dosar** (alb, panoul de lucru). După selectarea unui dosar, filtrele se strâng la puncte
+colorate (se lărgesc la hover) și lista se îngustează. Dosarul se parcurge în 3 pași:
+1. **Fișiere**: documentele și cele lipsă; un clic deschide fișierul în panou (✕ sau Esc îl închide).
+2. **Raport** („Generează raportul” rulează agentul): concluzia, Ce îndeplinește / Ce nu îndeplinește / De verificat
+   (grupate pe condiții generale, criteriile categoriei, excluderi, plauzibilitate), impactul și referințele
+   Framework; fiecare rând se desfășoară cu dovada completă. Dedesubt, pliate: Date extrase, Pașii agentului.
+   „Descarcă raportul” deschide varianta printabilă.
+3. **Decizie** („Ia decizia”): comentariul apare doar unde e obligatoriu; o decizie diferită de recomandare se
+   confirmă; după decizie, o notificare permite „Anulează” câteva secunde.
 
-Resetarea deciziilor și modurile de rulare sunt în meniul ⋯ din stânga jos. Stilul: „achromatic ledger” din
-skill-ul `design-taste-frontend`, în negru + galben (galben doar pe butonul principal al pasului curent);
-fonturile Geist sunt locale (`static/fonts`, licență OFL), deci pagina merge și fără internet.
+Modul concentrare (⤢) ascunde celelalte coloane; ↑/↓ prin dosare, Enter deschide, Esc închide previzualizarea
+sau modul concentrare. Animațiile sunt scurte (150-250 ms) și se opresc la `prefers-reduced-motion`.
+
+Raportul (`ui/raport.py`) se construiește determinist din `Verdict` și din `rules/*.yaml` (numele regulii,
+pagina din Framework, grupul ei): fără LLM și fără afirmații care nu vin dintr-un rezultat de regulă.
+
+Stilul: „achromatic ledger” din skill-ul `design-taste-frontend`, în negru + galben; fonturile Geist sunt locale
+(`static/fonts`, licență OFL), deci pagina merge și fără internet.
 
 ## API
 
@@ -34,6 +41,9 @@ fonturile Geist sunt locale (`static/fonts`, licență OFL), deci pagina merge �
 | GET | `/api/dosare/{id}` | documentele (cu clasificarea), câmpurile extrase cu sursa (fișier, pagină), lipsurile, rezultatul salvat, decizia |
 | POST | `/api/dosare/{id}/evaluare` | rulează agentul și salvează rezultatul; dacă agentul nu poate rula, întoarce ultimul rezultat salvat (`din_salvare: true`, `salvat_la`) |
 | GET | `/api/dosare/{id}/rezultat` | ultimul rezultat salvat (404 dacă nu există) |
+| GET | `/api/dosare/{id}/raport` | raportul structurat (concluzie, secțiuni, impact, referințe) din ultimul rezultat |
+| GET | `/api/dosare/{id}/raport.html` | același raport, ca pagină printabilă |
+| DELETE | `/api/dosare/{id}/decizie` | anulează ultima decizie a dosarului („Anulează” din notificare) |
 | GET | `/api/dosare/{id}/fisiere/{cale}` | PDF / JSON din folderul dosarului, pentru previzualizare (`inline`) |
 | GET | `/api/decizii` | istoricul deciziilor (ultima pe dosar e cea curentă) |
 | POST | `/api/dosare/{id}/decizie` | `{decizie: aprobat\|respins\|interventie, comentariu, confirmat}` |
@@ -58,4 +68,4 @@ Fișierele se servesc doar din folderul dosarului cerut: căile cu `../`, căile
   să meargă și fără agent); se rescrie la fiecare evaluare.
 - `ui/data/decizii.json`: deciziile analistului (nu intră în git).
 
-Teste: `python -m pytest ui -q`.
+Teste: `python -m pytest ui -q` (API-ul în `tests/test_server.py`, raportul în `tests/test_raport.py`).

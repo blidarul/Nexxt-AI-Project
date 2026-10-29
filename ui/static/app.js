@@ -1,5 +1,5 @@
 /* Green Proof: aleg dosarul -> 1. Fișiere -> 2. Raport -> 3. Decizie.
-   Pagina afișează ce întoarce serverul (ui/server.py) și trimite deciziile; verdictul, recomandarea,
+   Pagina afișează ce întoarce serverul (ui/server.py, ui/raport.py) și trimite deciziile; verdictul, raportul,
    dovezile și validarea deciziei vin din API. Pe ecran stă doar pasul curent, restul e la un clic. */
 "use strict";
 
@@ -9,12 +9,14 @@ const FILTRE = [
   ["toate", "Toate"], ["in_asteptare", "În așteptare"], ["aprobat", "Aprobate"],
   ["respins", "Respinse"], ["interventie", "Intervenție umană"],
 ];
+const GOL_FILTRU = {
+  toate: "Niciun dosar", in_asteptare: "Niciun dosar în așteptare", aprobat: "Niciun dosar aprobat",
+  respins: "Niciun dosar respins", interventie: "Niciun dosar la intervenție umană",
+};
 const BUTON = { aprobat: "Aprobă", respins: "Respinge", interventie: "Intervenție umană" };
 const RECOMANDARE = { aprobat: "Aprobare", respins: "Respingere", interventie: "Intervenție umană" };
-const REZULTAT_REGULA = {
-  OK: ["Îndeplinită", "pos"], NU: ["Neîndeplinită", "neg"], SEMNAL: ["Semnal", "warn"],
-  NEEVALUABIL: ["Neevaluabilă", "neutru"], OK_CONDITIONAT: ["Condiționat", "pos"],
-};
+const DUPA_DECIZIE = { aprobat: "Dosar aprobat", respins: "Dosar respins", interventie: "Dosar trimis la intervenție umană" };
+const CLASA_REZULTAT = { OK: "pos", NU: "neg", SEMNAL: "warn", NEEVALUABIL: "neutru", OK_CONDITIONAT: "warn" };
 const TIP_SCURT = {
   cerere_finantare: "Cerere", certificat_energetic: "Certificat energetic",
   certificat_sustenabilitate: "Certificat sustenabilitate", contract_inchiriere: "Contract închiriere",
@@ -49,13 +51,17 @@ const UNITATE = {
 // ------------------------------------------------------------------ stare
 const S = {
   dosare: [], filtru: null, selectat: null, detalii: {},
-  rezultate: {},          // raportul generat în această sesiune, pe dosar
+  rezultate: {},          // rezultatul agentului (cu dovezile pe documente), generat în această sesiune
+  rapoarte: {},           // raportul structurat (ui/raport.py)
   pas: {}, maxPas: {},    // pasul curent și cel mai departe pas deschis, pe dosar
   deschise: new Set(),    // secțiuni și rânduri desfășurate
   viz: null,              // fișierul previzualizat în panou
   alegere: {}, comentariu: {}, confirmare: null, mesaj: {}, lucreaza: false,
+  ultimaCheie: "",        // dosar+pas randat ultima dată, ca tranziția să ruleze doar la schimbare
+  raportNou: null,        // raportul tocmai generat: secțiunile apar în ordine
 };
 const $ = (sel) => document.querySelector(sel);
+const app = () => $("#app");
 
 // ------------------------------------------------------------------ formatare
 const nrRo = (v, zecimale = 0) =>
@@ -118,6 +124,7 @@ async function api(cale, optiuni = {}) {
 const caleDosar = (id) => `/api/dosare/${encodeURIComponent(id)}`;
 
 async function incarcaLista() {
+  const inainte = Object.fromEntries(FILTRE.map(([f]) => [f, numar(f)]));
   try {
     S.dosare = await api("/api/dosare");
   } catch (e) {
@@ -126,6 +133,15 @@ async function incarcaLista() {
   }
   randeazaNav();
   randeazaLista();
+  // numerele care s-au schimbat după o decizie se evidențiază scurt
+  if (S.dosare.length) {
+    for (const [f] of FILTRE) {
+      if (inainte[f] !== undefined && inainte[f] !== numar(f) && S.dosare.length) {
+        const el = document.querySelector(`[data-filtru="${f}"] .nr`);
+        if (el) { el.classList.add("schimbat"); setTimeout(() => el.classList.remove("schimbat"), 1200); }
+      }
+    }
+  }
 }
 
 async function incarcaDetalii(id) {
@@ -139,11 +155,18 @@ async function incarcaDetalii(id) {
 
 // ------------------------------------------------------------------ acțiuni
 function alegeFiltru(f) {
+  const intra = app().dataset.stare === "start";
   S.filtru = f;
   const telefon = window.matchMedia("(max-width: 860px)").matches;
-  $("#app").dataset.stare = S.selectat && !telefon ? "dosar" : "lista";
+  app().dataset.stare = S.selectat && !telefon ? "dosar" : "lista";
   randeazaNav();
   randeazaLista();
+  if (intra) {
+    const el = $("#lista-interior");
+    el.classList.remove("intra");
+    void el.offsetWidth;
+    el.classList.add("intra");
+  }
   randeazaPanou();
 }
 
@@ -154,7 +177,7 @@ async function selecteaza(id) {
   S.mesaj[id] = null;
   S.pas[id] = S.pas[id] || 1;
   S.maxPas[id] = S.maxPas[id] || 1;
-  $("#app").dataset.stare = "dosar";
+  app().dataset.stare = "dosar";
   randeazaLista();
   if (!S.detalii[id] || S.detalii[id].eroare) {
     $("#panou").innerHTML = `<p class="gol">Se încarcă…</p>`;
@@ -169,7 +192,7 @@ function mergiLaPas(id, n) {
   S.pas[id] = n;
   S.viz = null;
   randeazaPanou();
-  $("#panou").scrollTop = 0;
+  $(".zona").scrollTop = 0;
 }
 
 async function genereazaRaport(id) {
@@ -178,8 +201,10 @@ async function genereazaRaport(id) {
   randeazaPanou();
   try {
     S.rezultate[id] = await api(`${caleDosar(id)}/evaluare`, { method: "POST" });
+    S.rapoarte[id] = await api(`${caleDosar(id)}/raport`);
     S.maxPas[id] = Math.max(S.maxPas[id] || 1, 2);
     S.pas[id] = 2;
+    S.raportNou = id;
   } catch (e) {
     S.mesaj[id] = { tip: "eroare", text: e.message };
   }
@@ -195,6 +220,7 @@ async function trimiteDecizia(id) {
   S.lucreaza = true;
   S.mesaj[id] = null;
   randeazaPanou();
+  let reusit = false;
   try {
     await api(`${caleDosar(id)}/decizie`, {
       method: "POST",
@@ -203,7 +229,7 @@ async function trimiteDecizia(id) {
     S.confirmare = null;
     S.alegere[id] = null;
     S.comentariu[id] = "";
-    S.mesaj[id] = { tip: "ok", text: `Decizie înregistrată: ${STATUS[decizie]}.` };
+    reusit = true;
   } catch (e) {
     if (e.status === 409 && e.detaliu && e.detaliu.necesita_confirmare) {
       S.confirmare = { id, decizie, recomandare: e.detaliu.recomandare_agent };
@@ -213,6 +239,28 @@ async function trimiteDecizia(id) {
   }
   S.lucreaza = false;
   await Promise.all([incarcaLista(), incarcaDetalii(id)]);
+  if (reusit) arataToast(DUPA_DECIZIE[decizie], id);
+}
+
+let cronometruToast = null;
+function arataToast(text, id) {
+  const t = $("#toast");
+  t.innerHTML = `<span>${esc(text)}</span>${id ? `<button type="button" data-act="anuleaza" data-id="${esc(id)}">Anulează</button>` : ""}`;
+  t.hidden = false;
+  clearTimeout(cronometruToast);
+  cronometruToast = setTimeout(() => { t.hidden = true; }, 6000);
+}
+
+async function anuleazaDecizia(id) {
+  $("#toast").hidden = true;
+  try {
+    await api(`${caleDosar(id)}/decizie`, { method: "DELETE" });
+  } catch (e) {
+    arataToast(`Anularea nu a reușit: ${e.message}`);
+    return;
+  }
+  await Promise.all([incarcaLista(), incarcaDetalii(id)]);
+  arataToast("Decizie anulată");
 }
 
 async function reseteaza() {
@@ -231,14 +279,26 @@ async function reseteaza() {
     dialog.oncancel = () => rezolva("nu");
   });
   if (raspuns !== "da") return;
-  try { await api("/api/decizii", { method: "DELETE" }); } catch (e) { alert(`Resetarea nu a reușit: ${e.message}`); }
+  try { await api("/api/decizii", { method: "DELETE" }); } catch (e) { arataToast(`Resetarea nu a reușit: ${e.message}`); return; }
   S.mesaj = {};
   S.confirmare = null;
   await incarcaLista();
   if (S.selectat) await incarcaDetalii(S.selectat);
 }
 
+function comutaConcentrare(activ) {
+  app().dataset.concentrare = String(activ);
+  const b = $("[data-act='concentrare']");
+  if (b) {
+    b.textContent = activ ? "⤡" : "⤢";
+    b.setAttribute("aria-label", activ ? "Ieși din modul concentrare" : "Mod concentrare");
+    b.title = activ ? "Ieși din modul concentrare (Esc)" : "Mod concentrare";
+  }
+}
+
 // ------------------------------------------------------------------ randare: filtre și listă
+const numar = (f) => (f === "toate" ? S.dosare.length : S.dosare.filter((d) => d.status === f).length);
+
 function randeazaModuri(s) {
   if (!s) return;
   const rand = (et, v) => `<dt>${et}</dt><dd>${v}</dd>`;
@@ -250,9 +310,9 @@ function randeazaModuri(s) {
 }
 
 function randeazaNav() {
-  const numar = (f) => (f === "toate" ? S.dosare.length : S.dosare.filter((d) => d.status === f).length);
   $("#nav").innerHTML = FILTRE.map(([f, et]) =>
-    `<button class="filtru" type="button" data-filtru="${f}" aria-current="${S.filtru === f}">${et}<span class="nr">${numar(f)}</span></button>`,
+    `<button class="filtru" type="button" data-filtru="${f}" aria-current="${S.filtru === f}" title="${et}">
+      <span class="punct ${f}"></span><span class="et">${et}</span><span class="nr">${numar(f)}</span></button>`,
   ).join("");
 }
 
@@ -265,21 +325,23 @@ function randeazaLista() {
     return `<button class="dosar" type="button" role="option" data-dosar="${esc(d.id)}" aria-selected="${S.selectat === d.id}"
       title="${esc(nume + sufix)} · ${STATUS[d.status]}"><span class="punct ${d.status}"></span>
       <span class="nume">${esc(nume)}</span>${sufix ? `<span class="sufix">${esc(sufix)}</span>` : ""}</button>`;
-  }).join("") : `<p class="dosar muted">Niciun dosar.</p>`;
+  }).join("") : `<p class="gol-lista">${GOL_FILTRU[S.filtru]}</p>`;
 }
 
 // ------------------------------------------------------------------ randare: panoul dosarului
 function randeazaPanou() {
   const el = $("#panou");
   const id = S.selectat;
+  const cap = `<div class="panou-cap"><span class="eticheta-col">Dosar</span>${id ? `<button class="icon-btn concentrare" type="button"
+    data-act="concentrare" aria-label="Mod concentrare" title="Mod concentrare">⤢</button>` : ""}</div>`;
   if (!id) {
-    el.innerHTML = `<p class="gol">${S.filtru ? "Alege un dosar din listă" : "Alege un filtru din stânga"}</p>`;
+    el.innerHTML = `${cap}<p class="gol">${S.filtru ? "Alege un dosar din listă" : "Alege un filtru din stânga"}</p>`;
     return;
   }
   const d = S.detalii[id];
   if (!d) return;
   if (d.eroare) {
-    el.innerHTML = `<p class="gol">Dosarul nu a putut fi încărcat. <button class="link" data-act="reincarca-dosar">Reîncearcă</button></p>`;
+    el.innerHTML = `${cap}<p class="gol">Dosarul nu a putut fi încărcat. <button class="link" data-act="reincarca-dosar">Reîncearcă</button></p>`;
     return;
   }
   const { nume, sufix } = numeAfisat(S.dosare.find((x) => x.id === id) || { id, proiect: d.proiect });
@@ -288,7 +350,7 @@ function randeazaPanou() {
   const pasi = [[1, "Fișiere"], [2, "Raport"], [3, "Decizie"]].map(([n, et]) =>
     `<button class="pas-btn ${n < pas ? "gata" : ""}" type="button" data-pas="${n}" ${n > max ? "disabled" : ""}
       ${n === pas ? 'aria-current="step"' : ""}><span class="cerc">${n < pas ? "✓" : n}</span><span class="txt">${et}</span></button>`,
-  ).join('<span class="linie" aria-hidden="true"></span>');
+  ).join("");
 
   let corp;
   if (S.viz) corp = randeazaVizualizare();
@@ -296,17 +358,26 @@ function randeazaPanou() {
   else if (pas === 2) corp = pasRaport(id);
   else corp = pasDecizie(id, d);
 
-  el.innerHTML = `
-    <button class="btn inapoi" type="button" data-act="inapoi">← Dosare</button>
-    <header class="antet">
-      <h2>${esc(nume)}${sufix ? `<span class="muted">${esc(sufix)}</span>` : ""}</h2>
-      <span class="status"><span class="punct ${d.status}"></span>${STATUS[d.status]}</span>
-    </header>
-    <nav class="pasi-nav" aria-label="Pași">${pasi}</nav>
-    ${corp}`;
+  // tranziția rulează doar când se schimbă dosarul sau pasul, nu la fiecare desfășurare
+  const cheie = `${id}|${pas}|${S.viz ? "viz" : ""}`;
+  const anim = cheie !== S.ultimaCheie;
+  S.ultimaCheie = cheie;
+
+  el.innerHTML = `${cap}
+    <div class="continut ${anim ? "apare" : ""}">
+      <button class="btn inapoi" type="button" data-act="inapoi">← Dosare</button>
+      <header class="antet">
+        <h2>${esc(nume)}${sufix ? `<span class="muted">${esc(sufix)}</span>` : ""}</h2>
+        <span class="status"><span class="punct ${d.status}"></span>${STATUS[d.status]}</span>
+      </header>
+      <nav class="pasi-nav" aria-label="Pași" style="--progres:${(pas - 1) / 2}"><span class="pista"></span><span class="umplere"></span>${pasi}</nav>
+      ${corp}
+    </div>`;
+  comutaConcentrare(app().dataset.concentrare === "true");
 
   const zona = el.querySelector("textarea");
   if (zona) zona.value = S.comentariu[id] || "";
+  if (S.raportNou === id && pas === 2) S.raportNou = null;
 }
 
 function pasFisiere(id, d) {
@@ -317,29 +388,31 @@ function pasFisiere(id, d) {
   const deschis = S.deschise.has(cheie);
   const n = d.documente_lipsa.length;
   const lipsa = n ? `
-    <button class="cap lipsa-cap" type="button" data-comuta="${cheie}" aria-expanded="${deschis}">
-      <span class="sageata">▸</span><span class="muted">${n} ${n === 1 ? "document lipsă" : "documente lipsă"}</span></button>
+    <button class="cap" type="button" data-comuta="${cheie}" aria-expanded="${deschis}">
+      <span class="sageata">▶</span><span class="muted">${n} ${n === 1 ? "document lipsă" : "documente lipsă"}</span></button>
     ${deschis ? `<ul class="lipsa-lista">${d.documente_lipsa.map((x) => `<li><span class="mono">${esc(x.id)}</span><span>${esc(x.nume)}</span></li>`).join("")}</ul>` : ""}` : "";
   const eroare = S.mesaj[id] && S.mesaj[id].tip === "eroare" ? `<p class="eroare" role="alert">${esc(S.mesaj[id].text)}</p>` : "";
+  const buton = S.lucreaza
+    ? `<button class="btn primary" type="button" disabled><span class="rotita" aria-hidden="true"></span>Se analizează…</button>`
+    : `<button class="btn primary" type="button" data-act="genereaza">Generează raportul</button>`;
   return `<ul class="randuri">${fisiere || `<li class="muted">Niciun fișier.</li>`}</ul>${lipsa}
-    <div class="actiune"><button class="btn primary" type="button" data-act="genereaza" ${S.lucreaza ? "disabled" : ""}>
-      ${S.lucreaza ? "Se generează…" : "Generează raportul"}</button>${eroare}</div>`;
+    <div class="actiuni-pas">${buton}</div>${S.lucreaza ? `<div class="progres" role="progressbar" aria-label="Agentul analizează dosarul"></div>` : ""}${eroare}`;
 }
 
-function sectiune(cheie, titlu, numar, continut) {
+function sectiune(cheie, titlu, numarEl, continut) {
   const deschis = S.deschise.has(cheie);
   return `<section class="sectiune">
     <button class="cap" type="button" data-comuta="${cheie}" aria-expanded="${deschis}">
-      <span class="sageata">▸</span>${titlu}<span class="nr num">${numar}</span></button>
+      <span class="sageata">▶</span>${titlu}<span class="nr num">${numarEl}</span></button>
     ${deschis ? `<div class="corp">${continut()}</div>` : ""}</section>`;
 }
 
 // închis: un rând cu „…”; deschis: textul complet pe mai multe rânduri
-function randPliabil(cheie, id, scurt, rezultat, continut) {
+function randPliabil(cheie, id, scurt, dreapta, continut) {
   const deschis = S.deschise.has(cheie);
   return `<div class="rand">
     <button class="rand-cap" type="button" data-comuta="${cheie}" aria-expanded="${deschis}">
-      <span class="sageata">▸</span><span class="id">${id}</span><span class="scurt">${scurt}</span>${rezultat}</button>
+      <span class="sageata">▶</span><span class="id">${id}</span><span class="scurt">${scurt}</span><span class="dreapta">${dreapta}</span></button>
     ${deschis ? `<div class="rand-corp">${continut()}</div>` : ""}</div>`;
 }
 
@@ -347,29 +420,65 @@ const legaturaSursa = (c) => c.url
   ? `<button class="link" type="button" data-url="${esc(c.url)}" data-fisier="${esc(c.fisier)}" data-pagina="${c.pagina ?? ""}">${esc(c.fisier)}${c.pagina ? `, p. ${c.pagina}` : ""}</button>`
   : esc(c.sursa || "");
 
+function elementRaport(id, sectiuneCheie, x, k) {
+  const rez = S.rezultate[id];
+  if (x.tip === "regula") {
+    const vazute = new Set();
+    const surse = ((rez && rez.dovezi[x.id]) || []).filter((c) => c.url && !vazute.has(`${c.fisier}#${c.pagina}`) && vazute.add(`${c.fisier}#${c.pagina}`));
+    const eticheta = sectiuneCheie === "de_verificat" ? `<span class="rezultat ${CLASA_REZULTAT[x.rezultat] || "neutru"}">${esc(x.eticheta_rezultat)}</span>` : "";
+    return randPliabil(`r:${id}:${sectiuneCheie}:${x.id}`, esc(x.id), `${esc(x.nume)} <span class="muted">· ${esc(x.dovada)}</span>`,
+      `${eticheta}<span class="pag">${esc(x.pagina)}</span>`,
+      () => `<p>${esc(x.dovada)}</p>
+        <p class="muted">${esc(x.nume)} · <span class="rezultat ${CLASA_REZULTAT[x.rezultat] || "neutru"}">${esc(x.eticheta_rezultat)}</span> · Framework: ${esc(x.pagina)}</p>
+        ${surse.length ? `<p class="muted">Documente: ${surse.map(legaturaSursa).join(" · ")}</p>` : ""}`);
+  }
+  if (x.tip === "document") {
+    return randPliabil(`r:${id}:doc:${x.id}`, esc(x.id), esc(x.nume), `<span class="pag">${esc(x.actiune)}</span>`,
+      () => `<p>${esc(x.nume)}</p><p class="muted">${x.obligatoriu ? "Obligatoriu" : "Recomandat"} · Acțiune: ${esc(x.actiune)}</p>`);
+  }
+  return randPliabil(`r:${id}:act:${k}`, "", esc(x.text), "", () => `<p>${esc(x.text)}</p>`);
+}
+
 function pasRaport(id) {
   const r = S.rezultate[id];
-  if (!r) return `<p class="muted">Raportul nu a fost generat.</p>`;
+  const raport = S.rapoarte[id];
+  if (!r || !raport) return `<p class="muted">Raportul nu a fost generat.</p>`;
   const v = r.verdict;
   const d = S.detalii[id];
-  const cheieInfo = `info:${id}`;
-  const urmeaza = v.actiuni.length
-    ? `<button class="icon-btn" type="button" data-comuta="${cheieInfo}" aria-expanded="${S.deschise.has(cheieInfo)}" aria-label="Ce urmează" title="Ce urmează">ⓘ</button>` : "";
+  const nou = S.raportNou === id;
+  let i = 0;
+  const bloc = (continut) => `<div class="bloc ${nou ? "intra" : ""}" style="--i:${i++}">${continut}</div>`;
 
-  const reguli = () => v.reguli.map((g) => {
-    const [et, cls] = REZULTAT_REGULA[g.rezultat] || [g.rezultat, "neutru"];
-    const vazute = new Set();
-    const surse = (r.dovezi[g.regula_id] || []).filter((c) => c.url && !vazute.has(`${c.fisier}#${c.pagina}`) && vazute.add(`${c.fisier}#${c.pagina}`));
-    return randPliabil(`regula:${id}:${g.regula_id}`, esc(g.regula_id), esc((r.nume_reguli || {})[g.regula_id] || g.dovada),
-      `<span class="rezultat ${cls}">${et}</span>`,
-      () => `<p>${esc(g.dovada)}</p><p class="muted">Cadrul verde: ${esc(g.sursa_framework)}</p>
-        ${surse.length ? `<p class="muted">Documente: ${surse.map(legaturaSursa).join(" · ")}</p>` : ""}`);
-  }).join("");
+  const parti = [bloc(`<h3 class="titlu-bloc">Concluzie</h3>
+    <div class="concluzie">${raport.concluzie.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
+    ${r.din_salvare ? `<p class="salvat">Rezultat salvat la ${dataRo(r.salvat_la)}</p>` : ""}`)];
+
+  for (const s of raport.sectiuni) {
+    const total = s.grupuri.reduce((n, g) => n + g.elemente.length, 0);
+    const grupuri = s.grupuri.map((g) => `<p class="grup">${esc(g.titlu)}</p>
+      <div class="elemente">${g.elemente.map((x, k) => elementRaport(id, s.cheie, x, `${g.cheie}${k}`)).join("")}</div>`).join("");
+    parti.push(bloc(`<h3 class="titlu-bloc"><span class="semn ${s.cheie}" aria-hidden="true">${esc(s.semn)}</span>${esc(s.titlu)}<span class="nr num">${total}</span></h3>${grupuri}`));
+  }
+
+  const imp = raport.impact;
+  if (imp) {
+    const metoda = [imp.formula ? "formula RBI" : "", imp.sursa].filter(Boolean).join(", ");
+    const cheieCalcul = `calcul:${id}`;
+    const calcul = imp.pasi.length ? `<div class="elemente">${randPliabil(cheieCalcul, "", "Calculul pas cu pas", "",
+      () => `${imp.formula ? `<p class="mono">${esc(imp.formula)}</p>` : ""}${imp.pasi.map((p) => `<p class="muted mono">${esc(p)}</p>`).join("")}`)}</div>` : "";
+    parti.push(bloc(`<h3 class="titlu-bloc">Impact</h3>
+      <div class="impact"><span class="valoare">${nrRo(imp.tco2_an, 1)}<small>tCO₂/an</small></span>
+        ${imp.mwh_an !== null && imp.mwh_an !== undefined ? `<span class="valoare">${nrRo(imp.mwh_an, 1)}<small>MWh/an</small></span>` : ""}</div>
+      ${metoda ? `<p class="metoda">${esc(metoda)}</p>` : ""}
+      ${imp.proxy ? `<p class="proxy">Valori de referință aproximative (proxy)</p>` : ""}${calcul}`));
+  }
+  if (raport.referinte.length) {
+    parti.push(bloc(`<h3 class="titlu-bloc">Referințe Framework</h3><ul class="referinte">${raport.referinte.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`));
+  }
 
   const date = () => `<dl class="date">${d.campuri.map((c) =>
     `<dt>${esc(numeCamp(c.camp))}</dt><dd>${valoareCamp(c.camp, c.valoare)}</dd><dd>${c.valoare === null || c.valoare === undefined ? "" : legaturaSursa(c)}</dd>`,
   ).join("")}</dl>`;
-
   const pasiAgent = () => v.trace.map((p) => {
     const rez = p.rezultat && typeof p.rezultat === "object" ? p.rezultat : null;
     const actiune = p.actiune ? (UNEALTA[p.actiune] || p.actiune.replace(/_/g, " ")) : "Concluzie";
@@ -381,17 +490,15 @@ function pasRaport(id) {
     });
   }).join("");
 
-  return `<div class="recomandare"><span class="eticheta">${RECOMANDARE[r.recomandare] || "—"}</span>${urmeaza}</div>
-    ${v.cale_eligibilitate ? `<p class="motiv">${esc(v.cale_eligibilitate)}</p>` : ""}
-    ${typeof v.impact_tco2_an === "number" ? `<p class="impact"><b class="num">${nrRo(v.impact_tco2_an, 1)}</b> tCO₂/an evitate</p>` : ""}
-    ${r.din_salvare ? `<p class="salvat">Rezultat salvat la ${dataRo(r.salvat_la)}</p>` : ""}
-    ${S.deschise.has(cheieInfo) ? `<ul class="info">${v.actiuni.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>` : ""}
+  return `<div class="raport">${parti.join("")}</div>
     <div class="sectiuni">
-      ${sectiune(`sec:${id}:reguli`, "Reguli verificate", v.reguli.length, reguli)}
       ${sectiune(`sec:${id}:date`, "Date extrase", d.campuri.length, date)}
       ${sectiune(`sec:${id}:pasi`, "Pașii agentului", v.trace.length, pasiAgent)}
     </div>
-    <div class="actiune"><button class="btn primary" type="button" data-act="la-decizie">Ia decizia</button></div>`;
+    <div class="actiuni-pas">
+      <button class="btn primary" type="button" data-act="la-decizie">Ia decizia</button>
+      <a class="btn" href="${caleDosar(id)}/raport.html" target="_blank" rel="noopener">Descarcă raportul</a>
+    </div>`;
 }
 
 function pasDecizie(id, d) {
@@ -410,8 +517,7 @@ function pasDecizie(id, d) {
     formular = `<div class="formular">${comentariu}${avertizare}
       <button class="btn primary trimite" type="button" data-act="trimite" ${S.lucreaza ? "disabled" : ""}>${confirm ? `Confirmă: ${BUTON[alegere]}` : "Trimite"}</button></div>`;
   }
-  const mesaj = S.mesaj[id]
-    ? `<p class="${S.mesaj[id].tip === "ok" ? "ok" : "eroare"}" role="${S.mesaj[id].tip === "ok" ? "status" : "alert"}">${esc(S.mesaj[id].text)}</p>` : "";
+  const mesaj = S.mesaj[id] ? `<p class="eroare" role="alert">${esc(S.mesaj[id].text)}</p>` : "";
   const x = d.decizie;
   const decizia = x ? `<p class="decizia-ta">Decizia ta: <b>${STATUS[x.decizie]}</b> · ${dataRo(x.data)}${x.difera_de_agent ? " · diferă de agent" : ""}
       ${x.comentariu ? `<br>„${esc(x.comentariu)}”` : ""}</p>` : "";
@@ -440,9 +546,9 @@ function randeazaVizualizare() {
 function coloreazaJson(text) {
   return esc(text).replace(
     /(&quot;(?:[^&]|&(?!quot;))*?&quot;)(\s*:)?|\b(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)\b|\b(true|false|null)\b/g,
-    (m, sir, douaPuncte, numar, cuvant) => {
+    (m, sir, douaPuncte, nr, cuvant) => {
       if (sir) return douaPuncte ? `<span class="k">${sir}</span>${douaPuncte}` : `<span class="s">${sir}</span>`;
-      return `<span class="n">${numar || cuvant}</span>`;
+      return `<span class="n">${nr || cuvant}</span>`;
     },
   );
 }
@@ -451,6 +557,8 @@ function coloreazaJson(text) {
 document.addEventListener("click", (ev) => {
   const t = ev.target;
   if (!t.closest(".meniu")) $("#meniu").hidden = true;
+  const anuleaza = t.closest("[data-act='anuleaza']");
+  if (anuleaza) { anuleazaDecizia(anuleaza.dataset.id); return; }
   const f = t.closest("[data-filtru]");
   if (f) { alegeFiltru(f.dataset.filtru); return; }
   const dosar = t.closest("[data-dosar]");
@@ -460,7 +568,7 @@ document.addEventListener("click", (ev) => {
   if (sursa) {
     S.viz = { url: sursa.dataset.url, fisier: sursa.dataset.fisier, pagina: sursa.dataset.pagina || null };
     randeazaPanou();
-    $("#panou").scrollTop = 0;
+    $(".zona").scrollTop = 0;
     return;
   }
   const comuta = t.closest("[data-comuta]");
@@ -468,6 +576,8 @@ document.addEventListener("click", (ev) => {
     const k = comuta.dataset.comuta;
     if (S.deschise.has(k)) S.deschise.delete(k); else S.deschise.add(k);
     randeazaPanou();
+    const inapoi = document.querySelector(`[data-comuta="${CSS.escape(k)}"]`);
+    if (inapoi) inapoi.focus({ preventScroll: true });
     return;
   }
   const pas = t.closest("[data-pas]");
@@ -489,7 +599,8 @@ document.addEventListener("click", (ev) => {
     case "la-decizie": S.maxPas[id] = 3; mergiLaPas(id, 3); break;
     case "trimite": trimiteDecizia(id); break;
     case "inchide-viz": S.viz = null; randeazaPanou(); break;
-    case "inapoi": $("#app").dataset.stare = "lista"; break;
+    case "concentrare": comutaConcentrare(app().dataset.concentrare !== "true"); break;
+    case "inapoi": app().dataset.stare = "lista"; break;
     case "reincarca": incarcaLista(); break;
     case "reincarca-dosar": incarcaDetalii(id); break;
   }
@@ -500,9 +611,22 @@ document.addEventListener("input", (ev) => {
 });
 
 document.addEventListener("keydown", (ev) => {
-  if (ev.key === "Escape" && S.viz && !document.querySelector("dialog[open]")) {
-    S.viz = null;
-    randeazaPanou();
+  if (document.querySelector("dialog[open]")) return;
+  if (ev.key === "Escape") {
+    if (!$("#meniu").hidden) { $("#meniu").hidden = true; return; }
+    if (S.viz) { S.viz = null; randeazaPanou(); return; }
+    if (app().dataset.concentrare === "true") { comutaConcentrare(false); return; }
+    return;
+  }
+  // ↑/↓ prin dosare (Enter deschide dosarul care are focusul), cât timp nu se scrie într-un câmp
+  if ((ev.key === "ArrowDown" || ev.key === "ArrowUp") && !ev.target.closest("textarea, input")) {
+    const randuri = [...document.querySelectorAll("#lista .dosar")];
+    if (!randuri.length || app().dataset.stare === "start" || app().dataset.concentrare === "true") return;
+    ev.preventDefault();
+    const curent = randuri.indexOf(document.activeElement);
+    const pornire = curent >= 0 ? curent : randuri.findIndex((r) => r.getAttribute("aria-selected") === "true");
+    const urmator = pornire < 0 ? 0 : Math.min(randuri.length - 1, Math.max(0, pornire + (ev.key === "ArrowDown" ? 1 : -1)));
+    randuri[urmator].focus();
   }
 });
 

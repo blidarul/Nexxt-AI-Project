@@ -1,5 +1,5 @@
 {
-  "salvat_la": "2026-10-29T02:59:12",
+  "salvat_la": "2026-10-29T03:27:16",
   "verdict": {
     "dosar_id": "dosar4",
     "verdict": "ELIGIBIL_CU_MONITORIZARE",
@@ -63,7 +63,7 @@
           "cui": "9900000040"
         },
         "motiv": "Verificare date identificare firmă și cod CAEN pentru CUI 9900000040 în registrul ANAF",
-        "timestamp": "2026-10-29T02:59:12",
+        "timestamp": "2026-10-29T03:27:16",
         "rezultat": {
           "tool": "verifica_firma",
           "gasit": true,
@@ -76,7 +76,7 @@
         "actiune": "evalueaza_conditii_generale",
         "argumente": {},
         "motiv": "Evaluare condiții generale G-01 (țară), G-02 (sector exclus), G-04 (fereastră 24 luni)",
-        "timestamp": "2026-10-29T02:59:12",
+        "timestamp": "2026-10-29T03:27:16",
         "rezultat": {
           "tool": "evalueaza_conditii_generale",
           "gasit": true,
@@ -91,7 +91,7 @@
           "nr_certificat": "BREEAM-EXEMPLU-0004"
         },
         "motiv": "Căutare certificat verde declarat 'BREEAM-EXEMPLU-0004' în registrul BREEAM",
-        "timestamp": "2026-10-29T02:59:12",
+        "timestamp": "2026-10-29T03:27:16",
         "rezultat": {
           "tool": "cauta_certificat",
           "gasit": true,
@@ -106,7 +106,7 @@
           "cale_id": "GB-01"
         },
         "motiv": "Evaluare cale principală GB-01 (certificare verde internațională)",
-        "timestamp": "2026-10-29T02:59:12",
+        "timestamp": "2026-10-29T03:27:16",
         "rezultat": {
           "tool": "evalueaza_cale",
           "gasit": true,
@@ -121,7 +121,7 @@
           "cale_id": "GB-02"
         },
         "motiv": "Calea GB-01 nu a fost îndeplinită; încercare cale alternativă GB-02 (top 15% național)",
-        "timestamp": "2026-10-29T02:59:12",
+        "timestamp": "2026-10-29T03:27:16",
         "rezultat": {
           "tool": "evalueaza_cale",
           "gasit": true,
@@ -136,7 +136,7 @@
           "cale_id": "GB-03"
         },
         "motiv": "Calea GB-02 este neevaluabilă; încercare cale alternativă GB-03 (EPC clasa A)",
-        "timestamp": "2026-10-29T02:59:12",
+        "timestamp": "2026-10-29T03:27:16",
         "rezultat": {
           "tool": "evalueaza_cale",
           "gasit": true,
@@ -149,7 +149,7 @@
         "actiune": "verifica_chiriasi",
         "argumente": {},
         "motiv": "Verificare activități chiriași și listă de semnal (excludere GB-X1)",
-        "timestamp": "2026-10-29T02:59:12",
+        "timestamp": "2026-10-29T03:27:16",
         "rezultat": {
           "tool": "verifica_chiriasi",
           "gasit": true,
@@ -165,7 +165,7 @@
           "motiv": "Clădire în construcție – certificat intermediar"
         },
         "motiv": "Solicitare certificat energetic după recepție",
-        "timestamp": "2026-10-29T02:59:12",
+        "timestamp": "2026-10-29T03:27:16",
         "rezultat": {
           "tool": "cere_date_client",
           "gasit": true,
@@ -178,7 +178,7 @@
         "actiune": null,
         "argumente": {},
         "motiv": "Verificări complete: clădire în construcție aprobată condiționat cu monitorizare",
-        "timestamp": "2026-10-29T02:59:12",
+        "timestamp": "2026-10-29T03:27:16",
         "rezultat": "final"
       }
     ]
