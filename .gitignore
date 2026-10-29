@@ -13,6 +13,7 @@ tools/cache/*
 !tools/cache/.gitkeep
 extraction/.cache/
 ui/data/profil/
+agent/.cache/
 
 # Sistem / editor
 .DS_Store
@@ -20,7 +21,7 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Artefacte de test (NU testele: tests/ și extraction/test_fixtures/ se urmăresc)
+# Artefacte de test (NU testele: tests/ È™i extraction/test_fixtures/ se urmÄƒresc)
 .coverage
 .coverage.*
 htmlcov/

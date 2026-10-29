@@ -21,6 +21,7 @@ from pathlib import Path
 from typing import Any, Callable, Literal, Optional
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import yaml
@@ -165,6 +166,14 @@ def creeaza_app(
     folder_rezultate = folder_date / "rezultate"
     blocare = threading.Lock()
     app = FastAPI(title=NUME_PRODUS, docs_url=None, redoc_url=None)
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     # ---------------------------------------------------------------- date
 
@@ -377,6 +386,14 @@ def creeaza_app(
                 ) from exc
             return {**rezultat_public(dosar_id, folder, salvat), "din_salvare": True, "eroare": f"{type(exc).__name__}: {exc}"}
 
+    @app.post("/api/analizeaza")
+    def analizeaza(cerere: dict[str, Any]) -> dict[str, Any]:
+        """Endpoint de compatibilitate pentru interfețe externe (e.g. Lovable)."""
+        dosar_id = cerere.get("dosar_id") or cerere.get("id")
+        if not dosar_id:
+            raise HTTPException(400, "Câmpul 'dosar_id' este obligatoriu.")
+        return evaluare(str(dosar_id))
+
     @app.get("/api/dosare/{dosar_id}/rezultat")
     def rezultat(dosar_id: str) -> dict[str, Any]:
         folder = folder_dosar(dosar_id)
@@ -415,6 +432,19 @@ def creeaza_app(
             tinta, media_type=TIPURI_PREVIZUALIZARE[tinta.suffix.lower()],
             filename=tinta.name, content_disposition_type="inline",
         )
+
+    @app.get("/api/llm/statistici")
+    def statistici_llm() -> dict[str, Any]:
+        """Metrice detaliate privind apelurile LLM, cache hit rate și timpul economisit."""
+        from extraction.llm_client import get_llm_client
+        return get_llm_client().get_statistici_detaliate()
+
+    @app.post("/api/llm/reseteaza_statistici")
+    def reseteaza_statistici_llm() -> dict[str, str]:
+        """Resetează contorizarea apelurilor LLM."""
+        from extraction.llm_client import get_llm_client
+        get_llm_client().reseteaza_statistici()
+        return {"status": "ok", "mesaj": "Statisticile LLM au fost resetate."}
 
     @app.get("/api/decizii")
     def lista_decizii() -> list[dict[str, Any]]:
