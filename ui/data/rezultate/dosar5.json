@@ -1,5 +1,5 @@
 {
-  "salvat_la": "2026-10-29T04:10:47",
+  "salvat_la": "2026-10-29T06:57:35",
   "verdict": {
     "dosar_id": "dosar5",
     "verdict": "EXCEPTIE_ESCALADARE_COMITET",
@@ -71,7 +71,7 @@
           "cui": "9900000050"
         },
         "motiv": "Verificare date identificare firmă și cod CAEN pentru CUI 9900000050 în registrul ANAF",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T06:57:35",
         "rezultat": {
           "tool": "verifica_firma",
           "gasit": true,
@@ -85,7 +85,7 @@
         "actiune": "evalueaza_conditii_generale",
         "argumente": {},
         "motiv": "Evaluare condiții generale G-01 (țară), G-02 (sector exclus), G-04 (fereastră 24 luni), G-05 (grandfathering)",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T06:57:35",
         "rezultat": {
           "tool": "evalueaza_conditii_generale",
           "gasit": true,
@@ -99,7 +99,7 @@
         "actiune": "stabileste_categoria",
         "argumente": {},
         "motiv": "Stabilire categorie de finanțare verde și analiză candidați de clasificare",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T06:57:35",
         "rezultat": {
           "tool": "stabileste_categoria",
           "gasit": true,
@@ -113,7 +113,7 @@
         "actiune": "verifica_completitudine",
         "argumente": {},
         "motiv": "Verificare completitudine dosar conform rules/cerinte_dosar.yaml",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T06:57:35",
         "rezultat": {
           "tool": "verifica_completitudine",
           "gasit": true,
@@ -130,7 +130,7 @@
           "motiv": "Documente sau indicatori obligatorii lipsă din dosar"
         },
         "motiv": "Solicitare documente/date lipsă identificate la verificarea de completitudine",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T06:57:35",
         "rezultat": {
           "tool": "cere_date_client",
           "gasit": true,
@@ -146,7 +146,7 @@
           "nr_certificat": "BREEAM-EXEMPLU-0005"
         },
         "motiv": "Căutare certificat verde declarat 'BREEAM-EXEMPLU-0005' în registrul BREEAM",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T06:57:35",
         "rezultat": {
           "tool": "cauta_certificat",
           "gasit": true,
@@ -162,7 +162,7 @@
           "cale_id": "GB-01"
         },
         "motiv": "Evaluare cale principală GB-01 (certificare verde internațională)",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T06:57:35",
         "rezultat": {
           "tool": "evalueaza_cale",
           "gasit": true,
@@ -176,7 +176,7 @@
         "actiune": "verifica_chiriasi",
         "argumente": {},
         "motiv": "Verificare activități chiriași și listă de semnal (excludere GB-X1)",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T06:57:35",
         "rezultat": {
           "tool": "verifica_chiriasi",
           "gasit": true,
@@ -190,7 +190,7 @@
         "actiune": "verifica_plauzibilitate",
         "argumente": {},
         "motiv": "Verificare plauzibilitate indicatori conform reference/plauzibilitate.yaml",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T06:57:35",
         "rezultat": {
           "tool": "verifica_plauzibilitate",
           "gasit": true,
@@ -204,7 +204,7 @@
         "actiune": null,
         "argumente": {},
         "motiv": "Toate etapele de verificare și evaluare au fost finalizate cu succes",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T06:57:35",
         "rezultat": "final"
       }
     ]

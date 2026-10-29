@@ -1,5 +1,5 @@
 {
-  "salvat_la": "2026-10-29T04:10:47",
+  "salvat_la": "2026-10-29T07:11:57",
   "verdict": {
     "dosar_id": "dosar3",
     "verdict": "EXCEPTIE_ESCALADARE_COMITET",
@@ -71,11 +71,13 @@
           "cui": "9900000030"
         },
         "motiv": "Verificare date identificare firmă și cod CAEN pentru CUI 9900000030 în registrul ANAF",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T07:11:57",
         "rezultat": {
           "tool": "verifica_firma",
           "gasit": true,
           "eroare": null,
+          "verificat_in_registru": null,
+          "eroare_tehnica": false,
           "sumar": "date_generale={'cui': 9900000030, 'denumire': 'S.C. GREEN RETAIL TOWER S.R.L.', 'adresa': 'Cluj-Napoca, Str. Republicii nr. 102, Jud. Cluj', 'nrRegCom': 'J12/850/2022', 'cod_CAEN': '6820', 'stare_inregistrare': 'INREGISTRAT'}, stare_inactiv={'statusInactivi': False}"
         }
       },
@@ -85,11 +87,13 @@
         "actiune": "evalueaza_conditii_generale",
         "argumente": {},
         "motiv": "Evaluare condiții generale G-01 (țară), G-02 (sector exclus), G-04 (fereastră 24 luni), G-05 (grandfathering)",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T07:11:57",
         "rezultat": {
           "tool": "evalueaza_conditii_generale",
           "gasit": true,
           "eroare": null,
+          "verificat_in_registru": null,
+          "eroare_tehnica": false,
           "sumar": "{'G-01': 'OK', 'G-02': 'OK', 'G-03': 'NEEVALUABIL', 'G-04': 'NEEVALUABIL', 'G-05': 'OK'}"
         }
       },
@@ -99,11 +103,13 @@
         "actiune": "stabileste_categoria",
         "argumente": {},
         "motiv": "Stabilire categorie de finanțare verde și analiză candidați de clasificare",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T07:11:57",
         "rezultat": {
           "tool": "stabileste_categoria",
           "gasit": true,
           "eroare": null,
+          "verificat_in_registru": null,
+          "eroare_tehnica": false,
           "sumar": "categorie=green_buildings, subcategorie=cladire_noua_sau_existenta, incredere=0.9"
         }
       },
@@ -113,11 +119,13 @@
         "actiune": "verifica_completitudine",
         "argumente": {},
         "motiv": "Verificare completitudine dosar conform rules/cerinte_dosar.yaml",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T07:11:57",
         "rezultat": {
           "tool": "verifica_completitudine",
           "gasit": true,
           "eroare": null,
+          "verificat_in_registru": null,
+          "eroare_tehnica": false,
           "sumar": "complet=False, nr_lipsuri=1, lipsuri=[{'tip': 'camp', 'camp': 'data_aprobare', 'document': ['D-02'], 'regula': 'G-04', 'mesaj': \"Lipsește câmpul obligatoriu 'data_aprobare' (['D-02']), necesar pentru G-04.\"}]"
         }
       },
@@ -130,11 +138,13 @@
           "motiv": "Documente sau indicatori obligatorii lipsă din dosar"
         },
         "motiv": "Solicitare documente/date lipsă identificate la verificarea de completitudine",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T07:11:57",
         "rezultat": {
           "tool": "cere_date_client",
           "gasit": true,
           "eroare": null,
+          "verificat_in_registru": null,
+          "eroare_tehnica": false,
           "sumar": "ce_lipseste=Lipsește câmpul obligatoriu 'data_aprobare' (['D-02']), necesar pentru G-04., motiv=Documente sau indicatori obligatorii lipsă din dosar"
         }
       },
@@ -146,11 +156,13 @@
           "nr_certificat": "BREEAM-EXEMPLU-0003"
         },
         "motiv": "Căutare certificat verde declarat 'BREEAM-EXEMPLU-0003' în registrul BREEAM",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T07:11:57",
         "rezultat": {
           "tool": "cauta_certificat",
           "gasit": true,
           "eroare": null,
+          "verificat_in_registru": null,
+          "eroare_tehnica": false,
           "sumar": "_nota=SINTETIC. Registru BREEAM pentru dosar3, building_name=Green Retail Mall Cluj, client_developer=Green Retail Tower SRL"
         }
       },
@@ -162,11 +174,13 @@
           "cale_id": "GB-01"
         },
         "motiv": "Evaluare cale principală GB-01 (certificare verde internațională)",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T07:11:57",
         "rezultat": {
           "tool": "evalueaza_cale",
           "gasit": true,
           "eroare": null,
+          "verificat_in_registru": null,
+          "eroare_tehnica": false,
           "sumar": "GB-01: OK"
         }
       },
@@ -176,11 +190,13 @@
         "actiune": "verifica_chiriasi",
         "argumente": {},
         "motiv": "Verificare activități chiriași și listă de semnal (excludere GB-X1)",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T07:11:57",
         "rezultat": {
           "tool": "verifica_chiriasi",
           "gasit": true,
           "eroare": null,
+          "verificat_in_registru": null,
+          "eroare_tehnica": false,
           "sumar": "rezultat=OK, dovada=Cladiri folosite pentru extractia/fabricarea combustibililor fosili: niciun chiriaș nu are cod CAEN din lista de semnal"
         }
       },
@@ -190,11 +206,13 @@
         "actiune": "verifica_plauzibilitate",
         "argumente": {},
         "motiv": "Verificare plauzibilitate indicatori conform reference/plauzibilitate.yaml",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T07:11:57",
         "rezultat": {
           "tool": "verifica_plauzibilitate",
           "gasit": true,
           "eroare": null,
+          "verificat_in_registru": null,
+          "eroare_tehnica": false,
           "sumar": "Verificări plauzibilitate: 0 semnale"
         }
       },
@@ -204,7 +222,7 @@
         "actiune": null,
         "argumente": {},
         "motiv": "Toate etapele de verificare și evaluare au fost finalizate cu succes",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T07:11:57",
         "rezultat": "final"
       }
     ]
