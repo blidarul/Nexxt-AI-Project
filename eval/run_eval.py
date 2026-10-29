@@ -3,12 +3,17 @@
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import json
 import logging
 import os
 import sys
 from pathlib import Path
 from typing import Any
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 from agent.orchestrator import proceseaza_dosar
 from contracts import Verdict
@@ -105,15 +110,45 @@ def gaseste_foldere_dosare(surse: list[Path | str]) -> list[Path]:
     return gasite
 
 
+def _proceseaza_un_dosar(folder: Path) -> dict[str, Any]:
+    """Evaluează un singur dosar și returnează datele de sumar și eventualele erori."""
+    cale_expected = folder / "expected.json"
+    with open(cale_expected, "r", encoding="utf-8") as f:
+        asteptat = json.load(f)
+
+    try:
+        verdict = proceseaza_dosar(str(folder))
+        erori = compara_verdict_cu_asteptat(verdict, asteptat)
+        return {
+            "nume_dosar": folder.name,
+            "asteptat": asteptat,
+            "verdict": verdict,
+            "erori": erori,
+            "status": "PASS" if not erori else "FAIL",
+            "exceptie": None,
+        }
+    except Exception as exc:
+        return {
+            "nume_dosar": folder.name,
+            "asteptat": asteptat,
+            "verdict": None,
+            "erori": [str(exc)],
+            "status": "FAIL",
+            "exceptie": exc,
+        }
+
+
 def ruleaza_evaluare(
     dosare_dir: Path | str | list[Path | str] | None = None,
     mod_agent: str | None = None,
+    workers: int = 4,
 ) -> int:
     """Rulează procesarea și evaluarea pe toate dosarele găsite.
 
     Parametri:
         dosare_dir: director sau listă de directoare. Implicit ["dosare", "eval/dosare_reguli"].
         mod_agent: "scriptat" sau "llm". Dacă este specificat, setează variabila MOD_AGENT.
+        workers: număr de fire paralele de execuție (default: 4).
     """
     if mod_agent:
         os.environ["MOD_AGENT"] = mod_agent
@@ -133,7 +168,7 @@ def ruleaza_evaluare(
 
     mod_curent = os.environ.get("MOD_AGENT", "scriptat")
     print("\n" + "=" * 125)
-    print(f"EVALUARE MOTOR & AGENT (Mod: {mod_curent.upper()}) | Total dosare: {len(foldere_dosare)}")
+    print(f"EVALUARE MOTOR & AGENT (Mod: {mod_curent.upper()}, Workers: {workers}) | Total dosare: {len(foldere_dosare)}")
     print("=" * 125)
     header = (
         f"{'DOSAR':<38} | {'VERDICT ASTEPTAT':<16} | {'VERDICT REAL':<16} | "
@@ -144,17 +179,20 @@ def ruleaza_evaluare(
 
     esecuri = 0
 
-    for folder in foldere_dosare:
-        nume_dosar = folder.name
-        cale_expected = folder / "expected.json"
+    if workers > 1 and len(foldere_dosare) > 1:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
+            rezultate = list(executor.map(_proceseaza_un_dosar, foldere_dosare))
+    else:
+        rezultate = [_proceseaza_un_dosar(f) for f in foldere_dosare]
 
-        with open(cale_expected, "r", encoding="utf-8") as f:
-            asteptat = json.load(f)
+    for item in rezultate:
+        nume_dosar = item["nume_dosar"]
+        asteptat = item["asteptat"]
+        verdict = item["verdict"]
+        erori = item["erori"]
+        status = item["status"]
 
-        try:
-            verdict = proceseaza_dosar(str(folder))
-            erori = compara_verdict_cu_asteptat(verdict, asteptat)
-            status = "PASS" if not erori else "FAIL"
+        if verdict is not None:
             v_ast = str(asteptat.get("verdict", "-"))
             v_real = str(verdict.verdict)
             cale_text = str(verdict.cale_eligibilitate or "-")
@@ -172,10 +210,10 @@ def ruleaza_evaluare(
                 esecuri += 1
                 for err in erori:
                     print(f"   [!] {err}")
-        except Exception as exc:
+        else:
             esecuri += 1
             print(f"{nume_dosar:<38} | {'-':<16} | {'EROARE':<16} | {'-':<30} | {'-':<10} | FAIL")
-            print(f"   [!] Excepție în timpul procesării: {exc}")
+            print(f"   [!] Excepție în timpul procesării: {item['exceptie']}")
 
     print("=" * 125)
     total = len(foldere_dosare)
@@ -206,15 +244,21 @@ def main() -> int:
         default=None,
         help="Căi către directoare de dosare (implicit: 'dosare' și 'eval/dosare_reguli').",
     )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=4,
+        help="Număr de fire paralele de execuție (default: 4).",
+    )
     args = parser.parse_args()
 
     if args.mod == "ambele":
         print("\n" + "#" * 125)
         print("RULARE COMPARATIVĂ DUALĂ: SCRIPTAT vs LLM")
         print("#" * 125)
-        cod_scriptat = ruleaza_evaluare(dosare_dir=args.dosare, mod_agent="scriptat")
+        cod_scriptat = ruleaza_evaluare(dosare_dir=args.dosare, mod_agent="scriptat", workers=args.workers)
         print("\n")
-        cod_llm = ruleaza_evaluare(dosare_dir=args.dosare, mod_agent="llm")
+        cod_llm = ruleaza_evaluare(dosare_dir=args.dosare, mod_agent="llm", workers=args.workers)
 
         print("\n" + "=" * 60)
         print("RAPORT FINAL DUAL:")
@@ -223,7 +267,7 @@ def main() -> int:
         print("=" * 60 + "\n")
         return 0 if (cod_scriptat == 0 and cod_llm == 0) else 1
 
-    return ruleaza_evaluare(dosare_dir=args.dosare, mod_agent=args.mod)
+    return ruleaza_evaluare(dosare_dir=args.dosare, mod_agent=args.mod, workers=args.workers)
 
 
 if __name__ == "__main__":

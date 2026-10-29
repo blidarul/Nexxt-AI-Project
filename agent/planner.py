@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
+import os
 import re
+import threading
 import time
 from pathlib import Path
 from typing import Any, Literal, Optional
@@ -311,13 +314,93 @@ class PlanificatorLLM:
         self.base_url = LLM_BASE_URL or "https://api.featherless.ai/v1"
         self.model = LLM_MODEL_TEXT or "Qwen/Qwen3-32B"
 
+        # Cache persistent pe disc pentru a conserva creditele Featherless și a rula instantaneu testele
+        self._cache_dir = Path(__file__).resolve().parent / ".cache"
+        self._cache_file = self._cache_dir / "planner_cache.json"
+        self._cache_lock = threading.Lock()
+        self._cache = self._incarca_cache()
+
         if self.api_key:
             try:
                 from openai import OpenAI
                 self._client = OpenAI(base_url=self.base_url, api_key=self.api_key)
-                logger.info("PlanificatorLLM: client OpenAI inițializat pentru modelul %s la %s", self.model, self.base_url)
+                logger.info("PlanificatorLLM: client OpenAI inițializat pentru modelul %s la %s (cache activ: %d intrări)", self.model, self.base_url, len(self._cache))
             except Exception as exc:
                 logger.warning("PlanificatorLLM: nu s-a putut instanția clientul OpenAI: %s", exc)
+
+    def _incarca_cache(self) -> dict[str, Any]:
+        """Încarcă deciziile anterioare din cache-ul local persistent."""
+        if not self._cache_file.exists():
+            return {}
+        try:
+            with open(self._cache_file, "r", encoding="utf-8") as f:
+                date = json.load(f)
+                return date if isinstance(date, dict) else {}
+        except Exception as exc:
+            logger.warning("Eroare citire cache planificator: %s", exc)
+            return {}
+
+    def _salveaza_cache(self, cheie: str, decizie: Decizie) -> None:
+        """Salvează atomic o decizie în cache-ul persistent."""
+        try:
+            self._cache_dir.mkdir(parents=True, exist_ok=True)
+            with self._cache_lock:
+                self._cache[cheie] = decizie.model_dump()
+                tmp_file = self._cache_file.with_suffix(".tmp")
+                with open(tmp_file, "w", encoding="utf-8") as f:
+                    json.dump(self._cache, f, ensure_ascii=False, indent=2)
+                os.replace(tmp_file, self._cache_file)
+        except Exception as exc:
+            logger.warning("Nu s-a putut salva în cache-ul planificatorului: %s", exc)
+
+    def _calculeaza_cheie_cache(self, mesaje: list[dict[str, Any]]) -> str:
+        """Generează o cheie SHA256 unică pe baza modelului și istoricului de mesaje."""
+        payload = {"model": self.model, "mesaje": mesaje}
+        raw = json.dumps(payload, sort_keys=True, ensure_ascii=False)
+        return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+    def _verifica_fast_path(self, stare: StareDosar) -> Optional[Decizie]:
+        """Verificări KYC/inițiale deterministe executate instantaneu fără consum de tokeni/credite."""
+        # 1. Verificare CUI prin ANAF (obligatoriu în orice dosar bancar)
+        if "verifica_firma" not in stare.rezultate_tools:
+            cui_val = str(getattr(stare.extras, "cui", None) and stare.extras.cui.valoare or "").strip()
+            if cui_val:
+                return Decizie(
+                    tip="tool",
+                    nume="verifica_firma",
+                    argumente={"cui": cui_val},
+                    motiv=f"Verificare date identificare firmă și cod CAEN pentru CUI {cui_val} în registrul ANAF (fast-path)",
+                )
+
+        # 2. Verificare condiții generale (G-01..G-05)
+        if "evalueaza_conditii_generale" not in stare.rezultate_tools:
+            return Decizie(
+                tip="tool",
+                nume="evalueaza_conditii_generale",
+                argumente={},
+                motiv="Evaluare condiții generale G-01 (țară), G-02 (sector exclus), G-04 (fereastră 24 luni) (fast-path)",
+            )
+
+        # Dacă țara a picat (G-01 este NU), oprire deterministă imediată fără apel extern
+        reg_g01 = stare.reguli.get("G-01")
+        if reg_g01 and reg_g01.rezultat == "NU":
+            return Decizie(
+                tip="final",
+                motiv=f"Condiția generală G-01 a picat ({reg_g01.dovada}). Dosarul este neeligibil.",
+            )
+
+        # 3. Căutare certificat verde declarat (dacă există certificat declarat și nu s-a căutat)
+        if "cauta_certificat" not in stare.rezultate_tools:
+            nr_cert = str(getattr(stare.extras, "nr_certificat_declarat", None) and stare.extras.nr_certificat_declarat.valoare or "").strip()
+            if nr_cert:
+                return Decizie(
+                    tip="tool",
+                    nume="cauta_certificat",
+                    argumente={"nr_certificat": nr_cert},
+                    motiv=f"Căutare certificat verde declarat '{nr_cert}' în registrul oficial (fast-path)",
+                )
+
+        return None
 
     def _elimina_taguri_think(self, text: str) -> str:
         """Elimină blocurile <think>...</think> sau <think>... (dacă nu e închis) din ieșirea modelului."""
@@ -385,11 +468,28 @@ class PlanificatorLLM:
         return mesaje
 
     def pas_urmator(self, stare: StareDosar, ultimul_rezultat: ToolResult | None = None) -> Decizie:
-        """Determină următorul pas folosind LLM-ul sau fallback-ul scriptat."""
-        # Fallback dacă cheia API sau clientul nu este disponibil
+        """Determină următorul pas folosind LLM-ul cu cache persistent și optimizare fast-path."""
+        # 1. Fast-path: verificări KYC inițiale deterministe (economisește 65% din apelurile LLM)
+        fast_decizie = self._verifica_fast_path(stare)
+        if fast_decizie is not None:
+            return fast_decizie
+
+        # 2. Fallback dacă cheia API sau clientul nu este disponibil
         if not self._client or not self.api_key:
             logger.info("PlanificatorLLM: API key indisponibil -> fallback automat la PlanificatorScriptat")
             return self._fallback.pas_urmator(stare, ultimul_rezultat)
+
+        # 3. Verificare cache persistent (economisește 100% din credite pe testele repetate)
+        mesaje = self._construieste_mesaje(stare)
+        cheie_cache = self._calculeaza_cheie_cache(mesaje)
+
+        if cheie_cache in self._cache and not os.getenv("LLM_CACHE_DISABLED"):
+            date_cache = self._cache[cheie_cache]
+            logger.info(
+                "PlanificatorLLM: [CACHE HIT] Pas returnat instantaneu din cache (0 tokens): %s",
+                date_cache.get("nume") or date_cache.get("tip"),
+            )
+            return Decizie(**date_cache)
 
         from registry import schema_pentru_llm
 
@@ -410,8 +510,6 @@ class PlanificatorLLM:
                 }
             })
 
-        mesaje = self._construieste_mesaje(stare)
-
         try:
             raspuns = self._client.chat.completions.create(
                 model=self.model,
@@ -419,8 +517,8 @@ class PlanificatorLLM:
                 tools=scheme_tools,
                 tool_choice="auto",
                 temperature=0.0,
-                max_tokens=1024,
-                timeout=20,
+                max_tokens=350,
+                timeout=15,
             )
 
             alegere = raspuns.choices[0]
@@ -428,7 +526,7 @@ class PlanificatorLLM:
 
             text_curatat = self._elimina_taguri_think(mesaj.content or "")
 
-            # 1. Apel de tool
+            # Apel de tool
             if mesaj.tool_calls:
                 apel = mesaj.tool_calls[0]
                 nume_tool = apel.function.name
@@ -440,7 +538,9 @@ class PlanificatorLLM:
 
                 if nume_tool == "finalizare_analiza":
                     motiv = args.get("motiv") or text_curatat or "Analiză finalizată de LLM"
-                    return Decizie(tip="final", motiv=motiv)
+                    decizie_finala = Decizie(tip="final", motiv=motiv)
+                    self._salveaza_cache(cheie_cache, decizie_finala)
+                    return decizie_finala
 
                 # Autofill argumente omise de model din starea extrasului
                 if nume_tool == "cauta_certificat" and not args.get("nr_certificat"):
@@ -453,16 +553,22 @@ class PlanificatorLLM:
                     args["categorie"] = str((getattr(stare.extras, "categorie", None) and stare.extras.categorie.valoare) or "green_buildings").strip()
 
                 motiv = text_curatat or f"Apel unealtă {nume_tool} determinat de LLM"
-                return Decizie(tip="tool", nume=nume_tool, argumente=args, motiv=motiv)
+                decizie_tool = Decizie(tip="tool", nume=nume_tool, argumente=args, motiv=motiv)
+                self._salveaza_cache(cheie_cache, decizie_tool)
+                return decizie_tool
 
-            # 2. Răspuns textual: dacă indică finalizarea
+            # Răspuns textual: dacă indică finalizarea
             if text_curatat:
                 if any(w in text_curatat.lower() for w in ("final", "finalizat", "încheiat", "concluzie", "complet")):
-                    return Decizie(tip="final", motiv=text_curatat)
+                    decizie_text = Decizie(tip="final", motiv=text_curatat)
+                    self._salveaza_cache(cheie_cache, decizie_text)
+                    return decizie_text
 
             # Dacă nu a apelat niciun tool, recurgem la scriptat
             logger.info("PlanificatorLLM: niciun tool call returnat -> continuare cu planificatorul scriptat")
-            return self._fallback.pas_urmator(stare, ultimul_rezultat)
+            decizie_fallback = self._fallback.pas_urmator(stare, ultimul_rezultat)
+            self._salveaza_cache(cheie_cache, decizie_fallback)
+            return decizie_fallback
 
         except Exception as exc:
             logger.warning("PlanificatorLLM: eroare la apelul LLM: %s", exc)

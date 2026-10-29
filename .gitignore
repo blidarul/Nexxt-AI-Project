@@ -12,6 +12,7 @@ venv/
 tools/cache/*
 !tools/cache/.gitkeep
 extraction/.cache/
+agent/.cache/
 
 # Sistem / editor
 .DS_Store
