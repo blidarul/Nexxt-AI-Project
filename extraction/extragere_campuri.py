@@ -344,7 +344,7 @@ def extrage_campuri_document_llm(
     ]
 
     date_json, eroare = client.apeleaza_cu_json(
-        mesaje, chei_asteptate=campuri_cerute, chei_permise=set(catalog_campuri),
+        mesaje, chei_asteptate=campuri_cerute, chei_permise=set(catalog_campuri), motiv=f"extragere_campuri:{fisier}",
     )
     if date_json and isinstance(date_json, dict):
         return date_json

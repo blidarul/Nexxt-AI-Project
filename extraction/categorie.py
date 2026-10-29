@@ -144,7 +144,7 @@ def stabileste_categoria(
     date_json, _ = client.apeleaza_cu_json([
         {"role": "system", "content": prompt_sistem},
         {"role": "user", "content": prompt_utilizator},
-    ], chei_asteptate=["candidati"], chei_permise=set())
+    ], chei_asteptate=["candidati"], chei_permise=set(), motiv="stabileste_categoria")
 
     candidati: list[dict[str, Any]] = []
     if isinstance(date_json, dict):

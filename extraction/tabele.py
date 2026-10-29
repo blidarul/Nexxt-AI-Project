@@ -265,7 +265,7 @@ def extrage_din_document_autoritate(
     date_json, _ = client.apeleaza_cu_json([
         {"role": "system", "content": prompt_sistem},
         {"role": "user", "content": prompt_utilizator},
-    ])
+    ], motiv="extragere_vehicul_singular")
     if not isinstance(date_json, dict):
         return None
 
@@ -360,7 +360,7 @@ def extrage_lista_llm(
     date_json, _ = client.apeleaza_cu_json([
         {"role": "system", "content": prompt_sistem},
         {"role": "user", "content": text},
-    ])
+    ], motiv=f"extragere_lista:{camp}")
     if not isinstance(date_json, dict):
         return None
     randuri = []

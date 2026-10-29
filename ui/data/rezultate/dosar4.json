@@ -1,5 +1,5 @@
 {
-  "salvat_la": "2026-10-29T04:10:47",
+  "salvat_la": "2026-10-29T05:39:21",
   "verdict": {
     "dosar_id": "dosar4",
     "verdict": "EXCEPTIE_ESCALADARE_COMITET",
@@ -79,8 +79,8 @@
         "argumente": {
           "cui": "9900000040"
         },
-        "motiv": "Verificare date identificare firmă și cod CAEN pentru CUI 9900000040 în registrul ANAF",
-        "timestamp": "2026-10-29T04:10:47",
+        "motiv": "Verificare date identificare firmă și cod CAEN pentru CUI 9900000040 în registrul ANAF (fast-path)",
+        "timestamp": "2026-10-29T05:38:02",
         "rezultat": {
           "tool": "verifica_firma",
           "gasit": true,
@@ -93,8 +93,8 @@
         "tip": "tool",
         "actiune": "evalueaza_conditii_generale",
         "argumente": {},
-        "motiv": "Evaluare condiții generale G-01 (țară), G-02 (sector exclus), G-04 (fereastră 24 luni), G-05 (grandfathering)",
-        "timestamp": "2026-10-29T04:10:47",
+        "motiv": "Evaluare condiții generale G-01 (țară), G-02 (sector exclus), G-04 (fereastră 24 luni) (fast-path)",
+        "timestamp": "2026-10-29T05:38:02",
         "rezultat": {
           "tool": "evalueaza_conditii_generale",
           "gasit": true,
@@ -105,10 +105,26 @@
       {
         "pas": 3,
         "tip": "tool",
+        "actiune": "cauta_certificat",
+        "argumente": {
+          "nr_certificat": "BREEAM-EXEMPLU-0004"
+        },
+        "motiv": "Căutare certificat verde declarat 'BREEAM-EXEMPLU-0004' în registrul oficial (fast-path)",
+        "timestamp": "2026-10-29T05:38:02",
+        "rezultat": {
+          "tool": "cauta_certificat",
+          "gasit": true,
+          "eroare": null,
+          "sumar": "_nota=SINTETIC. Registru BREEAM pentru dosar4, building_name=Eco Village Mogosoaia - Phase 1, client_developer=Eco Residential Mogosoaia SRL"
+        }
+      },
+      {
+        "pas": 4,
+        "tip": "tool",
         "actiune": "stabileste_categoria",
         "argumente": {},
         "motiv": "Stabilire categorie de finanțare verde și analiză candidați de clasificare",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T05:38:12",
         "rezultat": {
           "tool": "stabileste_categoria",
           "gasit": true,
@@ -117,12 +133,14 @@
         }
       },
       {
-        "pas": 4,
+        "pas": 5,
         "tip": "tool",
         "actiune": "verifica_completitudine",
-        "argumente": {},
-        "motiv": "Verificare completitudine dosar conform rules/cerinte_dosar.yaml",
-        "timestamp": "2026-10-29T04:10:47",
+        "argumente": {
+          "categorie": "green_buildings"
+        },
+        "motiv": "Apel unealtă verifica_completitudine determinat de LLM",
+        "timestamp": "2026-10-29T05:38:19",
         "rezultat": {
           "tool": "verifica_completitudine",
           "gasit": true,
@@ -131,7 +149,7 @@
         }
       },
       {
-        "pas": 5,
+        "pas": 6,
         "tip": "tool",
         "actiune": "cere_date_client",
         "argumente": {
@@ -139,28 +157,12 @@
           "motiv": "Documente sau indicatori obligatorii lipsă din dosar"
         },
         "motiv": "Solicitare documente/date lipsă identificate la verificarea de completitudine",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T05:38:27",
         "rezultat": {
           "tool": "cere_date_client",
           "gasit": true,
           "eroare": null,
           "sumar": "ce_lipseste=Lipsește câmpul obligatoriu 'data_aprobare' (['D-02']), necesar pentru G-04., motiv=Documente sau indicatori obligatorii lipsă din dosar"
-        }
-      },
-      {
-        "pas": 6,
-        "tip": "tool",
-        "actiune": "cauta_certificat",
-        "argumente": {
-          "nr_certificat": "BREEAM-EXEMPLU-0004"
-        },
-        "motiv": "Căutare certificat verde declarat 'BREEAM-EXEMPLU-0004' în registrul BREEAM",
-        "timestamp": "2026-10-29T04:10:47",
-        "rezultat": {
-          "tool": "cauta_certificat",
-          "gasit": true,
-          "eroare": null,
-          "sumar": "_nota=SINTETIC. Registru BREEAM pentru dosar4, building_name=Eco Village Mogosoaia - Phase 1, client_developer=Eco Residential Mogosoaia SRL"
         }
       },
       {
@@ -171,7 +173,7 @@
           "cale_id": "GB-01"
         },
         "motiv": "Evaluare cale principală GB-01 (certificare verde internațională)",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T05:38:37",
         "rezultat": {
           "tool": "evalueaza_cale",
           "gasit": true,
@@ -187,7 +189,7 @@
           "cale_id": "GB-02"
         },
         "motiv": "Calea GB-01 nu a fost îndeplinită; încercare cale alternativă GB-02 (top 15% național)",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T05:38:48",
         "rezultat": {
           "tool": "evalueaza_cale",
           "gasit": true,
@@ -203,7 +205,7 @@
           "cale_id": "GB-03"
         },
         "motiv": "Calea GB-02 este neevaluabilă; încercare cale alternativă GB-03 (EPC clasa A)",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T05:38:58",
         "rezultat": {
           "tool": "evalueaza_cale",
           "gasit": true,
@@ -220,7 +222,7 @@
           "motiv": "Clădire în construcție – certificat intermediar"
         },
         "motiv": "Solicitare certificat energetic după recepție",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T05:39:09",
         "rezultat": {
           "tool": "cere_date_client",
           "gasit": true,
@@ -234,7 +236,7 @@
         "actiune": null,
         "argumente": {},
         "motiv": "Verificări complete: clădire în construcție aprobată condiționat cu monitorizare",
-        "timestamp": "2026-10-29T04:10:47",
+        "timestamp": "2026-10-29T05:39:21",
         "rezultat": "final"
       }
     ]

@@ -413,6 +413,19 @@ def creeaza_app(
             filename=tinta.name, content_disposition_type="inline",
         )
 
+    @app.get("/api/llm/statistici")
+    def statistici_llm() -> dict[str, Any]:
+        """Metrice detaliate privind apelurile LLM, cache hit rate și timpul economisit."""
+        from extraction.llm_client import get_llm_client
+        return get_llm_client().get_statistici_detaliate()
+
+    @app.post("/api/llm/reseteaza_statistici")
+    def reseteaza_statistici_llm() -> dict[str, str]:
+        """Resetează contorizarea apelurilor LLM."""
+        from extraction.llm_client import get_llm_client
+        get_llm_client().reseteaza_statistici()
+        return {"status": "ok", "mesaj": "Statisticile LLM au fost resetate."}
+
     @app.get("/api/decizii")
     def lista_decizii() -> list[dict[str, Any]]:
         return decizii()

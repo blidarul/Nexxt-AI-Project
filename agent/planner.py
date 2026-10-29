@@ -286,18 +286,20 @@ class PlanificatorScriptat:
 # ---------------------------------------------------------------------------
 
 class PlanificatorLLM:
-    """Planificator bazat pe model LLM (Featherless / Qwen3-32B) cu tool calling nativ.
+    """Planificator bazat pe model LLM cu tool calling nativ și arhitectură unificată:
 
-    - Utilizează clientul oficial OpenAI conectat la endpoint-ul Featherless
+    - Utilizează clientul unificat LLMClient (reutilizare conexiuni HTTP, semafor de concurență, backoff exponențial)
     - Folosește schemele de tools din registry.schema_pentru_llm()
-    - Elimină automat tag-urile <think>...</think>
-    - În caz de eroare de conectare sau răspuns invalid, face reîncercare și apoi
-      trece automat la PlanificatorScriptat, notând fallback-ul în trace.
+    - Caching persistent partajat între thread-uri și procese, complet Windows-safe (fără WinError 32)
+    - Fast-path extins și eliminarea apelurilor inutile de calcul impact pe dosare neeligibile/escaladate
+    - În caz de eroare de conectare sau răspuns invalid, face fallback automat la PlanificatorScriptat.
     """
+    _lock_shared_cache = threading.Lock()
+    _shared_cache: Optional[dict[str, Any]] = None
+    _cache_file = Path(__file__).resolve().parent / ".cache" / "planner_cache.json"
 
     def __init__(self) -> None:
         self._fallback = PlanificatorScriptat()
-        self._client: Any = None
         self._system_prompt: str = ""
 
         # Încărcare prompt sistem
@@ -307,51 +309,67 @@ class PlanificatorLLM:
             except Exception as exc:
                 logger.warning("Nu s-a putut citi promptul de sistem din %s: %s", SYSTEM_PROMPT_PATH, exc)
 
-        # Inițializare client OpenAI către Featherless
-        from config import FEATHERLESS_API_KEY, LLM_API_KEY, LLM_BASE_URL, LLM_MODEL_TEXT
+        from extraction.llm_client import get_llm_client
+        self.llm_client = get_llm_client()
+        self.api_key = self.llm_client.api_key
+        self.model = self.llm_client.model_text
+        self._incarca_cache_shared()
 
-        self.api_key = (LLM_API_KEY or FEATHERLESS_API_KEY or "").strip()
-        self.base_url = LLM_BASE_URL or "https://api.featherless.ai/v1"
-        self.model = LLM_MODEL_TEXT or "Qwen/Qwen3-32B"
-
-        # Cache persistent pe disc pentru a conserva creditele Featherless și a rula instantaneu testele
-        self._cache_dir = Path(__file__).resolve().parent / ".cache"
-        self._cache_file = self._cache_dir / "planner_cache.json"
-        self._cache_lock = threading.Lock()
-        self._cache = self._incarca_cache()
-
-        if self.api_key:
+    @classmethod
+    def _incarca_cache_shared(cls) -> dict[str, Any]:
+        """Încarcă atomic cache-ul partajat pe clasă pentru a fi vizibil tuturor thread-urilor."""
+        with cls._lock_shared_cache:
+            if cls._shared_cache is not None:
+                return cls._shared_cache
+            cls._cache_file.parent.mkdir(parents=True, exist_ok=True)
+            if not cls._cache_file.exists():
+                cls._shared_cache = {}
+                return cls._shared_cache
             try:
-                from openai import OpenAI
-                self._client = OpenAI(base_url=self.base_url, api_key=self.api_key)
-                logger.info("PlanificatorLLM: client OpenAI inițializat pentru modelul %s la %s (cache activ: %d intrări)", self.model, self.base_url, len(self._cache))
+                with open(cls._cache_file, "r", encoding="utf-8") as f:
+                    cls._shared_cache = json.load(f) or {}
             except Exception as exc:
-                logger.warning("PlanificatorLLM: nu s-a putut instanția clientul OpenAI: %s", exc)
+                logger.warning("Eroare citire cache planificator: %s", exc)
+                cls._shared_cache = {}
+            return cls._shared_cache
 
-    def _incarca_cache(self) -> dict[str, Any]:
-        """Încarcă deciziile anterioare din cache-ul local persistent."""
-        if not self._cache_file.exists():
-            return {}
-        try:
-            with open(self._cache_file, "r", encoding="utf-8") as f:
-                date = json.load(f)
-                return date if isinstance(date, dict) else {}
-        except Exception as exc:
-            logger.warning("Eroare citire cache planificator: %s", exc)
-            return {}
+    @property
+    def _cache(self) -> dict[str, Any]:
+        return self._incarca_cache_shared()
 
-    def _salveaza_cache(self, cheie: str, decizie: Decizie) -> None:
-        """Salvează atomic o decizie în cache-ul persistent."""
+    @classmethod
+    def _salveaza_cache(cls, cheie: str, decizie: Decizie) -> None:
+        """Salvează atomic o decizie în cache-ul persistent partajat, protejat la concurență pe Windows."""
+        tmp_file = None
         try:
-            self._cache_dir.mkdir(parents=True, exist_ok=True)
-            with self._cache_lock:
-                self._cache[cheie] = decizie.model_dump()
-                tmp_file = self._cache_file.with_suffix(".tmp")
+            cls._cache_file.parent.mkdir(parents=True, exist_ok=True)
+            with cls._lock_shared_cache:
+                cache = cls._incarca_cache_shared()
+                cache[cheie] = decizie.model_dump()
+                tmp_name = f".tmp_{os.getpid()}_{threading.get_ident()}_{cheie[:8]}.tmp"
+                tmp_file = cls._cache_file.parent / tmp_name
                 with open(tmp_file, "w", encoding="utf-8") as f:
-                    json.dump(self._cache, f, ensure_ascii=False, indent=2)
-                os.replace(tmp_file, self._cache_file)
+                    json.dump(cache, f, ensure_ascii=False, indent=2)
+
+                for _ in range(5):
+                    try:
+                        os.replace(tmp_file, cls._cache_file)
+                        break
+                    except PermissionError:
+                        time.sleep(0.04)
+                else:
+                    try:
+                        os.replace(tmp_file, cls._cache_file)
+                    except Exception:
+                        pass
         except Exception as exc:
             logger.warning("Nu s-a putut salva în cache-ul planificatorului: %s", exc)
+        finally:
+            if tmp_file and tmp_file.exists():
+                try:
+                    tmp_file.unlink()
+                except Exception:
+                    pass
 
     def _calculeaza_cheie_cache(self, mesaje: list[dict[str, Any]]) -> str:
         """Generează o cheie SHA256 unică pe baza modelului și istoricului de mesaje."""
@@ -399,6 +417,21 @@ class PlanificatorLLM:
                     argumente={"nr_certificat": nr_cert},
                     motiv=f"Căutare certificat verde declarat '{nr_cert}' în registrul oficial (fast-path)",
                 )
+
+        # 4. Verificare dacă dosarul este deja escaladat sau exclus
+        from engine.verdict import decide_verdict
+        verdict_preliminar = decide_verdict(stare)
+        if stare.escaladat or verdict_preliminar.verdict in ("NEELIGIBIL", "EXCEPTIE_ESCALADARE_COMITET"):
+            # Dacă verificările principale au rulat deja (condiții generale + categorie evaluate)
+            if "evalueaza_conditii_generale" in stare.rezultate_tools and (
+                "stabileste_categoria" in stare.rezultate_tools or "evalueaza_categoria" in stare.rezultate_tools
+            ):
+                semnal_blocant = next((r for r in stare.reguli.values() if r.regula_id.startswith("PL-") and r.rezultat == "SEMNAL"), None)
+                if semnal_blocant or stare.escaladat:
+                    return Decizie(
+                        tip="final",
+                        motiv=f"Dosar {verdict_preliminar.verdict}. Finalizare directă fără apeluri suplimentare și fără calcul de impact.",
+                    )
 
         return None
 
@@ -460,7 +493,7 @@ class PlanificatorLLM:
             f"6. Dacă nu s-a evaluat categoria (prin `evalueaza_categoria` sau `evalueaza_cale`): apelează `evalueaza_categoria`.\n"
             f"7. Dacă este clădire cu chiriași și nu s-a rulat `verifica_chiriasi`: apelează `verifica_chiriasi`.\n"
             f"8. Dacă nu s-a rulat `verifica_plauzibilitate`: apelează `verifica_plauzibilitate`.\n"
-            f"9. Dacă nu s-a calculat impactul (`calculeaza_impact` sau `calculeaza_co2`): apelează calculul de impact.\n"
+            f"9. Calcul impact: apelează `calculeaza_impact` sau `calculeaza_co2` DOAR DACĂ dosarul este preliminar eligibil. Dacă dosarul este neeligibil sau necesită escaladare la comitet, NU apela impactul, ci apelează `finalizare_analiza`.\n"
             f"10. Dacă toate etapele aplicabile au fost finalizate: apelează `finalizare_analiza`."
         )
 
@@ -469,13 +502,13 @@ class PlanificatorLLM:
 
     def pas_urmator(self, stare: StareDosar, ultimul_rezultat: ToolResult | None = None) -> Decizie:
         """Determină următorul pas folosind LLM-ul cu cache persistent și optimizare fast-path."""
-        # 1. Fast-path: verificări KYC inițiale deterministe (economisește 65% din apelurile LLM)
+        # 1. Fast-path: verificări deterministe executate instantaneu fără consum de tokeni/credite
         fast_decizie = self._verifica_fast_path(stare)
         if fast_decizie is not None:
             return fast_decizie
 
         # 2. Fallback dacă cheia API sau clientul nu este disponibil
-        if not self._client or not self.api_key:
+        if not self.llm_client or not self.api_key:
             logger.info("PlanificatorLLM: API key indisponibil -> fallback automat la PlanificatorScriptat")
             return self._fallback.pas_urmator(stare, ultimul_rezultat)
 
@@ -511,28 +544,24 @@ class PlanificatorLLM:
             })
 
         try:
-            raspuns = self._client.chat.completions.create(
-                model=self.model,
-                messages=mesaje,
+            text_curatat, tool_calls, model_raspuns = self.llm_client.apeleaza_cu_tools(
+                mesaje=mesaje,
                 tools=scheme_tools,
-                tool_choice="auto",
+                model=self.model,
                 temperature=0.0,
-                max_tokens=350,
-                timeout=15,
+                tool_choice="auto",
+                max_tokens=400,
+                motiv=f"planificator:{stare.extras.dosar_id}",
             )
 
-            alegere = raspuns.choices[0]
-            mesaj = alegere.message
-
-            text_curatat = self._elimina_taguri_think(mesaj.content or "")
-
             # Apel de tool
-            if mesaj.tool_calls:
-                apel = mesaj.tool_calls[0]
-                nume_tool = apel.function.name
-                args_raw = apel.function.arguments or "{}"
+            if tool_calls:
+                apel = tool_calls[0]
+                fn = apel.get("function", {})
+                nume_tool = fn.get("name")
+                args_raw = fn.get("arguments") or "{}"
                 try:
-                    args = json.loads(args_raw)
+                    args = json.loads(args_raw) if isinstance(args_raw, str) else args_raw
                 except Exception:
                     args = {}
 
@@ -541,6 +570,22 @@ class PlanificatorLLM:
                     decizie_finala = Decizie(tip="final", motiv=motiv)
                     self._salveaza_cache(cheie_cache, decizie_finala)
                     return decizie_finala
+
+                # Interceptare calcul impact pe dosare neeligibile (economisire apel și respectare metodologie RBI)
+                if nume_tool in ("calculeaza_impact", "calculeaza_co2"):
+                    from engine.verdict import decide_verdict
+                    verdict_preliminar = decide_verdict(stare)
+                    if verdict_preliminar.verdict not in ("ELIGIBIL", "ELIGIBIL_CU_MONITORIZARE"):
+                        logger.info(
+                            "PlanificatorLLM: [ELIMINARE APEL INUTIL] Calculul de impact este omis pentru verdictul '%s'",
+                            verdict_preliminar.verdict,
+                        )
+                        decizie_finala = Decizie(
+                            tip="final",
+                            motiv=f"Dosar {verdict_preliminar.verdict} - calculul de impact CO2/energie este omis conform regulilor.",
+                        )
+                        self._salveaza_cache(cheie_cache, decizie_finala)
+                        return decizie_finala
 
                 # Autofill argumente omise de model din starea extrasului
                 if nume_tool == "cauta_certificat" and not args.get("nr_certificat"):
@@ -576,7 +621,7 @@ class PlanificatorLLM:
                 "pas": len(stare.trace) + 1,
                 "tip": "fallback_llm_scriptat",
                 "actiune": "fallback",
-                "motiv": f"Eroare API Featherless/LLM ({exc}) -> comutare automată pe PlanificatorScriptat",
+                "motiv": f"Eroare API LLM ({exc}) -> comutare automată pe PlanificatorScriptat",
                 "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
             })
             return self._fallback.pas_urmator(stare, ultimul_rezultat)

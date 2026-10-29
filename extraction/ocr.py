@@ -61,7 +61,7 @@ def tabele_din_text_ocr(text: str) -> list[dict[str, Any]]:
 
 def transcrie_imagine(imagine: bytes, mime_type: str, llm_client: Optional[LLMClient] = None) -> str:
     client = llm_client or get_llm_client()
-    text = client.apeleaza_vision(PROMPT_OCR, imagine, mime_type=mime_type)
+    text = client.apeleaza_vision(PROMPT_OCR, imagine, mime_type=mime_type, motiv="transcriere_ocr")
     text = LLMClient.curata_text_raspuns(text)
     # unele modele încadrează transcrierea în ```
     if text.startswith("```"):
