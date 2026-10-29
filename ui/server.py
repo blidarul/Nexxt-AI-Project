@@ -16,12 +16,14 @@ import os
 import re
 import threading
 from datetime import datetime
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Callable, Literal, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+import yaml
 from pydantic import BaseModel
 
 from contracts import Verdict
@@ -111,7 +113,31 @@ def _evaluare_implicita(folder: str) -> Verdict:
 def _moduri() -> dict[str, str]:
     import config
 
-    return {"mod_extractie": config.MOD_EXTRACTIE, "mod_tools": config.MOD_TOOLS, "mod_agent": config.MOD_AGENT}
+    return {
+        "mod_extractie": config.MOD_EXTRACTIE, "mod_tools": config.MOD_TOOLS, "mod_agent": config.MOD_AGENT,
+        "data_alocare": config.DATA_ALOCARE,
+    }
+
+
+@lru_cache(maxsize=1)
+def nume_reguli() -> dict[str, str]:
+    """ID regulă -> denumirea ei, din rules/*.yaml (pentru afișare lângă cod)."""
+    rezultat: dict[str, str] = {}
+
+    def parcurge(nod: Any) -> None:
+        if isinstance(nod, dict):
+            if isinstance(nod.get("id"), str) and isinstance(nod.get("nume"), str):
+                rezultat.setdefault(nod["id"], nod["nume"])
+            for valoare in nod.values():
+                parcurge(valoare)
+        elif isinstance(nod, list):
+            for valoare in nod:
+                parcurge(valoare)
+
+    for cale in sorted((RADACINA / "rules").glob("*.yaml")):
+        with open(cale, encoding="utf-8") as f:
+            parcurge(yaml.safe_load(f))
+    return rezultat
 
 
 def _campuri_pe_reguli(categorie: Optional[str], subcategorie: Optional[str]) -> dict[str, list[str]]:
@@ -218,6 +244,7 @@ def creeaza_app(
             "verdict": verdict,
             "recomandare": RECOMANDARE_PENTRU_VERDICT.get(verdict.get("verdict")),
             "dovezi": dovezi,
+            "nume_reguli": {r["regula_id"]: nume_reguli().get(r["regula_id"]) for r in verdict.get("reguli") or []},
         }
 
     def status(dosar_id: str) -> str:

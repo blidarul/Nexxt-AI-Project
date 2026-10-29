@@ -147,6 +147,7 @@ def test_evaluare_salveaza_rezultatul(radacina):
     # Lanțul de dovezi: regula G-01 trimite la câmpul „tara” din pagina 2 a cererii
     dovada = r["dovezi"]["G-01"][0]
     assert (dovada["camp"], dovada["fisier"], dovada["pagina"]) == ("tara", "01_cerere.pdf", 2)
+    assert r["nume_reguli"]["G-01"].startswith("Tara eligibila")
 
     assert (radacina / "date" / "rezultate" / "dosar_a.json").is_file()
     salvat = client.get("/api/dosare/dosar_a/rezultat").json()
@@ -351,10 +352,13 @@ def test_decizii_fisier_corupt(radacina):
 # ------------------------------------------------------------------ pagina și agentul real
 
 def test_pagina_principala(radacina):
-    raspuns = _client(radacina).get("/")
-    assert raspuns.status_code in (200, 404)
-    if raspuns.status_code == 200:
-        assert "Green Proof" in raspuns.text
+    client = _client(radacina)
+    raspuns = client.get("/")
+    assert raspuns.status_code == 200 and raspuns.headers["content-type"].startswith("text/html")
+    assert "<title>Green Proof</title>" in raspuns.text and 'lang="ro"' in raspuns.text
+    for cale in ["/static/style.css", "/static/app.js", "/static/fonts/geist-latin-ext-wght-normal.woff2"]:
+        assert client.get(cale).status_code == 200, cale
+    assert client.get("/static/..%2F..%2Fcontracts.py").status_code == 404
 
 
 def test_agentul_real_pe_un_dosar(tmp_path):

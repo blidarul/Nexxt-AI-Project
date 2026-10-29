@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Green Proof</title>
+  <meta name="description" content="Agentul verifică dosarele de credit față de cadrul obligațiunilor verzi și recomandă; analistul decide.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23ffd60a'/%3E%3Cpath d='M6.5 17.5C6.5 10.5 10.5 6.5 17.5 6.5c0 7-4 11-11 11Z' fill='none' stroke='%230a0a0a' stroke-width='1.6'/%3E%3Cpath d='m9.2 12.4 2.1 2.1 3.9-4.3' fill='none' stroke='%230a0a0a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="app">
+    <!-- pe telefon, bara laterală devine o bară de sus cu meniu -->
+    <header class="topbar">
+      <span class="brand-mini"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><use href="#marca"/></svg>Green Proof</span>
+      <button class="btn ghost menu-toggle" type="button" aria-expanded="false" aria-controls="sidebar">Meniu</button>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><use href="#marca"/></svg>
+        <div>
+          <p class="brand-name">Green Proof</p>
+          <p class="brand-scope" id="scope">Portofoliu de credite verzi</p>
+        </div>
+        <button class="btn ghost menu-close" type="button" aria-label="Închide meniul">Închide</button>
+      </div>
+
+      <p class="group-label">Dosare</p>
+      <nav class="nav" id="nav" aria-label="Filtre dosare"></nav>
+
+      <div class="bottom">
+        <dl class="moduri" id="moduri"></dl>
+        <button class="btn reset" type="button" id="reset">Resetează deciziile</button>
+        <p class="credit">Construit pentru challenge-ul Raiffeisen</p>
+      </div>
+    </aside>
+
+    <main class="canvas">
+      <div class="title-row">
+        <div>
+          <h1>Dosare de credit verde</h1>
+          <p class="sub" id="rezumat">Se încarcă dosarele…</p>
+        </div>
+      </div>
+
+      <div class="work" id="work" data-vedere="lista">
+        <section class="panel lista" aria-labelledby="lista-titlu">
+          <header class="lista-head">
+            <h2 id="lista-titlu">Toate dosarele</h2>
+            <span class="meta num" id="lista-total"></span>
+          </header>
+          <div class="rows" id="lista" role="listbox" aria-labelledby="lista-titlu"></div>
+        </section>
+
+        <section class="panel detaliu" id="detaliu" aria-live="polite">
+          <div class="empty">Alege un dosar din listă.</div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- previzualizare: PDF în iframe, JSON formatat -->
+  <dialog class="preview" id="preview" aria-labelledby="preview-titlu">
+    <header class="preview-head">
+      <div class="preview-name">
+        <h2 id="preview-titlu"></h2>
+        <p class="meta" id="preview-meta"></p>
+      </div>
+      <a class="btn" id="preview-tab" target="_blank" rel="noopener">Deschide în tab nou</a>
+      <button class="btn" type="button" id="preview-inchide">Închide</button>
+    </header>
+    <div class="preview-body" id="preview-body"></div>
+  </dialog>
+
+  <dialog class="confirm" id="confirm-reset" aria-labelledby="reset-titlu">
+    <h2 id="reset-titlu">Resetezi deciziile?</h2>
+    <p id="reset-text">Toate deciziile analistului se șterg. Rezultatele agentului rămân salvate.</p>
+    <div class="confirm-actions">
+      <button class="btn" type="button" data-raspuns="nu">Renunță</button>
+      <button class="btn danger" type="button" data-raspuns="da">Șterge deciziile</button>
+    </div>
+  </dialog>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="marca" viewBox="0 0 24 24">
+      <rect width="24" height="24" rx="6" fill="#ffd60a"/>
+      <path d="M6.5 17.5C6.5 10.5 10.5 6.5 17.5 6.5c0 7-4 11-11 11Z" fill="none" stroke="#0a0a0a" stroke-width="1.6"/>
+      <path d="m9.2 12.4 2.1 2.1 3.9-4.3" fill="none" stroke="#0a0a0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="doc" viewBox="0 0 16 16">
+      <path d="M4 1.75h5.25L12.5 5v9.25H4z M9 1.75V5.25h3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

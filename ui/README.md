@@ -10,6 +10,16 @@ python -m ui --fara-browser --port 8765
 python -m ui --mod-extractie mock # extras_mock.json în loc de datele extrase din PDF-uri (implicit: real)
 ```
 
+## Pagina
+
+Lista dosarelor (cu statusul deciziei și recomandarea agentului) lângă dosarul deschis: cifrele cererii,
+recomandarea agentului, decizia analistului și tab-urile „Reguli și dovezi”, „Traseul agentului”, „Documente”,
+„Date extrase”. Fiecare regulă trimite la pagina din documentul care o susține; un clic deschide PDF-ul la acea
+pagină (sau JSON-ul formatat), cu buton „Deschide în tab nou”. Butoanele de decizie se activează după
+„Vezi soluția agentului” (rulează agentul pe dosar). Stilul: „achromatic ledger” din skill-ul
+`design-taste-frontend`, în negru + galben; fonturile Geist sunt locale (`static/fonts`, licență OFL),
+deci pagina merge și fără internet.
+
 ## API
 
 | Metodă | Cale | Ce face |
