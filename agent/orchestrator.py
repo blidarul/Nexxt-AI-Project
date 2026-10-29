@@ -200,6 +200,10 @@ def _executa_bucla(stare: StareDosar) -> None:
             "tool": rezultat.tool,
             "gasit": rezultat.gasit,
             "eroare": rezultat.eroare,
+            # False când datele vin doar din documentul dosarului, nu din registru
+            "verificat_in_registru": rezultat.date.get("verificat_in_registru"),
+            # True la erori tehnice (rețea, argumente, excepții), față de „nu există în registru”
+            "eroare_tehnica": bool(rezultat.date.get("eroare_tehnica")),
             "sumar": sumar_rezultat,
         }
         stare.trace.append(intrare_trace)
