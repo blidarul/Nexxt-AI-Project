@@ -147,7 +147,7 @@ def _offline(nr: str, stare: Optional[StareDosar]) -> ToolResult:
     if cale_pdf:
         return _din_pdf(cale_pdf, nr)
 
-    return eroare(NUME, f"Mod offline: dosarul nu are nici {cale.name}, nici certificatul în PDF.", SURSA_OFFLINE)
+    return eroare(NUME, f"Mod offline: dosarul nu are nici {cale.name}, nici certificatul în PDF.", SURSA_OFFLINE, tehnica=True)
 
 
 @tool(
@@ -160,7 +160,7 @@ def cauta_certificat(intrare: CautaCertificatInput, stare: StareDosar) -> ToolRe
     """Caută certificatul în registrul BREEAM. Online: tools.breeam.com (cu cache); offline: datele din dosar."""
     nr = intrare.nr_certificat.strip()
     if not nr:
-        return eroare(NUME, "Numărul certificatului e gol.")
+        return eroare(NUME, "Numărul certificatului e gol.", tehnica=True)
 
     if not mod_online():
         return _offline(nr, stare)

@@ -72,7 +72,7 @@ def factor_emisie_tara(intrare: FactorEmisieTaraInput, stare: StareDosar) -> Too
     """Intensitatea carbon a electricității: {"kgco2_kwh", "an", "tip": "proxy"}."""
     tara = gaseste_tara(intrare.tara)
     if tara is None:
-        return eroare(NUME, f"Țară necunoscută: {intrare.tara!r}. Țări acceptate (Anexa B): {', '.join(tari_anexa_b())}.")
+        return eroare(NUME, f"Țară necunoscută: {intrare.tara!r}. Țări acceptate (Anexa B): {', '.join(tari_anexa_b())}.", tehnica=True)
 
     serie, sursa = _serie_online(tara["iso3"]) if mod_online() else _serie_offline(tara["iso3"])
     if not serie:

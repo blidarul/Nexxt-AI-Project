@@ -123,6 +123,17 @@ def test_firma_online_cui_inexistent_e_raspuns_nu_eroare_de_retea(monkeypatch):
     assert not r.gasit and r.sursa == anaf.SURSA_API
 
 
+def test_eroarea_tehnica_e_marcata_separat_de_negasit(tmp_path):
+    # „nu există în registru” e un răspuns, nu o eroare tehnică
+    assert not verifica_firma({"cui": "12345678"}, _stare()).date.get("eroare_tehnica")
+    assert not cauta_certificat({"nr_certificat": "BREEAM-EXEMPLU-0099"}, _stare()).date.get("eroare_tehnica")
+    # argument invalid, nicio sursă disponibilă, argumente greșite: verificarea nu a putut rula
+    assert verifica_firma({"cui": "abc"}, _stare()).date["eroare_tehnica"] is True
+    assert verifica_firma({"cui": "9900000030"}, _stare(tmp_path)).date["eroare_tehnica"] is True
+    assert cauta_certificat({"nr_certificat": "  "}, _stare()).date["eroare_tehnica"] is True
+    assert verifica_firma({"cod": 1}, _stare()).date["eroare_tehnica"] is True
+
+
 # ----------------------------------------------------------------------------- cauta_certificat
 def test_certificat_offline_numar_corect_si_gresit():
     assert cauta_certificat({"nr_certificat": "breeam-exemplu-0003"}, _stare()).date["rating"] == "Outstanding"

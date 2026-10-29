@@ -133,7 +133,7 @@ def _offline(cui: str, stare: Optional[StareDosar]) -> ToolResult:
     if cale_pdf:
         return _din_pdf(cale_pdf, cui)
 
-    return eroare(NUME, f"Mod offline: dosarul nu are nici {cale.name}, nici fișa ANAF în PDF.", SURSA_OFFLINE)
+    return eroare(NUME, f"Mod offline: dosarul nu are nici {cale.name}, nici fișa ANAF în PDF.", SURSA_OFFLINE, tehnica=True)
 
 
 @tool(
@@ -146,7 +146,7 @@ def verifica_firma(intrare: VerificaFirmaInput, stare: StareDosar) -> ToolResult
     """Interoghează ANAF. Online: API v9 (cu cache); offline: datele din dosar."""
     cui = normalizeaza_cui(intrare.cui)
     if cui is None:
-        return eroare(NUME, f"CUI invalid: {intrare.cui!r} (se așteaptă 2-10 cifre, opțional cu prefixul RO).")
+        return eroare(NUME, f"CUI invalid: {intrare.cui!r} (se așteaptă 2-10 cifre, opțional cu prefixul RO).", tehnica=True)
 
     if not mod_online():
         return _offline(cui, stare)

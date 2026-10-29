@@ -69,8 +69,13 @@ def nume_fisier_sigur(text: str) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "_", str(text))[:120]
 
 
-def eroare(tool: str, mesaj: str, sursa: str = "", date: Optional[dict] = None) -> ToolResult:
-    return ToolResult(tool=tool, gasit=False, eroare=mesaj, sursa=sursa, date=date or {})
+def eroare(tool: str, mesaj: str, sursa: str = "", date: Optional[dict] = None, tehnica: bool = False) -> ToolResult:
+    """tehnica=True: verificarea nu a putut rula (rețea, argumente, excepție, nicio sursă);
+    altfel răspunsul e „nu există / nu corespunde”."""
+    date = dict(date or {})
+    if tehnica:
+        date["eroare_tehnica"] = True
+    return ToolResult(tool=tool, gasit=False, eroare=mesaj, sursa=sursa, date=date)
 
 
 def mereu_toolresult(nume: str, model_intrare: Optional[Type[BaseModel]] = None) -> Callable:
@@ -87,14 +92,14 @@ def mereu_toolresult(nume: str, model_intrare: Optional[Type[BaseModel]] = None)
                 try:
                     intrare = model_intrare.model_validate(intrare if isinstance(intrare, dict) else dict(intrare))
                 except (ValidationError, TypeError, ValueError) as exc:
-                    return eroare(nume, f"Argumente invalide pentru '{nume}': {exc}")
+                    return eroare(nume, f"Argumente invalide pentru '{nume}': {exc}", tehnica=True)
             try:
                 rezultat = fn(intrare, stare)
             except Exception as exc:  # noqa: BLE001 - contractul cere ToolResult, nu excepții
                 logger.exception("Eroare în tool-ul %s", nume)
-                return eroare(nume, f"Eroare internă în '{nume}': {type(exc).__name__}: {exc}")
+                return eroare(nume, f"Eroare internă în '{nume}': {type(exc).__name__}: {exc}", tehnica=True)
             if not isinstance(rezultat, ToolResult):
-                return eroare(nume, f"'{nume}' a întors {type(rezultat).__name__} în loc de ToolResult")
+                return eroare(nume, f"'{nume}' a întors {type(rezultat).__name__} în loc de ToolResult", tehnica=True)
             return rezultat
 
         return invelis

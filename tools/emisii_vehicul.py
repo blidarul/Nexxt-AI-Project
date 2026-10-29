@@ -130,7 +130,7 @@ def _rezultat(randuri: list[dict[str, Any]], marca: str, model: str, sursa: str)
     # Mai multe modele se potrivesc: agentul alege (ex. după combustibil) sau cere precizări
     return ToolResult(tool=NUME, gasit=True, sursa=sursa, date={
         "emisii_wltp_gco2_km": None, "combustibil": None, "an_date": None,
-        "ambiguu": True, "candidati": candidati,
+        "ambiguu": True, "candidati": candidati, "verificat_in_registru": False,
     })
 
 
@@ -147,7 +147,7 @@ def cauta_emisii_vehicul(intrare: CautaEmisiiVehiculInput, stare: StareDosar) ->
     """{"emisii_wltp_gco2_km", "combustibil", "an_date"} pentru (marca, model)."""
     marca, model = intrare.marca.strip(), intrare.model.strip()
     if not marca or not model:
-        return eroare(NUME, "Marca și modelul sunt obligatorii.")
+        return eroare(NUME, "Marca și modelul sunt obligatorii.", tehnica=True)
 
     if not mod_online():
         return _rezultat(_citeste_offline(), marca, model, SURSA_OFFLINE)
