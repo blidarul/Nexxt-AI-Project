@@ -253,6 +253,12 @@ def proceseaza_dosar(cale_dosar: Path) -> dict[str, int]:
     """Procesează toate fișierele PDF și JSON dintr-un dosar și generează index.json."""
     nume_dosar = cale_dosar.name
     folder_brut = cale_dosar / "_brut"
+    if folder_brut.exists():
+        for p in folder_brut.glob("*.json"):
+            try:
+                p.unlink()
+            except OSError:
+                pass
     folder_brut.mkdir(parents=True, exist_ok=True)
 
     # PDF-uri și imagini (.jpg/.png, transcrise prin OCR)
